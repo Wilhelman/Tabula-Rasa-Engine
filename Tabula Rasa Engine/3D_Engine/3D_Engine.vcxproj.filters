@@ -75,6 +75,9 @@
     <ClCompile Include="trMainScene.cpp">
       <Filter>Core\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="trPhysics3D.cpp">
+      <Filter>Core\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pugiconfig.hpp">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="trMainScene.h">
       <Filter>Core\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="trPhysics3D.h">
+      <Filter>Core\Modules</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

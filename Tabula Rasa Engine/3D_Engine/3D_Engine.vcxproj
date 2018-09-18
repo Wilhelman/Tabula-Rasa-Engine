@@ -23,6 +23,7 @@
     <ClCompile Include="trMain.cpp" />
     <ClCompile Include="trMainScene.cpp" />
     <ClCompile Include="trPerfTimer.cpp" />
+    <ClCompile Include="trPhysics3D.cpp" />
     <ClCompile Include="trRender.cpp" />
     <ClCompile Include="trTextures.cpp" />
     <ClCompile Include="trTimer.cpp" />
@@ -46,6 +47,7 @@
     <ClInclude Include="trMainScene.h" />
     <ClInclude Include="trModule.h" />
     <ClInclude Include="trPerfTimer.h" />
+    <ClInclude Include="trPhysics3D.h" />
     <ClInclude Include="trPoint.h" />
     <ClInclude Include="trRender.h" />
     <ClInclude Include="trTextures.h" />

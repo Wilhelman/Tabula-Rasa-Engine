@@ -1,7 +1,7 @@
 #include "Globals.h"
 #include "trApp.h"
 #include "trInput.h"
-#include "ModulePhysics3D.h"
+#include "trPhysics3D.h"
 #include "PhysBody3D.h"
 #include "Primitive.h"
 
@@ -15,7 +15,7 @@
 	#pragma comment (lib, "Bullet/libx86/LinearMath.lib")
 #endif
 
-ModulePhysics3D::ModulePhysics3D(trApp* app, bool start_enabled) : trModule()
+trPhysics3D::trPhysics3D() : trModule()
 {
 	debug = true;
 
@@ -27,7 +27,7 @@ ModulePhysics3D::ModulePhysics3D(trApp* app, bool start_enabled) : trModule()
 }
 
 // Destructor
-ModulePhysics3D::~ModulePhysics3D()
+trPhysics3D::~trPhysics3D()
 {
 	delete debug_draw;
 	delete solver;
@@ -37,7 +37,7 @@ ModulePhysics3D::~ModulePhysics3D()
 }
 
 // Render not available yet----------------------------------
-bool ModulePhysics3D::Init()
+bool trPhysics3D::Init()
 {
 	LOG("Creating 3D Physics simulation");
 	bool ret = true;
@@ -46,7 +46,7 @@ bool ModulePhysics3D::Init()
 }
 
 // ---------------------------------------------------------
-bool ModulePhysics3D::Start()
+bool trPhysics3D::Start()
 {
 	LOG("Creating Physics environment");
 
@@ -70,7 +70,7 @@ bool ModulePhysics3D::Start()
 }
 
 // ---------------------------------------------------------
-update_status ModulePhysics3D::PreUpdate(float dt)
+update_status trPhysics3D::PreUpdate(float dt)
 {
 	world->stepSimulation(dt, 15);
 
@@ -110,7 +110,7 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 }
 
 // ---------------------------------------------------------
-update_status ModulePhysics3D::Update(float dt)
+bool trPhysics3D::Update(float dt)
 {
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 
@@ -129,17 +129,17 @@ update_status ModulePhysics3D::Update(float dt)
 		}
 	}
 
-	return UPDATE_CONTINUE;
+	return true;
 }
 
 // ---------------------------------------------------------
-update_status ModulePhysics3D::PostUpdate(float dt)
+update_status trPhysics3D::PostUpdate(float dt)
 {
 	return UPDATE_CONTINUE;
 }
 
 // Called before quitting
-bool ModulePhysics3D::CleanUp()
+bool trPhysics3D::CleanUp()
 {
 	LOG("Destroying 3D Physics simulation");
 
@@ -182,7 +182,7 @@ bool ModulePhysics3D::CleanUp()
 }
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const Sphere& sphere, float mass)
+PhysBody3D* trPhysics3D::AddBody(const Sphere& sphere, float mass)
 {
 	btCollisionShape* colShape = new btSphereShape(sphere.radius);
 	shapes.add(colShape);
@@ -209,7 +209,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere& sphere, float mass)
 
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const Cube& cube, float mass)
+PhysBody3D* trPhysics3D::AddBody(const Cube& cube, float mass)
 {
 	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x*0.5f, cube.size.y*0.5f, cube.size.z*0.5f));
 	shapes.add(colShape);
@@ -235,7 +235,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube& cube, float mass)
 }
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const Cylinder& cylinder, float mass)
+PhysBody3D* trPhysics3D::AddBody(const Cylinder& cylinder, float mass)
 {
 	btCollisionShape* colShape = new btCylinderShapeX(btVector3(cylinder.height*0.5f, cylinder.radius, 0.0f));
 	shapes.add(colShape);
@@ -261,7 +261,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder& cylinder, float mass)
 }
 
 // ---------------------------------------------------------
-void ModulePhysics3D::AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB)
+void trPhysics3D::AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB)
 {
 	btTypedConstraint* p2p = new btPoint2PointConstraint(
 		*(bodyA.body), 
@@ -273,7 +273,7 @@ void ModulePhysics3D::AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, con
 	p2p->setDbgDrawSize(2.0f);
 }
 
-void ModulePhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB, const vec3& axisA, const vec3& axisB, bool disable_collision)
+void trPhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB, const vec3& axisA, const vec3& axisB, bool disable_collision)
 {
 	btHingeConstraint* hinge = new btHingeConstraint(
 		*(bodyA.body), 
