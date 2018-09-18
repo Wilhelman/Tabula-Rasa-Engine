@@ -17,6 +17,7 @@
 
 trPhysics3D::trPhysics3D() : trModule()
 {
+	name = "physics";
 	debug = true;
 
 	collision_conf = new btDefaultCollisionConfiguration();
@@ -37,7 +38,7 @@ trPhysics3D::~trPhysics3D()
 }
 
 // Render not available yet----------------------------------
-bool trPhysics3D::Init()
+bool trPhysics3D::Awake(pugi::xml_node&)
 {
 	LOG("Creating 3D Physics simulation");
 	bool ret = true;

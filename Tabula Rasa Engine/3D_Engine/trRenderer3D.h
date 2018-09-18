@@ -14,7 +14,7 @@ public:
 	trRenderer3D();
 	~trRenderer3D();
 
-	bool Init();
+	bool Awake(pugi::xml_node&);
 	bool PreUpdate(float dt);
 	bool PostUpdate(float dt);
 	bool CleanUp();
@@ -27,5 +27,7 @@ public:
 	SDL_GLContext context;
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+
+	bool			vsync_state = false;
 };
 #endif

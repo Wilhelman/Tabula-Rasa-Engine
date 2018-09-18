@@ -11,6 +11,7 @@
 
 trRenderer3D::trRenderer3D() : trModule()
 {
+	name = "renderer";
 }
 
 // Destructor
@@ -18,10 +19,21 @@ trRenderer3D::~trRenderer3D()
 {}
 
 // Called before render is available
-bool trRenderer3D::Init()
+bool trRenderer3D::Awake(pugi::xml_node& config)
 {
 	LOG("Creating 3D Renderer context");
 	bool ret = true;
+
+	vsync_state = false;
+
+	Uint32 flags = SDL_RENDERER_ACCELERATED;
+
+	if (config.child("vsync").attribute("value").as_bool(true) == true)
+	{
+		flags |= SDL_RENDERER_PRESENTVSYNC;
+		vsync_state = true;
+		LOG("Using vsync");
+	}
 
 	//Create context
 	context = SDL_GL_CreateContext(App->win->window);

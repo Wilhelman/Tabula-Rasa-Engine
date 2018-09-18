@@ -4,6 +4,7 @@
 
 trWindow::trWindow() : trModule()
 {
+	name = "window";
 	window = NULL;
 	screen_surface = NULL;
 }
@@ -14,7 +15,7 @@ trWindow::~trWindow()
 }
 
 // Called before render is available
-bool trWindow::Init()
+bool trWindow::Awake(pugi::xml_node&)
 {
 	LOG("Init SDL window & surface");
 	bool ret = true;

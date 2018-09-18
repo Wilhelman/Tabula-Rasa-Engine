@@ -201,10 +201,10 @@ void trApp::FinishUpdate()
 
 	// Framerate calculations --
 
-	/*if (App->render->vsync_state)
+	if (App->render->vsync_state)
 		vsync_to_show = "on";
 	else
-		vsync_to_show = "off";*/
+		vsync_to_show = "off";
 
 	if (cap_state)
 		cap_to_show = "on";

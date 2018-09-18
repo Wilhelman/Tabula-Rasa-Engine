@@ -21,4 +21,5 @@
 		<path>data.zip</path>
 	</file_system>
 	<main_scene/>
+	<physics/>
 </config>

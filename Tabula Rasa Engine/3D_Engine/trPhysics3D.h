@@ -22,7 +22,7 @@ public:
 	trPhysics3D();
 	~trPhysics3D();
 
-	bool Init();
+	bool Awake(pugi::xml_node&);
 	bool Start();
 	bool PreUpdate(float dt);
 	bool Update(float dt);
