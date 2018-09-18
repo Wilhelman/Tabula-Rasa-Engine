@@ -22,17 +22,23 @@ public:
 	~ModuleSceneIntro();
 
 	bool Start();
+	update_status PreUpdate(float dt);
 	update_status Update(float dt);
+	update_status PostUpdate(float dt);
 	bool CleanUp();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
+private:
+	void ShowTheFirstTabulaRasaWindow();
+	void ShowDemoWindow();
+
 public:
-	Cube s;
 	PhysBody3D* sensor;
 
-	bool show_demo_window = true;
-	bool show_another_window = false;
+	bool show_demo_window = false;
+	bool quit = false;
+
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	ImGuiIO io;
 };

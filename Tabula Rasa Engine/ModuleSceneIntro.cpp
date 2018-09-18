@@ -22,14 +22,6 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-	s.size = vec3(5, 3, 1);
-	s.SetPos(0, 2.5f, 20);
-
-	sensor = App->physics->AddBody(s, 0.0f);
-	sensor->SetAsSensor(true);
-	sensor->collision_listeners.push_back(this);
-
-
 	// Setup Dear ImGui binding
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -43,65 +35,35 @@ bool ModuleSceneIntro::Start()
 	// Setup style
 	ImGui::StyleColorsDark();
 
-	
-
 	return ret;
 }
 
-// Load assets
-bool ModuleSceneIntro::CleanUp()
+// PreUpdate
+update_status ModuleSceneIntro::PreUpdate(float dt)
 {
-	LOG("Unloading Intro scene");
-
-	return true;
+	return UPDATE_CONTINUE;
 }
 
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-
-	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
 
-	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+	
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
-	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
-	{
-		static float f = 0.0f;
-		static int counter = 0;
+	//just testing
+	ShowTheFirstTabulaRasaWindow();
+	
 
-		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+	return UPDATE_CONTINUE;
+}
 
-		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-		ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-		ImGui::Checkbox("Another Window", &show_another_window);
-
-		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
-		ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-			counter++;
-		ImGui::SameLine();
-		ImGui::Text("counter = %d", counter);
-
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		ImGui::End();
-	}
-
-	// 3. Show another simple window.
-	if (show_another_window)
-	{
-		ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-		ImGui::Text("Hello from another window!");
-		if (ImGui::Button("Close Me"))
-			show_another_window = false;
-		ImGui::End();
-	}
-
+update_status ModuleSceneIntro::PostUpdate(float dt)
+{
 	// Rendering
 	ImGui::Render();
 	glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
@@ -109,13 +71,49 @@ update_status ModuleSceneIntro::Update(float dt)
 	glClear(GL_COLOR_BUFFER_BIT);
 	//glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-	SDL_GL_SwapWindow(App->window->window);
 
+	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
+}
+
+bool ModuleSceneIntro::CleanUp()
+{
+	LOG("Unloading Intro scene");
+	ImGui_ImplOpenGL2_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+
+	SDL_GL_DeleteContext(App->renderer3D->context);
+	SDL_DestroyWindow(App->window->window);
+	SDL_Quit();
+	return true;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 	LOG("Hit!");
+}
+
+void ModuleSceneIntro::ShowTheFirstTabulaRasaWindow()
+{
+	static float f = 0.0f;
+	static int counter = 0;
+
+	ImGui::Begin("Tabula Rasa Engine"); 
+
+	ImGui::Text("The first Tabula Rasa Window");             
+	ImGui::Checkbox("Demo Window", &show_demo_window);
+
+	ImGui::SameLine();
+
+	//if (ImGui::Button("Quit"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+		//todo
+	
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::End();
+}
+
+void ModuleSceneIntro::ShowDemoWindow()
+{
 }
 
