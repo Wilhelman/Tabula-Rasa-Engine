@@ -5,7 +5,7 @@
 #include "trLog.h"
 #include "trWindow.h"
 #include "trInput.h"
-#include "trRender.h"
+#include "trRenderer3D.h"
 #include "trTextures.h"
 #include "trAudio.h"
 #include "trPhysics3D.h"
@@ -22,7 +22,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 
 	input = new trInput();
 	win = new trWindow();
-	render = new trRender();
+	render = new trRenderer3D();
 	tex = new trTextures();
 	audio = new trAudio();
 	physics = new trPhysics3D();
@@ -201,10 +201,10 @@ void trApp::FinishUpdate()
 
 	// Framerate calculations --
 
-	if (App->render->vsync_state)
+	/*if (App->render->vsync_state)
 		vsync_to_show = "on";
 	else
-		vsync_to_show = "off";
+		vsync_to_show = "off";*/
 
 	if (cap_state)
 		cap_to_show = "on";

@@ -36,9 +36,6 @@
     <ClCompile Include="trWindow.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="trRender.cpp">
-      <Filter>Core\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="trAudio.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
@@ -99,6 +96,9 @@
     <ClCompile Include="Color.cpp">
       <Filter>Utilities\Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="trRenderer3D.cpp">
+      <Filter>Core\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pugiconfig.hpp">
@@ -111,9 +111,6 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="trWindow.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="trRender.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
     <ClInclude Include="trAudio.h">
@@ -193,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="Globals.h">
       <Filter>Utilities\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="trRenderer3D.h">
+      <Filter>Core\Modules</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

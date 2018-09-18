@@ -1,16 +1,11 @@
-#include "trDefs.h"
-#include "trLog.h"
+#include "Globals.h"
 #include "trApp.h"
 #include "trWindow.h"
-
-#include "SDL/include/SDL.h"
-
 
 trWindow::trWindow() : trModule()
 {
 	window = NULL;
 	screen_surface = NULL;
-	name = "window";
 }
 
 // Destructor
@@ -19,7 +14,7 @@ trWindow::~trWindow()
 }
 
 // Called before render is available
-bool trWindow::Awake(pugi::xml_node& config)
+bool trWindow::Init()
 {
 	LOG("Init SDL window & surface");
 	bool ret = true;
@@ -31,42 +26,36 @@ bool trWindow::Awake(pugi::xml_node& config)
 	}
 	else
 	{
-		iconExe = SDL_LoadBMP("textures/icon.bmp");
-
 		//Create window
-		Uint32 flags = SDL_WINDOW_SHOWN;
-		bool fullscreen = config.child("fullscreen").attribute("value").as_bool(false);
-		bool borderless = config.child("borderless").attribute("value").as_bool(false);
-		bool resizable = config.child("resizable").attribute("value").as_bool(false);
-		bool fullscreen_window = config.child("fullscreen_window").attribute("value").as_bool(false);
+		int width = SCREEN_WIDTH * SCREEN_SIZE;
+		int height = SCREEN_HEIGHT * SCREEN_SIZE;
+		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
-		width = config.child("resolution").attribute("width").as_int(640);
-		height = config.child("resolution").attribute("height").as_int(480);
-		scale = config.child("resolution").attribute("scale").as_int(1);
+		//Use OpenGL 2.1
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
-		if (fullscreen == true)
+		if (WIN_FULLSCREEN == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		if (borderless == true)
-		{
-			flags |= SDL_WINDOW_BORDERLESS;
-		}
-
-		if (resizable == true)
+		if (WIN_RESIZABLE == true)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
 
-		if (fullscreen_window == true)
+		if (WIN_BORDERLESS == true)
+		{
+			flags |= SDL_WINDOW_BORDERLESS;
+		}
+
+		if (WIN_FULLSCREEN_DESKTOP == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
 
-		window = SDL_CreateWindow(App->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
-
-		SDL_SetWindowIcon(window, iconExe);
+		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
 		if (window == NULL)
 		{
@@ -79,8 +68,7 @@ bool trWindow::Awake(pugi::xml_node& config)
 			screen_surface = SDL_GetWindowSurface(window);
 		}
 	}
-	w_scalade = (float)screen_surface->w / width;
-	h_scalade = (float)screen_surface->h / height;
+
 	return ret;
 }
 
@@ -91,39 +79,16 @@ bool trWindow::CleanUp()
 
 	//Destroy window
 	if (window != NULL)
+	{
 		SDL_DestroyWindow(window);
-
-	if (iconExe != NULL)
-		SDL_FreeSurface(iconExe);
+	}
 
 	//Quit SDL subsystems
 	SDL_Quit();
 	return true;
 }
 
-// Set new window title
-void trWindow::SetTitle(const char* new_title)
+void trWindow::SetTitle(const char* title)
 {
-	//title.create(new_title);
-	SDL_SetWindowTitle(window, new_title);
-}
-
-void trWindow::GetWindowSize(uint& width, uint& height) const
-{
-	width = this->width;
-	height = this->height;
-}
-
-uint trWindow::GetScale() const
-{
-	return scale;
-}
-
-float trWindow::GetWScalade() const
-{
-	return w_scalade;
-}
-float trWindow::GetHScalade() const
-{
-	return h_scalade;
+	SDL_SetWindowTitle(window, title);
 }
