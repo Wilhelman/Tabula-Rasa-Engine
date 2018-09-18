@@ -37,8 +37,8 @@
 
 // SDL
 // (the multi-viewports feature requires SDL features supported from SDL 2.0.5+)
-#include <SDL.h>
-#include <SDL_syswm.h>
+#include "SDL\include\SDL.h"
+#include "SDL\include\SDL_syswm.h"
 
 #define SDL_HAS_CAPTURE_MOUSE               SDL_VERSION_ATLEAST(2,0,4)
 #define SDL_HAS_VULKAN                      SDL_VERSION_ATLEAST(2,0,6)

@@ -3,7 +3,6 @@
 
 #include <list>
 
-
 class btRigidBody;
 class trModule;
 
