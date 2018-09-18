@@ -3,6 +3,13 @@
 #include "Globals.h"
 #include "Primitive.h"
 
+#include "imgui.h"
+#include "imgui_impl_sdl.h"
+#include "imgui_impl_opengl2.h"
+#include <stdio.h>
+#include "SDL\include\SDL.h"
+#include "SDL\include\SDL_opengl.h"
+
 #define MAX_SNAKE 2
 
 struct PhysBody3D;
@@ -23,4 +30,9 @@ public:
 public:
 	Cube s;
 	PhysBody3D* sensor;
+
+	bool show_demo_window = true;
+	bool show_another_window = false;
+	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	ImGuiIO io;
 };
