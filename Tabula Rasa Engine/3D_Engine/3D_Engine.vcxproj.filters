@@ -99,6 +99,9 @@
     <ClCompile Include="trRenderer3D.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="trCamera3D.cpp">
+      <Filter>Core\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pugiconfig.hpp">
@@ -192,6 +195,9 @@
       <Filter>Utilities\Tools</Filter>
     </ClInclude>
     <ClInclude Include="trRenderer3D.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="trCamera3D.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
   </ItemGroup>

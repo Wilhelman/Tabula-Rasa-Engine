@@ -1,7 +1,7 @@
 #include "trDefs.h"
 #include "trLog.h"
 #include "trApp.h"
-#include "trRender.h"
+#include "trRenderer3D.h"
 #include "trTextures.h"
 
 #include "SDL_image/include/SDL_image.h"
