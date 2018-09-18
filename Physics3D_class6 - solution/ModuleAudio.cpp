@@ -151,5 +151,22 @@ bool ModuleAudio::PlayFx(unsigned int id, int repeat)
 		ret = true;
 	}*/
 
+	// TODO: fix this method
+
+	/*
+	int Audio::PlayFx(unsigned int id, int repeat, int channel)
+{
+	if (!devicesConnected)
+		return -1;
+
+	if (id > 0 && id <= fx.size())
+	{
+		return Mix_PlayChannel(channel, fx[id - 1], repeat);
+	}
+
+	return -1;
+}
+	*/
+
 	return ret;
 }
