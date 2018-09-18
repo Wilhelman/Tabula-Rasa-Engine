@@ -1,22 +1,22 @@
 #include <math.h>
-#include "ctApp.h"
-#include "ctFadeToBlack.h"
-#include "ctRender.h"
+#include "trApp.h"
+#include "trFadeToBlack.h"
+#include "trRender.h"
 #include "SDL/include/SDL_render.h"
 #include "SDL/include/SDL_timer.h"
-#include "ctWindow.h"
-#include "ctLog.h"
+#include "trWindow.h"
+#include "trLog.h"
 
 
-ctFadeToBlack::ctFadeToBlack()
+trFadeToBlack::ctFadeToBlack()
 {
 	name = "fadeToBlack";
 }
 
-ctFadeToBlack::~ctFadeToBlack()
+trFadeToBlack::~ctFadeToBlack()
 {}
 
-bool ctFadeToBlack::Awake(pugi::xml_node& conf)
+bool trFadeToBlack::Awake(pugi::xml_node& conf)
 {
 	uint winWidth, winHeight;
 
@@ -28,7 +28,7 @@ bool ctFadeToBlack::Awake(pugi::xml_node& conf)
 }
 
 // Load assets
-bool ctFadeToBlack::Start()
+bool trFadeToBlack::Start()
 {
 	LOG("Preparing Fade Screen");
 	SDL_SetRenderDrawBlendMode(App->render->renderer, SDL_BLENDMODE_BLEND);
@@ -38,7 +38,7 @@ bool ctFadeToBlack::Start()
 }
 
 // Update: draw background
-bool ctFadeToBlack::PostUpdate()
+bool trFadeToBlack::PostUpdate()
 {
 	bool ret = true;
 	if (current_step == FadeStep::NONE_FADE)
@@ -87,7 +87,7 @@ bool ctFadeToBlack::PostUpdate()
 }
 
 // Fade to black. At mid point deactivate one module, then activate the other
-bool ctFadeToBlack::FadeToBlack(float time)
+bool trFadeToBlack::FadeToBlack(float time)
 {
 	lvlName = "";
 	bool ret = false;
@@ -102,7 +102,7 @@ bool ctFadeToBlack::FadeToBlack(float time)
 	return ret;
 }
 
-bool ctFadeToBlack::FadeToKnowBlack(std::string lvlToFade, float time)
+bool trFadeToBlack::FadeToKnowBlack(std::string lvlToFade, float time)
 {
 	lvlName = lvlToFade;
 	bool ret = false;
@@ -117,7 +117,7 @@ bool ctFadeToBlack::FadeToKnowBlack(std::string lvlToFade, float time)
 	return ret;
 }
 
-bool ctFadeToBlack::FadeToBlackBetweenModules(ctModule* module_off, ctModule* module_on, float time, bool andLoad)
+bool trFadeToBlack::FadeToBlackBetweenModules(ctModule* module_off, ctModule* module_on, float time, bool andLoad)
 {
 	bool ret = false;
 
@@ -136,7 +136,7 @@ bool ctFadeToBlack::FadeToBlackBetweenModules(ctModule* module_off, ctModule* mo
 	return ret;
 }
 
-bool ctFadeToBlack::FadeIsOver() {
+bool trFadeToBlack::FadeIsOver() {
 	bool ret = true;
 
 	if (current_step == FadeStep::NONE_FADE)

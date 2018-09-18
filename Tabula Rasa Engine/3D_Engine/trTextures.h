@@ -1,5 +1,5 @@
-#ifndef __ctTEXTURES_H__
-#define __ctTEXTURES_H__
+#ifndef __trTEXTURES_H__
+#define __trTEXTURES_H__
 
 #include "ctModule.h"
 
@@ -8,14 +8,14 @@
 struct SDL_Texture;
 struct SDL_Surface;
 
-class ctTextures : public ctModule
+class trTextures : public trModule
 {
 public:
 
-	ctTextures();
+	trTextures();
 
 	// Destructor
-	virtual ~ctTextures();
+	virtual ~trTextures();
 
 	// Called before render is available
 	bool Awake(pugi::xml_node&);
@@ -38,4 +38,4 @@ public:
 };
 
 
-#endif // __ctTEXTURES_H__
+#endif // __trTEXTURES_H__

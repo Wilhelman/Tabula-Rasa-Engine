@@ -1,23 +1,23 @@
-#include "ctDefs.h"
-#include "ctLog.h"
-#include "ctApp.h"
-#include "ctRender.h"
-#include "ctTextures.h"
+#include "trDefs.h"
+#include "trLog.h"
+#include "trApp.h"
+#include "trRender.h"
+#include "trTextures.h"
 
 #include "SDL_image/include/SDL_image.h"
 #pragma comment( lib, "SDL_image/libx86/SDL2_image.lib" )
 
-ctTextures::ctTextures() : ctModule()
+trTextures::trTextures() : trModule()
 {
 	name = "textures";
 }
 
 // Destructor
-ctTextures::~ctTextures()
+trTextures::~trTextures()
 {}
 
 // Called before render is available
-bool ctTextures::Awake(pugi::xml_node& config)
+bool trTextures::Awake(pugi::xml_node& config)
 {
 	LOG("Init Image library");
 	bool ret = true;
@@ -35,7 +35,7 @@ bool ctTextures::Awake(pugi::xml_node& config)
 }
 
 // Called before the first frame
-bool ctTextures::Start()
+bool trTextures::Start()
 {
 	LOG("start textures");
 	bool ret = true;
@@ -43,7 +43,7 @@ bool ctTextures::Start()
 }
 
 // Called before quitting
-bool ctTextures::CleanUp()
+bool trTextures::CleanUp()
 {
 	LOG("Freeing textures and Image library");
 	
@@ -58,7 +58,7 @@ bool ctTextures::CleanUp()
 }
 
 // Load new texture from file path
-SDL_Texture* const ctTextures::Load(const char* path)
+SDL_Texture* const trTextures::Load(const char* path)
 {
 	SDL_Texture* texture = nullptr;
 	SDL_Surface* surface = IMG_Load(path);
@@ -85,7 +85,7 @@ SDL_Texture* const ctTextures::Load(const char* path)
 // Unload texture
 
 
-bool ctTextures::UnLoad(SDL_Texture* texture)
+bool trTextures::UnLoad(SDL_Texture* texture)
 {
 	std::list<SDL_Texture*>::const_iterator item;
 
@@ -104,7 +104,7 @@ bool ctTextures::UnLoad(SDL_Texture* texture)
 
 
 // Translate a surface into a texture
-SDL_Texture* const ctTextures::LoadSurface(SDL_Surface* surface)
+SDL_Texture* const trTextures::LoadSurface(SDL_Surface* surface)
 {
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(App->render->renderer, surface);
 
@@ -121,7 +121,7 @@ SDL_Texture* const ctTextures::LoadSurface(SDL_Surface* surface)
 }
 
 // Retrieve size of a texture
-void ctTextures::GetSize(const SDL_Texture* texture, uint& width, uint& height) const
+void trTextures::GetSize(const SDL_Texture* texture, uint& width, uint& height) const
 {
 	SDL_QueryTexture((SDL_Texture*)texture, NULL, NULL, (int*)&width, (int*)&height);
 }

@@ -1,5 +1,5 @@
-#ifndef __ctWINDOW_H__
-#define __ctWINDOW_H__
+#ifndef __trWINDOW_H__
+#define __trWINDOW_H__
 
 #include "ctModule.h"
 #include <string>
@@ -7,14 +7,14 @@
 struct SDL_Window;
 struct SDL_Surface;
 
-class ctWindow : public ctModule
+class trWindow : public trModule
 {
 public:
 
-	ctWindow();
+	trWindow();
 
 	// Destructor
-	virtual ~ctWindow();
+	virtual ~trWindow();
 
 	// Called before render is available
 	bool Awake(pugi::xml_node&);
@@ -51,4 +51,4 @@ private:
 	uint		scale = 0u;
 };
 
-#endif // __ctWINDOW_H__
+#endif // __trWINDOW_H__

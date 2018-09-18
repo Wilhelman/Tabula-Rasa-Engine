@@ -1,13 +1,13 @@
-#include "ctDefs.h"
-#include "ctLog.h"
-#include "ctApp.h"
-#include "ctWindow.h"
-#include "ctRender.h"
-#include "ctInput.h"
+#include "trDefs.h"
+#include "trLog.h"
+#include "trApp.h"
+#include "trWindow.h"
+#include "trRender.h"
+#include "trInput.h"
 
 #define VSYNC true
 
-ctRender::ctRender() : ctModule()
+trRender::trRender() : trModule()
 { 
 	name = "renderer";
 	background.r = 0;
@@ -17,11 +17,11 @@ ctRender::ctRender() : ctModule()
 }
 
 // Destructor
-ctRender::~ctRender()
+trRender::~ctRender()
 {}
 
 // Called before render is available
-bool ctRender::Awake(pugi::xml_node& config)
+bool trRender::Awake(pugi::xml_node& config)
 {
 	LOG("Create SDL rendering context");
 	bool ret = true;
@@ -55,7 +55,7 @@ bool ctRender::Awake(pugi::xml_node& config)
 }
 
 // Called before the first frame
-bool ctRender::Start()
+bool trRender::Start()
 {
 	LOG("render start");
 	// back background
@@ -65,13 +65,13 @@ bool ctRender::Start()
 }
 
 // Called each loop iteration
-bool ctRender::PreUpdate()
+bool trRender::PreUpdate()
 {
 	SDL_RenderClear(renderer);
 	return true;
 }
 
-bool ctRender::Update(float dt)
+bool trRender::Update(float dt)
 {
 
 	uint winWidth, winHeight;
@@ -101,7 +101,7 @@ bool ctRender::Update(float dt)
 	return true;
 }
 
-bool ctRender::PostUpdate()
+bool trRender::PostUpdate()
 {
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
 	SDL_RenderPresent(renderer);
@@ -109,7 +109,7 @@ bool ctRender::PostUpdate()
 }
 
 // Called before quitting
-bool ctRender::CleanUp()
+bool ctRetrRendernder::CleanUp()
 {
 	LOG("Destroying SDL render");
 	SDL_DestroyRenderer(renderer);
@@ -123,29 +123,29 @@ bool ctRender::Load(pugi::xml_node& data)
 }
 
 // Save Game State
-bool ctRender::Save(pugi::xml_node& data) const
+bool trRender::Save(pugi::xml_node& data) const
 {
 
 	return true;
 }
 
-void ctRender::SetBackgroundColor(SDL_Color color)
+void trRender::SetBackgroundColor(SDL_Color color)
 {
 	background = color;
 }
 
-void ctRender::SetViewPort(const SDL_Rect& rect)
+void trRender::SetViewPort(const SDL_Rect& rect)
 {
 	SDL_RenderSetViewport(renderer, &rect);
 }
 
-void ctRender::ResetViewPort()
+void trRender::ResetViewPort()
 {
 	SDL_RenderSetViewport(renderer, &viewport);
 }
 
 // Blit to screen
-bool ctRender::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int alpha ,SDL_RendererFlip flip, int pivot_x, int pivot_y) const
+bool trRender::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int alpha ,SDL_RendererFlip flip, int pivot_x, int pivot_y) const
 {
 	bool ret = true;
 	uint scale = App->win->GetScale();
@@ -190,7 +190,7 @@ bool ctRender::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 }
 
 
-bool ctRender::MapBlit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y) const
+bool trRender::MapBlit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y) const
 {
 	bool ret = true;
 
@@ -235,7 +235,7 @@ bool ctRender::MapBlit(SDL_Texture* texture, int x, int y, const SDL_Rect* secti
 	return ret;
 }
 
-bool ctRender::UIBlit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int alpha, SDL_RendererFlip flip, int pivot_x, int pivot_y) const
+bool trRender::UIBlit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int alpha, SDL_RendererFlip flip, int pivot_x, int pivot_y) const
 {
 	bool ret = true;
 	float w_scalade = App->win->GetWScalade();
@@ -278,7 +278,7 @@ bool ctRender::UIBlit(SDL_Texture* texture, int x, int y, const SDL_Rect* sectio
 	return ret;
 }
 
-bool ctRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) const
+bool trRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) const
 {
 	bool ret = true;
 	uint scale = App->win->GetScale();
@@ -308,7 +308,7 @@ bool ctRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a
 	return ret;
 }
 
-bool ctRender::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera) const
+bool trRender::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera) const
 {
 	bool ret = true;
 	uint scale = App->win->GetScale();
@@ -333,7 +333,7 @@ bool ctRender::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 
 	return ret;
 }
 
-bool ctRender::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera) const
+bool trRender::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera) const
 {
 	bool ret = true;
 	uint scale = App->win->GetScale();
@@ -363,7 +363,7 @@ bool ctRender::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 	return ret;
 }
 
-iPoint ctRender::ScreenToWorld(int x, int y) const
+iPoint trRender::ScreenToWorld(int x, int y) const
 {
 	iPoint ret;
 	int scale = App->win->GetScale();
@@ -374,7 +374,7 @@ iPoint ctRender::ScreenToWorld(int x, int y) const
 	return ret;
 }
 
-bool ctRender::Is_inScreen(int x, int y) {
+bool trRender::Is_inScreen(int x, int y) {
 	bool ret = false;
 
 	//TODO Is_inScreen comented

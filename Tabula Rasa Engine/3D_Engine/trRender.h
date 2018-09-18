@@ -1,18 +1,18 @@
-#ifndef __j1RENDER_H__
-#define __j1RENDER_H__
+#ifndef __trRENDER_H__
+#define __trRENDER_H__
 
 #include "SDL/include/SDL.h"
-#include "ctPoint.h"
-#include "ctModule.h"
+#include "trPoint.h"
+#include "trModule.h"
 
-class ctRender : public ctModule
+class trRender : public trModule
 {
 public:
 
-	ctRender();
+	trRender();
 
 	// Destructor
-	virtual ~ctRender();
+	virtual ~trRender();
 
 	// Called before render is available
 	bool Awake(pugi::xml_node&);
@@ -61,4 +61,4 @@ public:
 	bool			vsync_state = false;
 };
 
-#endif // __j1RENDER_H__
+#endif // __trRENDER_H__

@@ -1,15 +1,15 @@
-#ifndef __ctFADETOBLACK_H__
-#define __ctFADETOBLACK_H__
+#ifndef __trFADETOBLACK_H__
+#define __trFADETOBLACK_H__
 
-#include "ctModule.h"
+#include "trModule.h"
 #include "SDL\include\SDL_rect.h"
 #include <string>
 
-class ctFadeToBlack : public ctModule
+class trFadeToBlack : public trModule
 {
 public:
-	ctFadeToBlack();
-	~ctFadeToBlack();
+	trFadeToBlack();
+	~trFadeToBlack();
 
 	// Called before render is available
 	bool Awake(pugi::xml_node& conf);
@@ -21,7 +21,7 @@ public:
 	bool PostUpdate();
 
 	bool FadeToBlack(float time = 2.0f);
-	bool FadeToBlackBetweenModules(ctModule* module_off, ctModule* module_on, float time = 2.0f, bool andLoad = false);
+	bool FadeToBlackBetweenModules(trModule* module_off, trModule* module_on, float time = 2.0f, bool andLoad = false);
 	bool FadeToKnowBlack(std::string lvlToFade, float time = 2.0f);
 	bool FadeIsOver();
 
@@ -47,4 +47,4 @@ public:
 	bool F1 = false;
 };
 
-#endif //__MODULEFADETOBLACK_H__
+#endif //__trMODULEFADETOBLACK_H__

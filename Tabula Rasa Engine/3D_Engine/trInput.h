@@ -1,7 +1,7 @@
-#ifndef __ctINPUT_H__
-#define __ctINPUT_H__
+#ifndef __trINPUT_H__
+#define __trINPUT_H__
 
-#include "ctModule.h"
+#include "trModule.h"
 
 #include "SDL/include/SDL_gamecontroller.h"
 
@@ -56,15 +56,15 @@ struct Gamepad {
 
 };
 
-class ctInput : public ctModule
+class trInput : public trModule
 {
 
 public:
 
-	ctInput();
+	trInput();
 
 	// Destructor
-	virtual ~ctInput();
+	virtual ~trInput();
 
 	// Called before render is available
 	bool Awake(pugi::xml_node&);
@@ -82,12 +82,12 @@ public:
 	bool GetWindowEvent(ctEventWindow ev);
 
 	// Check key states (includes mouse and joy buttons)
-	ctKeyState GetKey(int id) const
+	trInput GetKey(int id) const
 	{
 		return keyboard[id];
 	}
 
-	ctKeyState GetMouseButtonDown(int id) const
+	trInput GetMouseButtonDown(int id) const
 	{
 		return mouse_buttons[id - 1];
 	}
@@ -111,12 +111,12 @@ public:
 	void GetMouseMotion(int& x, int& y);
 
 	Gamepad gamepad;
-	void buttonForGamepad();
+	void ButtonForGamepad();
 
 private:
 	bool		windowEvents[WE_COUNT];
-	ctKeyState*	keyboard = nullptr;
-	ctKeyState	mouse_buttons[NUM_MOUSE_BUTTONS];
+	trKeyState*	keyboard = nullptr;
+	trKeyState	mouse_buttons[NUM_MOUSE_BUTTONS];
 	int			mouse_motion_x = 0;
 	int			mouse_motion_y = 0;
 	int			mouse_x = 0;
@@ -127,4 +127,4 @@ private:
 
 };
 
-#endif // __ctINPUT_H__
+#endif // __trINPUT_H__

@@ -1,12 +1,12 @@
-#include "ctDefs.h"
-#include "ctLog.h"
-#include "ctApp.h"
-#include "ctWindow.h"
+#include "trDefs.h"
+#include "trLog.h"
+#include "trApp.h"
+#include "trWindow.h"
 
 #include "SDL/include/SDL.h"
 
 
-ctWindow::ctWindow() : ctModule()
+trWindow::trWindow() : trModule()
 {
 	window = NULL;
 	screen_surface = NULL;
@@ -14,12 +14,12 @@ ctWindow::ctWindow() : ctModule()
 }
 
 // Destructor
-ctWindow::~ctWindow()
+trWindow::~trWindow()
 {
 }
 
 // Called before render is available
-bool ctWindow::Awake(pugi::xml_node& config)
+bool trWindow::Awake(pugi::xml_node& config)
 {
 	LOG("Init SDL window & surface");
 	bool ret = true;
@@ -85,7 +85,7 @@ bool ctWindow::Awake(pugi::xml_node& config)
 }
 
 // Called before quitting
-bool ctWindow::CleanUp()
+bool trWindow::CleanUp()
 {
 	LOG("Destroying SDL window and quitting all SDL systems");
 
@@ -102,28 +102,28 @@ bool ctWindow::CleanUp()
 }
 
 // Set new window title
-void ctWindow::SetTitle(const char* new_title)
+void trWindow::SetTitle(const char* new_title)
 {
 	//title.create(new_title);
 	SDL_SetWindowTitle(window, new_title);
 }
 
-void ctWindow::GetWindowSize(uint& width, uint& height) const
+void trWindow::GetWindowSize(uint& width, uint& height) const
 {
 	width = this->width;
 	height = this->height;
 }
 
-uint ctWindow::GetScale() const
+uint trWindow::GetScale() const
 {
 	return scale;
 }
 
-float ctWindow::GetWScalade() const
+float trWindow::GetWScalade() const
 {
 	return w_scalade;
 }
-float ctWindow::GetHScalade() const
+float trWindow::GetHScalade() const
 {
 	return h_scalade;
 }

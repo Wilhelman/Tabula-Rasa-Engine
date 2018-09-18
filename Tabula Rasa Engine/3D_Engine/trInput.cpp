@@ -1,14 +1,14 @@
-#include "ctDefs.h"
-#include "ctLog.h"
-#include "ctApp.h"
-#include "ctInput.h"
-#include "ctWindow.h"
-#include "ctRender.h"
+#include "trDefs.h"
+#include "trLog.h"
+#include "trApp.h"
+#include "trInput.h"
+#include "trWindow.h"
+#include "trRender.h"
 #include "SDL/include/SDL.h"
 
 #define MAX_KEYS 300
 
-ctInput::ctInput() : ctModule()
+trInput::trInput() : trModule()
 {
 	name ="input";
 
@@ -18,13 +18,13 @@ ctInput::ctInput() : ctModule()
 }
 
 // Destructor
-ctInput::~ctInput()
+trInput::~trInput()
 {
 	delete[] keyboard;
 }
 
 // Called before render is available
-bool ctInput::Awake(pugi::xml_node& config)
+bool trInput::Awake(pugi::xml_node& config)
 {
 	LOG("Init SDL input event system");
 	bool ret = true;
@@ -59,14 +59,14 @@ bool ctInput::Awake(pugi::xml_node& config)
 }
 
 // Called before the first frame
-bool ctInput::Start()
+bool trInput::Start()
 {
 	SDL_StopTextInput();
 	return true;
 }
 
 // Called each loop iteration
-bool ctInput::PreUpdate()
+bool trInput::PreUpdate()
 {
 	static SDL_Event event;
 
@@ -99,7 +99,7 @@ bool ctInput::PreUpdate()
 			mouse_buttons[i] = KEY_IDLE;
 	}
 
-	buttonForGamepad();
+	ButtonForGamepad();
 
 	while (SDL_PollEvent(&event) != 0)
 	{
@@ -154,7 +154,7 @@ bool ctInput::PreUpdate()
 }
 
 // Called before quitting
-bool ctInput::CleanUp()
+bool trInput::CleanUp()
 {
 	LOG("Quitting SDL event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
@@ -162,30 +162,30 @@ bool ctInput::CleanUp()
 }
 
 // ---------
-bool ctInput::GetWindowEvent(ctEventWindow ev)
+bool trInput::GetWindowEvent(ctEventWindow ev)
 {
 	return windowEvents[ev];
 }
 
-void ctInput::GetMousePosition(int& x, int& y)
+void trInput::GetMousePosition(int& x, int& y)
 {
 	x = mouse_x;
 	y = mouse_y;
 }
 
-void ctInput::GetMouseMotion(int& x, int& y)
+void trInput::GetMouseMotion(int& x, int& y)
 {
 	x = mouse_motion_x;
 	y = mouse_motion_y;
 }
 
-void ctInput::GetWorldMousePosition(int& x, int& y)
+void trInput::GetWorldMousePosition(int& x, int& y)
 {
 	x = App->render->ScreenToWorld(mouse_x, mouse_y).x;
 	y = App->render->ScreenToWorld(mouse_x, mouse_y).y;
 }
 
-void ctInput::buttonForGamepad() {
+void trInput::ButtonForGamepad() {
 	//BUTTON A
 	if (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_A) == 1) {
 		if (gamepad.A == PAD_BUTTON_IDLE)
