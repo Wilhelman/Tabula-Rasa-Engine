@@ -11,6 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="imgui.cpp" />
+    <ClCompile Include="imgui_demo.cpp" />
+    <ClCompile Include="imgui_draw.cpp" />
+    <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="trApp.cpp" />
     <ClCompile Include="trAudio.cpp" />
     <ClCompile Include="trFadeToBlack.cpp" />
@@ -25,6 +29,12 @@
     <ClCompile Include="pugixml.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="imconfig.h" />
+    <ClInclude Include="imgui.h" />
+    <ClInclude Include="imgui_internal.h" />
+    <ClInclude Include="imstb_rectpack.h" />
+    <ClInclude Include="imstb_textedit.h" />
+    <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="trAnimation.h" />
     <ClInclude Include="trApp.h" />
     <ClInclude Include="trAudio.h" />

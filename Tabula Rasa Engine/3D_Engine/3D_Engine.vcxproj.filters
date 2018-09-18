@@ -19,6 +19,9 @@
     <Filter Include="Core\Scenes">
       <UniqueIdentifier>{26109e64-80c0-4ee2-827e-1e9e22c6c347}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities\ImGui">
+      <UniqueIdentifier>{931477d6-91b7-4acd-a9a1-168702a5a13a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pugixml.cpp">
@@ -56,6 +59,18 @@
     </ClCompile>
     <ClCompile Include="trApp.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Utilities\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>Utilities\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Utilities\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Utilities\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +124,24 @@
     </ClInclude>
     <ClInclude Include="trApp.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Utilities\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Utilities\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Utilities\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Utilities\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Utilities\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Utilities\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
