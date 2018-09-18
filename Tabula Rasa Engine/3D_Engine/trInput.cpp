@@ -66,7 +66,7 @@ bool trInput::Start()
 }
 
 // Called each loop iteration
-bool trInput::PreUpdate()
+bool trInput::PreUpdate(float dt)
 {
 	static SDL_Event event;
 

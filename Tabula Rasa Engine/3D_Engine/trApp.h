@@ -54,9 +54,6 @@ public:
 	// Load config file
 	pugi::xml_node LoadConfig(pugi::xml_document&) const;
 
-	// Load languages file
-	pugi::xml_node LoadLanguages(pugi::xml_document&) const;
-
 
 private:
 

@@ -38,7 +38,7 @@ bool trFadeToBlack::Start()
 }
 
 // Update: draw background
-bool trFadeToBlack::PostUpdate()
+bool trFadeToBlack::PostUpdate(float dt)
 {
 	bool ret = true;
 	if (current_step == FadeStep::NONE_FADE)

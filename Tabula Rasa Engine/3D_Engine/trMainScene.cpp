@@ -62,7 +62,7 @@ bool trMainScene::Start()
 }
 
 // Called each loop iteration
-bool trMainScene::PreUpdate()
+bool trMainScene::PreUpdate(float dt)
 {
 	return true;
 }
@@ -73,7 +73,7 @@ bool trMainScene::Update(float dt)
 	return true;
 }
 
-bool trMainScene::PostUpdate()
+bool trMainScene::PostUpdate(float dt)
 {
 	return true;
 }

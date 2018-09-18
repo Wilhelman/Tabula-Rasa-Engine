@@ -27,6 +27,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	audio = new trAudio();
 	physics = new trPhysics3D();
 
+
 	main_scene = new trMainScene();
 
 	fadeToBlack = new trFadeToBlack();
@@ -175,24 +176,12 @@ pugi::xml_node trApp::LoadConfig(pugi::xml_document& config_file) const
 
 	pugi::xml_parse_result result = config_file.load_file("config.xml");
 
-	if (result == NULL)
+	if (result == NULL) {
 		LOG("Could not load xml file config.xml. pugi error: %s", result.description());
+	}
 	else
 		ret = config_file.child("config");
-	return ret;
-}
 
-// ---------------------------------------------
-pugi::xml_node trApp::LoadLanguages(pugi::xml_document& language_file) const
-{
-	pugi::xml_node ret;
-
-	pugi::xml_parse_result result = language_file.load_file("languages");
-
-	if (result == NULL)
-		LOG("Could not load xml file config.xml. pugi error: %s", result.description());
-	else
-		ret = language_file.child("languages");
 	return ret;
 }
 
@@ -271,7 +260,7 @@ bool trApp::PreUpdate()
 			continue;
 		}
 
-		ret = (*it)->PreUpdate();
+		ret = (*it)->PreUpdate(dt);
 	}
 
 	return ret;
@@ -314,7 +303,7 @@ bool trApp::PostUpdate()
 			continue;
 		}
 
-		ret = (*it)->PostUpdate();
+		ret = (*it)->PostUpdate(dt);
 	}
 
 	//PERF_PEEK(ptimer);
