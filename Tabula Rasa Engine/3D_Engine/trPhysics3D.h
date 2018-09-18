@@ -4,7 +4,6 @@
 #include "trDefs.h"
 #include "trLog.h"
 #include <list>
-#include "trApp.h"
 #include "Primitive.h"
 
 #include "Bullet/include/btBulletDynamicsCommon.h"
@@ -25,9 +24,9 @@ public:
 
 	bool Init();
 	bool Start();
-	update_status PreUpdate(float dt);
+	bool PreUpdate(float dt);
 	bool Update(float dt);
-	update_status PostUpdate(float dt);
+	bool PostUpdate(float dt);
 	bool CleanUp();
 
 	trPhysics3D* AddBody(const Sphere& sphere, float mass = 1.0f);

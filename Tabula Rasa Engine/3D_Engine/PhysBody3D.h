@@ -1,7 +1,7 @@
 #ifndef __PhysBody3D_H__
 #define __PhysBody3D_H__
 
-#include "<list>"
+#include <list>
 
 
 class btRigidBody;
@@ -27,7 +27,7 @@ private:
 	bool is_sensor = false;
 
 public:
-	p2List<Module*> collision_listeners;
+	std::list<trModule*> collision_listeners;
 };
 
 #endif // __PhysBody3D_H__

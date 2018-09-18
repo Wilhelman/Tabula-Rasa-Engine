@@ -70,7 +70,7 @@ bool trPhysics3D::Start()
 }
 
 // ---------------------------------------------------------
-update_status trPhysics3D::PreUpdate(float dt)
+bool trPhysics3D::PreUpdate(float dt)
 {
 	world->stepSimulation(dt, 15);
 
@@ -89,24 +89,24 @@ update_status trPhysics3D::PreUpdate(float dt)
 
 			if(pbodyA && pbodyB)
 			{
-				std::list<Module*>* item = pbodyA->collision_listeners.getFirst();
-				while(item)
+				std::list<trModule*>::const_iterator item = pbodyA->collision_listeners.begin();
+				while(item != pbodyA->collision_listeners.end())
 				{
-					item->data->OnCollision(pbodyA, pbodyB);
-					item = item->next;
+					(*item)->OnCollision(pbodyA, pbodyB);
+					item++;
 				}
 
-				item = pbodyB->collision_listeners.getFirst();
-				while(item)
+				item = pbodyB->collision_listeners.begin();
+				while(item != pbodyB->collision_listeners.end())
 				{
-					item->data->OnCollision(pbodyB, pbodyA);
-					item = item->next;
+					(*item)->OnCollision(pbodyB, pbodyA);
+					item++;
 				}
 			}
 		}
 	}
 
-	return UPDATE_CONTINUE;
+	return true;
 }
 
 // ---------------------------------------------------------
@@ -133,9 +133,9 @@ bool trPhysics3D::Update(float dt)
 }
 
 // ---------------------------------------------------------
-update_status trPhysics3D::PostUpdate(float dt)
+bool trPhysics3D::PostUpdate(float dt)
 {
-	return UPDATE_CONTINUE;
+	return true;
 }
 
 // Called before quitting
@@ -150,26 +150,26 @@ bool trPhysics3D::CleanUp()
 		world->removeCollisionObject(obj);
 	}
 
-	for(p2List_item<btTypedConstraint*>* item = constraints.getFirst(); item; item = item->next)
+	for (std::list<btTypedConstraint*>::const_iterator item = constraints.begin(); item != constraints.end(); item++)
 	{
-		world->removeConstraint(item->data);
-		delete item->data;
+		world->removeConstraint(*item);
+		delete *item;
 	}
 	
 	constraints.clear();
 
-	for(p2List_item<btDefaultMotionState*>* item = motions.getFirst(); item; item = item->next)
-		delete item->data;
+	for(std::list<btDefaultMotionState*>::const_iterator item = motions.begin(); item != motions.end(); item++)
+		delete *item;
 
 	motions.clear();
 
-	for(p2List_item<btCollisionShape*>* item = shapes.getFirst(); item; item = item->next)
-		delete item->data;
+	for(std::list<btCollisionShape*>::const_iterator item = shapes.begin(); item != shapes.end(); item++)
+		delete *item;
 
 	shapes.clear();
 
-	for(p2List_item<PhysBody3D*>* item = bodies.getFirst(); item; item = item->next)
-		delete item->data;
+	for(std::list<PhysBody3D*>::const_iterator item = bodies.begin(); item != bodies.end(); item++)
+		delete *item;
 
 	bodies.clear();
 

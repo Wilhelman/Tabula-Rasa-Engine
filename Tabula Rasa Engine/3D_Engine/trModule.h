@@ -6,6 +6,8 @@
 #ifndef __trMODULE_H__
 #define __trMODULE_H__
 
+struct PhysBody3D;
+
 #include <string>
 #include "PugiXml\src\pugixml.hpp"
 
@@ -74,7 +76,8 @@ public:
 	}
 
 	// Callbacks ---
-	virtual void OnCollision(Collider*, Collider*) {}
+	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+	{}
 
 	virtual void OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {}
 
