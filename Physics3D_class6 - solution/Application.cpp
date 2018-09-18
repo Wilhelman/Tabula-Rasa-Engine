@@ -36,7 +36,7 @@ Application::~Application()
 	while (item != list_modules.rend())
 	{
 		delete (*item);
-		item--;
+		item++;
 	}
 }
 
@@ -122,7 +122,7 @@ bool Application::CleanUp()
 	while (item != list_modules.rend() && ret == UPDATE_CONTINUE)
 	{
 		ret = (*item)->CleanUp();
-		item--;
+		item++;
 	}
 
 	return ret;
