@@ -9,6 +9,7 @@
 #include "trTextures.h"
 #include "trAudio.h"
 
+#include "trMainScene.h"
 
 #include "trFadeToBlack.h"
 
@@ -24,6 +25,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	tex = new trTextures();
 	audio = new trAudio();
 
+	main_scene = new trMainScene();
 
 	fadeToBlack = new trFadeToBlack();
 	
@@ -34,6 +36,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 
+	AddModule(main_scene);
 
 	AddModule(fadeToBlack);
 	

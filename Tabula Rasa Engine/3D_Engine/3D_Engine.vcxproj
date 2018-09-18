@@ -21,6 +21,7 @@
     <ClCompile Include="trInput.cpp" />
     <ClCompile Include="trLog.cpp" />
     <ClCompile Include="trMain.cpp" />
+    <ClCompile Include="trMainScene.cpp" />
     <ClCompile Include="trPerfTimer.cpp" />
     <ClCompile Include="trRender.cpp" />
     <ClCompile Include="trTextures.cpp" />
@@ -42,6 +43,7 @@
     <ClInclude Include="trFadeToBlack.h" />
     <ClInclude Include="trInput.h" />
     <ClInclude Include="trLog.h" />
+    <ClInclude Include="trMainScene.h" />
     <ClInclude Include="trModule.h" />
     <ClInclude Include="trPerfTimer.h" />
     <ClInclude Include="trPoint.h" />

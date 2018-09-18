@@ -14,6 +14,7 @@ class trInput;
 class trRender;
 class trTextures;
 class trAudio;
+class trMainScene;
 
 
 class trFadeToBlack;
@@ -82,7 +83,7 @@ public:
 	trTextures*			tex = nullptr;
 	trAudio*			audio = nullptr;
 	
-
+	trMainScene*		main_scene = nullptr;
 
 	trFadeToBlack*		fadeToBlack = nullptr;
 	

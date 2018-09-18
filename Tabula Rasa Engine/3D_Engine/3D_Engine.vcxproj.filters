@@ -72,6 +72,9 @@
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>Utilities\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="trMainScene.cpp">
+      <Filter>Core\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pugiconfig.hpp">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="imstb_truetype.h">
       <Filter>Utilities\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="trMainScene.h">
+      <Filter>Core\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
