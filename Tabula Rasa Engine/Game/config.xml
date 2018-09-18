@@ -1,23 +1,12 @@
 <?xml version="1.0"?>
 <config>
 	<app framerate_cap="60">
-		<title>D&amp;D: Wrath of Silumgar</title>
-		<organization>Triggered Squid</organization>
+		<title>Tabula Rasa Engine</title>
+		<organization>None</organization>
 	</app>
 	<renderer>
 		<vsync value="true" />
 	</renderer>
-	<font>
-		<default_font file="fonts/FritzQuadrata Regular.ttf" size="12" />
-	</font>
-	<gui>
-		<atlas file="textures/GUI/ui_atlas.png" />
-		<pause_menu file="textures/GUI/PauseMenu.png" />
-		<button>
-			<fx pressed="audio/fx/pressed_btn.wav" released="audio/fx/released_btn.wav" hover="audio/fx/hover_btn.wav" />
-		</button>
-	</gui>
-	<language current="ENG" />
 	<window>
 		<resolution width="968" height="648" scale="2" />
 		<fullscreen value="false" />
@@ -28,54 +17,8 @@
 	<audio fx="64" music="64">
 		<lvlMusic name="textures/source_spritesheet.png" />
 	</audio>
-	<entities>
-		<base_statistics_values constitution="13" focus="17" strength="3" agility="2" dexterity="2" intelligence="3" physicalDefense="2" magicalDefense="2" luck="1" judgement="1" />
-		<cleric spritesheetName="textures/Characters/Cleric_sheet.png" />
-		<miniheroes spritesheetName="textures/Characters/MiniHeroes_sheet.png" />
-		<dwarf spritesheetName="textures/Characters/Dwarf_sheet.png" />
-		<elf spritesheetName="textures/Characters/Elf_sheet.png" />
-		<warrior spritesheetName="textures/Characters/Warrior_sheet.png" />
-		<bowGnoll spritesheetName="textures/Enemies/BowGnoll_sheet.png" />
-		<darkWarrior spritesheetName="textures/Enemies/DarkWarrior_sheet.png" />
-		<displacerBeast spritesheetName="textures/Enemies/DisplacerBeast_sheet.png" />
-		<gnollA spritesheetName="textures/Enemies/GnollA_sheet.png" />
-		<goblins spritesheetName="textures/Enemies/Goblins_sheet.png" />
-		<hellhound spritesheetName="textures/Enemies/Hellhound_sheet.png" />
-		<kobold spritesheetName="textures/Enemies/Kobold_sheet.png" />
-		<lich1st spritesheetName="textures/Enemies/Lich1st_sheet.png" />
-		<owlbear spritesheetName="textures/Enemies/Owlbear_sheet.png" />
-		<skeleton spritesheetName="textures/Enemies/Skeleton_sheet.png" />
-		<triton spritesheetName="textures/Enemies/Triton_sheet.png" />
-		<trollLeader spritesheetName="textures/Enemies/TrollLeader_sheet.png" />
-		<displacerBeast spritesheetName="textures/Enemies/DisplacerBeast_sheet.png" />
-		<lich1 spritesheetName="textures/Enemies/Lich1st_sheet.png" />
-		<lich2 spritesheetName="textures/Enemies/new_lich.png" />
-		<spritesheetSource name="textures/" />
-		<player>
-			<fxPlayerJump name="audio/fx/jump_fx.wav" />
-			<animations>
-				<animation name="down_idle" speed="1.0" loop="true">
-					<frame x="2" y="1" width="8" height="29" />
-					<frame x="13" y="1" width="8" height="29" />
-				</animation>
-			</animations>
-		</player>
-	</entities>
 	<file_system>
 		<path>data.zip</path>
 	</file_system>
-	<map>
-		<folder>maps/</folder>
-		<scene>
-			<data name="world_map.tmx" start="true" currentLvl="true" />
-		</scene>
-	</map>
-	<skill_tree>
-		<spritesheet name="textures/SkillTree/skill_tree_elf.png" />
-		<skill_tree_elf_tmx name="skill_tree_elf.tmx" />
-		<skill_tree_dwarf_tmx name="skill_tree_dwarf.tmx" />
-		<skill_tree_cleric_tmx name="skill_tree_cleric.tmx" />
-		<skill_tree_warrior_tmx name="skill_tree_warrior.tmx" />
-		<spritesheet_abilities name="textures/Abilities/abilities.png" />
-	</skill_tree>
+	<main_scene/>
 </config>
