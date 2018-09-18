@@ -12,13 +12,10 @@
 class trWindow;
 class trInput;
 class trRenderer3D;
-class trTextures;
 class trAudio;
+class trCamera3D;
 class trMainScene;
 class trPhysics3D;
-
-
-class trFadeToBlack;
 
 class trApp
 {
@@ -78,13 +75,11 @@ public:
 	trWindow*			win = nullptr;
 	trInput*			input = nullptr;
 	trRenderer3D*		render = nullptr;
-	trTextures*			tex = nullptr;
 	trAudio*			audio = nullptr;
+	trCamera3D*			camera = nullptr;
 	trPhysics3D*		physics = nullptr;
 	
 	trMainScene*		main_scene = nullptr;
-
-	trFadeToBlack*		fadeToBlack = nullptr;
 	
 
 	bool				cap_state = false;

@@ -23,7 +23,6 @@
     <ClCompile Include="trApp.cpp" />
     <ClCompile Include="trAudio.cpp" />
     <ClCompile Include="trCamera3D.cpp" />
-    <ClCompile Include="trFadeToBlack.cpp" />
     <ClCompile Include="trInput.cpp" />
     <ClCompile Include="trLog.cpp" />
     <ClCompile Include="trMain.cpp" />
@@ -31,7 +30,6 @@
     <ClCompile Include="trPerfTimer.cpp" />
     <ClCompile Include="trPhysics3D.cpp" />
     <ClCompile Include="trRenderer3D.cpp" />
-    <ClCompile Include="trTextures.cpp" />
     <ClCompile Include="trTimer.cpp" />
     <ClCompile Include="trWindow.cpp" />
     <ClCompile Include="pugixml.cpp" />
@@ -54,7 +52,6 @@
     <ClInclude Include="trAudio.h" />
     <ClInclude Include="trCamera3D.h" />
     <ClInclude Include="trDefs.h" />
-    <ClInclude Include="trFadeToBlack.h" />
     <ClInclude Include="trInput.h" />
     <ClInclude Include="trLog.h" />
     <ClInclude Include="trMainScene.h" />
@@ -63,7 +60,6 @@
     <ClInclude Include="trPhysics3D.h" />
     <ClInclude Include="trPoint.h" />
     <ClInclude Include="trRenderer3D.h" />
-    <ClInclude Include="trTextures.h" />
     <ClInclude Include="trTimer.h" />
     <ClInclude Include="trWindow.h" />
     <ClInclude Include="MemLeaks.h" />

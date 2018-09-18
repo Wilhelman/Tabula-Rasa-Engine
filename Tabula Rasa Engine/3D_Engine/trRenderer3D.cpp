@@ -2,6 +2,7 @@
 #include "trWindow.h"
 #include "trApp.h"
 #include "trRenderer3D.h"
+#include "trCamera3D.h"
 #include "SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>

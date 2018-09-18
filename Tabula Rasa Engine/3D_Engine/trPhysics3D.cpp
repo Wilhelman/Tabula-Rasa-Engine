@@ -2,6 +2,7 @@
 #include "trApp.h"
 #include "trInput.h"
 #include "trPhysics3D.h"
+#include "trCamera3D.h"
 #include "PhysBody3D.h"
 #include "Primitive.h"
 

@@ -3,7 +3,7 @@
 #include "trApp.h"
 #include "trInput.h"
 #include "trWindow.h"
-#include "trRender.h"
+#include "trRenderer3D.h"
 #include "SDL/include/SDL.h"
 
 #define MAX_KEYS 300
@@ -140,11 +140,10 @@ bool trInput::PreUpdate(float dt)
 			break;
 
 		case SDL_MOUSEMOTION:
-			int scale = App->win->GetScale();
-			mouse_motion_x = event.motion.xrel / scale;
-			mouse_motion_y = event.motion.yrel / scale;
-			mouse_x = event.motion.x / scale;
-			mouse_y = event.motion.y / scale;
+			mouse_motion_x = event.motion.xrel / SCREEN_SIZE;
+			mouse_motion_y = event.motion.yrel / SCREEN_SIZE;
+			mouse_x = event.motion.x / SCREEN_SIZE;
+			mouse_y = event.motion.y / SCREEN_SIZE;
 			//LOG("Mouse motion x %d y %d", mouse_motion_x, mouse_motion_y);
 			break;
 		}
@@ -177,12 +176,6 @@ void trInput::GetMouseMotion(int& x, int& y)
 {
 	x = mouse_motion_x;
 	y = mouse_motion_y;
-}
-
-void trInput::GetWorldMousePosition(int& x, int& y)
-{
-	x = App->render->ScreenToWorld(mouse_x, mouse_y).x;
-	y = App->render->ScreenToWorld(mouse_x, mouse_y).y;
 }
 
 void trInput::ButtonForGamepad() {

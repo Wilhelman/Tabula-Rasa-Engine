@@ -6,13 +6,11 @@
 #include "trWindow.h"
 #include "trInput.h"
 #include "trRenderer3D.h"
-#include "trTextures.h"
 #include "trAudio.h"
+#include "trCamera3D.h"
 #include "trPhysics3D.h"
 
 #include "trMainScene.h"
-
-#include "trFadeToBlack.h"
 
 
 // Constructor
@@ -23,26 +21,22 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	input = new trInput();
 	win = new trWindow();
 	render = new trRenderer3D();
-	tex = new trTextures();
 	audio = new trAudio();
+	camera = new trCamera3D();
 	physics = new trPhysics3D();
 
 
 	main_scene = new trMainScene();
-
-	fadeToBlack = new trFadeToBlack();
 	
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
 	AddModule(win);
-	AddModule(tex);
 	AddModule(audio);
+	AddModule(camera);
 	AddModule(physics);
 
 	AddModule(main_scene);
-
-	AddModule(fadeToBlack);
 	
 
 	// render last to swap buffer

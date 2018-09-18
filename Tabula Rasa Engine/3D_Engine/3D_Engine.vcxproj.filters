@@ -42,12 +42,6 @@
     <ClCompile Include="trInput.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="trTextures.cpp">
-      <Filter>Core\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="trFadeToBlack.cpp">
-      <Filter>Core\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="trLog.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
@@ -120,12 +114,6 @@
       <Filter>Core\Modules</Filter>
     </ClInclude>
     <ClInclude Include="trInput.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="trTextures.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="trFadeToBlack.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
     <ClInclude Include="trAnimation.h">
