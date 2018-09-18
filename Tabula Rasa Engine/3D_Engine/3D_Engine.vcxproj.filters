@@ -96,6 +96,12 @@
     <ClCompile Include="trCamera3D.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="imgui_impl_opengl2.cpp">
+      <Filter>Utilities\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_sdl.cpp">
+      <Filter>Utilities\ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pugiconfig.hpp">
@@ -187,6 +193,12 @@
     </ClInclude>
     <ClInclude Include="trCamera3D.h">
       <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl2.h">
+      <Filter>Utilities\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_sdl.h">
+      <Filter>Utilities\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
