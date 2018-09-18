@@ -12,9 +12,9 @@ trInput::trInput() : trModule()
 {
 	name ="input";
 
-	keyboard = new ctKeyState[MAX_KEYS];
-	memset(keyboard, KEY_IDLE, sizeof(ctKeyState) * MAX_KEYS);
-	memset(mouse_buttons, KEY_IDLE, sizeof(ctKeyState) * NUM_MOUSE_BUTTONS);
+	keyboard = new trKeyState[MAX_KEYS];
+	memset(keyboard, KEY_IDLE, sizeof(trKeyState) * MAX_KEYS);
+	memset(mouse_buttons, KEY_IDLE, sizeof(trKeyState) * NUM_MOUSE_BUTTONS);
 }
 
 // Destructor
@@ -162,7 +162,7 @@ bool trInput::CleanUp()
 }
 
 // ---------
-bool trInput::GetWindowEvent(ctEventWindow ev)
+bool trInput::GetWindowEvent(trEventWindow ev)
 {
 	return windowEvents[ev];
 }

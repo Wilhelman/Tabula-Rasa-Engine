@@ -49,7 +49,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 }
 
 // Destructor
-trApp::~ctApp()
+trApp::~trApp()
 {
 	// release modules
 	

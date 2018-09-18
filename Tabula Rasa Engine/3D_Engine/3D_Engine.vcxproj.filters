@@ -24,22 +24,22 @@
     <ClCompile Include="pugixml.cpp">
       <Filter>Utilities\Tools\PuguiXML</Filter>
     </ClCompile>
-    <ClCompile Include="ctWindow.cpp">
+    <ClCompile Include="trWindow.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ctRender.cpp">
+    <ClCompile Include="trRender.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ctAudio.cpp">
+    <ClCompile Include="trAudio.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ctInput.cpp">
+    <ClCompile Include="trInput.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ctTextures.cpp">
+    <ClCompile Include="trTextures.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ctFadeToBlack.cpp">
+    <ClCompile Include="trFadeToBlack.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
     <ClCompile Include="trLog.cpp">
@@ -68,22 +68,22 @@
     <ClInclude Include="MemLeaks.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="ctWindow.h">
+    <ClInclude Include="trWindow.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ctRender.h">
+    <ClInclude Include="trRender.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ctAudio.h">
+    <ClInclude Include="trAudio.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ctInput.h">
+    <ClInclude Include="trInput.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ctTextures.h">
+    <ClInclude Include="trTextures.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ctFadeToBlack.h">
+    <ClInclude Include="trFadeToBlack.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
     <ClInclude Include="trAnimation.h">

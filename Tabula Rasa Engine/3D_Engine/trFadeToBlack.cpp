@@ -8,12 +8,12 @@
 #include "trLog.h"
 
 
-trFadeToBlack::ctFadeToBlack()
+trFadeToBlack::trFadeToBlack()
 {
 	name = "fadeToBlack";
 }
 
-trFadeToBlack::~ctFadeToBlack()
+trFadeToBlack::~trFadeToBlack()
 {}
 
 bool trFadeToBlack::Awake(pugi::xml_node& conf)
@@ -117,7 +117,7 @@ bool trFadeToBlack::FadeToKnowBlack(std::string lvlToFade, float time)
 	return ret;
 }
 
-bool trFadeToBlack::FadeToBlackBetweenModules(ctModule* module_off, ctModule* module_on, float time, bool andLoad)
+bool trFadeToBlack::FadeToBlackBetweenModules(trModule* module_off, trModule* module_on, float time, bool andLoad)
 {
 	bool ret = false;
 

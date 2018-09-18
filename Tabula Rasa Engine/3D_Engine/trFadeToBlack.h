@@ -38,8 +38,8 @@ private:
 	Uint32 total_time = 0;
 	SDL_Rect screen = { 0, 0, 0, 0 };
 
-	ctModule* moduleOff = nullptr;
-	ctModule* moduleOn = nullptr;
+	trModule* moduleOff = nullptr;
+	trModule* moduleOn = nullptr;
 	bool have_to_load = false;
 
 public:

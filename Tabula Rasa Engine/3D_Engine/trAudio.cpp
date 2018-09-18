@@ -8,14 +8,14 @@
 #include "SDL_mixer/include/SDL_mixer.h"
 #pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
 
-ctAudio::trAudio() : trModule()
+trAudio::trAudio() : trModule()
 {
 	music = NULL;
 	name = "audio";
 }
 
 // Destructor
-ctAudio::~trAudio()
+trAudio::~trAudio()
 {}
 
 // Called before render is available
@@ -263,8 +263,8 @@ void trAudio::SetMusicVolume(uint percent)
 	if (!device_connected)
 		return;
 
-	MusicVolumePercent = percent;
-	Mix_VolumeMusic((MIX_MAX_VOLUME * MusicVolumePercent) / 100);
+	music_volume_percent = percent;
+	Mix_VolumeMusic((MIX_MAX_VOLUME * music_volume_percent) / 100);
 }
 
 void trAudio::SetFXVolume(uint percent)
@@ -272,6 +272,6 @@ void trAudio::SetFXVolume(uint percent)
 	if (!device_connected)
 		return;
 
-	FXVolumePercent = percent;
-	Mix_Volume(-1, (MIX_MAX_VOLUME * FXVolumePercent) / 100);
+	fx_volume_percent = percent;
+	Mix_Volume(-1, (MIX_MAX_VOLUME * fx_volume_percent) / 100);
 }

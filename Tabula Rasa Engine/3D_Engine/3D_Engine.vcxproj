@@ -12,33 +12,33 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="trApp.cpp" />
-    <ClCompile Include="ctAudio.cpp" />
-    <ClCompile Include="ctFadeToBlack.cpp" />
-    <ClCompile Include="ctInput.cpp" />
+    <ClCompile Include="trAudio.cpp" />
+    <ClCompile Include="trFadeToBlack.cpp" />
+    <ClCompile Include="trInput.cpp" />
     <ClCompile Include="trLog.cpp" />
     <ClCompile Include="trMain.cpp" />
     <ClCompile Include="trPerfTimer.cpp" />
-    <ClCompile Include="ctRender.cpp" />
-    <ClCompile Include="ctTextures.cpp" />
+    <ClCompile Include="trRender.cpp" />
+    <ClCompile Include="trTextures.cpp" />
     <ClCompile Include="trTimer.cpp" />
-    <ClCompile Include="ctWindow.cpp" />
+    <ClCompile Include="trWindow.cpp" />
     <ClCompile Include="pugixml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trAnimation.h" />
     <ClInclude Include="trApp.h" />
-    <ClInclude Include="ctAudio.h" />
+    <ClInclude Include="trAudio.h" />
     <ClInclude Include="trDefs.h" />
-    <ClInclude Include="ctFadeToBlack.h" />
-    <ClInclude Include="ctInput.h" />
+    <ClInclude Include="trFadeToBlack.h" />
+    <ClInclude Include="trInput.h" />
     <ClInclude Include="trLog.h" />
     <ClInclude Include="trModule.h" />
     <ClInclude Include="trPerfTimer.h" />
     <ClInclude Include="trPoint.h" />
-    <ClInclude Include="ctRender.h" />
-    <ClInclude Include="ctTextures.h" />
+    <ClInclude Include="trRender.h" />
+    <ClInclude Include="trTextures.h" />
     <ClInclude Include="trTimer.h" />
-    <ClInclude Include="ctWindow.h" />
+    <ClInclude Include="trWindow.h" />
     <ClInclude Include="MemLeaks.h" />
     <ClInclude Include="pugiconfig.hpp" />
     <ClInclude Include="pugixml.hpp" />

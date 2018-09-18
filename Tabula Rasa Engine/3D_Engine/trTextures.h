@@ -1,7 +1,7 @@
 #ifndef __trTEXTURES_H__
 #define __trTEXTURES_H__
 
-#include "ctModule.h"
+#include "trModule.h"
 
 #include <list>
 

@@ -11,7 +11,7 @@
 
 struct SDL_Rect;
 
-enum ctEventWindow
+enum trEventWindow
 {
 	WE_QUIT = 0,
 	WE_HIDE = 1,
@@ -19,7 +19,7 @@ enum ctEventWindow
 	WE_COUNT
 };
 
-enum ctKeyState
+enum trKeyState
 {
 	KEY_IDLE = 0,
 	KEY_DOWN,
@@ -79,15 +79,15 @@ public:
 	bool CleanUp();
 
 	// Gather relevant win events
-	bool GetWindowEvent(ctEventWindow ev);
+	bool GetWindowEvent(trEventWindow ev);
 
 	// Check key states (includes mouse and joy buttons)
-	trInput GetKey(int id) const
+	trKeyState GetKey(int id) const
 	{
 		return keyboard[id];
 	}
 
-	trInput GetMouseButtonDown(int id) const
+	trKeyState GetMouseButtonDown(int id) const
 	{
 		return mouse_buttons[id - 1];
 	}

@@ -17,7 +17,7 @@ trRender::trRender() : trModule()
 }
 
 // Destructor
-trRender::~ctRender()
+trRender::~trRender()
 {}
 
 // Called before render is available
@@ -109,7 +109,7 @@ bool trRender::PostUpdate()
 }
 
 // Called before quitting
-bool ctRetrRendernder::CleanUp()
+bool trRender::CleanUp()
 {
 	LOG("Destroying SDL render");
 	SDL_DestroyRenderer(renderer);
@@ -117,7 +117,7 @@ bool ctRetrRendernder::CleanUp()
 }
 
 // Load Game State
-bool ctRender::Load(pugi::xml_node& data)
+bool trRender::Load(pugi::xml_node& data)
 {
 	return true;
 }

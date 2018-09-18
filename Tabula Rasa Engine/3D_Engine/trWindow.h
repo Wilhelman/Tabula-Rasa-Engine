@@ -1,7 +1,7 @@
 #ifndef __trWINDOW_H__
 #define __trWINDOW_H__
 
-#include "ctModule.h"
+#include "trModule.h"
 #include <string>
 
 struct SDL_Window;
