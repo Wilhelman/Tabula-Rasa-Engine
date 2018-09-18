@@ -1,5 +1,4 @@
-﻿# Game Engine todo: final name?
-
+﻿# Tabula Rasa Engine
 Description of the game engine...
 
 This project has been done by two students of CITM - UPC (Terrasa, Spain).  
