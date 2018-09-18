@@ -38,6 +38,7 @@
   <ItemGroup>
     <ClInclude Include="Color.h" />
     <ClInclude Include="glmath.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="imgui_internal.h" />

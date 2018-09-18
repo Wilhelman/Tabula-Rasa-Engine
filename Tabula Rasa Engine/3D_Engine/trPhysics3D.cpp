@@ -89,7 +89,7 @@ update_status trPhysics3D::PreUpdate(float dt)
 
 			if(pbodyA && pbodyB)
 			{
-				p2List_item<Module*>* item = pbodyA->collision_listeners.getFirst();
+				std::list<Module*>* item = pbodyA->collision_listeners.getFirst();
 				while(item)
 				{
 					item->data->OnCollision(pbodyA, pbodyB);

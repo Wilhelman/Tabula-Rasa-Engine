@@ -191,5 +191,8 @@
     <ClInclude Include="Color.h">
       <Filter>Utilities\Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Utilities\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
