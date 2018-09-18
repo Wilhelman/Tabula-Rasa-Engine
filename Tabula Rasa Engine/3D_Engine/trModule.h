@@ -1,25 +1,25 @@
 // ----------------------------------------------------
-// j1Module.h
+// trModule.h
 // Interface for all engine modules
 // ----------------------------------------------------
 
-#ifndef __ctMODULE_H__
-#define __ctMODULE_H__
+#ifndef __trMODULE_H__
+#define __trMODULE_H__
 
 #include <string>
 #include "PugiXml\src\pugixml.hpp"
 
-class ctApp;
+class trApp;
 struct Collider;
 class UIElement;
 enum UI_State;
 enum ComboType;
 
-class ctModule
+class trModule
 {
 public:
 
-	ctModule() : active(false)
+	trModule() : active(false)
 	{}
 
 	void Init()
@@ -85,4 +85,4 @@ public:
 
 };
 
-#endif // __ctMODULE_H__
+#endif // __trMODULE_H__

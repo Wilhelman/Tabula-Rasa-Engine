@@ -21,23 +21,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ctApp.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="ctTimer.cpp">
-      <Filter>Utilities\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="pugixml.cpp">
       <Filter>Utilities\Tools\PuguiXML</Filter>
-    </ClCompile>
-    <ClCompile Include="ctPerfTimer.cpp">
-      <Filter>Utilities\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="ctLog.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="ctMain.cpp">
-      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="ctWindow.cpp">
       <Filter>Core\Modules</Filter>
@@ -57,34 +42,28 @@
     <ClCompile Include="ctFadeToBlack.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="trLog.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="trTimer.cpp">
+      <Filter>Utilities\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="trPerfTimer.cpp">
+      <Filter>Utilities\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="trMain.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="trApp.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ctApp.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="ctTimer.h">
-      <Filter>Utilities\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="pugiconfig.hpp">
       <Filter>Utilities\Tools\PuguiXML</Filter>
     </ClInclude>
     <ClInclude Include="pugixml.hpp">
       <Filter>Utilities\Tools\PuguiXML</Filter>
-    </ClInclude>
-    <ClInclude Include="ctPerfTimer.h">
-      <Filter>Utilities\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="ctDefs.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="ctLog.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="ctAnimation.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="ctModule.h">
-      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="MemLeaks.h">
       <Filter>Core</Filter>
@@ -107,8 +86,29 @@
     <ClInclude Include="ctFadeToBlack.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ctPoint.h">
+    <ClInclude Include="trAnimation.h">
       <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="trDefs.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="trLog.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="trPoint.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="trTimer.h">
+      <Filter>Utilities\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="trPerfTimer.h">
+      <Filter>Utilities\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="trModule.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="trApp.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

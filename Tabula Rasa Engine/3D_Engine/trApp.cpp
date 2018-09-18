@@ -1,31 +1,31 @@
 #include <iostream> 
 
-#include "ctApp.h"
-#include "ctDefs.h"
-#include "ctLog.h"
-#include "ctWindow.h"
-#include "ctInput.h"
-#include "ctRender.h"
-#include "ctTextures.h"
-#include "ctAudio.h"
+#include "trApp.h"
+#include "trDefs.h"
+#include "trLog.h"
+#include "trWindow.h"
+#include "trInput.h"
+#include "trRender.h"
+#include "trTextures.h"
+#include "trAudio.h"
 
 
-#include "ctFadeToBlack.h"
+#include "trFadeToBlack.h"
 
 
 // Constructor
-ctApp::ctApp(int argc, char* args[]) : argc(argc), args(args)
+trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 {
 	PERF_START(ptimer);
 
-	input = new ctInput();
-	win = new ctWindow();
-	render = new ctRender();
-	tex = new ctTextures();
-	audio = new ctAudio();
+	input = new trInput();
+	win = new trWindow();
+	render = new trRender();
+	tex = new trTextures();
+	audio = new trAudio();
 
 
-	fadeToBlack = new ctFadeToBlack();
+	fadeToBlack = new trFadeToBlack();
 	
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -49,11 +49,11 @@ ctApp::ctApp(int argc, char* args[]) : argc(argc), args(args)
 }
 
 // Destructor
-ctApp::~ctApp()
+trApp::~ctApp()
 {
 	// release modules
 	
-	for (std::list<ctModule*>::iterator it = modules.begin(); it != modules.end(); ++it)
+	for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end(); ++it)
 	{
 		RELEASE(*it);
 	}
@@ -61,14 +61,14 @@ ctApp::~ctApp()
 	modules.clear();
 }
 
-void ctApp::AddModule(ctModule* module)
+void trApp::AddModule(trModule* module)
 {
 	module->Init();
 	modules.push_back(module);
 }
 
 // Called before render is available
-bool ctApp::Awake()
+bool trApp::Awake()
 {
 	PERF_START(ptimer);
 
@@ -100,7 +100,7 @@ bool ctApp::Awake()
 	if (ret == true)
 	{
 
-		std::list<ctModule*>::iterator it = modules.begin();
+		std::list<trModule*>::iterator it = modules.begin();
 
 		while (it != modules.end() && ret == true)
 		{
@@ -116,13 +116,13 @@ bool ctApp::Awake()
 }
 
 // Called before the first frame
-bool ctApp::Start()
+bool trApp::Start()
 {
 	PERF_START(ptimer);
 
 	bool ret = true;
 
-	std::list<ctModule*>::iterator it = modules.begin();
+	std::list<trModule*>::iterator it = modules.begin();
 	
 	while (it != modules.end() && ret == true)
 	{
@@ -141,7 +141,7 @@ bool ctApp::Start()
 }
 
 // Called each loop iteration
-bool ctApp::Update()
+bool trApp::Update()
 {
 	bool ret = true;
 	PrepareUpdate();
@@ -163,7 +163,7 @@ bool ctApp::Update()
 }
 
 // ---------------------------------------------
-pugi::xml_node ctApp::LoadConfig(pugi::xml_document& config_file) const
+pugi::xml_node trApp::LoadConfig(pugi::xml_document& config_file) const
 {
 	pugi::xml_node ret;
 
@@ -177,7 +177,7 @@ pugi::xml_node ctApp::LoadConfig(pugi::xml_document& config_file) const
 }
 
 // ---------------------------------------------
-pugi::xml_node ctApp::LoadLanguages(pugi::xml_document& language_file) const
+pugi::xml_node trApp::LoadLanguages(pugi::xml_document& language_file) const
 {
 	pugi::xml_node ret;
 
@@ -191,7 +191,7 @@ pugi::xml_node ctApp::LoadLanguages(pugi::xml_document& language_file) const
 }
 
 // ---------------------------------------------
-void ctApp::PrepareUpdate()
+void trApp::PrepareUpdate()
 {
 
 	perf_timer.Start();
@@ -199,7 +199,7 @@ void ctApp::PrepareUpdate()
 }
 
 // ---------------------------------------------
-void ctApp::FinishUpdate()
+void trApp::FinishUpdate()
 {
 
 	frame_count++;
@@ -251,13 +251,13 @@ void ctApp::FinishUpdate()
 }
 
 // Call modules before each loop iteration
-bool ctApp::PreUpdate()
+bool trApp::PreUpdate()
 {
 	bool ret = true;
 
-	ctModule* pModule = NULL;
+	trModule* pModule = NULL;
 
-	for (std::list<ctModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
+	for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
 	{
 		pModule = (*it);
 
@@ -272,13 +272,13 @@ bool ctApp::PreUpdate()
 }
 
 // Call modules on each loop iteration
-bool ctApp::DoUpdate()
+bool trApp::DoUpdate()
 {
 	bool ret = true;
 
-	ctModule* pModule = NULL;
+	trModule* pModule = NULL;
 
-	for (std::list<ctModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
+	for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
 	{
 		pModule = (*it);
 
@@ -293,14 +293,14 @@ bool ctApp::DoUpdate()
 }
 
 // Call modules after each loop iteration
-bool ctApp::PostUpdate()
+bool trApp::PostUpdate()
 {
 	PERF_START(ptimer);
 	bool ret = true;
 
-	ctModule* pModule = NULL;
+	trModule* pModule = NULL;
 
-	for (std::list<ctModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
+	for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
 	{
 		pModule = (*it);
 
@@ -316,11 +316,11 @@ bool ctApp::PostUpdate()
 }
 
 // Called before quitting
-bool ctApp::CleanUp()
+bool trApp::CleanUp()
 {
 	bool ret = true;
 	
-	std::list<ctModule*>::reverse_iterator it = modules.rbegin();
+	std::list<trModule*>::reverse_iterator it = modules.rbegin();
 
 	while (it != modules.rend() && ret == true)
 	{
@@ -332,13 +332,13 @@ bool ctApp::CleanUp()
 }
 
 // ---------------------------------------
-int ctApp::GetArgc() const
+int trApp::GetArgc() const
 {
 	return argc;
 }
 
 // ---------------------------------------
-const char* ctApp::GetArgv(int index) const
+const char* trApp::GetArgv(int index) const
 {
 	if (index < argc)
 		return args[index];
@@ -347,13 +347,13 @@ const char* ctApp::GetArgv(int index) const
 }
 
 // ---------------------------------------
-const char* ctApp::GetTitle() const
+const char* trApp::GetTitle() const
 {
 	return game_title.data();
 }
 
 // ---------------------------------------
-const char* ctApp::GetOrganization() const
+const char* trApp::GetOrganization() const
 {
 	return organization.data();
 }

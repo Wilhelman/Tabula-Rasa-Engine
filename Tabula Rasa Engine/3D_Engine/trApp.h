@@ -1,32 +1,32 @@
-#ifndef __ctAPP_H__
-#define __ctAPP_H__
+#ifndef __trAPP_H__
+#define __trAPP_H__
 
 #include <list>
 #include <string>
-#include "ctModule.h"
-#include "ctPerfTimer.h"
-#include "ctTimer.h"
+#include "trModule.h"
+#include "trPerfTimer.h"
+#include "trTimer.h"
 #include "PugiXml\src\pugixml.hpp"
 
 // Modules
-class ctWindow;
-class ctInput;
-class ctRender;
-class ctTextures;
-class ctAudio;
+class trWindow;
+class trInput;
+class trRender;
+class trTextures;
+class trAudio;
 
 
-class ctFadeToBlack;
+class trFadeToBlack;
 
-class ctApp
+class trApp
 {
 public:
 
 	// Constructor
-	ctApp(int argc, char* args[]);
+	trApp(int argc, char* args[]);
 
 	// Destructor
-	virtual ~ctApp();
+	virtual ~trApp();
 
 	// Called before render is available
 	bool Awake();
@@ -41,7 +41,7 @@ public:
 	bool CleanUp();
 
 	// Add a new module to handle
-	void AddModule(ctModule* module);
+	void AddModule(trModule* module);
 
 	// Exposing some properties for reading
 	int GetArgc() const;
@@ -76,22 +76,22 @@ private:
 public:
 
 	// Modules
-	ctWindow*			win = nullptr;
-	ctInput*			input = nullptr;
-	ctRender*			render = nullptr;
-	ctTextures*			tex = nullptr;
-	ctAudio*			audio = nullptr;
+	trWindow*			win = nullptr;
+	trInput*			input = nullptr;
+	trRender*			render = nullptr;
+	trTextures*			tex = nullptr;
+	trAudio*			audio = nullptr;
 	
 
 
-	ctFadeToBlack*		fadeToBlack = nullptr;
+	trFadeToBlack*		fadeToBlack = nullptr;
 	
 
 	bool				cap_state = false;
 
 private:
 
-	std::list<ctModule*>	modules;
+	std::list<trModule*>	modules;
 	int					argc = 0;
 	char**				args = nullptr;
 
@@ -100,19 +100,19 @@ private:
 	std::string				vsync_to_show;
 	std::string				cap_to_show;
 
-	ctPerfTimer			perf_timer;
-	ctTimer				simple_timer;
+	trPerfTimer			perf_timer;
+	trTimer				simple_timer;
 
-	ctPerfTimer			ptimer;
+	trPerfTimer			ptimer;
 	uint64				frame_count = 0;
 	uint				cap = 0u;
-	ctTimer				startup_time;
+	trTimer				startup_time;
 	float				dt = 0.0f;
 	int					capped_ms = -1;
 	bool				all_modules_loaded = false;
 
 };
 
-extern ctApp* App;
+extern trApp* App;
 
 #endif

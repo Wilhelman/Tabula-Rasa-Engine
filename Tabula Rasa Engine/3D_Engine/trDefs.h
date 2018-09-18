@@ -1,5 +1,5 @@
-#ifndef __CTDEFS_H__
-#define __CTDEFS_H__
+#ifndef __TRDEFS_H__
+#define __TRDEFS_H__
 
 #include <stdio.h>
 

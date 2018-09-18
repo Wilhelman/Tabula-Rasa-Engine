@@ -1,10 +1,10 @@
-#ifndef __CTANIMATION_H__
-#define __CTANIMATION_H__
+#ifndef __TRANIMATION_H__
+#define __TRANIMATION_H__
 
 #include "SDL/include/SDL_rect.h"
 #define MAX_FRAMES 100
 
-class ctAnimation
+class trAnimation
 {
 public:
 	bool loop = true;
@@ -24,10 +24,10 @@ private:
 
 public:
 
-	ctAnimation()
+	trAnimation()
 	{}
 
-	ctAnimation(const ctAnimation& anim) : loop(anim.loop), speed(anim.speed), last_frame(anim.last_frame)
+	trAnimation(const trAnimation& anim) : loop(anim.loop), speed(anim.speed), last_frame(anim.last_frame)
 	{
 		SDL_memcpy(&frames, anim.frames, sizeof(frames));
 	}

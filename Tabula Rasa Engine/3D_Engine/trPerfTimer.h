@@ -1,14 +1,14 @@
-#ifndef __CTPERFTIMER_H__
-#define __CTPERFTIMER_H__
+#ifndef __TRPERFTIMER_H__
+#define __TRPERFTIMER_H__
 
-#include "ctDefs.h"
+#include "trDefs.h"
 
-class ctPerfTimer
+class trPerfTimer
 {
 public:
 
 	// Constructor
-	ctPerfTimer();
+	trPerfTimer();
 
 	void Start();
 	double ReadMs() const;

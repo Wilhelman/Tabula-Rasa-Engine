@@ -1,15 +1,15 @@
 // ----------------------------------------------------
-// ctPerfTimer.cpp
+// trPerfTimer.cpp
 // Slow timer with microsecond precision
 // ----------------------------------------------------
 
-#include "ctPerfTimer.h"
+#include "trPerfTimer.h"
 #include "SDL\include\SDL_timer.h"
 
-uint64 ctPerfTimer::frequency = 0;
+uint64 trPerfTimer::frequency = 0;
 
 // ---------------------------------------------
-ctPerfTimer::ctPerfTimer()
+trPerfTimer::trPerfTimer()
 {
 	if (frequency == 0)
 		frequency = SDL_GetPerformanceFrequency();
@@ -18,19 +18,19 @@ ctPerfTimer::ctPerfTimer()
 }
 
 // ---------------------------------------------
-void ctPerfTimer::Start()
+void trPerfTimer::Start()
 {
 	started_at = SDL_GetPerformanceCounter();
 }
 
 // ---------------------------------------------
-double ctPerfTimer::ReadMs() const
+double trPerfTimer::ReadMs() const
 {
 	return 1000.0 * (double(SDL_GetPerformanceCounter() - started_at) / double(frequency));
 }
 
 // ---------------------------------------------
-uint64 ctPerfTimer::ReadTicks() const
+uint64 trPerfTimer::ReadTicks() const
 {
 	return SDL_GetPerformanceCounter() - started_at;
 }

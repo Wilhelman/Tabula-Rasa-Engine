@@ -1,5 +1,5 @@
-#ifndef __ctLog_H__
-#define __ctLog_H__
+#ifndef __trLog_H__
+#define __trLog_H__
 
 #include <windows.h>
 #include <stdio.h>

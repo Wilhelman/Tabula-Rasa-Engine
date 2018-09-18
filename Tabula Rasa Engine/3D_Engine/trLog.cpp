@@ -1,4 +1,4 @@
-#include "ctLog.h"
+#include "trLog.h"
 
 void log(const char file[], int line, const char* format, ...)
 {

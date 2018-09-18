@@ -1,8 +1,8 @@
 #include <stdlib.h>
 
-#include "ctDefs.h"
-#include "ctLog.h"
-#include "ctApp.h"
+#include "trDefs.h"
+#include "trLog.h"
+#include "trApp.h"
 #include "MemLeaks.h"
 
 #include "SDL/include/SDL.h"
@@ -24,7 +24,7 @@ enum MainState
 	EXIT
 };
 
-ctApp* App = NULL;
+trApp* App = NULL;
 
 int main(int argc, char* args[])
 {
@@ -44,7 +44,7 @@ int main(int argc, char* args[])
 		case CREATE:
 			LOG("CREATION PHASE ===============================");
 
-			App = new ctApp(argc, args);
+			App = new trApp(argc, args);
 
 			if (App != NULL)
 				state = AWAKE;

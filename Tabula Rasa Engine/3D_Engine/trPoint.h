@@ -5,32 +5,32 @@
 #ifndef __CTPOINT_H__
 #define __CTPOINT_H__
 
-#include "ctDefs.h"
+#include "trDefs.h"
 #include <math.h>
 
 	template<class TYPE>
-class ctPoint
+class trPoint
 {
 public:
 
 	TYPE x, y;
 
-	ctPoint()
+	trPoint()
 	{}
 
-	ctPoint(const ctPoint<TYPE>& v)
+	trPoint(const trPoint<TYPE>& v)
 	{
 		this->x = v.x;
 		this->y = v.y;
 	}
 
-	ctPoint(const TYPE& x, const TYPE& y)
+	trPoint(const TYPE& x, const TYPE& y)
 	{
 		this->x = x;
 		this->y = y;
 	}
 
-	ctPoint& create(const TYPE& x, const TYPE& y)
+	trPoint& create(const TYPE& x, const TYPE& y)
 	{
 		this->x = x;
 		this->y = y;
@@ -39,7 +39,7 @@ public:
 	}
 
 	// Math ------------------------------------------------
-	ctPoint operator -(const ctPoint &v) const
+	trPoint operator -(const trPoint &v) const
 	{
 		ctPoint r;
 
@@ -49,9 +49,9 @@ public:
 		return(r);
 	}
 
-	ctPoint operator + (const ctPoint &v) const
+	trPoint operator + (const trPoint &v) const
 	{
-		ctPoint r;
+		trPoint r;
 
 		r.x = x + v.x;
 		r.y = y + v.y;
@@ -59,7 +59,7 @@ public:
 		return(r);
 	}
 
-	const ctPoint& operator -=(const ctPoint &v)
+	const trPoint& operator -=(const trPoint &v)
 	{
 		x -= v.x;
 		y -= v.y;
@@ -67,7 +67,7 @@ public:
 		return(*this);
 	}
 
-	const ctPoint& operator +=(const ctPoint &v)
+	const trPoint& operator +=(const trPoint &v)
 	{
 		x += v.x;
 		y += v.y;
@@ -75,12 +75,12 @@ public:
 		return(*this);
 	}
 
-	bool operator ==(const ctPoint& v) const
+	bool operator ==(const trPoint& v) const
 	{
 		return (x == v.x && y == v.y);
 	}
 
-	bool operator !=(const ctPoint& v) const
+	bool operator !=(const trPoint& v) const
 	{
 		return (x != v.x || y != v.y);
 	}
@@ -91,13 +91,13 @@ public:
 		return (x == 0 && y == 0);
 	}
 
-	ctPoint& SetToZero()
+	trPoint& SetToZero()
 	{
 		x = y = 0;
 		return(*this);
 	}
 
-	ctPoint& Negate()
+	trPoint& Negate()
 	{
 		x = -x;
 		y = -y;
@@ -106,7 +106,7 @@ public:
 	}
 
 	// Distances ---------------------------------------------
-	TYPE DistanceTo(const ctPoint& v) const
+	TYPE DistanceTo(const trPoint& v) const
 	{
 		TYPE fx = x - v.x;
 		TYPE fy = y - v.y;
@@ -114,7 +114,7 @@ public:
 		return sqrtf((fx*fx) + (fy*fy));
 	}
 
-	TYPE DistanceNoSqrt(const ctPoint& v) const
+	TYPE DistanceNoSqrt(const trPoint& v) const
 	{
 		TYPE fx = x - v.x;
 		TYPE fy = y - v.y;
@@ -122,13 +122,13 @@ public:
 		return (fx*fx) + (fy*fy);
 	}
 
-	TYPE DistanceManhattan(const ctPoint& v) const
+	TYPE DistanceManhattan(const trPoint& v) const
 	{
 		return abs(v.x - x) + abs(v.y - y);
 	}
 };
 
-typedef ctPoint<int> iPoint;
-typedef ctPoint<float> fPoint;
+typedef trPoint<int> iPoint;
+typedef trPoint<float> fPoint;
 
 #endif // __CTPOINT_H__

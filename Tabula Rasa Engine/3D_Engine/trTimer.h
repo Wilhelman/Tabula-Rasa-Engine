@@ -1,14 +1,14 @@
-#ifndef __ctTIMER_H__
-#define __ctTIMER_H__
+#ifndef __trTIMER_H__
+#define __trTIMER_H__
 
-#include "ctDefs.h"
+#include "trDefs.h"
 
-class ctTimer
+class trTimer
 {
 public:
 
 	// Constructor
-	ctTimer();
+	trTimer();
 
 	void Start();
 	void SetStartTime(uint32 time);
