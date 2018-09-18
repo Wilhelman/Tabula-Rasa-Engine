@@ -41,7 +41,12 @@ bool ModuleSceneIntro::Start()
 // PreUpdate
 update_status ModuleSceneIntro::PreUpdate(float dt)
 {
-	return UPDATE_CONTINUE;
+	update_status status = UPDATE_CONTINUE;
+	
+	if (quit)
+		status = UPDATE_STOP;
+
+	return status;
 }
 
 // Update
@@ -106,14 +111,11 @@ void ModuleSceneIntro::ShowTheFirstTabulaRasaWindow()
 
 	ImGui::SameLine();
 
-	//if (ImGui::Button("Quit"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-		//todo
+	if (ImGui::Button("Quit"))
+	{
+		quit = true;
+	}
 	
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::End();
 }
-
-void ModuleSceneIntro::ShowDemoWindow()
-{
-}
-
