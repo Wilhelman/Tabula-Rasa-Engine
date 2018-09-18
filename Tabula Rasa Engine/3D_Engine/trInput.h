@@ -2,6 +2,7 @@
 #define __trINPUT_H__
 
 #include "trModule.h"
+#include "SDL/include/SDL.h"
 
 #include "SDL/include/SDL_gamecontroller.h"
 

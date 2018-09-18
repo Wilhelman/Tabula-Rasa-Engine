@@ -4,7 +4,6 @@
 #include "trInput.h"
 #include "trWindow.h"
 #include "trRenderer3D.h"
-#include "SDL/include/SDL.h"
 
 #define MAX_KEYS 300
 
