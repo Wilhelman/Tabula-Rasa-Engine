@@ -29,6 +29,7 @@ bool ModuleSceneIntro::Start()
 	io = ImGui::GetIO();
 	(void)io;
 
+	ImGui::SetNextWindowPos({ SCREEN_WIDTH ,20 });
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
 	ImGui_ImplOpenGL2_Init();
 
@@ -72,7 +73,7 @@ update_status ModuleSceneIntro::PostUpdate(float dt)
 	// Rendering
 	ImGui::Render();
 	glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
-	glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+	//glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
 	glClear(GL_COLOR_BUFFER_BIT);
 	//glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
@@ -119,9 +120,6 @@ void ModuleSceneIntro::ShowTheFirstTabulaRasaWindow()
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 			show_demo_window = !show_demo_window;
-
-		if (show_demo_window)
-			ImGui::ShowDemoWindow();
 
 		ImGui::EndMainMenuBar();
 	}
