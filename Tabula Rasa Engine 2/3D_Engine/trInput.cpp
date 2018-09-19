@@ -35,12 +35,6 @@ bool trInput::Awake(pugi::xml_node& config)
 		ret = false;
 	}
 
-	if (SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER) < 0)
-	{
-		LOG("SDL_GAMECONTROLLER could not initialize! SDL_Error: %s\n", SDL_GetError());
-		ret = false;
-	}
-
 	return ret;
 }
 
