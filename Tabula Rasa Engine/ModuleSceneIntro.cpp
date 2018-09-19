@@ -29,7 +29,6 @@ bool ModuleSceneIntro::Start()
 	io = ImGui::GetIO();
 	(void)io;
 
-	ImGui::SetNextWindowPos({ SCREEN_WIDTH ,20 });
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
 	ImGui_ImplOpenGL2_Init();
 
