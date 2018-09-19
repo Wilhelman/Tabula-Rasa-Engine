@@ -114,6 +114,7 @@ bool trPhysics3D::PreUpdate(float dt)
 // ---------------------------------------------------------
 bool trPhysics3D::Update(float dt)
 {
+
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 
 		debug = !debug;

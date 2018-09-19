@@ -147,9 +147,6 @@ bool trApp::Update()
 	bool ret = true;
 	PrepareUpdate();
 
-	if (input->GetWindowEvent(WE_QUIT) == true)
-		ret = false;
-
 	if (ret == true)
 		ret = PreUpdate();
 
