@@ -1,6 +1,9 @@
 
 #include "trApp.h"
 #include "trInput.h"
+#include "trRenderer3D.h"
+
+#include "SDL/include/SDL.h"
 
 #define MAX_KEYS 300
 
@@ -109,7 +112,7 @@ bool trInput::PreUpdate(float dt)
 		case SDL_WINDOWEVENT:
 		{
 			if (e.window.event == SDL_WINDOWEVENT_RESIZED)
-				App->renderer3D->OnResize(e.window.data1, e.window.data2);
+				App->render->OnResize(e.window.data1, e.window.data2);
 		}
 		}
 	}
