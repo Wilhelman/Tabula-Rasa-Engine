@@ -104,8 +104,7 @@ void ModuleSceneIntro::ShowTheFirstTabulaRasaWindow()
 	static float f = 0.0f;
 	static int counter = 0;
 
-	//todo check this for file menu
-	/*if (ImGui::BeginMainMenuBar()) {
+	if (ImGui::BeginMainMenuBar()) {
 		if (ImGui::BeginMenu("File")) {
 			if (ImGui::BeginMenu("Show Demo")) {
 				show_demo_window = !show_demo_window;
@@ -116,20 +115,6 @@ void ModuleSceneIntro::ShowTheFirstTabulaRasaWindow()
 
 		}
 		ImGui::EndMainMenuBar();
-	}*/
-
-	ImGui::Begin("Tabula Rasa Engine"); 
-
-	ImGui::Text("The first Tabula Rasa Window");             
-	ImGui::Checkbox("Demo Window", &show_demo_window);
-
-	ImGui::SameLine();
-
-	if (ImGui::Button("Quit"))
-	{
-		quit = true;
 	}
-	
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	ImGui::End();
+
 }
