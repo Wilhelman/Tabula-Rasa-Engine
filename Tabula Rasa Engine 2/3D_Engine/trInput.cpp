@@ -98,8 +98,6 @@ bool trInput::PreUpdate(float dt)
 			mouse_buttons[i] = KEY_IDLE;
 	}
 
-	ButtonForGamepad();
-
 	while (SDL_PollEvent(&event) != 0)
 	{
 		switch (event.type)
