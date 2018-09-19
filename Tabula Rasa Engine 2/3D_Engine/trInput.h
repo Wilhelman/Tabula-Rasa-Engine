@@ -1,26 +1,10 @@
-#ifndef __trINPUT_H__
-#define __trINPUT_H__
-
+#pragma once
 #include "trModule.h"
-#include "SDL/include/SDL.h"
+#include "Globals.h"
 
-#include "SDL/include/SDL_gamecontroller.h"
+#define MAX_MOUSE_BUTTONS 5
 
-//#define NUM_KEYS 352
-#define NUM_MOUSE_BUTTONS 5
-//#define LAST_KEYS_PRESSED_BUFFER 50
-
-struct SDL_Rect;
-
-enum trEventWindow
-{
-	WE_QUIT = 0,
-	WE_HIDE = 1,
-	WE_SHOW = 2,
-	WE_COUNT
-};
-
-enum trKeyState
+enum KEY_STATE
 {
 	KEY_IDLE = 0,
 	KEY_DOWN,
@@ -28,58 +12,59 @@ enum trKeyState
 	KEY_UP
 };
 
-
-class trInput : public trModule
+class trInput : publictr Module
 {
-
 public:
 
-	trInput();
+	trInput(Application* app, bool start_enabled = true);
+	~trInput();
 
-	// Destructor
-	virtual ~trInput();
-
-	// Called before render is available
-	bool Awake(pugi::xml_node&);
-
-	// Called before the first frame
-	bool Start();
-
-	// Called each loop iteration
-	bool PreUpdate(float dt);
-
-	// Called before quitting
+	bool Init();
+	update_status PreUpdate(float dt);
 	bool CleanUp();
 
-	// Gather relevant win events
-	bool GetWindowEvent(trEventWindow ev);
-
-	// Check key states (includes mouse and joy buttons)
-	trKeyState GetKey(int id) const
+	KEY_STATE GetKey(int id) const
 	{
 		return keyboard[id];
 	}
 
-	trKeyState GetMouseButtonDown(int id) const
+	KEY_STATE GetMouseButton(int id) const
 	{
-		return mouse_buttons[id - 1];
+		return mouse_buttons[id];
 	}
 
-	// Get mouse / axis position
-	void GetMousePosition(int &x, int &y);
-	void GetMouseMotion(int& x, int& y);
+	int GetMouseX() const
+	{
+		return mouse_x;
+	}
+
+	int GetMouseY() const
+	{
+		return mouse_y;
+	}
+
+	int GetMouseZ() const
+	{
+		return mouse_z;
+	}
+
+	int GetMouseXMotion() const
+	{
+		return mouse_x_motion;
+	}
+
+	int GetMouseYMotion() const
+	{
+		return mouse_y_motion;
+	}
 
 private:
-	bool		windowEvents[WE_COUNT];
-	trKeyState*	keyboard = nullptr;
-	trKeyState	mouse_buttons[NUM_MOUSE_BUTTONS];
-	int			mouse_motion_x = 0;
-	int			mouse_motion_y = 0;
-	int			mouse_x = 0;
-	int			mouse_y = 0;
-
-	SDL_Joystick *joystick;
-
+	KEY_STATE* keyboard;
+	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];
+	int mouse_x;
+	int mouse_y;
+	int mouse_z;
+	int mouse_x_motion;
+	int mouse_y_motion;
+	//int mouse_z_motion;
 };
-
-#endif // __trINPUT_H__
