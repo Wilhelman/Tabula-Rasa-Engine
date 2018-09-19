@@ -112,7 +112,7 @@ void ModuleSceneIntro::ShowTheFirstTabulaRasaWindow()
 			ShowExampleMenuFile();
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Edit"))
+		if (ImGui::BeginMenu("Window"))
 		{
 			if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
 			if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
@@ -125,8 +125,8 @@ void ModuleSceneIntro::ShowTheFirstTabulaRasaWindow()
 		ImGui::EndMainMenuBar();
 	}
 
-
-		//
+	if (show_demo_window)
+		ImGui::ShowDemoWindow();
 
 		//todo check this for file menu
 		/*if (ImGui::BeginMainMenuBar()) {
@@ -161,7 +161,10 @@ void ModuleSceneIntro::ShowTheFirstTabulaRasaWindow()
 void ModuleSceneIntro::ShowExampleMenuFile()
 {
 	ImGui::MenuItem("(dummy menu)", NULL, false, false);
-	if (ImGui::MenuItem("Open demo window")) {}
+	if (ImGui::MenuItem("Open demo window")) 
+	{
+		show_demo_window = !show_demo_window;
+	}
 	if (ImGui::MenuItem("Quit", "Alt+F4"))
 	{
 		quit = true;
