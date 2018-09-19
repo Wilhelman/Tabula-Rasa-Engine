@@ -31,6 +31,7 @@ public:
 
 private:
 	void ShowTheFirstTabulaRasaWindow();
+	void ShowExampleMenuFile();
 
 public:
 	PhysBody3D* sensor;

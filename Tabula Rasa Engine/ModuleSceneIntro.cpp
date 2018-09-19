@@ -104,32 +104,63 @@ void ModuleSceneIntro::ShowTheFirstTabulaRasaWindow()
 	static float f = 0.0f;
 	static int counter = 0;
 
-	//todo check this for file menu
-	/*if (ImGui::BeginMainMenuBar()) {
-		if (ImGui::BeginMenu("File")) {
-			if (ImGui::BeginMenu("Show Demo")) {
-				show_demo_window = !show_demo_window;
-			}
-			if (ImGui::BeginMenu("Exit")) {
-				quit = true;
-			}
-
+	//
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			ShowExampleMenuFile();
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Edit"))
+		{
+			if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+			if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+			ImGui::Separator();
+			if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+			if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+			if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
-	}*/
-
-	ImGui::Begin("Tabula Rasa Engine"); 
-
-	ImGui::Text("The first Tabula Rasa Window");             
-	ImGui::Checkbox("Demo Window", &show_demo_window);
-
-	ImGui::SameLine();
-
-	if (ImGui::Button("Quit"))
-	{
-		quit = true;
 	}
-	
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	ImGui::End();
+
+
+		//
+
+		//todo check this for file menu
+		/*if (ImGui::BeginMainMenuBar()) {
+			if (ImGui::BeginMenu("File")) {
+				if (ImGui::BeginMenu("Show Demo")) {
+					show_demo_window = !show_demo_window;
+				}
+				if (ImGui::BeginMenu("Exit")) {
+					quit = true;
+				}
+
+			}
+			ImGui::EndMainMenuBar();
+		}*/
+
+		/*ImGui::Begin("Tabula Rasa Engine");
+
+		ImGui::Text("The first Tabula Rasa Window");
+		ImGui::Checkbox("Demo Window", &show_demo_window);
+
+		ImGui::SameLine();
+
+		if (ImGui::Button("Quit"))
+		{
+			quit = true;
+		}
+
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::End();*/
+	}
+
+void ModuleSceneIntro::ShowExampleMenuFile()
+{
+	ImGui::MenuItem("(dummy menu)", NULL, false, false);
+	if (ImGui::MenuItem("Open demo window")) {}
+	if (ImGui::MenuItem("Quit", "Alt+F4")) {}
 }
