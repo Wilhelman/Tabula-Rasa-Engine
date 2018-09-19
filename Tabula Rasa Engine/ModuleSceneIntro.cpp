@@ -162,5 +162,8 @@ void ModuleSceneIntro::ShowExampleMenuFile()
 {
 	ImGui::MenuItem("(dummy menu)", NULL, false, false);
 	if (ImGui::MenuItem("Open demo window")) {}
-	if (ImGui::MenuItem("Quit", "Alt+F4")) {}
+	if (ImGui::MenuItem("Quit", "Alt+F4"))
+	{
+		quit = true;
+	}
 }
