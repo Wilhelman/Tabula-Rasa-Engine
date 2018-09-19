@@ -129,7 +129,8 @@ void ModuleSceneIntro::ShowTheFirstTabulaRasaWindow()
 
 void ModuleSceneIntro::ShowExampleMenuFile()
 {
-	if (ImGui::MenuItem("Exit", "Alt+F4"))
+	if (ImGui::MenuItem("Quit", "Alt+F4"))
+	{
 		quit = true;
-	
+	}
 }
