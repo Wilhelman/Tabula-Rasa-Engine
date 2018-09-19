@@ -1,19 +1,14 @@
-#include "trDefs.h"
-#include "trLog.h"
+
 #include "trApp.h"
 #include "trInput.h"
-#include "trWindow.h"
-#include "trRenderer3D.h"
 
 #define MAX_KEYS 300
 
 trInput::trInput() : trModule()
 {
-	name ="input";
-
-	keyboard = new trKeyState[MAX_KEYS];
-	memset(keyboard, KEY_IDLE, sizeof(trKeyState) * MAX_KEYS);
-	memset(mouse_buttons, KEY_IDLE, sizeof(trKeyState) * NUM_MOUSE_BUTTONS);
+	keyboard = new KEY_STATE[MAX_KEYS];
+	memset(keyboard, KEY_IDLE, sizeof(KEY_STATE) * MAX_KEYS);
+	memset(mouse_buttons, KEY_IDLE, sizeof(KEY_STATE) * MAX_MOUSE_BUTTONS);
 }
 
 // Destructor
@@ -23,7 +18,7 @@ trInput::~trInput()
 }
 
 // Called before render is available
-bool trInput::Awake(pugi::xml_node& config)
+bool trInput::Init()
 {
 	LOG("Init SDL input event system");
 	bool ret = true;
@@ -38,17 +33,10 @@ bool trInput::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-// Called before the first frame
-bool trInput::Start()
-{
-	SDL_StopTextInput();
-	return true;
-}
-
-// Called each loop iteration
+// Called every draw update
 bool trInput::PreUpdate(float dt)
 {
-	static SDL_Event event;
+	SDL_PumpEvents();
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 
@@ -70,62 +58,64 @@ bool trInput::PreUpdate(float dt)
 		}
 	}
 
-	for (int i = 0; i < NUM_MOUSE_BUTTONS; ++i)
-	{
-		if (mouse_buttons[i] == KEY_DOWN)
-			mouse_buttons[i] = KEY_REPEAT;
+	Uint32 buttons = SDL_GetMouseState(&mouse_x, &mouse_y);
 
-		if (mouse_buttons[i] == KEY_UP)
-			mouse_buttons[i] = KEY_IDLE;
+	mouse_x /= SCREEN_SIZE;
+	mouse_y /= SCREEN_SIZE;
+	mouse_z = 0;
+
+	for (int i = 0; i < 5; ++i)
+	{
+		if (buttons & SDL_BUTTON(i))
+		{
+			if (mouse_buttons[i] == KEY_IDLE)
+				mouse_buttons[i] = KEY_DOWN;
+			else
+				mouse_buttons[i] = KEY_REPEAT;
+		}
+		else
+		{
+			if (mouse_buttons[i] == KEY_REPEAT || mouse_buttons[i] == KEY_DOWN)
+				mouse_buttons[i] = KEY_UP;
+			else
+				mouse_buttons[i] = KEY_IDLE;
+		}
 	}
 
-	while (SDL_PollEvent(&event) != 0)
+	mouse_x_motion = mouse_y_motion = 0;
+
+	bool quit = false;
+	SDL_Event e;
+	while (SDL_PollEvent(&e))
 	{
-		switch (event.type)
+		switch (e.type)
 		{
-		case SDL_QUIT:
-			windowEvents[WE_QUIT] = true;
-			break;
-
-		case SDL_WINDOWEVENT:
-			switch (event.window.event)
-			{
-				//case SDL_WINDOWEVENT_LEAVE:
-			case SDL_WINDOWEVENT_HIDDEN:
-			case SDL_WINDOWEVENT_MINIMIZED:
-			case SDL_WINDOWEVENT_FOCUS_LOST:
-				windowEvents[WE_HIDE] = true;
-				break;
-
-				//case SDL_WINDOWEVENT_ENTER:
-			case SDL_WINDOWEVENT_SHOWN:
-			case SDL_WINDOWEVENT_FOCUS_GAINED:
-			case SDL_WINDOWEVENT_MAXIMIZED:
-			case SDL_WINDOWEVENT_RESTORED:
-				windowEvents[WE_SHOW] = true;
-				break;
-			}
-			break;
-
-		case SDL_MOUSEBUTTONDOWN:
-			mouse_buttons[event.button.button - 1] = KEY_DOWN;
-			//LOG("Mouse button %d down", event.button.button-1);
-			break;
-
-		case SDL_MOUSEBUTTONUP:
-			mouse_buttons[event.button.button - 1] = KEY_UP;
-			//LOG("Mouse button %d up", event.button.button-1);
+		case SDL_MOUSEWHEEL:
+			mouse_z = e.wheel.y;
 			break;
 
 		case SDL_MOUSEMOTION:
-			mouse_motion_x = event.motion.xrel / SCREEN_SIZE;
-			mouse_motion_y = event.motion.yrel / SCREEN_SIZE;
-			mouse_x = event.motion.x / SCREEN_SIZE;
-			mouse_y = event.motion.y / SCREEN_SIZE;
-			//LOG("Mouse motion x %d y %d", mouse_motion_x, mouse_motion_y);
+			mouse_x = e.motion.x / SCREEN_SIZE;
+			mouse_y = e.motion.y / SCREEN_SIZE;
+
+			mouse_x_motion = e.motion.xrel / SCREEN_SIZE;
+			mouse_y_motion = e.motion.yrel / SCREEN_SIZE;
 			break;
+
+		case SDL_QUIT:
+			quit = true;
+			break;
+
+		case SDL_WINDOWEVENT:
+		{
+			if (e.window.event == SDL_WINDOWEVENT_RESIZED)
+				App->renderer3D->OnResize(e.window.data1, e.window.data2);
+		}
 		}
 	}
+
+	if (quit == true || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
+		return false;
 
 	return true;
 }
@@ -133,25 +123,7 @@ bool trInput::PreUpdate(float dt)
 // Called before quitting
 bool trInput::CleanUp()
 {
-	LOG("Quitting SDL event subsystem");
+	LOG("Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
-}
-
-// ---------
-bool trInput::GetWindowEvent(trEventWindow ev)
-{
-	return windowEvents[ev];
-}
-
-void trInput::GetMousePosition(int& x, int& y)
-{
-	x = mouse_x;
-	y = mouse_y;
-}
-
-void trInput::GetMouseMotion(int& x, int& y)
-{
-	x = mouse_motion_x;
-	y = mouse_motion_y;
 }

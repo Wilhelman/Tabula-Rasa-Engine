@@ -12,15 +12,15 @@ enum KEY_STATE
 	KEY_UP
 };
 
-class trInput : publictr Module
+class trInput : public trModule
 {
 public:
 
-	trInput(Application* app, bool start_enabled = true);
+	trInput();
 	~trInput();
 
 	bool Init();
-	update_status PreUpdate(float dt);
+	bool PreUpdate(float dt);
 	bool CleanUp();
 
 	KEY_STATE GetKey(int id) const
