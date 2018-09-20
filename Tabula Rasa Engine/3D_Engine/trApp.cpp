@@ -8,7 +8,6 @@
 #include "trRenderer3D.h"
 #include "trAudio.h"
 #include "trCamera3D.h"
-#include "trPhysics3D.h"
 
 #include "trMainScene.h"
 
@@ -23,8 +22,6 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	render = new trRenderer3D();
 	audio = new trAudio();
 	camera = new trCamera3D();
-	physics = new trPhysics3D();
-
 
 	main_scene = new trMainScene();
 	
@@ -34,7 +31,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(audio);
 	AddModule(camera);
-	AddModule(physics);
+
 
 	AddModule(main_scene);
 	

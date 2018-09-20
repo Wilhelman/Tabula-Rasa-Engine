@@ -15,7 +15,6 @@ class trRenderer3D;
 class trAudio;
 class trCamera3D;
 class trMainScene;
-class trPhysics3D;
 
 class trApp
 {
@@ -77,7 +76,6 @@ public:
 	trRenderer3D*		render = nullptr;
 	trAudio*			audio = nullptr;
 	trCamera3D*			camera = nullptr;
-	trPhysics3D*		physics = nullptr;
 	
 	trMainScene*		main_scene = nullptr;
 	
