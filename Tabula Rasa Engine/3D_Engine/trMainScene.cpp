@@ -7,6 +7,10 @@
 #include "trRenderer3D.h"
 #include "trInput.h"
 
+#include "MathGeoLib\Math\MathAll.h"
+
+//todo check the logs!
+
 #define VSYNC true
 
 trMainScene::trMainScene() : trModule()
@@ -21,7 +25,7 @@ trMainScene::~trMainScene()
 // Called before render is available
 bool trMainScene::Awake(pugi::xml_node& config)
 {
-	LOG("Wake me up. Wake me up inside!");
+	//LOG("Wake me up. Wake me up inside!");
 	bool ret = true;
 	
 	return ret;
@@ -32,6 +36,8 @@ bool trMainScene::Start()
 {
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
+
+	
 
 	// Setup Dear ImGui binding
 	IMGUI_CHECKVERSION();
@@ -74,7 +80,7 @@ bool trMainScene::Update(float dt)
 	ShowTheFirstTabulaRasaWindow();
 
 
-	p.axis = true;
+	//p.axis = true;
 	
 
 	return true;
@@ -85,7 +91,7 @@ bool trMainScene::PostUpdate(float dt)
 	// Rendering
 
 	//rendering the plane
-	p.Render();
+	//p.Render();
 
 	ImGui::Render();
 	glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
@@ -99,7 +105,7 @@ bool trMainScene::PostUpdate(float dt)
 // Called before quitting
 bool trMainScene::CleanUp()
 {
-	LOG("Cleaning up trMainScene");
+	//LOG("Cleaning up trMainScene");
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
