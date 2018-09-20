@@ -5,7 +5,6 @@
 #include "trCamera3D.h"
 #include "trWindow.h"
 #include "trRenderer3D.h"
-#include "PhysBody3D.h"
 #include "trInput.h"
 
 #define VSYNC true

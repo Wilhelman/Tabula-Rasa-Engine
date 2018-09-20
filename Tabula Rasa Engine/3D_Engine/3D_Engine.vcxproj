@@ -20,7 +20,6 @@
     <ClCompile Include="imgui_impl_sdl.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="Light.cpp" />
-    <ClCompile Include="PhysBody3D.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="trApp.cpp" />
     <ClCompile Include="trAudio.cpp" />
@@ -30,7 +29,6 @@
     <ClCompile Include="trMain.cpp" />
     <ClCompile Include="trMainScene.cpp" />
     <ClCompile Include="trPerfTimer.cpp" />
-    <ClCompile Include="trPhysics3D.cpp" />
     <ClCompile Include="trRenderer3D.cpp" />
     <ClCompile Include="trTimer.cpp" />
     <ClCompile Include="trWindow.cpp" />
@@ -49,7 +47,6 @@
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="Light.h" />
-    <ClInclude Include="PhysBody3D.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="trAnimation.h" />
     <ClInclude Include="trApp.h" />
@@ -61,7 +58,6 @@
     <ClInclude Include="trMainScene.h" />
     <ClInclude Include="trModule.h" />
     <ClInclude Include="trPerfTimer.h" />
-    <ClInclude Include="trPhysics3D.h" />
     <ClInclude Include="trPoint.h" />
     <ClInclude Include="trRenderer3D.h" />
     <ClInclude Include="trTimer.h" />

@@ -72,12 +72,6 @@
     <ClCompile Include="trMainScene.cpp">
       <Filter>Core\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="trPhysics3D.cpp">
-      <Filter>Core\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysBody3D.cpp">
-      <Filter>Utilities\Helpers</Filter>
-    </ClCompile>
     <ClCompile Include="Primitive.cpp">
       <Filter>Utilities\Helpers</Filter>
     </ClCompile>
@@ -166,12 +160,6 @@
     </ClInclude>
     <ClInclude Include="trMainScene.h">
       <Filter>Core\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="trPhysics3D.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysBody3D.h">
-      <Filter>Utilities\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Primitive.h">
       <Filter>Utilities\Helpers</Filter>

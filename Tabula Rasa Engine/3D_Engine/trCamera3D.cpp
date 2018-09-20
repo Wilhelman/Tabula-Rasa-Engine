@@ -1,7 +1,6 @@
 #include "Globals.h"
 #include "trApp.h"
 #include "trInput.h"
-#include "PhysBody3D.h"
 #include "trCamera3D.h"
 
 trCamera3D::trCamera3D() : trModule()
