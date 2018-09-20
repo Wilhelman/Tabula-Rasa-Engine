@@ -85,19 +85,13 @@ bool trMainScene::PostUpdate(float dt)
 {
 	// Rendering
 
-	
+	//rendering the plane
+	p.Render();
 
 	ImGui::Render();
 	glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
-	//glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-	glClear(GL_COLOR_BUFFER_BIT);
-	//glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
+	glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-
-
-	//rendering the plane
-	p.Render();
-	
 	
 
 	return true;
