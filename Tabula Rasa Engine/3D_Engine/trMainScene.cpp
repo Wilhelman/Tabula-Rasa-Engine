@@ -8,6 +8,7 @@
 #include "trInput.h"
 
 #include "MathGeoLib\Math\MathAll.h"
+//#include "pcg-cpp-0.98/include/pcg_random.hpp"
 
 //todo check the logs!
 
@@ -36,8 +37,6 @@ bool trMainScene::Start()
 {
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
-
-	
 
 	// Setup Dear ImGui binding
 	IMGUI_CHECKVERSION();
