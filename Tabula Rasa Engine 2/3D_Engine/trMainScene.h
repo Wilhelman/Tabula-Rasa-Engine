@@ -5,6 +5,9 @@
 #include "trPoint.h"
 #include "trModule.h"
 
+struct PhysBody3D;
+struct PhysMotor3D;
+
 class trMainScene : public trModule
 {
 public:
@@ -31,6 +34,9 @@ public:
 	// Load / Save
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
+
+public:
+	PhysBody3D* sensor;
 
 };
 
