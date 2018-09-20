@@ -2,7 +2,6 @@
 #define __trMAINSCENE_H__
 
 #include "SDL/include/SDL.h"
-#include "trPoint.h"
 #include "trModule.h"
 #include "Primitive.h"
 
