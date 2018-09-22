@@ -21,7 +21,7 @@ trCamera3D::~trCamera3D()
 // -----------------------------------------------------------------
 bool trCamera3D::Start()
 {
-	LOG("Setting up the camera");
+	//LOG("Setting up the camera");
 	bool ret = true;
 
 	return ret;
@@ -30,7 +30,7 @@ bool trCamera3D::Start()
 // -----------------------------------------------------------------
 bool trCamera3D::CleanUp()
 {
-	LOG("Cleaning camera");
+	//LOG("Cleaning camera");
 
 	return true;
 }
@@ -60,7 +60,7 @@ bool trCamera3D::Update(float dt)
 	Reference += newPos;
 
 	// Mouse motion ----------------
-
+	/*
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		int dx = -App->input->GetMouseXMotion();
@@ -78,7 +78,6 @@ bool trCamera3D::Update(float dt)
 			Y = rotate(Y, DeltaX, vec(0.0f, 1.0f, 0.0f));
 			Z = rotate(Z, DeltaX, vec(0.0f, 1.0f, 0.0f));
 
-			math::Quat()
 		}
 
 		if (dy != 0)
@@ -97,7 +96,7 @@ bool trCamera3D::Update(float dt)
 
 		Position = Reference + Z * Position.Length();
 	}
-	
+	*/
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
 
@@ -150,12 +149,13 @@ void trCamera3D::Move(const vec &Movement)
 // -----------------------------------------------------------------
 float* trCamera3D::GetViewMatrix()
 {
-	return &ViewMatrix;
+	
+	return (float*)ViewMatrix.v;
 }
 
 // -----------------------------------------------------------------
 void trCamera3D::CalculateViewMatrix()
 {
-	ViewMatrix = float4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, Position), -dot(Y, Position), -dot(Z, Position), 1.0f);
+	ViewMatrix = float4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -math::Dot(X, Position), -math::Dot(Y, Position), -math::Dot(Z, Position), 1.0f);
 	ViewMatrixInverse = ViewMatrix.Inverted();
 }

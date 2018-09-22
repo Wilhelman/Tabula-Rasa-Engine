@@ -5,6 +5,10 @@
 #include "Globals.h"
 #include "Light.h"
 
+#include "MathGeoLib/MathBuildConfig.h"
+#include "MathGeoLib/MathGeoLib.h"
+#include "MathGeoLib/MathGeoLibFwd.h"
+
 #define MAX_LIGHTS 8
 
 class trRenderer3D : public trModule
@@ -24,8 +28,8 @@ public:
 
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
-	mat3x3 NormalMatrix;
-	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+	float3x3 NormalMatrix;
+	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 
 	bool			vsync_state = false;
 };

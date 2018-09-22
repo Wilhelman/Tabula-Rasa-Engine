@@ -4,8 +4,8 @@
 #include "trRenderer3D.h"
 #include "trCamera3D.h"
 #include "SDL\include\SDL_opengl.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
+//#include <gl/GL.h>
+//#include <gl/GLU.h>
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -22,7 +22,7 @@ trRenderer3D::~trRenderer3D()
 // Called before render is available
 bool trRenderer3D::Awake(pugi::xml_node& config)
 {
-	LOG("Creating 3D Renderer context");
+	//LOG("Creating 3D Renderer context");
 	bool ret = true;
 
 	vsync_state = false;
@@ -33,14 +33,14 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
 		vsync_state = true;
-		LOG("Using vsync");
+		//LOG("Using vsync");
 	}
 
 	//Create context
 	context = SDL_GL_CreateContext(App->win->window);
 	if (context == NULL)
 	{
-		LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
+		//LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 
@@ -48,7 +48,7 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 	{
 		//Use Vsync
 		if (VSYNC && SDL_GL_SetSwapInterval(1) < 0)
-			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+			//LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 
 		//Initialize Projection Matrix
 		glMatrixMode(GL_PROJECTION);
@@ -58,7 +58,7 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
-			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			//LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
 
@@ -70,7 +70,7 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
-			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			//LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
 
@@ -84,7 +84,7 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
-			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			//LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
 
