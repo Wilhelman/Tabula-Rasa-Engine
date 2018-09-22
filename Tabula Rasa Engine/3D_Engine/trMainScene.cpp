@@ -52,9 +52,7 @@ bool trMainScene::Start()
 	// Setup style
 	ImGui::StyleColorsDark();
 
-	//vec vector(0.0f,0.0f,1.0f);
-	//Plane plane(vector,1.5f);
-	
+	sphere = Sphere(vec(0.f, 0.f, 0.f), 2.0f);
 	
 	return true;
 }
@@ -67,6 +65,7 @@ bool trMainScene::PreUpdate(float dt)
 		return false;
 
 	return true;
+
 }
 
 bool trMainScene::Update(float dt)
@@ -102,7 +101,9 @@ bool trMainScene::PostUpdate(float dt)
 
 	glBegin(GL_LINES);
 
-	float d = 100.0f;
+
+	//testing grid
+	/*float d = 100.0f;
 
 	for (float i = -d; i <= d; i += 1.0f)
 	{
@@ -110,9 +111,7 @@ bool trMainScene::PostUpdate(float dt)
 		glVertex3f(i, 0.0f, d);
 		glVertex3f(-d, 0.0f, i);
 		glVertex3f(d, 0.0f, i);
-	}
-	
-
+	}*/
 
 	glEnd();
 

@@ -12,8 +12,9 @@
 #include "SDL\include\SDL_opengl.h"
 #include "pcg/pcg_variants.h"
 
-struct PhysBody3D;
-struct PhysMotor3D;
+#include "MathGeoLib/MathBuildConfig.h"
+#include "MathGeoLib/MathGeoLib.h"
+#include "MathGeoLib/MathGeoLibFwd.h"
 
 class trMainScene : public trModule
 {
@@ -48,7 +49,8 @@ private:
 	void ShowRandomWindow(bool* p_open);
 
 public:
-	PhysBody3D* sensor;
+
+	Sphere sphere;
 
 	bool show_demo_window = false;
 	bool quit = false;

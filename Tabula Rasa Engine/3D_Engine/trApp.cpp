@@ -43,7 +43,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 
 	//disable modules here
 
-//	PERF_PEEK(ptimer);
+	//PERF_PEEK(ptimer);
 }
 
 // Destructor
