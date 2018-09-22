@@ -36,8 +36,8 @@ bool trMainScene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool trMainScene::Start()
 {
-	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
-	App->camera->LookAt(vec3(0, 0, 0));
+	App->camera->Move(vec(1.0f, 1.0f, 0.0f));
+	App->camera->LookAt(vec(0.0f, 0.0f, 0.0f));
 
 	// Setup Dear ImGui binding
 	IMGUI_CHECKVERSION();
@@ -91,9 +91,6 @@ bool trMainScene::Update(float dt)
 
 bool trMainScene::PostUpdate(float dt)
 {
-
-
-
 
 	ImGui::Render();
 	glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
