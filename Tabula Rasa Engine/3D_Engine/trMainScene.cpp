@@ -36,9 +36,6 @@ bool trMainScene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool trMainScene::Start()
 {
-	// Seed
-	pcg32_srandom_r(&rng_bound, 42u, 54u);
-
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
@@ -54,6 +51,14 @@ bool trMainScene::Start()
 
 	// Setup style
 	ImGui::StyleColorsDark();
+
+
+	/*vec vector;
+	vector.x = 0.0f;
+	vector.y = 0.0f;
+	vector.z = 1.0f;
+	Plane* plane = new Plane(vector, 1.5f);*/
+
 
 	return true;
 }

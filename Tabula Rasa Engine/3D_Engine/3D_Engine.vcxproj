@@ -21,7 +21,6 @@
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="pcg\entropy.c" />
-    <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="trApp.cpp" />
     <ClCompile Include="trAudio.cpp" />
     <ClCompile Include="trCamera3D.cpp" />
@@ -54,7 +53,6 @@
     <ClInclude Include="pcg\entropy.h" />
     <ClInclude Include="pcg\pcg_spinlock.h" />
     <ClInclude Include="pcg\pcg_variants.h" />
-    <ClInclude Include="Primitive.h" />
     <ClInclude Include="trAnimation.h" />
     <ClInclude Include="trApp.h" />
     <ClInclude Include="trAudio.h" />

@@ -78,9 +78,6 @@
     <ClCompile Include="trMainScene.cpp">
       <Filter>Core\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Primitive.cpp">
-      <Filter>Utilities\Helpers</Filter>
-    </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Utilities\Helpers</Filter>
     </ClCompile>
@@ -169,9 +166,6 @@
     </ClInclude>
     <ClInclude Include="trMainScene.h">
       <Filter>Core\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Primitive.h">
-      <Filter>Utilities\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>Utilities\Helpers</Filter>

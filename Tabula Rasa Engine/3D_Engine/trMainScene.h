@@ -3,7 +3,6 @@
 
 #include "SDL/include/SDL.h"
 #include "trModule.h"
-//#include "Primitive.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -47,11 +46,6 @@ private:
 	void ShowTheFirstTabulaRasaWindow();
 	void ShowExampleMenuFile();
 	void ShowRandomWindow(bool* p_open);
-
-private:
-
-	//math::Plane p(math::float3(0.1f,0.1f,0.1f));
-	//Primitives::Plane p = Plane(0, 1, 0, 0);
 
 public:
 	PhysBody3D* sensor;
