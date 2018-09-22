@@ -70,9 +70,6 @@ bool trMainScene::PreUpdate(float dt)
 
 bool trMainScene::Update(float dt)
 {
-	
-	
-
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->win->window);
 	ImGui::NewFrame();
@@ -84,12 +81,9 @@ bool trMainScene::Update(float dt)
 	if (show_random_window)
 		ShowRandomWindow(&show_random_window);
 
-	//just testing
 	ShowTheFirstTabulaRasaWindow();
 
-
 	//p.axis = true;
-	
 
 	return true;
 }
@@ -178,7 +172,7 @@ void trMainScene::ShowExampleMenuFile()
 
 void trMainScene::ShowRandomWindow(bool * p_open)
 {
-		ImGui::Begin("Random Generator", 0, ImGuiWindowFlags_AlwaysAutoResize);
+		ImGui::Begin("Random Generator", p_open, ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Separator();
 
 		// Random between 0 and 1
