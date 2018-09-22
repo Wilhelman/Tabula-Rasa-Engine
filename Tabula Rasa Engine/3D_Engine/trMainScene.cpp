@@ -149,12 +149,14 @@ void trMainScene::ShowTheFirstTabulaRasaWindow()
 			ShowExampleMenuFile();
 			ImGui::EndMenu();
 		}
+
 		if (ImGui::BeginMenu("Window"))
 		{
 			ImGui::Checkbox("Demo Window (Ctrl + W)", &show_demo_window);
 			ImGui::EndMenu();
 		}
-		else if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+		
+		if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 			show_demo_window = !show_demo_window;
 
 		ImGui::EndMainMenuBar();
