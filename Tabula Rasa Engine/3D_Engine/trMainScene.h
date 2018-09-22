@@ -63,9 +63,13 @@ public:
 	ImGuiIO io;
 	double rand_num_range = 0;
 	pcg32_random_t rng;
-	pcg_state_setseq_64 bound;
+	pcg_state_setseq_64 rng_bound;
 	uint32_t rand_min_max = 0;
 	bool show_random_window = false;
+	int min_num = 0;
+	int max_num = 0;
+	uint32_t bound = 0;
+
 };
 
 #endif // __trRENDER_H__

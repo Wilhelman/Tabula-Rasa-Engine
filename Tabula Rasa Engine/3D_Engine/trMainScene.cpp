@@ -37,7 +37,7 @@ bool trMainScene::Awake(pugi::xml_node& config)
 bool trMainScene::Start()
 {
 	// Seed
-	pcg32_srandom_r(&rng, 42u, 54u);
+	pcg32_srandom_r(&rng_bound, 42u, 54u);
 
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
@@ -193,12 +193,18 @@ void trMainScene::ShowRandomWindow(bool * p_open)
 
 		// Random between specific range
 
-		ImGui::Text("Random between min and max:");
+		ImGui::Text("Random between min and max (both included):");
+		max_num = 15;
+		min_num = 5;
 
 		if (ImGui::Button("Generate 2"))
-			rand_min_max = pcg32_boundedrand_r(&bound, 5);
+		{
+			bound = max_num - min_num + 1;
+			rand_min_max = pcg32_boundedrand_r(&rng, bound);
+		}
+			
 
 		ImGui::SameLine();
-		ImGui::Text("%i", rand_min_max);
+		ImGui::Text("%i", rand_min_max + min_num);
 		ImGui::End();
 }
