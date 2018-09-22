@@ -69,7 +69,7 @@ public:
 	int min_num = 0;
 	int max_num = 0;
 	uint32_t bound = 0;
-
+	int temp_min_num = 0;
 };
 
 #endif // __trRENDER_H__

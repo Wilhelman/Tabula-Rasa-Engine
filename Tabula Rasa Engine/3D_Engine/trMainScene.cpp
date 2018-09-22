@@ -194,17 +194,19 @@ void trMainScene::ShowRandomWindow(bool * p_open)
 		// Random between specific range
 
 		ImGui::Text("Random between min and max (both included):");
-		max_num = 15;
-		min_num = 5;
 
-		if (ImGui::Button("Generate 2"))
+		ImGui::InputInt("Min", &temp_min_num);
+		ImGui::InputInt("Max", &max_num);
+
+		if (ImGui::Button("Generate 2") && max_num >= temp_min_num)
 		{
+			min_num = temp_min_num;
 			bound = max_num - min_num + 1;
 			rand_min_max = pcg32_boundedrand_r(&rng, bound);
 		}
-			
 
 		ImGui::SameLine();
 		ImGui::Text("%i", rand_min_max + min_num);
+	
 		ImGui::End();
 }
