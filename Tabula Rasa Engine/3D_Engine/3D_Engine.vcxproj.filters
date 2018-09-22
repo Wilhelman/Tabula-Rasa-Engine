@@ -28,6 +28,12 @@
     <Filter Include="Utilities\Containers">
       <UniqueIdentifier>{cb246ff4-cfff-41bc-a372-10a7bde0e327}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities\MathGeoLib">
+      <UniqueIdentifier>{03e0d0f1-6966-44f6-a252-53ee1d9b7722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\PCG">
+      <UniqueIdentifier>{a6711847-3719-4428-816a-1dacb375a5a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pugixml.cpp">
@@ -95,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="imgui_impl_sdl.cpp">
       <Filter>Utilities\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="pcg\entropy.c">
+      <Filter>Utilities\PCG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +196,24 @@
     </ClInclude>
     <ClInclude Include="imgui_impl_sdl.h">
       <Filter>Utilities\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\MathGeoLib.h">
+      <Filter>Utilities\MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\MathGeoLibFwd.h">
+      <Filter>Utilities\MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\MathBuildConfig.h">
+      <Filter>Utilities\MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="pcg\entropy.h">
+      <Filter>Utilities\PCG</Filter>
+    </ClInclude>
+    <ClInclude Include="pcg\pcg_spinlock.h">
+      <Filter>Utilities\PCG</Filter>
+    </ClInclude>
+    <ClInclude Include="pcg\pcg_variants.h">
+      <Filter>Utilities\PCG</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

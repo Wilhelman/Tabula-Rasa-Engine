@@ -1,5 +1,5 @@
 /*
- * PCG Random Number Generation for C++
+ * PCG Random Number Generation for C.
  *
  * Copyright 2014 Melissa O'Neill <oneill@pcg-random.org>
  *
@@ -21,27 +21,20 @@
  *     http://www.pcg-random.org
  */
 
-/*
- * Outputs a little spy codebook
- */
+#ifndef ENTROPY_H_INCLUDED
+#define ENTROPY_H_INCLUDED 1
 
-#include "pcg_random.hpp"
-#include <cstdio>
-#include <iostream>
-#include <random>
+#include <stdbool.h>
 
-int main()
-{
-    pcg32 rng(pcg_extras::seed_seq_from<std::random_device>{});
-    std::clog << "RNG used: " << rng << "\n\n";
-    
-    for (int i = 0; i < 16; ++i) {
-        for (int j = 0; j < 16; ++j) {
-           printf("%03u ", rng(1000));
-        }
-        printf("\n");
-    }
+#if __cplusplus
+extern "C" {
+#endif
+
+extern bool entropy_getbytes(void* dest, size_t size);
+extern void fallback_entropy_getbytes(void* dest, size_t size);
+
+#if __cplusplus
 }
+#endif
 
-    
-    
+#endif // ENTROPY_H_INCLUDED

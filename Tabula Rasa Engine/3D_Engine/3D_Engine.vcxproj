@@ -20,6 +20,7 @@
     <ClCompile Include="imgui_impl_sdl.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="pcg\entropy.c" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="trApp.cpp" />
     <ClCompile Include="trAudio.cpp" />
@@ -47,6 +48,12 @@
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="MathGeoLib\MathBuildConfig.h" />
+    <ClInclude Include="MathGeoLib\MathGeoLib.h" />
+    <ClInclude Include="MathGeoLib\MathGeoLibFwd.h" />
+    <ClInclude Include="pcg\entropy.h" />
+    <ClInclude Include="pcg\pcg_spinlock.h" />
+    <ClInclude Include="pcg\pcg_variants.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="trAnimation.h" />
     <ClInclude Include="trApp.h" />

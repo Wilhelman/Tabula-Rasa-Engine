@@ -1,5 +1,5 @@
 # 
-# PCG Random Number Generation for C++.
+# PCG Random Number Generation for C.
 # 
 # Copyright 2014 Melissa O'Neill <oneill@pcg-random.org>
 # 
@@ -22,19 +22,26 @@
 #
 
 all:
+	cd src; $(MAKE)
+	cd test-low; $(MAKE)
 	cd test-high; $(MAKE)
 	cd sample; $(MAKE)
 
 PREFIX = /usr/local
 
 install: all
-	install -m 0644 include/*.hpp $PREFIX/include
+	install src/libpcg_random.a $PREFIX/lib
+	install -m 0644 include/pcg_variants.h $PREFIX/include
 
 test:   all
+	cd test-low; $(MAKE) test
 	cd test-high; $(MAKE) test
 
 clean:
+	cd src; $(MAKE) clean
+	cd test-low; $(MAKE) clean
 	cd test-high; $(MAKE) clean
 	cd sample; $(MAKE) clean
+	rm -f extras/*.o
 
 	

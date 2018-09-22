@@ -7,7 +7,10 @@
 #include "trRenderer3D.h"
 #include "trInput.h"
 
-#include "MathGeoLib\Math\MathAll.h"
+#include "MathGeoLib/MathBuildConfig.h"
+#include "MathGeoLib/MathGeoLib.h"
+#include "MathGeoLib/MathGeoLibFwd.h"
+
 //#include "pcg-cpp-0.98/include/pcg_random.hpp"
 
 //todo check the logs!
@@ -35,6 +38,8 @@ bool trMainScene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool trMainScene::Start()
 {
+
+
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
