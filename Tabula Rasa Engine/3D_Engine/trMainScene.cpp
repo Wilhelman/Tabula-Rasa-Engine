@@ -51,7 +51,8 @@ bool trMainScene::Start()
 	// Setup style
 	ImGui::StyleColorsDark();
 
-	sphere = Sphere(vec(0.f, 0.f, 0.f), 2.0f);
+	sphere_1 = Sphere(vec(0.f, 0.f, 0.f), 2.0f);
+	sphere_2 = Sphere(vec(0.f, 0.f, 0.f), 1.5f);
 	
 	return true;
 }
@@ -77,12 +78,13 @@ bool trMainScene::Update(float dt)
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
+	if(show_mgl_test_window)
+		ShowMathGeoLibTestWindow(&show_mgl_test_window);
+
 	if (show_random_window)
 		ShowRandomWindow(&show_random_window);
 
-	ShowTheFirstTabulaRasaWindow();
-
-	//p.axis = true;
+	ShowMenuBar();
 
 	return true;
 }
@@ -145,7 +147,7 @@ bool trMainScene::Save(pugi::xml_node& data) const
 	return true;
 }
 
-void trMainScene::ShowTheFirstTabulaRasaWindow()
+void trMainScene::ShowMenuBar()
 {
 	static float f = 0.0f;
 	static int counter = 0;
@@ -155,13 +157,16 @@ void trMainScene::ShowTheFirstTabulaRasaWindow()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			ShowExampleMenuFile();
+			if (ImGui::MenuItem("Exit", "Alt+F4"))
+				quit = true;
 			ImGui::EndMenu();
 		}
 
 		if (ImGui::BeginMenu("Window"))
 		{
 			ImGui::Checkbox("Demo Window (Ctrl + W)", &show_demo_window);
+
+			ImGui::Checkbox("MathGeoLib Collision Tester (Ctrl + M)", &show_mgl_test_window);
 
 			if (ImGui::MenuItem("Random window"))
 				show_random_window = true;
@@ -172,15 +177,11 @@ void trMainScene::ShowTheFirstTabulaRasaWindow()
 		if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 			show_demo_window = !show_demo_window;
 
+		if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+			show_mgl_test_window = !show_mgl_test_window;
+
 		ImGui::EndMainMenuBar();
 	}
-}
-
-void trMainScene::ShowExampleMenuFile()
-{
-	if (ImGui::MenuItem("Exit", "Alt+F4"))
-		quit = true;
-
 }
 
 void trMainScene::ShowRandomWindow(bool * p_open)
@@ -216,4 +217,48 @@ void trMainScene::ShowRandomWindow(bool * p_open)
 		ImGui::Text("%i", rand_min_max + min_num);
 	
 		ImGui::End();
+}
+
+void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
+{
+
+	ImGui::Begin("MathGeoLib Collision Tester", p_open, ImGuiWindowFlags_AlwaysAutoResize);
+	ImGui::Separator();
+
+	// Random between 0 and 1
+
+	//ImGui::Text("Random between 0 and 1:");
+
+	if (ImGui::CollapsingHeader("Spheres"))
+	{
+		ImGui::Text("Sphere 1:");
+		ImGui::SameLine();
+		ImGui::SliderFloat("X 1", &sphere_1.pos.x, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Y 1", &sphere_1.pos.y, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Z 1", &sphere_1.pos.z, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Radius 1", &sphere_1.r, -5.0f, 5.0f);
+
+		ImGui::Text("Sphere 2:");
+		ImGui::SameLine();
+		ImGui::SliderFloat("X 2", &sphere_2.pos.x, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Y 2", &sphere_2.pos.y, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Z 2", &sphere_2.pos.z, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Radius 2", &sphere_2.r, -5.0f, 5.0f);
+
+		if (sphere_1.Contains(sphere_2))
+			ImGui::Text("Contains");
+		else
+			ImGui::Text("Not contains");
+
+	}
+
+
+	ImGui::End();
+
 }

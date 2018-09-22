@@ -44,15 +44,18 @@ public:
 	bool Save(pugi::xml_node&) const;
 
 private:
-	void ShowTheFirstTabulaRasaWindow();
-	void ShowExampleMenuFile();
+	void ShowMenuBar();
+
 	void ShowRandomWindow(bool* p_open);
+	void ShowMathGeoLibTestWindow(bool* p_open);
 
 public:
 
-	Sphere sphere;
+	Sphere sphere_1;
+	Sphere sphere_2;
 
 	bool show_demo_window = false;
+	bool show_mgl_test_window = false;
 	bool quit = false;
 
 	ImVec4 clear_color = ImVec4(0.0f, 0.00f, 0.00f, 0.00f);
