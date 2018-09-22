@@ -35,6 +35,8 @@ public:
 private:
 
 	math::float4x4 ViewMatrix, ViewMatrixInverse;
+
+	math::float3x3 transform;
 };
 
 #endif

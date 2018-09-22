@@ -61,7 +61,8 @@ bool trCamera3D::Update(float dt)
 
 	// Mouse motion ----------------
 	
-	/*if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
@@ -73,10 +74,11 @@ bool trCamera3D::Update(float dt)
 		if (dx != 0)
 		{
 			float DeltaX = (float)dx * Sensitivity;
-			
-			X = rotate(X, DeltaX, vec(0.0f, 1.0f, 0.0f));
-			Y = rotate(Y, DeltaX, vec(0.0f, 1.0f, 0.0f));
-			Z = rotate(Z, DeltaX, vec(0.0f, 1.0f, 0.0f));
+			transform = math::float3x3::RotateY(DeltaX);
+
+			X = transform * X;
+			Y = transform * Y;
+			Z = transform * Z;
 
 		}
 
@@ -84,9 +86,15 @@ bool trCamera3D::Update(float dt)
 		{
 			float DeltaY = (float)dy * Sensitivity;
 
-			Y = rotate(Y, DeltaY, X);
-			Z = rotate(Z, DeltaY, X);
+			transform = math::float3x3::RotateX(DeltaY);
 
+			X = transform * X;
+			Y = transform * Y;
+			Z = transform * Z;
+
+			//Y = rotate(Y, DeltaY, X);
+			//Z = rotate(Z, DeltaY, X);
+			
 			if (Y.y < 0.0f)
 			{
 				Z = vec(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
@@ -95,7 +103,9 @@ bool trCamera3D::Update(float dt)
 		}
 
 		Position = Reference + Z * Position.Length();
-	}*/
+		//Position = vec(0.0f, 0.0f, 0.0f);
+	}
+	
 	
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
@@ -149,13 +159,14 @@ void trCamera3D::Move(const vec &Movement)
 // -----------------------------------------------------------------
 float* trCamera3D::GetViewMatrix()
 {
-	
+	ViewMatrix.Transpose();
+
 	return (float*)ViewMatrix.v;
 }
 
 // -----------------------------------------------------------------
 void trCamera3D::CalculateViewMatrix()
 {
-	ViewMatrix = float4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -math::Dot(X, Position), -math::Dot(Y, Position), -math::Dot(Z, Position), 1.0f);
+	ViewMatrix = float4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -math::Dot(X, Position), -math::Dot(Y, Position), -math::Dot(Z, Position), 1.0f).Transposed();
 	ViewMatrixInverse = ViewMatrix.Inverted();
 }

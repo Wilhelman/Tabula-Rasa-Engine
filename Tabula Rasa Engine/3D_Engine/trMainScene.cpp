@@ -52,8 +52,8 @@ bool trMainScene::Start()
 	// Setup style
 	ImGui::StyleColorsDark();
 
-	vec vector(0.0f,0.0f,1.0f);
-	Plane* plane = new Plane(vector, 1.5f);
+	//vec vector(0.0f,0.0f,1.0f);
+	//Plane plane(vector,1.5f);
 	
 	
 	return true;
@@ -102,7 +102,7 @@ bool trMainScene::PostUpdate(float dt)
 
 	glBegin(GL_LINES);
 
-	float d = 200.0f;
+	float d = 100.0f;
 
 	for (float i = -d; i <= d; i += 1.0f)
 	{
@@ -111,6 +111,8 @@ bool trMainScene::PostUpdate(float dt)
 		glVertex3f(-d, 0.0f, i);
 		glVertex3f(d, 0.0f, i);
 	}
+	
+
 
 	glEnd();
 
