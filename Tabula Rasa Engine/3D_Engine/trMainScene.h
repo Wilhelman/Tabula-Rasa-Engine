@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "SDL\include\SDL.h"
 #include "SDL\include\SDL_opengl.h"
+#include "pcg/pcg_variants.h"
 
 struct PhysBody3D;
 struct PhysMotor3D;
@@ -59,6 +60,8 @@ public:
 
 	ImVec4 clear_color = ImVec4(0.0f, 0.00f, 0.00f, 0.00f);
 	ImGuiIO io;
+	double d = 0;
+	pcg32_random_t rng;
 };
 
 #endif // __trRENDER_H__

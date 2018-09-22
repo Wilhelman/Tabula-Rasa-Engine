@@ -11,7 +11,7 @@
 #include "MathGeoLib/MathGeoLib.h"
 #include "MathGeoLib/MathGeoLibFwd.h"
 
-//#include "pcg-cpp-0.98/include/pcg_random.hpp"
+
 
 //todo check the logs!
 
@@ -38,7 +38,7 @@ bool trMainScene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool trMainScene::Start()
 {
-
+	pcg32_srandom_r(&rng, 42u, 54u);
 
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
@@ -71,6 +71,8 @@ bool trMainScene::PreUpdate(float dt)
 
 bool trMainScene::Update(float dt)
 {
+	
+	 d = ldexp(pcg32_random_r(&rng), -32);
 
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->win->window);
