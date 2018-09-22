@@ -60,8 +60,8 @@ bool trCamera3D::Update(float dt)
 	Reference += newPos;
 
 	// Mouse motion ----------------
-	/*
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	
+	/*if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
@@ -95,8 +95,8 @@ bool trCamera3D::Update(float dt)
 		}
 
 		Position = Reference + Z * Position.Length();
-	}
-	*/
+	}*/
+	
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
 

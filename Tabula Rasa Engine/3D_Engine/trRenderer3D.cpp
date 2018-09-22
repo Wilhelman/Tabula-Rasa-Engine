@@ -144,7 +144,7 @@ bool trRenderer3D::PostUpdate(float dt)
 // Called before quitting
 bool trRenderer3D::CleanUp()
 {
-	LOG("Destroying 3D Renderer");
+	//LOG("Destroying 3D Renderer");
 
 	SDL_GL_DeleteContext(context);
 
@@ -158,8 +158,9 @@ void trRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
-	glLoadMatrixf(&ProjectionMatrix);
+
+	ProjectionMatrix = math::float4x4::OpenGLPerspProjRH(0.125f,512.0f,(float)width, (float)height);
+	glLoadMatrixf((GLfloat*)ProjectionMatrix.Transposed().ptr());
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
