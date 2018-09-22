@@ -61,7 +61,7 @@ public:
 
 	ImVec4 clear_color = ImVec4(0.0f, 0.00f, 0.00f, 0.00f);
 	ImGuiIO io;
-	double random_num_range = 0;
+	double rand_num_range = 0;
 	pcg32_random_t rng;
 	pcg_state_setseq_64 bound;
 	uint32_t rand_min_max = 0;
