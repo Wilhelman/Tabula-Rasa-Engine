@@ -11,8 +11,6 @@
 #include "MathGeoLib/MathGeoLib.h"
 #include "MathGeoLib/MathGeoLibFwd.h"
 
-
-
 //todo check the logs!
 
 #define VSYNC true
@@ -182,15 +180,25 @@ void trMainScene::ShowRandomWindow(bool * p_open)
 {
 		ImGui::Begin("Random Generator", 0, ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Separator();
+
+		// Random between 0 and 1
+
 		ImGui::Text("Random between 0 and 1:");
-		bool random_range_pressed = ImGui::Button("Generate");
 
-		if (random_range_pressed)
-			d = ldexp(pcg32_random_r(&rng), -32);
+		if (ImGui::Button("Generate 1"))
+			random_num_range = ldexp(pcg32_random_r(&rng), -32);
+
 		ImGui::SameLine();
-		ImGui::Text(std::to_string(d).c_str());
+		ImGui::Text("%d", random_num_range);
 
+		// Random between specific range
+
+		ImGui::Text("Random between min and max:");
+
+		if (ImGui::Button("Generate 2"))
+			rand_min_max = pcg32_boundedrand_r(&bound, 6);
+
+
+		ImGui::Text("%d", rand_min_max);
 		ImGui::End();
-
-		
 }
