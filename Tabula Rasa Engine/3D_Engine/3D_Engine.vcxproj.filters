@@ -25,9 +25,6 @@
     <Filter Include="Utilities\Helpers">
       <UniqueIdentifier>{709cc3d6-123e-49d7-8b14-988692c7e061}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utilities\Containers">
-      <UniqueIdentifier>{cb246ff4-cfff-41bc-a372-10a7bde0e327}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utilities\MathGeoLib">
       <UniqueIdentifier>{03e0d0f1-6966-44f6-a252-53ee1d9b7722}</UniqueIdentifier>
     </Filter>
@@ -83,9 +80,6 @@
     </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Utilities\Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="glmath.cpp">
-      <Filter>Utilities\Containers</Filter>
     </ClCompile>
     <ClCompile Include="Color.cpp">
       <Filter>Utilities\Helpers</Filter>
@@ -283,9 +277,6 @@
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>Utilities\Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="glmath.h">
-      <Filter>Utilities\Containers</Filter>
     </ClInclude>
     <ClInclude Include="Color.h">
       <Filter>Utilities\Helpers</Filter>
