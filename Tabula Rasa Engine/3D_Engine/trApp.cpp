@@ -43,7 +43,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 
 	//disable modules here
 
-	PERF_PEEK(ptimer);
+//	PERF_PEEK(ptimer);
 }
 
 // Destructor
@@ -108,7 +108,7 @@ bool trApp::Awake()
 		}
 	}
 
-	PERF_PEEK(ptimer);
+//	PERF_PEEK(ptimer);
 
 	return ret;
 }
@@ -133,7 +133,7 @@ bool trApp::Start()
 	}
 	startup_time.Start();
 
-	PERF_PEEK(ptimer);
+	//PERF_PEEK(ptimer);
 
 	return ret;
 }
@@ -165,7 +165,7 @@ pugi::xml_node trApp::LoadConfig(pugi::xml_document& config_file) const
 	pugi::xml_parse_result result = config_file.load_file("config.xml");
 
 	if (result == NULL) {
-		LOG("Could not load xml file config.xml. pugi error: %s", result.description());
+		//LOG("Could not load xml file config.xml. pugi error: %s", result.description());
 	}
 	else
 		ret = config_file.child("config");
