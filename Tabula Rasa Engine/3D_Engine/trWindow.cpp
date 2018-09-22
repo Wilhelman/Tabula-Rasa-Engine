@@ -17,12 +17,12 @@ trWindow::~trWindow()
 // Called before render is available
 bool trWindow::Awake(pugi::xml_node&)
 {
-	LOG("Init SDL window & surface");
+	TR_LOG("Init SDL window & surface");
 	bool ret = true;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
+		TR_LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 	else
@@ -60,7 +60,7 @@ bool trWindow::Awake(pugi::xml_node&)
 
 		if (window == NULL)
 		{
-			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+			TR_LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
 		}
 		else
@@ -76,7 +76,7 @@ bool trWindow::Awake(pugi::xml_node&)
 // Called before quitting
 bool trWindow::CleanUp()
 {
-	LOG("Destroying SDL window and quitting all SDL systems");
+	TR_LOG("Destroying SDL window and quitting all SDL systems");
 
 	//Destroy window
 	if (window != NULL)

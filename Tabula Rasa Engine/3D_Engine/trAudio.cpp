@@ -21,13 +21,13 @@ trAudio::~trAudio()
 // Called before render is available
 bool trAudio::Awake(pugi::xml_node& audioNode)
 {
-	LOG("Loading Audio Mixer");
+	TR_LOG("Loading Audio Mixer");
 
 	SDL_Init(0);
 
 	if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
 	{
-		LOG("SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
+		TR_LOG("SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
 		return false;
 	}
 
@@ -49,7 +49,7 @@ void trAudio::InitAudio()
 	//Initialize SDL_mixer
 	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
 	{
-		LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+		TR_LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 	}
 
 	Mix_AllocateChannels(16);
@@ -76,7 +76,7 @@ bool trAudio::CleanUp()
 	if (!active)
 		return true;
 
-	LOG("Freeing sound FX, closing Mixer and Audio subsystem");
+	TR_LOG("Freeing sound FX, closing Mixer and Audio subsystem");
 
 	if (music != NULL)
 	{
@@ -121,7 +121,7 @@ bool trAudio::PlayMusic(const char* path, float fade_time)
 
 	if (music == NULL)
 	{
-		LOG("Cannot load music %s. Mix_GetError(): %s\n", path, Mix_GetError());
+		TR_LOG("Cannot load music %s. Mix_GetError(): %s\n", path, Mix_GetError());
 		ret = false;
 	}
 	else
@@ -130,7 +130,7 @@ bool trAudio::PlayMusic(const char* path, float fade_time)
 		{
 			if (Mix_FadeInMusic(music, -1, (int)(fade_time * 1000.0f)) < 0)
 			{
-				LOG("Cannot fade in music %s. Mix_GetError(): %s", path, Mix_GetError());
+				TR_LOG("Cannot fade in music %s. Mix_GetError(): %s", path, Mix_GetError());
 				ret = false;
 			}
 		}
@@ -138,13 +138,13 @@ bool trAudio::PlayMusic(const char* path, float fade_time)
 		{
 			if (Mix_PlayMusic(music, -1) < 0)
 			{
-				LOG("Cannot play in music %s. Mix_GetError(): %s", path, Mix_GetError());
+				TR_LOG("Cannot play in music %s. Mix_GetError(): %s", path, Mix_GetError());
 				ret = false;
 			}
 		}
 	}
 
-	LOG("Successfully playing %s", path);
+	TR_LOG("Successfully playing %s", path);
 	return ret;
 }
 
@@ -232,7 +232,7 @@ unsigned int trAudio::LoadFx(const char* path)
 
 	if (chunk == NULL)
 	{
-		LOG("Cannot load wav %s. Mix_GetError(): %s", path, Mix_GetError());
+		TR_LOG("Cannot load wav %s. Mix_GetError(): %s", path, Mix_GetError());
 	}
 	else
 	{

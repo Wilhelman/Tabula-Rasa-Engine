@@ -22,7 +22,7 @@ trRenderer3D::~trRenderer3D()
 // Called before render is available
 bool trRenderer3D::Awake(pugi::xml_node& config)
 {
-	//LOG("Creating 3D Renderer context");
+	TR_LOG("Creating 3D Renderer context");
 	bool ret = true;
 
 	vsync_state = false;
@@ -33,14 +33,14 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
 		vsync_state = true;
-		//LOG("Using vsync");
+		TR_LOG("Using vsync");
 	}
 
 	//Create context
 	context = SDL_GL_CreateContext(App->win->window);
 	if (context == NULL)
 	{
-		//LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
+		TR_LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 
@@ -48,7 +48,7 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 	{
 		//Use Vsync
 		if (VSYNC && SDL_GL_SetSwapInterval(1) < 0)
-			//LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+			TR_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 
 		//Initialize Projection Matrix
 		glMatrixMode(GL_PROJECTION);
@@ -58,7 +58,8 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
-			//LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			//TR_LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			TR_LOG("Error initializing OpenGL!");
 			ret = false;
 		}
 
@@ -70,7 +71,8 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
-			//LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			//TR_LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			TR_LOG("Error initializing OpenGL!");
 			ret = false;
 		}
 
@@ -84,7 +86,8 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
-			//LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			//TR_LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			TR_LOG("Error initializing OpenGL!");
 			ret = false;
 		}
 
@@ -144,7 +147,7 @@ bool trRenderer3D::PostUpdate(float dt)
 // Called before quitting
 bool trRenderer3D::CleanUp()
 {
-	//LOG("Destroying 3D Renderer");
+	TR_LOG("Destroying 3D Renderer");
 
 	SDL_GL_DeleteContext(context);
 

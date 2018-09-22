@@ -7,6 +7,7 @@
 #include "trPerfTimer.h"
 #include "trTimer.h"
 #include "PugiXml\src\pugixml.hpp"
+#include "trLog.h"
 
 // Modules
 class trWindow;

@@ -30,7 +30,7 @@ int main(int argc, char* args[])
 {
 	ReportMemoryLeaks();
 
-	LOG("Engine starting ... %d");
+	TR_LOG("Engine starting ... %d");
 
 	MainState state = MainState::CREATE;
 	int result = EXIT_FAILURE;
@@ -42,7 +42,7 @@ int main(int argc, char* args[])
 
 			// Allocate the engine --------------------------------------------
 		case CREATE:
-			LOG("CREATION PHASE ===============================");
+			TR_LOG("CREATION PHASE ===============================");
 
 			App = new trApp(argc, args);
 
@@ -55,12 +55,12 @@ int main(int argc, char* args[])
 
 			// Awake all modules -----------------------------------------------
 		case AWAKE:
-			LOG("AWAKE PHASE ===============================");
+			TR_LOG("AWAKE PHASE ===============================");
 			if (App->Awake() == true)
 				state = START;
 			else
 			{
-				LOG("ERROR: Awake failed");
+				TR_LOG("ERROR: Awake failed");
 				state = FAIL;
 			}
 
@@ -68,16 +68,16 @@ int main(int argc, char* args[])
 
 			// Call all modules before first frame  ----------------------------
 		case START:
-			LOG("START PHASE ===============================");
+			TR_LOG("START PHASE ===============================");
 			if (App->Start() == true)
 			{
 				state = LOOP;
-				LOG("UPDATE PHASE ===============================");
+				TR_LOG("UPDATE PHASE ===============================");
 			}
 			else
 			{
 				state = FAIL;
-				LOG("ERROR: Start failed");
+				TR_LOG("ERROR: Start failed");
 			}
 			break;
 
@@ -92,7 +92,7 @@ int main(int argc, char* args[])
 
 		// Cleanup allocated memory -----------------------------------------
 		case CLEAN:
-			LOG("CLEANUP PHASE ===============================");
+			TR_LOG("CLEANUP PHASE ===============================");
 			if (App->CleanUp() == true)
 			{
 				RELEASE(App);
@@ -106,14 +106,14 @@ int main(int argc, char* args[])
 
 			// Exit with errors and shame ---------------------------------------
 		case FAIL:
-			LOG("Exiting with errors :(");
+			TR_LOG("Exiting with errors :(");
 			result = EXIT_FAILURE;
 			state = EXIT;
 			break;
 		}
 	}
 
-	LOG("... Bye! :)\n");
+	TR_LOG("... Bye! :)\n");
 
 	// Dump memory leaks
 	return result;

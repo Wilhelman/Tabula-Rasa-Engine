@@ -21,7 +21,7 @@ trCamera3D::~trCamera3D()
 // -----------------------------------------------------------------
 bool trCamera3D::Start()
 {
-	//LOG("Setting up the camera");
+	TR_LOG("Setting up the camera");
 	bool ret = true;
 
 	return ret;
@@ -30,7 +30,7 @@ bool trCamera3D::Start()
 // -----------------------------------------------------------------
 bool trCamera3D::CleanUp()
 {
-	//LOG("Cleaning camera");
+	TR_LOG("Cleaning camera");
 
 	return true;
 }

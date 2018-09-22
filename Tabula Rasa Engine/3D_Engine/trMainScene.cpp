@@ -11,7 +11,6 @@
 #include "MathGeoLib/MathGeoLib.h"
 #include "MathGeoLib/MathGeoLibFwd.h"
 
-//todo check the logs!
 
 #define VSYNC true
 
@@ -27,7 +26,7 @@ trMainScene::~trMainScene()
 // Called before render is available
 bool trMainScene::Awake(pugi::xml_node& config)
 {
-	//LOG("Wake me up. Wake me up inside!");
+	TR_LOG("Wake me up. Wake me up inside!");
 	bool ret = true;
 	
 	return ret;
@@ -121,7 +120,7 @@ bool trMainScene::PostUpdate(float dt)
 // Called before quitting
 bool trMainScene::CleanUp()
 {
-	//LOG("Cleaning up trMainScene");
+	TR_LOG("Cleaning up trMainScene");
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
