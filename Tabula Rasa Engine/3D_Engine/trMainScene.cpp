@@ -52,7 +52,7 @@ bool trMainScene::Start()
 	// Setup style
 	ImGui::StyleColorsDark();
 
-
+	float3 * test = new float3(1.0f,1.0f,1.0f);
 	/*vec vector;
 	vector.x = 0.0f;
 	vector.y = 0.0f;
