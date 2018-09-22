@@ -2,7 +2,10 @@
 #define __trCAMERA3D_H__
 
 #include "Globals.h" 
-#include "glmath.h"
+
+#include "MathGeoLib/MathBuildConfig.h"
+#include "MathGeoLib/MathGeoLib.h"
+#include "MathGeoLib/MathGeoLibFwd.h"
 
 #include "trApp.h"
 
@@ -16,9 +19,9 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-	void Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference = false);
-	void LookAt(const vec3 &Spot);
-	void Move(const vec3 &Movement);
+	void Look(const vec &Position, const vec &Reference, bool RotateAroundReference = false);
+	void LookAt(const vec &Spot);
+	void Move(const vec &Movement);
 	float* GetViewMatrix();
 
 private:
@@ -27,11 +30,11 @@ private:
 
 public:
 
-	vec3 X, Y, Z, Position, Reference;
+	vec X, Y, Z, Position, Reference;
 
 private:
 
-	mat4x4 ViewMatrix, ViewMatrixInverse;
+	math::float4x4 ViewMatrix, ViewMatrixInverse;
 };
 
 #endif
