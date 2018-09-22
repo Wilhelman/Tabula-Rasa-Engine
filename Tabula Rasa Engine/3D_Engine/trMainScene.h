@@ -46,6 +46,7 @@ public:
 private:
 	void ShowTheFirstTabulaRasaWindow();
 	void ShowExampleMenuFile();
+	void ShowRandomWindow(bool* p_open);
 
 private:
 
@@ -62,6 +63,7 @@ public:
 	ImGuiIO io;
 	double d = 0;
 	pcg32_random_t rng;
+	bool show_random_window = false;
 };
 
 #endif // __trRENDER_H__

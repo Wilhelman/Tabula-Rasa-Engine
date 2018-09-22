@@ -82,6 +82,9 @@ bool trMainScene::Update(float dt)
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
+	if (show_random_window)
+		ShowRandomWindow(&show_random_window);
+
 	//just testing
 	ShowTheFirstTabulaRasaWindow();
 
@@ -153,6 +156,11 @@ void trMainScene::ShowTheFirstTabulaRasaWindow()
 		if (ImGui::BeginMenu("Window"))
 		{
 			ImGui::Checkbox("Demo Window (Ctrl + W)", &show_demo_window);
+
+			if (ImGui::MenuItem("Random window"))
+				show_random_window = true;
+			
+
 			ImGui::EndMenu();
 		}
 		
@@ -168,4 +176,12 @@ void trMainScene::ShowExampleMenuFile()
 	if (ImGui::MenuItem("Exit", "Alt+F4"))
 		quit = true;
 
+}
+
+void trMainScene::ShowRandomWindow(bool * p_open)
+{
+		ImGui::Begin("Random Generator", 0, ImGuiWindowFlags_AlwaysAutoResize);
+		ImGui::Separator();
+		ImGui::Text("Random between 0 and 1:");
+		ImGui::End();
 }
