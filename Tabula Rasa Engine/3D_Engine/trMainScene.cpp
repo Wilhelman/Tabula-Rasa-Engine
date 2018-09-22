@@ -52,14 +52,10 @@ bool trMainScene::Start()
 	// Setup style
 	ImGui::StyleColorsDark();
 
-	float3 * test = new float3(1.0f,1.0f,1.0f);
-	/*vec vector;
-	vector.x = 0.0f;
-	vector.y = 0.0f;
-	vector.z = 1.0f;
-	Plane* plane = new Plane(vector, 1.5f);*/
-
-
+	vec vector(0.0f,0.0f,1.0f);
+	Plane* plane = new Plane(vector, 1.5f);
+	
+	
 	return true;
 }
 
@@ -95,16 +91,31 @@ bool trMainScene::Update(float dt)
 
 bool trMainScene::PostUpdate(float dt)
 {
-	// Rendering
 
-	//rendering the plane
-	//p.Render();
+
+
 
 	ImGui::Render();
 	glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
 	glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 	
+
+	glLineWidth(1.0f);
+
+	glBegin(GL_LINES);
+
+	float d = 200.0f;
+
+	for (float i = -d; i <= d; i += 1.0f)
+	{
+		glVertex3f(i, 0.0f, -d);
+		glVertex3f(i, 0.0f, d);
+		glVertex3f(-d, 0.0f, i);
+		glVertex3f(d, 0.0f, i);
+	}
+
+	glEnd();
 
 	return true;
 }
