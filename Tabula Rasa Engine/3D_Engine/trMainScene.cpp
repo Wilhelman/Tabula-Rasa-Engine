@@ -38,6 +38,7 @@ bool trMainScene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool trMainScene::Start()
 {
+	// Seed
 	pcg32_srandom_r(&rng, 42u, 54u);
 
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
@@ -72,7 +73,7 @@ bool trMainScene::PreUpdate(float dt)
 bool trMainScene::Update(float dt)
 {
 	
-	 d = ldexp(pcg32_random_r(&rng), -32);
+	
 
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->win->window);
@@ -159,7 +160,6 @@ void trMainScene::ShowTheFirstTabulaRasaWindow()
 
 			if (ImGui::MenuItem("Random window"))
 				show_random_window = true;
-			
 
 			ImGui::EndMenu();
 		}
@@ -183,5 +183,14 @@ void trMainScene::ShowRandomWindow(bool * p_open)
 		ImGui::Begin("Random Generator", 0, ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Separator();
 		ImGui::Text("Random between 0 and 1:");
+		bool random_range_pressed = ImGui::Button("Generate");
+
+		if (random_range_pressed)
+			d = ldexp(pcg32_random_r(&rng), -32);
+		ImGui::SameLine();
+		ImGui::Text(std::to_string(d).c_str());
+
 		ImGui::End();
+
+		
 }
