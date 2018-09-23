@@ -51,6 +51,8 @@ bool trMainScene::Start()
 	// Setup style
 	ImGui::StyleColorsDark();
 
+	// Primitives initialization
+
 	sphere_1 = Sphere(vec(0.f, 0.f, 0.f), 2.0f);
 	sphere_2 = Sphere(vec(0.f, 0.f, 0.f), 1.5f);
 
@@ -62,7 +64,8 @@ bool trMainScene::Start()
 	aabb_1 = sphere_1.MinimalEnclosingAABB();
 	aabb_2 = sphere_2.MinimalEnclosingAABB();
 
-
+	obb_1 = OBB(vec(0.0f, 0.0f, 0.0f), vec(1.0f, 1.0f, 1.0f), vec(1.0f, 0.0f, 0.0f), vec(0.0f, 1.0f, 0.0f), vec(0.0f, 0.0f, 1.0f));
+	obb_2 = OBB(vec(2.5f, 0.0f, 0.0f), vec(1.0f, 1.0f, 1.0f), vec(1.0f, 0.0f, 0.0f), vec(0.0f, 1.0f, 0.0f), vec(0.0f, 0.0f, 1.0f));
 
 	return true;
 }
@@ -306,6 +309,32 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 		capsule_2.Translate(capsule_2_position);
 
 		if (capsule_1.Intersects(capsule_2))
+			ImGui::Text("INTERSECT");
+		else
+			ImGui::Text("DON'T INTERSECT");
+	}
+
+	if (ImGui::CollapsingHeader("OBB"))
+	{
+
+		ImGui::Text("OBB 1:");
+		ImGui::SameLine();
+		ImGui::SliderFloat("X 1", &obb_1.pos.x, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Y 1", &obb_1.pos.y, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Z 1", &obb_1.pos.z, -5.0f, 5.0f);
+
+
+		ImGui::Text("OBB 2:");
+		ImGui::SameLine();
+		ImGui::SliderFloat("X 2", &obb_2.pos.x, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Y 2", &obb_2.pos.y, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Z 2", &obb_2.pos.z, -5.0f, 5.0f);
+
+		if (obb_1.Intersects(obb_2))
 			ImGui::Text("INTERSECT");
 		else
 			ImGui::Text("DON'T INTERSECT");

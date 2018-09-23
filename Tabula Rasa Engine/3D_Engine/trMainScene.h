@@ -62,6 +62,9 @@ public:
 
 	AABB aabb_1;
 	AABB aabb_2;
+
+	OBB obb_1;
+	OBB obb_2;
 	//end testing zone
 
 	bool show_demo_window = false;
