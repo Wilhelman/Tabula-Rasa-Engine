@@ -369,26 +369,24 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 
 	if (ImGui::CollapsingHeader("Triangles"))
 	{
-		
+		vec *test_center_1 = &tri_1.CenterPoint();
 		ImGui::Text("Triangle 1:");
 		ImGui::SameLine();
-		ImGui::SliderFloat("X 1", &tri_vec_1.x, -5.0f, 5.0f);
+		ImGui::SliderFloat("X 1", &test_center_1->x, -5.0f, 5.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("Y 1", &tri_vec_1.y, -5.0f, 5.0f);
+		ImGui::SliderFloat("Y 1", &test_center_1->y, -5.0f, 5.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("Z 1", &tri_vec_1.z, -5.0f, 5.0f);
+		ImGui::SliderFloat("Z 1", &test_center_1->z, -5.0f, 5.0f);
 
-		//tri_1.Translate(tri_vec_1);
-
+		vec *test_center_2 = &tri_2.CenterPoint();
 		ImGui::Text("Triangle 2:");
 		ImGui::SameLine();
-		ImGui::SliderFloat("X 2", &tri_vec_2.x, -5.0f, 5.0f);
+		ImGui::SliderFloat("X 2", &test_center_2->x, -5.0f, 5.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("Y 2", &tri_vec_2.y, -5.0f, 5.0f);
+		ImGui::SliderFloat("Y 2", &test_center_2->y, -5.0f, 5.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("Z 2", &tri_vec_2.z, -5.0f, 5.0f);
+		ImGui::SliderFloat("Z 2", &test_center_2->z, -5.0f, 5.0f);
 
-		//tri_2.Translate(tri_vec_2);
 
 		if (tri_1.Intersects(tri_2))
 			ImGui::Text("INTERSECT");
