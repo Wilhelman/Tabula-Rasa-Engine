@@ -51,8 +51,15 @@ private:
 
 public:
 
+	//testing zone
 	Sphere sphere_1;
 	Sphere sphere_2;
+
+	Capsule capsule_1;
+	vec capsule_1_position;
+	Capsule capsule_2;
+	vec capsule_2_position;
+	//end testing zone
 
 	bool show_demo_window = false;
 	bool show_mgl_test_window = false;
