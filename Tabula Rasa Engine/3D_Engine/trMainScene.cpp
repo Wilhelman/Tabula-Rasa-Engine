@@ -59,6 +59,11 @@ bool trMainScene::Start()
 	capsule_2 = Capsule(vec(0.f, 0.f, 0.f), vec(0.f, 1.f, 0.f), 2.f);
 	capsule_2_position = (capsule_2.Top() - capsule_2.Bottom()) / 2;
 
+	aabb_1 = sphere_1.MinimalEnclosingAABB();
+	aabb_2 = sphere_2.MinimalEnclosingAABB();
+
+
+
 	return true;
 }
 
@@ -256,7 +261,19 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 		ImGui::SameLine();
 		ImGui::SliderFloat("Radius 2", &sphere_2.r, 0.0f, 5.0f);
 		
+		ImGui::Text("Sphere intersection");
+
 		if (sphere_1.Intersects(sphere_2))
+			ImGui::Text("INTERSECT");
+		else
+			ImGui::Text("DON'T INTERSECT");
+
+		ImGui::Text("Sphere intersection w/ AABB");
+
+		aabb_1 = sphere_1.MinimalEnclosingAABB();
+		aabb_2 = sphere_2.MinimalEnclosingAABB();
+
+		if (aabb_1.Intersects(aabb_2))
 			ImGui::Text("INTERSECT");
 		else
 			ImGui::Text("DON'T INTERSECT");

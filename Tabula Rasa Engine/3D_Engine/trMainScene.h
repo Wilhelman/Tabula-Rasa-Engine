@@ -59,6 +59,9 @@ public:
 	vec capsule_1_position;
 	Capsule capsule_2;
 	vec capsule_2_position;
+
+	AABB aabb_1;
+	AABB aabb_2;
 	//end testing zone
 
 	bool show_demo_window = false;
