@@ -68,7 +68,6 @@ public:
 	Triangle tri_2;
 
 	Ray ray_1;
-	Ray ray_2;
 
 	Plane plane_1;
 	Plane plane_2;

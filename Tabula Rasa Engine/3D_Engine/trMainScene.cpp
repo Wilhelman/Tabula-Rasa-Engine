@@ -68,9 +68,8 @@ bool trMainScene::Start()
 	tri_2 = Triangle(vec(0.0f, 0.0f, 0.0f), vec(0.0f, 0.0f, 1.0f), vec(0.0f, 1.0f, 0.5f));
 
 	ray_1 = Ray(vec(10.0f, 0.0f, 0.0f), vec(1.0f, 1.0f, 1.0f));
-	ray_2 = Ray(vec(0.0f, 0.0f, 0.0f), vec(1.0f, 1.0f, 1.0f));
 
-	plane_1 = Plane(vec(0.f, 0.f, 1.f), 2.0f);
+	plane_1 = Plane(vec(0.f, 0.f, 1.f), 0.0f);
 	plane_2 = Plane(vec(0.f, 0.f, 1.f), 2.0f);
 	
 	//end testing zone
@@ -316,7 +315,6 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 		ImGui::SliderFloat("Y 1", &obb_1.pos.y, -5.0f, 5.0f);
 		ImGui::SameLine();
 		ImGui::SliderFloat("Z 1", &obb_1.pos.z, -5.0f, 5.0f);
-
 
 		ImGui::Text("OBB 2:");
 		ImGui::SameLine();
