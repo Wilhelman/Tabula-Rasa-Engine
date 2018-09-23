@@ -55,10 +55,8 @@ bool trMainScene::Start()
 	sphere_1 = Sphere(vec(0.f, 0.f, 0.f), 2.0f);
 	sphere_2 = Sphere(vec(0.f, 0.f, 0.f), 1.5f);
 
-	capsule_1 = Capsule(vec(0.f, 0.f, 0.f), vec(0.f, 1.f, 0.f), 2.f);
-	capsule_1_position = (capsule_1.Top() - capsule_1.Bottom()) / 2;
-	capsule_2 = Capsule(vec(0.f, 0.f, 0.f), vec(0.f, 1.f, 0.f), 2.f);
-	capsule_2_position = (capsule_2.Top() - capsule_2.Bottom()) / 2;
+	capsule_1 = Capsule(vec(3.f, 0.f, 0.f), vec(3.f, 2.f, 0.f), 1.f);
+	capsule_2 = Capsule(vec(0.f, 0.f, 0.f), vec(0.f, 2.f, 0.f), 1.f);
 
 	aabb_1 = sphere_1.MinimalEnclosingAABB();
 	aabb_2 = sphere_2.MinimalEnclosingAABB();
@@ -295,28 +293,13 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 
 	if (ImGui::CollapsingHeader("Capsules"))
 	{
-
 		ImGui::Text("Capsule 1:");
 		ImGui::SameLine();
-		ImGui::SliderFloat("X 1", &capsule_1_position.x, -5.0f, 5.0f);
-		ImGui::SameLine();
-		ImGui::SliderFloat("Y 1", &capsule_1_position.y, -5.0f, 5.0f);
-		ImGui::SameLine();
-		ImGui::SliderFloat("Z 1", &capsule_1_position.z, -5.0f, 5.0f);
-		ImGui::SameLine();
 		ImGui::SliderFloat("Radius 1", &capsule_1.r, 0.0f, 5.0f);
-		capsule_1.Translate(capsule_1_position);
 		
 		ImGui::Text("Capsule 2:");
 		ImGui::SameLine();
-		ImGui::SliderFloat("X 2", &capsule_2_position.x, -5.0f, 5.0f);
-		ImGui::SameLine();
-		ImGui::SliderFloat("Y 2", &capsule_2_position.y, -5.0f, 5.0f);
-		ImGui::SameLine();
-		ImGui::SliderFloat("Z 2", &capsule_2_position.z, -5.0f, 5.0f);
-		ImGui::SameLine();
 		ImGui::SliderFloat("Radius 2", &capsule_2.r, 0.0f, 5.0f);
-		capsule_2.Translate(capsule_2_position);
 
 		if (capsule_1.Intersects(capsule_2))
 			ImGui::Text("INTERSECT");

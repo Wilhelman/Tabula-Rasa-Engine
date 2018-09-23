@@ -56,9 +56,7 @@ public:
 	Sphere sphere_2;
 
 	Capsule capsule_1;
-	vec capsule_1_position;
 	Capsule capsule_2;
-	vec capsule_2_position;
 
 	AABB aabb_1;
 	AABB aabb_2;
@@ -67,9 +65,7 @@ public:
 	OBB obb_2;
 
 	Triangle tri_1;
-	vec tri_vec_1;
 	Triangle tri_2;
-	vec tri_vec_2;
 
 	Ray ray_1;
 	Ray ray_2;
