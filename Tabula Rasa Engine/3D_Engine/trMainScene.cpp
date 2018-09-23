@@ -398,7 +398,7 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 
 	if (ImGui::CollapsingHeader("Planes"))
 	{
-
+		//todo transform + translate
 		ImGui::Text("Plane 1:");
 		ImGui::SameLine();
 		ImGui::SliderFloat("X 1", &plane_1.normal.x, -5.0f, 5.0f);
@@ -407,7 +407,7 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 		ImGui::SameLine();
 		ImGui::SliderFloat("Z 1", &plane_1.normal.z, -5.0f, 5.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("Signed Distance 1", &plane_1.normal.z, 0.0f, 5.0f);
+		ImGui::SliderFloat("Signed Distance 1", &plane_1.d, 0.0f, 5.0f);
 
 		ImGui::Text("Plane 2:");
 		ImGui::SameLine();
@@ -417,9 +417,9 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 		ImGui::SameLine();
 		ImGui::SliderFloat("Z 2", &plane_2.normal.z, -5.0f, 5.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("Signed Distance 2", &plane_2.normal.z, 0.0f, 5.0f);
+		ImGui::SliderFloat("Signed Distance 2", &plane_2.d, 0.0f, 5.0f);
 
-		if (tri_1.Intersects(tri_2))
+		if (plane_1.Intersects(plane_2))
 			ImGui::Text("INTERSECT");
 		else
 			ImGui::Text("DON'T INTERSECT");
