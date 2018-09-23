@@ -70,6 +70,9 @@ public:
 	vec tri_vec_1;
 	Triangle tri_2;
 	vec tri_vec_2;
+
+	Ray ray_1;
+	Ray ray_2;
 	//end testing zone
 
 	bool show_demo_window = false;

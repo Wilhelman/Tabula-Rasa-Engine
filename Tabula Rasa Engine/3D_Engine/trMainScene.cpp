@@ -72,6 +72,9 @@ bool trMainScene::Start()
 	tri_1 = Triangle(vec(0.0f, 0.0f, 0.0f), vec(0.0f, 0.0f, 1.0f), vec(0.0f, 1.0f, 0.5f));
 	vec tri_vec_2 = tri_2.CenterPoint();
 
+	ray_1 = Ray(vec(10.0f, 0.0f, 0.0f), vec(1.0f, 1.0f, 1.0f));
+	ray_2 = Ray(vec(0.0f, 0.0f, 0.0f), vec(1.0f, 1.0f, 1.0f));
+
 	return true;
 }
 
@@ -251,7 +254,7 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 	{
 		ImGui::Text("Sphere 1:");
 		ImGui::SameLine();
-		ImGui::SliderFloat("X 1", &sphere_1.pos.x, -5.0f, 5.0f);
+		ImGui::SliderFloat("X 1", &sphere_1.pos.x, -5.0f, 10.0f);
 		ImGui::SameLine();
 		ImGui::SliderFloat("Y 1", &sphere_1.pos.y, -5.0f, 5.0f);
 		ImGui::SameLine();
@@ -342,6 +345,22 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 			ImGui::Text("INTERSECT");
 		else
 			ImGui::Text("DON'T INTERSECT");
+	}
+
+	if (ImGui::CollapsingHeader("Rays"))
+	{
+		ImGui::Text("Ray 1:");
+		ImGui::SameLine();
+		ImGui::SliderFloat("X dir", &ray_1.dir.x, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Y dir", &ray_1.dir.y, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Z dir", &ray_1.dir.z, -5.0f, 5.0f);
+
+		if (ray_1.Intersects(sphere_1))
+			ImGui::Text("INTERSECTS WITH SPHERE 1");
+		else
+			ImGui::Text("DOES NOT INTERSECT WITH SPHERE 1");
 	}
 
 	if (ImGui::CollapsingHeader("Triangles"))
