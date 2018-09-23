@@ -256,21 +256,21 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 		ImGui::SameLine();
 		ImGui::SliderFloat("X 1", &sphere_1.pos.x, -5.0f, 10.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("Y 1", &sphere_1.pos.y, -5.0f, 5.0f);
+		ImGui::SliderFloat("Y 1", &sphere_1.pos.y, -5.0f, 10.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("Z 1", &sphere_1.pos.z, -5.0f, 5.0f);
+		ImGui::SliderFloat("Z 1", &sphere_1.pos.z, -5.0f, 10.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("Radius 1", &sphere_1.r, 0.0f, 5.0f);
+		ImGui::SliderFloat("Radius 1", &sphere_1.r, 0.0f, 10.0f);
 
 		ImGui::Text("Sphere 2:");
 		ImGui::SameLine();
-		ImGui::SliderFloat("X 2", &sphere_2.pos.x, -5.0f, 5.0f);
+		ImGui::SliderFloat("X 2", &sphere_2.pos.x, -5.0f, 10.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("Y 2", &sphere_2.pos.y, -5.0f, 5.0f);
+		ImGui::SliderFloat("Y 2", &sphere_2.pos.y, -5.0f, 10.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("Z 2", &sphere_2.pos.z, -5.0f, 5.0f);
+		ImGui::SliderFloat("Z 2", &sphere_2.pos.z, -5.0f, 10.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("Radius 2", &sphere_2.r, 0.0f, 5.0f);
+		ImGui::SliderFloat("Radius 2", &sphere_2.r, 0.0f, 10.0f);
 		
 		ImGui::Text("Sphere intersection");
 
