@@ -1,4 +1,4 @@
-#include "Globals.h"
+#include "trDefs.h"
 #include "trApp.h"
 #include "trWindow.h"
 

@@ -2,7 +2,7 @@
 #define __trRENDERER3D_H__
 
 #include "trModule.h"
-#include "Globals.h"
+#include "trDefs.h"
 #include "Light.h"
 
 #include "MathGeoLib/MathBuildConfig.h"

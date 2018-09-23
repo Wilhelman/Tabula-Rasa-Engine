@@ -3,6 +3,10 @@
 
 #include <stdio.h>
 
+// Warning disabled ---
+#pragma warning( disable : 4577 ) // Warning that exceptions are disabled
+#pragma warning( disable : 4530 ) // Warning that exceptions are disabled
+
 //  NULL just in case ----------------------
 
 #ifdef NULL
@@ -69,5 +73,21 @@ inline const char* const PATH(const char* folder, const char* file)
 #define PI 3.14159265359f
 #define DEG_TO_RAD(a) a * PI / 180.0f
 #define RAD_TO_DEG(a) a * 180.0f / PI
+
+#define CAP(n) ((n <= 0.0f) ? n=0.0f : (n >= 1.0f) ? n=1.0f : n=n)
+
+#define DEGTORAD 0.0174532925199432957f
+#define RADTODEG 57.295779513082320876f
+
+// Configuration -----------
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 1024
+#define SCREEN_SIZE 1
+#define WIN_FULLSCREEN false
+#define WIN_RESIZABLE true
+#define WIN_BORDERLESS false
+#define WIN_FULLSCREEN_DESKTOP false
+#define VSYNC true
+#define TITLE "Tabula Rasa Engine"
 
 #endif

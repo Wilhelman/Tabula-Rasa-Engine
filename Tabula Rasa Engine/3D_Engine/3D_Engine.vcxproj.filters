@@ -284,9 +284,6 @@
     <ClInclude Include="Color.h">
       <Filter>Utilities\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Utilities\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="trRenderer3D.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>

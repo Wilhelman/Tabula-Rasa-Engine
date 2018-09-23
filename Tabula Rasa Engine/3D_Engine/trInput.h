@@ -1,6 +1,6 @@
 #pragma once
 #include "trModule.h"
-#include "Globals.h"
+#include "trDefs.h"
 
 #include "SDL/include/SDL.h"
 

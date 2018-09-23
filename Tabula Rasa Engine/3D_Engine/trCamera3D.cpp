@@ -1,4 +1,4 @@
-#include "Globals.h"
+#include "trDefs.h"
 #include "trApp.h"
 #include "trInput.h"
 #include "trCamera3D.h"
@@ -110,7 +110,7 @@ bool trCamera3D::Update(float dt)
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
 
-	return UPDATE_CONTINUE;
+	return true;
 }
 
 // -----------------------------------------------------------------

@@ -1,7 +1,7 @@
 #ifndef __trCAMERA3D_H__
 #define __trCAMERA3D_H__
 
-#include "Globals.h" 
+#include "trDefs.h" 
 
 #include "MathGeoLib/MathBuildConfig.h"
 #include "MathGeoLib/MathGeoLib.h"

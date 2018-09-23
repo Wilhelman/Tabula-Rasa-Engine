@@ -228,7 +228,7 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 	// Random between 0 and 1
 
 	//ImGui::Text("Random between 0 and 1:");
-
+	
 	if (ImGui::CollapsingHeader("Spheres"))
 	{
 		ImGui::Text("Sphere 1:");
