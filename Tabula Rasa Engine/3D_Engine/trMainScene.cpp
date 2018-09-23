@@ -51,8 +51,7 @@ bool trMainScene::Start()
 	// Setup style
 	ImGui::StyleColorsDark();
 
-	// Primitives initialization
-
+	//testing zone
 	sphere_1 = Sphere(vec(0.f, 0.f, 0.f), 2.0f);
 	sphere_2 = Sphere(vec(0.f, 0.f, 0.f), 1.5f);
 
@@ -74,6 +73,11 @@ bool trMainScene::Start()
 
 	ray_1 = Ray(vec(10.0f, 0.0f, 0.0f), vec(1.0f, 1.0f, 1.0f));
 	ray_2 = Ray(vec(0.0f, 0.0f, 0.0f), vec(1.0f, 1.0f, 1.0f));
+
+	plane_1 = Plane(vec(0.f, 0.f, 1.f), 2.0f);
+	plane_2 = Plane(vec(0.f, 0.f, 1.f), 2.0f);
+	
+	//end testing zone
 
 	return true;
 }
@@ -385,6 +389,35 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 		ImGui::SliderFloat("Z 2", &tri_vec_2.z, -5.0f, 5.0f);
 
 		//tri_2.Translate(tri_vec_2);
+
+		if (tri_1.Intersects(tri_2))
+			ImGui::Text("INTERSECT");
+		else
+			ImGui::Text("DON'T INTERSECT");
+	}
+
+	if (ImGui::CollapsingHeader("Planes"))
+	{
+
+		ImGui::Text("Plane 1:");
+		ImGui::SameLine();
+		ImGui::SliderFloat("X 1", &plane_1.normal.x, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Y 1", &plane_1.normal.y, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Z 1", &plane_1.normal.z, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Signed Distance 1", &plane_1.normal.z, 0.0f, 5.0f);
+
+		ImGui::Text("Plane 2:");
+		ImGui::SameLine();
+		ImGui::SliderFloat("X 2", &plane_2.normal.x, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Y 2", &plane_2.normal.y, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Z 2", &plane_2.normal.z, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Signed Distance 2", &plane_2.normal.z, 0.0f, 5.0f);
 
 		if (tri_1.Intersects(tri_2))
 			ImGui::Text("INTERSECT");

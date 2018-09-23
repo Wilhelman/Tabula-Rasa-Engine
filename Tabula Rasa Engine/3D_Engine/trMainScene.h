@@ -73,6 +73,9 @@ public:
 
 	Ray ray_1;
 	Ray ray_2;
+
+	Plane plane_1;
+	Plane plane_2;
 	//end testing zone
 
 	bool show_demo_window = false;
