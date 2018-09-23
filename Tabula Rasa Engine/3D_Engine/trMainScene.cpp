@@ -67,9 +67,7 @@ bool trMainScene::Start()
 	obb_2 = OBB(vec(2.5f, 0.0f, 0.0f), vec(1.0f, 1.0f, 1.0f), vec(1.0f, 0.0f, 0.0f), vec(0.0f, 1.0f, 0.0f), vec(0.0f, 0.0f, 1.0f));
 
 	tri_1 = Triangle(vec(0.0f, 0.0f, 0.0f), vec(1.0f, 0.0f, 0.0f), vec(0.5f, 1.0f, 0.0f));
-	vec tri_vec_1 = tri_1.CenterPoint();
-	tri_1 = Triangle(vec(0.0f, 0.0f, 0.0f), vec(0.0f, 0.0f, 1.0f), vec(0.0f, 1.0f, 0.5f));
-	vec tri_vec_2 = tri_2.CenterPoint();
+	tri_2 = Triangle(vec(0.0f, 0.0f, 0.0f), vec(0.0f, 0.0f, 1.0f), vec(0.0f, 1.0f, 0.5f));
 
 	ray_1 = Ray(vec(10.0f, 0.0f, 0.0f), vec(1.0f, 1.0f, 1.0f));
 	ray_2 = Ray(vec(0.0f, 0.0f, 0.0f), vec(1.0f, 1.0f, 1.0f));
@@ -369,23 +367,52 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 
 	if (ImGui::CollapsingHeader("Triangles"))
 	{
-		vec *test_center_1 = &tri_1.CenterPoint();
-		ImGui::Text("Triangle 1:");
-		ImGui::SameLine();
-		ImGui::SliderFloat("X 1", &test_center_1->x, -5.0f, 5.0f);
-		ImGui::SameLine();
-		ImGui::SliderFloat("Y 1", &test_center_1->y, -5.0f, 5.0f);
-		ImGui::SameLine();
-		ImGui::SliderFloat("Z 1", &test_center_1->z, -5.0f, 5.0f);
 
-		vec *test_center_2 = &tri_2.CenterPoint();
+		ImGui::Text("Triangle 1:");
+
+		ImGui::Text("Triangle 1 vertex A");
+		ImGui::SliderFloat("X A vertex", &tri_1.a.x, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Y A vertex", &tri_1.a.y, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Z A vertex", &tri_1.a.z, -5.0f, 5.0f);
+
+		ImGui::Text("Triangle 1 vertex B");
+		ImGui::SliderFloat("X B vertex", &tri_1.b.x, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Y B vertex", &tri_1.b.y, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Z B vertex", &tri_1.b.z, -5.0f, 5.0f);
+
+		ImGui::Text("Triangle 1 vertex C");
+		ImGui::SliderFloat("X C vertex", &tri_1.c.x, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Y C vertex", &tri_1.c.y, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Z C vertex", &tri_1.c.z, -5.0f, 5.0f);
+
 		ImGui::Text("Triangle 2:");
+
+		ImGui::Text("Triangle 2 vertex A");
+		ImGui::SliderFloat("X A 2 vertex", &tri_2.a.x, -5.0f, 5.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("X 2", &test_center_2->x, -5.0f, 5.0f);
+		ImGui::SliderFloat("Y A 2 vertex", &tri_2.a.y, -5.0f, 5.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("Y 2", &test_center_2->y, -5.0f, 5.0f);
+		ImGui::SliderFloat("Z A 2 vertex", &tri_2.a.z, -5.0f, 5.0f);
+
+		ImGui::Text("Triangle 2 vertex B");
+		ImGui::SliderFloat("X B 2 vertex", &tri_2.b.x, -5.0f, 5.0f);
 		ImGui::SameLine();
-		ImGui::SliderFloat("Z 2", &test_center_2->z, -5.0f, 5.0f);
+		ImGui::SliderFloat("Y B 2 vertex", &tri_2.b.y, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Z B 2 vertex", &tri_2.b.z, -5.0f, 5.0f);
+
+		ImGui::Text("Triangle 2 vertex C");
+		ImGui::SliderFloat("X C 2 vertex", &tri_2.c.x, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Y C 2 vertex", &tri_2.c.y, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Z C 2 vertex", &tri_2.c.z, -5.0f, 5.0f);
 
 
 		if (tri_1.Intersects(tri_2))
