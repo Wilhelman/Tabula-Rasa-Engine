@@ -234,7 +234,7 @@ void trMainScene::ShowRandomWindow(bool * p_open)
 		}
 
 		ImGui::SameLine();
-		ImGui::Text("%i", rand_min_max + min_num);
+		ImGui::Text("%d", rand_min_max + min_num);
 	
 		ImGui::End();
 }

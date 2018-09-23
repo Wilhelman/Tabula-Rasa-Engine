@@ -73,12 +73,16 @@ public:
 	Plane plane_2;
 	//end testing zone
 
+	//im_gui test
 	bool show_demo_window = false;
 	bool show_mgl_test_window = false;
 	bool quit = false;
 
 	ImVec4 clear_color = ImVec4(0.0f, 0.00f, 0.00f, 0.00f);
 	ImGuiIO io;
+	//end im_gui test
+
+	//pcg_test
 	double rand_num_range = 0;
 	pcg32_random_t rng;
 	pcg_state_setseq_64 rng_bound;
@@ -88,6 +92,8 @@ public:
 	int max_num = 0;
 	uint32_t bound = 0;
 	int temp_min_num = 0;
+	//pc_test end
+
 };
 
 #endif // __trRENDER_H__
