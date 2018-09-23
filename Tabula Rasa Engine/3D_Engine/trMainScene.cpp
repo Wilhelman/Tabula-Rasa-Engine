@@ -67,6 +67,11 @@ bool trMainScene::Start()
 	obb_1 = OBB(vec(0.0f, 0.0f, 0.0f), vec(1.0f, 1.0f, 1.0f), vec(1.0f, 0.0f, 0.0f), vec(0.0f, 1.0f, 0.0f), vec(0.0f, 0.0f, 1.0f));
 	obb_2 = OBB(vec(2.5f, 0.0f, 0.0f), vec(1.0f, 1.0f, 1.0f), vec(1.0f, 0.0f, 0.0f), vec(0.0f, 1.0f, 0.0f), vec(0.0f, 0.0f, 1.0f));
 
+	tri_1 = Triangle(vec(0.0f, 0.0f, 0.0f), vec(1.0f, 0.0f, 0.0f), vec(0.5f, 1.0f, 0.0f));
+	vec tri_vec_1 = tri_1.CenterPoint();
+	tri_1 = Triangle(vec(0.0f, 0.0f, 0.0f), vec(0.0f, 0.0f, 1.0f), vec(0.0f, 1.0f, 0.5f));
+	vec tri_vec_2 = tri_2.CenterPoint();
+
 	return true;
 }
 
@@ -271,6 +276,7 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 		else
 			ImGui::Text("DON'T INTERSECT");
 
+		ImGui::Separator();
 		ImGui::Text("Sphere intersection w/ AABB");
 
 		aabb_1 = sphere_1.MinimalEnclosingAABB();
@@ -280,7 +286,6 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 			ImGui::Text("INTERSECT");
 		else
 			ImGui::Text("DON'T INTERSECT");
-
 	}
 
 	if (ImGui::CollapsingHeader("Capsules"))
@@ -316,7 +321,6 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 
 	if (ImGui::CollapsingHeader("OBB"))
 	{
-
 		ImGui::Text("OBB 1:");
 		ImGui::SameLine();
 		ImGui::SliderFloat("X 1", &obb_1.pos.x, -5.0f, 5.0f);
@@ -333,12 +337,40 @@ void trMainScene::ShowMathGeoLibTestWindow(bool* p_open)
 		ImGui::SliderFloat("Y 2", &obb_2.pos.y, -5.0f, 5.0f);
 		ImGui::SameLine();
 		ImGui::SliderFloat("Z 2", &obb_2.pos.z, -5.0f, 5.0f);
-
+		
 		if (obb_1.Intersects(obb_2))
 			ImGui::Text("INTERSECT");
 		else
 			ImGui::Text("DON'T INTERSECT");
+	}
 
+	if (ImGui::CollapsingHeader("Triangles"))
+	{
+		
+		ImGui::Text("Triangle 1:");
+		ImGui::SameLine();
+		ImGui::SliderFloat("X 1", &tri_vec_1.x, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Y 1", &tri_vec_1.y, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Z 1", &tri_vec_1.z, -5.0f, 5.0f);
+
+		//tri_1.Translate(tri_vec_1);
+
+		ImGui::Text("Triangle 2:");
+		ImGui::SameLine();
+		ImGui::SliderFloat("X 2", &tri_vec_2.x, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Y 2", &tri_vec_2.y, -5.0f, 5.0f);
+		ImGui::SameLine();
+		ImGui::SliderFloat("Z 2", &tri_vec_2.z, -5.0f, 5.0f);
+
+		//tri_2.Translate(tri_vec_2);
+
+		if (tri_1.Intersects(tri_2))
+			ImGui::Text("INTERSECT");
+		else
+			ImGui::Text("DON'T INTERSECT");
 	}
 
 	ImGui::End();

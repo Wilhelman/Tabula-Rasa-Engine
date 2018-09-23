@@ -65,6 +65,11 @@ public:
 
 	OBB obb_1;
 	OBB obb_2;
+
+	Triangle tri_1;
+	vec tri_vec_1;
+	Triangle tri_2;
+	vec tri_vec_2;
 	//end testing zone
 
 	bool show_demo_window = false;
