@@ -180,7 +180,7 @@ void trMainScene::ShowMenuBar()
 				TR_LOG("Todo open Download latest link");
 
 			if (ImGui::MenuItem("Report a bug"))
-				TR_LOG("Todo open Report a bug link");
+				ShellExecute(GetActiveWindow(), "open", "https://github.com/Wilhelman/Tabula-Rasa-Engine/issues", NULL, NULL, SW_SHOWNORMAL);
 
 			if (ImGui::MenuItem("About"))
 				show_about_window = true;
