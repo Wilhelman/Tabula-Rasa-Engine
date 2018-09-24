@@ -174,10 +174,10 @@ void trMainScene::ShowMenuBar()
 				show_demo_window = true;
 
 			if (ImGui::MenuItem("Documentation"))
-				TR_LOG("Todo open Documentation");
+				TR_LOG("Todo open Documentation about wiki or about what?");
 
 			if (ImGui::MenuItem("Download latest"))
-				TR_LOG("Todo open Download latest link");
+				ShellExecute(GetActiveWindow(), "open", "https://github.com/Wilhelman/Tabula-Rasa-Engine/releases", NULL, NULL, SW_SHOWNORMAL);
 
 			if (ImGui::MenuItem("Report a bug"))
 				ShellExecute(GetActiveWindow(), "open", "https://github.com/Wilhelman/Tabula-Rasa-Engine/issues", NULL, NULL, SW_SHOWNORMAL);
@@ -206,7 +206,6 @@ void trMainScene::ShowAboutWindow(bool * p_open)
 
 	ImGui::Separator();
 
-	//todo check link
 	ImGui::Text("By Guillermo Garcia Subirana & Victor Maso Garcia");
 
 	ImGui::Text("TODO: Licensed under MIT");
