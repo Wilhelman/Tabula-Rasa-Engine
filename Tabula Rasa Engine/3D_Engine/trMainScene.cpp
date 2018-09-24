@@ -177,13 +177,19 @@ void trMainScene::ShowMenuBar()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Exit", "Alt+F4"))
+			if (ImGui::MenuItem("Quit", "Alt+F4"))
 				quit = true;
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Window"))
+		if (ImGui::BeginMenu("View"))
 		{
+			if (ImGui::MenuItem("Console", "1"))
+				TR_LOG("Todo open console");
+
+			if (ImGui::MenuItem("Configuration", "4"))
+				TR_LOG("Todo open configuration");
+
 			ImGui::Checkbox("Demo Window (Ctrl + W)", &show_demo_window);
 
 			ImGui::Checkbox("MathGeoLib Collision Tester (Ctrl + M)", &show_mgl_test_window);
@@ -193,12 +199,45 @@ void trMainScene::ShowMenuBar()
 
 			ImGui::EndMenu();
 		}
-		
-		if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-			show_demo_window = !show_demo_window;
 
-		if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
-			show_mgl_test_window = !show_mgl_test_window;
+		if (ImGui::BeginMenu("View"))
+		{
+			if (ImGui::MenuItem("Console", "1"))
+				TR_LOG("Todo open console");
+
+			if (ImGui::MenuItem("Configuration", "4"))
+				TR_LOG("Todo open configuration");
+
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("Help"))
+		{
+			if (ImGui::MenuItem("Gui Demo"))
+				show_demo_window = true;
+
+			if (ImGui::MenuItem("Documentation"))
+				TR_LOG("Todo open Documentation");
+
+			if (ImGui::MenuItem("Download latest"))
+				TR_LOG("Todo open Download latest link");
+
+			if (ImGui::MenuItem("Report a bug"))
+				TR_LOG("Todo open Download latest link");
+
+			ImGui::Checkbox("MathGeoLib Collision Tester (Ctrl + M)", &show_mgl_test_window);
+
+			if (ImGui::MenuItem("Random window"))
+				show_random_window = true;
+
+			ImGui::EndMenu();
+		}
+		
+		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+			TR_LOG("Todo open console");
+
+		if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
+			TR_LOG("Todo open configuration");
 
 		ImGui::EndMainMenuBar();
 	}
