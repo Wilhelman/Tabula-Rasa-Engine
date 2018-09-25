@@ -17,6 +17,7 @@ class trAudio;
 class trCamera3D;
 class trMainScene;
 class trEditor;
+class trHardware;
 
 class trApp
 {
@@ -82,6 +83,7 @@ public:
 	trMainScene*		main_scene = nullptr;
 
 	trEditor*			editor = nullptr;
+	trHardware*			hardware = nullptr;
 	
 
 	bool				cap_state = false;

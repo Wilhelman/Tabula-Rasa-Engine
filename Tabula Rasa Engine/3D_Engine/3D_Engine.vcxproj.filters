@@ -222,6 +222,11 @@
     <ClCompile Include="Panel.cpp">
       <Filter>Core\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="PanelAbout.cpp" />
+    <ClCompile Include="trHardware.cpp" />
+    <ClCompile Include="trHardwarecpp.cpp">
+      <Filter>Core\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pugiconfig.hpp">
@@ -511,6 +516,10 @@
     </ClInclude>
     <ClInclude Include="Panel.h">
       <Filter>Core\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelAbout.h" />
+    <ClInclude Include="trHardware.h">
+      <Filter>Core\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
