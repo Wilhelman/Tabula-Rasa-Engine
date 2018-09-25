@@ -23,6 +23,8 @@ public:
 	float GetBrightness() const;
 	void SetBrightness(float set);
 	void GetMaxMinSize(uint& min_width, uint& min_height, uint& max_width, uint& max_height) const;
+	void SetWidth(uint width);
+	void SetHeigth(uint height);
 
 public:
 	//The window we'll be rendering to
@@ -30,6 +32,9 @@ public:
 
 	//The surface contained by the window
 	SDL_Surface* screen_surface;
+
+	int width = 0;
+	int height = 0;
 };
 
 #endif // __ModuleWindow_H__
