@@ -87,10 +87,10 @@ bool trEditor::Update(float dt)
 		if (ImGui::BeginMenu("View"))
 		{
 			if (ImGui::MenuItem("Console", "1"))
-				TR_LOG("Todo open console");
+				console->SwitchActive();
 
 			if (ImGui::MenuItem("Configuration", "4"))
-				TR_LOG("Todo open configuration");
+				config->SwitchActive();
 
 			ImGui::EndMenu();
 		}
