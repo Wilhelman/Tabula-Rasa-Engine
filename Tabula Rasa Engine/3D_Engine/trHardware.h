@@ -3,6 +3,8 @@
 
 #include "trModule.h"
 
+#define MB_2_GB 1024.0f
+
 class trHardware : public trModule
 {
 
@@ -13,7 +15,7 @@ public:
 		char sdl_version[25] = "";
 		unsigned int cpu_count = 0u;
 		unsigned int cache_line_size = 0u;
-		int system_ram = 0;
+		float system_ram = 0.0f;
 		bool has_3d_now = false;
 		bool has_avx = false;
 		bool has_avx2 = false;

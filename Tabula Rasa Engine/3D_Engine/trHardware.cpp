@@ -15,7 +15,7 @@ trHardware::trHardware()
 	hw_info.cpu_count = SDL_GetCPUCount();
 	hw_info.cache_line_size = SDL_GetCPUCacheLineSize();
 	
-	hw_info.system_ram = SDL_GetSystemRAM();
+	hw_info.system_ram = (float)SDL_GetSystemRAM() / MB_2_GB;
 	hw_info.has_3d_now = SDL_Has3DNow();
 	hw_info.has_avx = SDL_HasAVX();
 	hw_info.has_avx2 = SDL_HasAVX2();
