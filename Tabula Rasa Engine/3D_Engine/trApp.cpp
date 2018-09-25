@@ -8,6 +8,7 @@
 #include "trRenderer3D.h"
 #include "trAudio.h"
 #include "trCamera3D.h"
+#include "trEditor.h"
 
 #include "trMainScene.h"
 
@@ -32,8 +33,8 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(camera);
 
-
 	AddModule(main_scene);
+	AddModule(editor);
 	
 
 	// render last to swap buffer

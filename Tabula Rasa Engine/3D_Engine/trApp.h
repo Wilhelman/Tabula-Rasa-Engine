@@ -16,6 +16,7 @@ class trRenderer3D;
 class trAudio;
 class trCamera3D;
 class trMainScene;
+class trEditor;
 
 class trApp
 {
@@ -79,6 +80,8 @@ public:
 	trCamera3D*			camera = nullptr;
 	
 	trMainScene*		main_scene = nullptr;
+
+	trEditor*			editor = nullptr;
 	
 
 	bool				cap_state = false;
@@ -90,9 +93,9 @@ private:
 	char**				args = nullptr;
 
 	std::string			game_title;
-	std::string				organization;
-	std::string				vsync_to_show;
-	std::string				cap_to_show;
+	std::string			organization;
+	std::string			vsync_to_show;
+	std::string			cap_to_show;
 
 	trPerfTimer			perf_timer;
 	trTimer				simple_timer;

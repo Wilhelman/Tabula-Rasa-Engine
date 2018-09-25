@@ -43,21 +43,6 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
-private:
-	void ShowMenuBar();
-
-	void ShowAboutWindow(bool* p_open);
-
-public:
-
-	//im_gui test
-	bool show_demo_window = false;
-	bool show_about_window = false;
-	bool quit = false;
-
-	ImVec4 clear_color = ImVec4(0.0f, 0.00f, 0.00f, 0.00f);
-	ImGuiIO io;
-	//end im_gui test
 
 };
 
