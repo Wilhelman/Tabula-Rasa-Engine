@@ -193,9 +193,7 @@ void PanelConfiguration::ShowRenderer(trRenderer3D * module)
 
 void PanelConfiguration::FillChartFpsInfo(float fps, float ms)
 {
-	static uint count = 0;
-
-	if (count == CHART_FPS_CAP)
+	if (chart_iterator == CHART_FPS_CAP)
 	{
 		for (uint i = 0; i < CHART_FPS_CAP - 1; i++)
 		{
@@ -204,8 +202,8 @@ void PanelConfiguration::FillChartFpsInfo(float fps, float ms)
 		}
 	}
 	else
-		count++;
+		chart_iterator++;
 
-	chart_fps[count - 1] = fps;
-	chart_ms[count - 1] = ms;
+	chart_fps[chart_iterator - 1] = fps;
+	chart_ms[chart_iterator - 1] = ms;
 }

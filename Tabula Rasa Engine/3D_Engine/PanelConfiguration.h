@@ -34,6 +34,9 @@ public:
 
 private:
 	std::vector<float> chart_fps, chart_ms;
+
+	uint chart_iterator = 0u;
+
 };
 
 #endif// __PANELCONFIGURATION_H__

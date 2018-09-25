@@ -159,6 +159,13 @@ bool trEditor::PostUpdate(float dt)
 bool trEditor::CleanUp()
 {
 	TR_LOG("Cleaning trEditor");
+	std::vector<Panel*>::iterator it = panels.begin();
+
+	while (it != panels.end())
+		RELEASE(*it++);//is this legal?
+
+	panels.clear();
+
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
