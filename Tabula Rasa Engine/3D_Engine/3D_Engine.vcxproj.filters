@@ -536,6 +536,9 @@
     <ClInclude Include="PanelConsole.h">
       <Filter>Core\Editor</Filter>
     </ClInclude>
+    <ClInclude Include="imgui_defs.h">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\float2.inl">

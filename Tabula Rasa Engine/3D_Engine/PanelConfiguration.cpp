@@ -8,6 +8,7 @@
 #include "trRenderer3D.h"
 #include "trCamera3D.h"
 #include "trEditor.h"
+#include "imgui_defs.h"
 
 using namespace std;
 
@@ -145,8 +146,8 @@ void PanelConfiguration::DrawApplication()
 
 void PanelConfiguration::DrawModuleHardware(trHardware * module)
 {
-	/*trHardware::hw_info info = module->GetInfo();
-	IMGUI_PRINT("SDL Version:", info.sdl_version);
+	/*trHardware::HWInfo info = module->GetHardwareInfo();
+	IMGUI_PRINT("SDL Version:", info.sdl_version_num);
 
 	ImGui::Separator();
 	IMGUI_PRINT("CPUs:", "%u (Cache: %ukb)", info.cpu_count, info.l1_cachekb);

@@ -7,9 +7,10 @@ class trHardware : public trModule
 {
 
 public:
+
 	struct HWInfo
 	{
-		int sdl_version_num[3];
+		char sdl_version[25] = "";
 		unsigned int cpu_count = 0u;
 		unsigned int cache_line_size = 0u;
 		int system_ram = 0;
@@ -25,6 +26,7 @@ public:
 		bool has_sse41 = false;
 		bool has_sse42 = false;
 	};
+	
 
 public:
 

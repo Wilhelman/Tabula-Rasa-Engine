@@ -6,9 +6,9 @@ trHardware::trHardware()
 {
 	SDL_version sdl_version;
 	SDL_GetVersion(&sdl_version);
-	hw_info.sdl_version_num[0] = sdl_version.major;
-	hw_info.sdl_version_num[1] = sdl_version.minor;
-	hw_info.sdl_version_num[2] = sdl_version.patch;
+	hw_info.sdl_version[0] = sdl_version.major;
+	hw_info.sdl_version[1] = sdl_version.minor;
+	hw_info.sdl_version[2] = sdl_version.patch;
 
 	hw_info.cpu_count = SDL_GetCPUCount();
 	hw_info.cache_line_size = SDL_GetCPUCacheLineSize();
@@ -32,11 +32,11 @@ trHardware::~trHardware()
 {
 }
 
-/*
-HWInfo trHardware::GetHardwareInfo() const
+trHardware::HWInfo trHardware::GetHardwareInfo() const
 {
-	return HWInfo();
-}*/
+	return hw_info;
+}
+
 
 
 

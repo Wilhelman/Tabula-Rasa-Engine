@@ -80,6 +80,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
+    <ClInclude Include="imgui_defs.h" />
     <ClInclude Include="imgui_impl_opengl2.h" />
     <ClInclude Include="imgui_impl_sdl.h" />
     <ClInclude Include="imgui_internal.h" />
