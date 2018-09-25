@@ -27,6 +27,9 @@ public:
 	bool UsingMouse() const;
 	bool UsingKeyboard() const;
 
+	void LogFPS(float current_fps, float current_ms);
+
+
 public:
 	PanelAbout* about = nullptr;
 	PanelConfiguration* config = nullptr;

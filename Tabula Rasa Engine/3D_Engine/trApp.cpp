@@ -19,6 +19,8 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 {
 	PERF_START(ptimer);
 
+	fps_counter = 0;
+
 	input = new trInput();
 	win = new trWindow();
 	render = new trRenderer3D();
@@ -188,7 +190,7 @@ void trApp::PrepareUpdate()
 // ---------------------------------------------
 void trApp::FinishUpdate()
 {
-
+	fps_counter++;
 	frame_count++;
 
 	// Framerate calculations --
@@ -232,6 +234,8 @@ void trApp::FinishUpdate()
 		game_title.data(), framerate, avg_fps, last_frame_ms, cap_to_show.data(), vsync_to_show.data());
 
 	App->win->SetTitle(title);
+
+	editor->LogFPS((float)fps_counter, (float)last_frame_ms);
 
 	if (!all_modules_loaded)
 		all_modules_loaded = true;

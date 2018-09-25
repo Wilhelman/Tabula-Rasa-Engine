@@ -118,6 +118,8 @@ private:
 	int					capped_ms = -1;
 	bool				all_modules_loaded = false;
 
+	int					fps_counter = 0;
+
 };
 
 extern trApp* App;

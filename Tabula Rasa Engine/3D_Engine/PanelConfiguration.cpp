@@ -30,15 +30,17 @@ void PanelConfiguration::Draw()
 {
 	ImGui::Begin("Configuration", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoFocusOnAppearing);
 
-	if (ImGui::BeginMenu("Options"))
+	if (ImGui::BeginMenu("Options", false))
 	{
-		ImGui::MenuItem("Set Defaults");
+		if (ImGui::MenuItem("Set Defaults"))
+			TR_LOG("TODO: Set defaults");
+
 		if (ImGui::MenuItem("Load"))
 			TR_LOG("TODO: Load prefs");
 
 		if (ImGui::MenuItem("Save"))
 			TR_LOG("TODO: Save prefs");
-
+			
 		ImGui::EndMenu();
 	}
 
@@ -107,8 +109,8 @@ void PanelConfiguration::DrawApplication()
 		ImGui::PlotHistogram("##framerate", &fps_log[0], fps_log.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
 		sprintf_s(title, 25, "Milliseconds %0.1f", ms_log[ms_log.size() - 1]);
 		ImGui::PlotHistogram("##milliseconds", &ms_log[0], ms_log.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
-		/*
-		// Memory --------------------
+		
+		/*// Memory --------------------
 		sMStats stats = m_getMemoryStatistics();
 		static int speed = 0;
 		static vector<float> memory(100);

@@ -168,3 +168,9 @@ bool trEditor::CleanUp()
 
 	return true;
 }
+
+void trEditor::LogFPS(float current_fps, float current_ms)
+{
+	if (config != nullptr)
+		config->AddFPS(current_fps, current_ms);
+}
