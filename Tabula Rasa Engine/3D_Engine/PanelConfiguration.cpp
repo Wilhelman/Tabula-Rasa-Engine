@@ -225,29 +225,14 @@ void PanelConfiguration::DrawModuleInput(trInput * module)
 
 void PanelConfiguration::DrawModuleWindow(trWindow * module)
 {
-	/*static bool waiting_to_load_icon = false;
-
-	if (waiting_to_load_icon == true && App->editor->FileDialog("bmp"))
-	{
-		const char* file = App->editor->CloseFileDialog();
-		if (file != nullptr)
-			App->window->SetIcon(file);
-		waiting_to_load_icon = false;
-	}
-
-	ImGui::Text("Icon: ");
-	ImGui::SameLine();
-	if (ImGui::Selectable(App->window->GetIcon()))
-		waiting_to_load_icon = true;
-
-	float brightness = App->window->GetBrightness();
+	float brightness = App->win->GetBrightness();
 	if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f))
-		App->window->SetBrightness(brightness);
+		App->win->SetBrightness(brightness);
 
-	uint w, h, min_w, min_h, max_w, max_h;
-	App->window->GetMaxMinSize(min_w, min_h, max_w, max_h);
-	w = App->window->GetWidth();
-	h = App->window->GetHeight();
+	/*uint w, h, min_w, min_h, max_w, max_h;
+	App->win->GetMaxMinSize(min_w, min_h, max_w, max_h);
+	w = App->win->screen_surface.w;
+	h = App->win->screen_surface.h;
 
 	if (ImGui::SliderInt("Width", (int*)&w, min_w, max_w))
 		App->window->SetWidth(w);

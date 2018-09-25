@@ -20,6 +20,10 @@ public:
 
 	void SetTitle(const char* title);
 
+	float GetBrightness() const;
+	void SetBrightness(float set);
+	void GetMaxMinSize(uint& min_width, uint& min_height, uint& max_width, uint& max_height) const;
+
 public:
 	//The window we'll be rendering to
 	SDL_Window* window;

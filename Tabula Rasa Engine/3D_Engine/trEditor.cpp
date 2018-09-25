@@ -118,7 +118,7 @@ bool trEditor::Update(float dt)
 	}
 
 
-	// Draw all active panels
+	// Draw active panels
 	for (std::vector<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
 	{
 		Panel* panel = (*it);

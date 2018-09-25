@@ -93,3 +93,36 @@ void trWindow::SetTitle(const char* title)
 {
 	SDL_SetWindowTitle(window, title);
 }
+
+void trWindow::SetBrightness(float set)
+{
+	CAP(set);
+	if (SDL_SetWindowBrightness(window, set) != 0)
+		TR_LOG("Could not change window brightness: %s\n", SDL_GetError());
+}
+
+float trWindow::GetBrightness() const
+{
+	return SDL_GetWindowBrightness(window);
+}
+
+void trWindow::GetMaxMinSize(uint & min_width, uint & min_height, uint & max_width, uint & max_height) const
+{
+	min_width = 640;
+	min_height = 480;
+	max_width = 3000;
+	max_height = 2000;
+
+	SDL_DisplayMode dm;
+	if (SDL_GetDesktopDisplayMode(0, &dm) != 0)
+		TR_LOG("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
+	else
+	{
+		max_width = dm.w;
+		max_height = dm.h;
+	}
+
+	// Aparently this is only to gather what user setup in the SDl_SetWindowMaxumimSize()
+	//SDL_GetWindowMinimumSize(window, (int*) &min_width, (int*) &min_height);
+	//SDL_GetWindowMaximumSize(window, (int*) &max_width, (int*) &max_height);
+}

@@ -11,7 +11,7 @@
 trAudio::trAudio() : trModule()
 {
 	music = NULL;
-	name = "audio";
+	name = "Audio";
 }
 
 // Destructor
