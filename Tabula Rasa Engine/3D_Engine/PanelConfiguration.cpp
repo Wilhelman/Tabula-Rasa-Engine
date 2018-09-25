@@ -12,7 +12,6 @@
 
 using namespace std;
 
-// ---------------------------------------------------------
 PanelConfiguration::PanelConfiguration() : Panel("Configuration", SDL_SCANCODE_4),
 chart_fps(CHART_FPS_CAP), chart_ms(CHART_FPS_CAP)
 {
@@ -22,11 +21,9 @@ chart_fps(CHART_FPS_CAP), chart_ms(CHART_FPS_CAP)
 	y_pos = 610;
 }
 
-// ---------------------------------------------------------
 PanelConfiguration::~PanelConfiguration()
 {}
 
-// ---------------------------------------------------------
 void PanelConfiguration::Draw()
 {
 	ImGui::Begin("Configuration", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoFocusOnAppearing);
@@ -73,10 +70,10 @@ bool PanelConfiguration::SetUpCollapsingHeader(trModule* module)
 	{
 		(module->active) ? ImGui::Text("Module Actived") : ImGui::Text("Module Disabled");
 		ImGui::SameLine();
-
-		if (ImGui::Checkbox("Active", &module->active)) {
-			module->active = !module->active;
-			(module->active) ? module->Init() : module->CleanUp();
+		bool is_active = module->active;
+		if (ImGui::Checkbox("Active", &is_active)) {
+			module->TurnActive();
+			module->CleanUp();
 		}
 			
 

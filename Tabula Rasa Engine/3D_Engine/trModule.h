@@ -81,6 +81,10 @@ public:
 
 	virtual void OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {}
 
+	virtual void TurnActive() {
+		active = !active;
+	}
+
 public:
 
 	std::string		name;
