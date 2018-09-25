@@ -60,6 +60,7 @@
     <ClCompile Include="trApp.cpp" />
     <ClCompile Include="trAudio.cpp" />
     <ClCompile Include="trCamera3D.cpp" />
+    <ClCompile Include="trEditor.cpp" />
     <ClCompile Include="trInput.cpp" />
     <ClCompile Include="trLog.cpp" />
     <ClCompile Include="trMain.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="trAudio.h" />
     <ClInclude Include="trCamera3D.h" />
     <ClInclude Include="trDefs.h" />
+    <ClInclude Include="trEditor.h" />
     <ClInclude Include="trInput.h" />
     <ClInclude Include="trLog.h" />
     <ClInclude Include="trMainScene.h" />
