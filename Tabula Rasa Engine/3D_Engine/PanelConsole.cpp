@@ -18,6 +18,12 @@ void PanelConsole::Draw()
 		ImGuiWindowFlags_AlwaysAutoResize |
 		ImGuiWindowFlags_NoCollapse);
 
+	ImGui::Text(text_buffer.begin());
 
 	ImGui::End();
+}
+
+void PanelConsole::AddLogToConsole(const char * log)
+{
+	text_buffer.append(log);
 }
