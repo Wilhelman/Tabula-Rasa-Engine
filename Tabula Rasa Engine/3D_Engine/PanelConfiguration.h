@@ -37,6 +37,9 @@ private:
 
 	uint chart_iterator = 0u;
 
+	char app_name[TITLE_ORG_MAX_LENGTH];
+	char org_name[TITLE_ORG_MAX_LENGTH];
+
 };
 
 #endif// __PANELCONFIGURATION_H__

@@ -90,6 +90,7 @@ inline const char* const PATH(const char* folder, const char* file)
 #define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
 #define TITLE "Tabula Rasa Engine"
+#define TITLE_ORG_MAX_LENGTH 77
 
 
 #endif
