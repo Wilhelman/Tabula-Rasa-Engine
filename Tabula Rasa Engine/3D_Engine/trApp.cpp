@@ -25,7 +25,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	audio = new trAudio();
 	camera = new trCamera3D();
 
-	main_scene = new trMainScene();
+	//main_scene = new trMainScene(); unused
 	editor = new trEditor();
 	hardware = new trHardware();
 	
@@ -36,10 +36,9 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(camera);
 
-	AddModule(main_scene);
+	//AddModule(main_scene); unused
 	AddModule(editor);
 	AddModule(hardware);
-	
 
 	// render last to swap buffer
 	AddModule(render);
