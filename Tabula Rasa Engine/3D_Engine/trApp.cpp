@@ -26,6 +26,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	camera = new trCamera3D();
 
 	main_scene = new trMainScene();
+	editor = new trEditor();
 	hardware = new trHardware();
 	
 	// Ordered for awake / Start / Update
@@ -36,7 +37,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(camera);
 
 	AddModule(main_scene);
-	//AddModule(editor);
+	AddModule(editor);
 	AddModule(hardware);
 	
 

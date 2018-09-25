@@ -28,11 +28,7 @@ bool trEditor::Init()
 {
 	TR_LOG("Init editor gui with imgui lib version %s", ImGui::GetVersion());
 
-	ImGui_ImplSDL2_InitForOpenGL(App->win->window, App->render->context);
-	ImGui_ImplOpenGL2_Init();
-
-	ImGuiIO& io = ImGui::GetIO();
-
+	
 	//Panels
 
 	panels.push_back(about = new PanelAbout());
@@ -40,11 +36,30 @@ bool trEditor::Init()
 	return true;
 }
 
+bool trEditor::Start()
+{
+	// Setup Dear ImGui binding
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+
+	ImGuiIO& io = ImGui::GetIO();
+
+	ImGui_ImplSDL2_InitForOpenGL(App->win->window, App->render->context);
+	ImGui_ImplOpenGL2_Init();
+
+	// Setup style
+	ImGui::StyleColorsDark();
+
+	return true;
+}
+
 bool trEditor::PreUpdate(float dt)
 {
 
+	ImGui_ImplOpenGL2_NewFrame();
 	//todo: do a getter for the window
 	ImGui_ImplSDL2_NewFrame(App->win->window);
+	ImGui::NewFrame();
 
 	ImGuiIO& io = ImGui::GetIO();
 	capture_keyboard = io.WantCaptureKeyboard;
@@ -61,7 +76,15 @@ bool trEditor::Update(float dt)
 
 bool trEditor::PostUpdate(float dt)
 {
+	ImGui::Render();
+	//glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+	//glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
+
+	glLineWidth(1.0f);
+
+	glBegin(GL_LINES);
 	return true;
 }
 

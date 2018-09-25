@@ -15,6 +15,7 @@ public:
 	~trEditor();
 
 	bool Init();
+	bool Start();
 	bool PreUpdate(float dt);
 	bool Update(float dt);
 	bool PostUpdate(float dt);
