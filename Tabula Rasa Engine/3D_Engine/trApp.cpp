@@ -349,3 +349,16 @@ void trApp::RequestBrowser(const char * url) const
 {
 	ShellExecute(GetActiveWindow(), "open", url, NULL, NULL, SW_SHOWNORMAL);
 }
+
+void trApp::SetOrganization(const char * organization)
+{
+	this->organization = organization;
+}
+
+uint trApp::GetFramerateLimit() const
+{
+	if (capped_ms > 0)
+		return (uint)((1.0f / (float)capped_ms) * 1000.0f);
+	else
+		return 0;
+}

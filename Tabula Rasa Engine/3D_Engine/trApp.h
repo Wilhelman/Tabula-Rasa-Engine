@@ -53,6 +53,10 @@ public:
 
 	void RequestBrowser(const char* url)const;
 
+	void SetOrganization(const char* organization);
+
+	uint GetFramerateLimit() const;
+
 	// Load config file
 	pugi::xml_node LoadConfig(pugi::xml_document&) const;
 
