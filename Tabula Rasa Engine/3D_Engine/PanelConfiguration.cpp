@@ -28,7 +28,7 @@ PanelConfiguration::~PanelConfiguration()
 // ---------------------------------------------------------
 void PanelConfiguration::Draw()
 {
-	ImGui::Begin("Configuration", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoFocusOnAppearing);
+	ImGui::Begin("Configuration", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoFocusOnAppearing);
 
 	if (ImGui::BeginMenu("Options"))
 	{
@@ -94,20 +94,20 @@ void PanelConfiguration::DrawApplication()
 		if (ImGui::InputText("Organization", org_name, 120, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
 			App->SetOrganization(org_name);
 
-		/*int max_fps = App->GetFramerateLimit();
+		int max_fps = App->GetFramerateLimit();
 		if (ImGui::SliderInt("Max FPS", &max_fps, 0, 120))
 			App->SetFramerateLimit(max_fps);
 
 		ImGui::Text("Limit Framerate:");
 		ImGui::SameLine();
-		ImGui::TextColored(IMGUI_YELLOW, "%i", App->GetFramerateLimit());
+		ImGui::TextColored(ImVec4(0.f,1.f,1.f,1.f), "%i", App->GetFramerateLimit());
 
 		char title[25];
 		sprintf_s(title, 25, "Framerate %.1f", fps_log[fps_log.size() - 1]);
 		ImGui::PlotHistogram("##framerate", &fps_log[0], fps_log.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
 		sprintf_s(title, 25, "Milliseconds %0.1f", ms_log[ms_log.size() - 1]);
 		ImGui::PlotHistogram("##milliseconds", &ms_log[0], ms_log.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
-
+		/*
 		// Memory --------------------
 		sMStats stats = m_getMemoryStatistics();
 		static int speed = 0;

@@ -362,3 +362,9 @@ uint trApp::GetFramerateLimit() const
 	else
 		return 0;
 }
+
+void trApp::SetFramerateLimit(uint max_framerate)
+{
+	(max_framerate > 0) ?
+		capped_ms = 1000 / max_framerate:capped_ms = 0;
+}
