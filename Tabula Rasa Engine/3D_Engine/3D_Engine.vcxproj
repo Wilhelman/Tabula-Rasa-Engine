@@ -64,7 +64,6 @@
     <ClCompile Include="trCamera3D.cpp" />
     <ClCompile Include="trEditor.cpp" />
     <ClCompile Include="trHardware.cpp" />
-    <ClCompile Include="trHardwarecpp.cpp" />
     <ClCompile Include="trInput.cpp" />
     <ClCompile Include="trLog.cpp" />
     <ClCompile Include="trMain.cpp" />

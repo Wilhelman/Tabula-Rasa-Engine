@@ -223,8 +223,7 @@
       <Filter>Core\Editor</Filter>
     </ClCompile>
     <ClCompile Include="PanelAbout.cpp" />
-    <ClCompile Include="trHardware.cpp" />
-    <ClCompile Include="trHardwarecpp.cpp">
+    <ClCompile Include="trHardware.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
   </ItemGroup>
