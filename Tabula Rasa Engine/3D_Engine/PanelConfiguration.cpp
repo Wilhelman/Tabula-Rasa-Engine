@@ -146,28 +146,28 @@ void PanelConfiguration::DrawApplication()
 
 void PanelConfiguration::DrawModuleHardware(trHardware * module)
 {
-	/*trHardware::HWInfo info = module->GetHardwareInfo();
-	IMGUI_PRINT("SDL Version:", info.sdl_version_num);
+	trHardware::HWInfo info = module->GetHardwareInfo();
+	IMGUI_PRINT("SDL Version:", info.sdl_version);
 
 	ImGui::Separator();
-	IMGUI_PRINT("CPUs:", "%u (Cache: %ukb)", info.cpu_count, info.l1_cachekb);
-	IMGUI_PRINT("System RAM:", "%.1fGb", info.ram_gb);
+	IMGUI_PRINT("CPUs:", "%u (Cache: %ukb)", info.cpu_count, info.cache_line_size);
+	IMGUI_PRINT("System RAM:", "%.1fGb", info.system_ram);
 	IMGUI_PRINT("Caps:", "%s%s%s%s%s%s",
-		info.rdtsc ? "RDTSC," : "",
-		info.altivec ? "AltiVec," : "",
-		info.mmx ? "MMX," : "",
-		info.now3d ? "3DNow," : "",
-		info.sse ? "SSE," : "",
-		info.sse2 ? "SSE2," : "");
+		info.has_rtdcs ? "RDTSC," : "",
+		info.has_alti_vec ? "AltiVec," : "",
+		info.has_mmx ? "MMX," : "",
+		info.has_3d_now ? "3DNow," : "",
+		info.has_sse ? "SSE," : "",
+		info.has_sse2 ? "SSE2," : "");
 	IMGUI_PRINT("", "%s%s%s%s%s",
-		info.sse3 ? "SSE3," : "",
-		info.sse41 ? "SSE41," : "",
-		info.sse42 ? "SSE42," : "",
-		info.avx ? "AVX," : "",
-		info.avx2 ? "AVX2" : "");
+		info.has_sse3 ? "SSE3," : "",
+		info.has_sse41 ? "SSE41," : "",
+		info.has_sse42 ? "SSE42," : "",
+		info.has_avx ? "AVX," : "",
+		info.has_avx2 ? "AVX2" : "");
 
 
-	ImGui::Separator();
+	/*ImGui::Separator();
 	IMGUI_PRINT("GPU:", "vendor %u device %u", info.gpu_vendor, info.gpu_device);
 	IMGUI_PRINT("Brand:", info.gpu_brand);
 	IMGUI_PRINT("VRAM Budget:", "%.1f Mb", info.vram_mb_budget);
