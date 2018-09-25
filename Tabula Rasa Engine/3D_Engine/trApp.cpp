@@ -326,7 +326,7 @@ void trApp::SetOrganization(const char * organization)
 	this->organization = organization;
 }
 
-uint trApp::GetFramerateLimit() const
+uint trApp::GetFpsCap() const
 {
 	if (capped_ms > 0)
 		return (uint)((1.0f / (float)capped_ms) * 1000.0f);
@@ -334,7 +334,7 @@ uint trApp::GetFramerateLimit() const
 		return 0;
 }
 
-void trApp::SetFramerateLimit(uint max_framerate)
+void trApp::SetFpsCap(uint max_framerate)
 {
 	if (max_framerate > 0)
 		capped_ms = 1000 / max_framerate;

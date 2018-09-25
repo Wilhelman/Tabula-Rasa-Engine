@@ -95,20 +95,20 @@ void PanelConfiguration::ShowApplication()
 		if (ImGui::InputText("Organization", org_name, TITLE_ORG_MAX_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
 			App->SetOrganization(org_name);
 
-		int max_fps = App->GetFramerateLimit();
-		if (ImGui::SliderInt("Max FPS", &max_fps, 0, 120))
-			App->SetFramerateLimit(max_fps);
+		int fps_cap = App->GetFpsCap();
+		if (ImGui::SliderInt("Max FPS", &fps_cap, 0, 120))
+			App->SetFpsCap(fps_cap);
 
-		ImGui::Text("Limit Framerate:");
+		ImGui::Text("Current FPS cap:");
 		ImGui::SameLine();
 							//or IMGUI_YELLOW!
-		ImGui::TextColored(ImVec4(0.f,1.f,1.f,1.f), "%i", App->GetFramerateLimit());
+		ImGui::TextColored(ImVec4(0.f,1.f,1.f,1.f), "%i", App->GetFpsCap());
 
 		char title[25];
 		sprintf_s(title, 25, "Framerate %.1f", chart_fps[chart_fps.size() - 1]);
-		ImGui::PlotHistogram("##framerate", &chart_fps[0], chart_fps.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
+		ImGui::PlotHistogram("##framerate", &chart_fps[0], chart_fps.size(), 0, title, 0.0f, 100.0f, ImVec2(400, 90));
 		sprintf_s(title, 25, "Milliseconds %0.1f", chart_ms[chart_ms.size() - 1]);
-		ImGui::PlotHistogram("##milliseconds", &chart_ms[0], chart_ms.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
+		ImGui::PlotHistogram("##milliseconds", &chart_ms[0], chart_ms.size(), 0, title, 0.0f, 40.0f, ImVec2(400, 90));
 	}
 }
 
@@ -152,7 +152,7 @@ void PanelConfiguration::ShowWindow(trWindow * module)
 		App->win->SetBrightness(brightness);
 
 	uint w, h, min_w, min_h, max_w, max_h;
-	App->win->GetMaxMinSize(min_w, min_h, max_w, max_h);
+	App->win->GetWindowConstraints(min_w, min_h, max_w, max_h);
 	w = App->win->width;
 	h = App->win->height;
 
@@ -164,7 +164,7 @@ void PanelConfiguration::ShowWindow(trWindow * module)
 	
 	ImGui::Text("Refresh rate:");
 	ImGui::SameLine();
-	ImGui::TextColored(IMGUI_YELLOW, "%u", App->win->GetRefreshRate());
+	ImGui::TextColored(IMGUI_YELLOW, "%u", App->win->GetMonitorRefreshRate());
 
 
 	if (ImGui::Checkbox("Fullscreen", &App->win->fullscreen))

@@ -23,10 +23,10 @@ public:
 	//Setters/Getters
 	float GetBrightness() const;
 	void SetBrightness(float set);
-	void GetMaxMinSize(uint& min_width, uint& min_height, uint& max_width, uint& max_height) const;
+	void GetWindowConstraints(uint& min_width, uint& min_height, uint& max_width, uint& max_height) const;
 	void SetWidth(uint width);
 	void SetHeigth(uint height);
-	uint GetRefreshRate() const;
+	uint GetMonitorRefreshRate() const;
 	void SetFullscreen(bool set);
 	void SetResizable(bool set);
 	void SetBorderless(bool set);

@@ -56,8 +56,8 @@ public:
 
 	void SetOrganization(const char* organization);
 
-	uint GetFramerateLimit() const;
-	void SetFramerateLimit(uint max_framerate);
+	uint GetFpsCap() const;
+	void SetFpsCap(uint max_framerate);
 
 	// Load config file
 	pugi::xml_node LoadConfig(pugi::xml_document&) const;

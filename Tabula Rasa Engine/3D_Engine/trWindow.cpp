@@ -110,7 +110,7 @@ float trWindow::GetBrightness() const
 	return SDL_GetWindowBrightness(window);
 }
 
-void trWindow::GetMaxMinSize(uint & min_width, uint & min_height, uint & max_width, uint & max_height) const
+void trWindow::GetWindowConstraints(uint & min_width, uint & min_height, uint & max_width, uint & max_height) const
 {
 	min_width = 640;
 	min_height = 480;
@@ -139,7 +139,7 @@ void trWindow::SetHeigth(uint height)
 	this->height = height;
 }
 
-uint trWindow::GetRefreshRate() const
+uint trWindow::GetMonitorRefreshRate() const
 {
 	uint ret = 0;
 
