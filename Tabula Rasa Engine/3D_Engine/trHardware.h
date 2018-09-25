@@ -12,7 +12,7 @@ public:
 
 	struct HWInfo
 	{
-		char sdl_version[25] = "";
+		unsigned int sdl_version[3];
 		unsigned int cpu_count = 0u;
 		unsigned int cache_line_size = 0u;
 		float system_ram = 0.0f;
