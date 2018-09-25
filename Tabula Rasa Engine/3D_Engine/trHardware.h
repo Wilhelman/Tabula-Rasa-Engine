@@ -5,16 +5,8 @@
 
 class trHardware : public trModule
 {
+
 public:
-
-	trHardware();
-
-	// Destructor
-	~trHardware();
-
-
-private:
-
 	struct HWInfo
 	{
 		int sdl_version_num[3];
@@ -32,7 +24,21 @@ private:
 		bool has_sse3 = false;
 		bool has_sse41 = false;
 		bool has_sse42 = false;
-	} hw_info;
+	};
+
+public:
+
+	trHardware();
+
+	// Destructor
+	~trHardware();
+
+	HWInfo GetHardwareInfo() const;
+
+
+private:
+
+	HWInfo hw_info;
 };
 
 #endif // __trHARDWARE_H__

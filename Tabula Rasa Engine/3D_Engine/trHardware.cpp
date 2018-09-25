@@ -31,3 +31,13 @@ trHardware::trHardware()
 trHardware::~trHardware()
 {
 }
+
+/*
+HWInfo trHardware::GetHardwareInfo() const
+{
+	return HWInfo();
+}*/
+
+
+
+

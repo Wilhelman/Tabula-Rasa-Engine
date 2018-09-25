@@ -222,9 +222,11 @@
     <ClCompile Include="Panel.cpp">
       <Filter>Core\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="PanelAbout.cpp" />
     <ClCompile Include="trHardware.cpp">
       <Filter>Core\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="PanelAbout.cpp">
+      <Filter>Core\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -516,9 +518,11 @@
     <ClInclude Include="Panel.h">
       <Filter>Core\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="PanelAbout.h" />
     <ClInclude Include="trHardware.h">
       <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelAbout.h">
+      <Filter>Core\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
