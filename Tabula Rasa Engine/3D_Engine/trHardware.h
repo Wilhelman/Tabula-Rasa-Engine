@@ -15,7 +15,7 @@ public:
 
 private:
 
-	char* sdl_version_string = nullptr;
+	int version_major, version_minor, version_patch;
 
 };
 
