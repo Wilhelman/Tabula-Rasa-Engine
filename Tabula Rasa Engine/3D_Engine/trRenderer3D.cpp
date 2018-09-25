@@ -12,7 +12,7 @@
 
 trRenderer3D::trRenderer3D() : trModule()
 {
-	name = "renderer";
+	name = "Renderer 3D";
 }
 
 // Destructor

@@ -5,6 +5,7 @@
 
 trCamera3D::trCamera3D() : trModule()
 {
+	this->name = "Camera 3D";
 	CalculateViewMatrix();
 
 	X = vec(1.0f, 0.0f, 0.0f);

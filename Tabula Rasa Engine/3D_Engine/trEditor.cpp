@@ -20,7 +20,7 @@
 
 trEditor::trEditor() : trModule()
 {
-
+	this->name = "Editor";
 }
 
 // Destructor

@@ -4,6 +4,8 @@
 
 trHardware::trHardware()
 {
+	this->name = "Hardware";
+
 	SDL_version sdl_version;
 	SDL_GetVersion(&sdl_version);
 	hw_info.sdl_version[0] = sdl_version.major;
