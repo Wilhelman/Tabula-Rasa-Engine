@@ -34,7 +34,7 @@ void PanelAbout::Draw()
 	if (ImGui::Button("Web page"))
 		App->RequestBrowser("https://visualstudio.microsoft.com/?rr=https%3A%2F%2Fwww.google.es%2F");
 
-	ImGui::Text("Input and audio: SDL 2");
+	ImGui::Text("Input and audio: SDL v2.0.8");
 	ImGui::SameLine();
 	if (ImGui::Button("Web page##Second"))
 		App->RequestBrowser("https://www.libsdl.org/index.php");
@@ -44,17 +44,17 @@ void PanelAbout::Draw()
 	if (ImGui::Button("Web page##Third"))
 		App->RequestBrowser("https://www.opengl.org/");
 
-	ImGui::Text("Math: MathGeoLib");
+	ImGui::Text("Math: MathGeoLib v");
 	ImGui::SameLine();
 	if (ImGui::Button("GitHub"))
 		App->RequestBrowser("https://github.com/juj/MathGeoLib");
 
-	ImGui::Text("Random Number Generator: PCG");
+	ImGui::Text("Random Number Generator: PCG (C Implementation) v0.94");
 	ImGui::SameLine();
 	if (ImGui::Button("Web page##Fourth"))
 		App->RequestBrowser("http://www.pcg-random.org/");
 
-	ImGui::Text("GUI: Dear ImGui");
+	ImGui::Text("GUI: Dear ImGui v1.65");
 	ImGui::SameLine();
 	if (ImGui::Button("Github##Second"))
 		App->RequestBrowser("https://github.com/ocornut/imgui");
