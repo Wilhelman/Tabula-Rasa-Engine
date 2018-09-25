@@ -80,6 +80,7 @@ inline const char* const PATH(const char* folder, const char* file)
 #define RADTODEG 57.295779513082320876f
 
 // Configuration -----------
+#define VERSION "v0.2-development"
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 1024
 #define SCREEN_SIZE 1
