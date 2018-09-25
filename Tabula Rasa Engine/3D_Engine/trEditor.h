@@ -23,14 +23,15 @@ public:
 	bool PostUpdate(float dt);
 	bool CleanUp();
 
-	void Draw();
-	bool UsingMouse() const;
-	bool UsingKeyboard() const;
+	//todo implement this
+	bool UserUsingMouse() const;
+	bool UserUsingKeyboard() const;
 
-	void LogFPS(float current_fps, float current_ms);
-
+	void InfoFPSMS(float current_fps, float current_ms);
 
 public:
+
+	//panels
 	PanelAbout* about = nullptr;
 	PanelConfiguration* config = nullptr;
 	PanelConsole* console = nullptr;
@@ -39,8 +40,10 @@ private:
 
 	std::vector<Panel *> panels;
 
-	bool capture_mouse = false;
-	bool capture_keyboard = false;
+	bool user_using_mouse = false;
+	bool user_using_keyboard = false;
+
+	//default imgui demo window
 	bool show_demo_window = false;
 
 };

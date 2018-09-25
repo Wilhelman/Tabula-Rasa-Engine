@@ -39,21 +39,25 @@ bool trWindow::Awake(pugi::xml_node&)
 		if (WIN_FULLSCREEN == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
+			fullscreen = true;
 		}
 
 		if (WIN_RESIZABLE == true)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
+			resizable = true;
 		}
 
 		if (WIN_BORDERLESS == true)
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
+			borderless = true;
 		}
 
 		if (WIN_FULLSCREEN_DESKTOP == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+			fullscreen_desktop = true;
 		}
 
 		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
@@ -121,10 +125,6 @@ void trWindow::GetMaxMinSize(uint & min_width, uint & min_height, uint & max_wid
 		max_width = dm.w;
 		max_height = dm.h;
 	}
-
-	// Aparently this is only to gather what user setup in the SDl_SetWindowMaxumimSize()
-	//SDL_GetWindowMinimumSize(window, (int*) &min_width, (int*) &min_height);
-	//SDL_GetWindowMaximumSize(window, (int*) &max_width, (int*) &max_height);
 }
 
 void trWindow::SetWidth(uint width)
@@ -137,4 +137,71 @@ void trWindow::SetHeigth(uint height)
 {
 	SDL_SetWindowSize(window, width, height);
 	this->height = height;
+}
+
+uint trWindow::GetRefreshRate() const
+{
+	uint ret = 0;
+
+	SDL_DisplayMode dm;
+	if (SDL_GetDesktopDisplayMode(0, &dm) != 0)
+		TR_LOG("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
+	else
+		ret = dm.refresh_rate;
+
+	return ret;
+}
+
+void trWindow::SetFullscreen(bool set)
+{
+	if (set != fullscreen)
+	{
+		fullscreen = set;
+		if (fullscreen == true)
+		{
+			if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) != 0)
+				TR_LOG("Could not switch to fullscreen: %s\n", SDL_GetError());
+			fullscreen_desktop = false;
+			SDL_Log("this is a test");
+		}
+		else
+		{
+			if (SDL_SetWindowFullscreen(window, 0) != 0)
+				TR_LOG("Could not switch to windowed: %s\n", SDL_GetError());
+		}
+	}
+}
+
+void trWindow::SetResizable(bool set)
+{
+	// cannot be changed while the program is running, but we can save the change
+	resizable = set;
+}
+
+void trWindow::SetBorderless(bool set)
+{
+	if (set != borderless && fullscreen == false && fullscreen_desktop == false)
+	{
+		borderless = set;
+		SDL_SetWindowBordered(window, (SDL_bool)!borderless);
+	}
+}
+
+void trWindow::SetFullScreenDesktop(bool set)
+{
+	if (set != fullscreen_desktop)
+	{
+		fullscreen_desktop = set;
+		if (fullscreen_desktop == true)
+		{
+			if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
+				TR_LOG("Could not switch to fullscreen desktop: %s\n", SDL_GetError());
+			fullscreen = false;
+		}
+		else
+		{
+			if (SDL_SetWindowFullscreen(window, 0) != 0)
+				TR_LOG("Could not switch to windowed: %s\n", SDL_GetError());
+		}
+	}
 }

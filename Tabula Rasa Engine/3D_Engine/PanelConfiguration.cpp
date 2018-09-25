@@ -14,12 +14,12 @@ using namespace std;
 
 // ---------------------------------------------------------
 PanelConfiguration::PanelConfiguration() : Panel("Configuration", SDL_SCANCODE_4),
-fps_log(FPS_LOG_SIZE), ms_log(FPS_LOG_SIZE)
+chart_fps(CHART_FPS_CAP), chart_ms(CHART_FPS_CAP)
 {
 	width = 330;
 	height = 420;
-	posx = 960;
-	posy = 610;
+	x_pos = 960;
+	y_pos = 610;
 }
 
 // ---------------------------------------------------------
@@ -45,45 +45,48 @@ void PanelConfiguration::Draw()
 		ImGui::EndMenu();
 	}
 
-	DrawApplication();
+	ShowApplication();
 
-	if (InitModuleDraw(App->win))
-		DrawModuleWindow(App->win);
+	if (SetUpCollapsingHeader(App->win))
+		ShowWindow(App->win);
 
-	if (InitModuleDraw(App->render))
-		DrawModuleRenderer(App->render);
+	if (SetUpCollapsingHeader(App->render))
+		ShowRenderer(App->render);
 
-	if (InitModuleDraw(App->camera))
-		DrawModuleCamera(App->camera);
+	if (SetUpCollapsingHeader(App->audio))
+		ShowAudio(App->audio);
 
-	if (InitModuleDraw(App->audio))
-		DrawModuleAudio(App->audio);
+	if (SetUpCollapsingHeader(App->input))
+		ShowInput(App->input);
 
-	if (InitModuleDraw(App->input))
-		DrawModuleInput(App->input);
-
-	if (InitModuleDraw(App->hardware))
-		DrawModuleHardware(App->hardware);
+	if (SetUpCollapsingHeader(App->hardware))
+		ShowHardware(App->hardware);
 
 	ImGui::End();
 }
 
-bool PanelConfiguration::InitModuleDraw(trModule* module)
+bool PanelConfiguration::SetUpCollapsingHeader(trModule* module)
 {
 	bool ret = false;
 
 	if (ImGui::CollapsingHeader(module->name.c_str()))
 	{
-		bool active = module->active;//todo:better with funciton call
-		if (ImGui::Checkbox("Active", &active))
-			module->active = active;
+		(module->active) ? ImGui::Text("Module Actived") : ImGui::Text("Module Disabled");
+		ImGui::SameLine();
+
+		if (ImGui::Checkbox("Active", &module->active)) {
+			module->active = !module->active;
+			(module->active) ? module->Init() : module->CleanUp();
+		}
+			
+
 		ret = true;
 	}
 
 	return ret;
 }
 
-void PanelConfiguration::DrawApplication()
+void PanelConfiguration::ShowApplication()
 {
 	if (ImGui::CollapsingHeader("Application"))
 	{
@@ -103,49 +106,18 @@ void PanelConfiguration::DrawApplication()
 
 		ImGui::Text("Limit Framerate:");
 		ImGui::SameLine();
-
+							//or IMGUI_YELLOW!
 		ImGui::TextColored(ImVec4(0.f,1.f,1.f,1.f), "%i", App->GetFramerateLimit());
 
 		char title[25];
-		sprintf_s(title, 25, "Framerate %.1f", fps_log[fps_log.size() - 1]);
-		ImGui::PlotHistogram("##framerate", &fps_log[0], fps_log.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
-		sprintf_s(title, 25, "Milliseconds %0.1f", ms_log[ms_log.size() - 1]);
-		ImGui::PlotHistogram("##milliseconds", &ms_log[0], ms_log.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
-		
-		/*// Memory --------------------
-		sMStats stats = m_getMemoryStatistics();
-		static int speed = 0;
-		static vector<float> memory(100);
-		if (++speed > 20)
-		{
-			speed = 0;
-			if (memory.size() == 100)
-			{
-				for (uint i = 0; i < 100 - 1; ++i)
-					memory[i] = memory[i + 1];
-
-				memory[100 - 1] = (float)stats.totalReportedMemory;
-			}
-			else
-				memory.push_back((float)stats.totalReportedMemory);
-		}
-
-		ImGui::PlotHistogram("##memory", &memory[0], memory.size(), 0, "Memory Consumption", 0.0f, (float)stats.peakReportedMemory * 1.2f, ImVec2(310, 100));
-
-		ImGui::Text("Total Reported Mem: %u", stats.totalReportedMemory);
-		ImGui::Text("Total Actual Mem: %u", stats.totalActualMemory);
-		ImGui::Text("Peak Reported Mem: %u", stats.peakReportedMemory);
-		ImGui::Text("Peak Actual Mem: %u", stats.peakActualMemory);
-		ImGui::Text("Accumulated Reported Mem: %u", stats.accumulatedReportedMemory);
-		ImGui::Text("Accumulated Actual Mem: %u", stats.accumulatedActualMemory);
-		ImGui::Text("Accumulated Alloc Unit Count: %u", stats.accumulatedAllocUnitCount);
-		ImGui::Text("Total Alloc Unit Count: %u", stats.totalAllocUnitCount);
-		ImGui::Text("Peak Alloc Unit Count: %u", stats.peakAllocUnitCount);
-		*/
+		sprintf_s(title, 25, "Framerate %.1f", chart_fps[chart_fps.size() - 1]);
+		ImGui::PlotHistogram("##framerate", &chart_fps[0], chart_fps.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
+		sprintf_s(title, 25, "Milliseconds %0.1f", chart_ms[chart_ms.size() - 1]);
+		ImGui::PlotHistogram("##milliseconds", &chart_ms[0], chart_ms.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
 	}
 }
 
-void PanelConfiguration::DrawModuleHardware(trHardware * module)
+void PanelConfiguration::ShowHardware(trHardware * module)
 {
 	trHardware::HWInfo info = module->GetHardwareInfo();
 	IMGUI_PRINT("SDL Version:", "v%u.%u %u", info.sdl_version[0], info.sdl_version[1], info.sdl_version[2]);
@@ -166,65 +138,19 @@ void PanelConfiguration::DrawModuleHardware(trHardware * module)
 		info.has_sse42 ? "SSE42," : "",
 		info.has_avx ? "AVX," : "",
 		info.has_avx2 ? "AVX2" : "");
-
-
-	/*ImGui::Separator();
-	IMGUI_PRINT("GPU:", "vendor %u device %u", info.gpu_vendor, info.gpu_device);
-	IMGUI_PRINT("Brand:", info.gpu_brand);
-	IMGUI_PRINT("VRAM Budget:", "%.1f Mb", info.vram_mb_budget);
-	IMGUI_PRINT("VRAM Usage:", "%.1f Mb", info.vram_mb_usage);
-	IMGUI_PRINT("VRAM Available:", "%.1f Mb", info.vram_mb_available);
-	IMGUI_PRINT("VRAM Reserved:", "%.1f Mb", info.vram_mb_reserved);*/
 }
 
-void PanelConfiguration::DrawModuleAudio(trAudio * module)
+void PanelConfiguration::ShowAudio(trAudio * module)
 {
-	// General Volume
-	/*float volume = module->GetVolume();
-	if (ImGui::SliderFloat("General Volume", (float*)&volume, 0.0f, 1.0f))
-		module->SetVolume(volume);
-
-	// Music Volume
-	float music_volume = module->GetMusicVolume();
-	if (ImGui::SliderFloat("Music Volume", (float*)&music_volume, 0.0f, 1.0f))
-		module->SetMusicVolume(music_volume);
-
-	// FX Volume
-	float fx_volume = module->GetFXVolume();
-	if (ImGui::SliderFloat("FX Volume", (float*)&fx_volume, 0.0f, 1.0f))
-		module->SetFXVolume(fx_volume);
-		*/
+	//todo
 }
 
-void PanelConfiguration::DrawModuleInput(trInput * module)
+void PanelConfiguration::ShowInput(trInput * module)
 {
-	/*int mouse_x, mouse_y;
-	module->GetMousePosition(mouse_x, mouse_y);
-	ImGui::Text("Mouse Position:");
-	ImGui::SameLine();
-	ImGui::TextColored(IMGUI_YELLOW, "%i,%i", mouse_x, mouse_y);
-
-	module->GetMouseMotion(mouse_x, mouse_y);
-	ImGui::Text("Mouse Motion:");
-	ImGui::SameLine();
-	ImGui::TextColored(IMGUI_YELLOW, "%i,%i", mouse_x, mouse_y);
-
-	int wheel = module->GetMouseWheel();
-	ImGui::Text("Mouse Wheel:");
-	ImGui::SameLine();
-	ImGui::TextColored(IMGUI_YELLOW, "%i", wheel);
-
-	ImGui::Separator();
-
-	ImGui::BeginChild("Input Log");
-	ImGui::TextUnformatted(input_buf.begin());
-	if (need_scroll)
-		ImGui::SetScrollHere(1.0f);
-	need_scroll = false;
-	ImGui::EndChild();*/
+	//todo
 }
 
-void PanelConfiguration::DrawModuleWindow(trWindow * module)
+void PanelConfiguration::ShowWindow(trWindow * module)
 {
 	float brightness = App->win->GetBrightness();
 	if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f))
@@ -240,82 +166,49 @@ void PanelConfiguration::DrawModuleWindow(trWindow * module)
 
 	if (ImGui::SliderInt("Height", (int*)&h, min_h, max_h))
 		App->win->SetHeigth(h);
-	/*
+	
 	ImGui::Text("Refresh rate:");
 	ImGui::SameLine();
-	ImGui::TextColored(IMGUI_YELLOW, "%u", App->window->GetRefreshRate());
+	ImGui::TextColored(IMGUI_YELLOW, "%u", App->win->GetRefreshRate());
 
-	bool fullscreen = App->window->IsFullscreen();
-	bool resizable = App->window->IsResizable();
-	bool borderless = App->window->IsBorderless();
-	bool full_desktop = App->window->IsFullscreenDesktop();
 
-	if (ImGui::Checkbox("Fullscreen", &fullscreen))
-		App->window->SetFullscreen(fullscreen);
+	if (ImGui::Checkbox("Fullscreen", &App->win->fullscreen))
+		App->win->SetFullscreen(App->win->fullscreen);
 
 	ImGui::SameLine();
-	if (ImGui::Checkbox("Resizable", &resizable))
-		App->window->SetResizable(resizable);
+	if (ImGui::Checkbox("Resizable", &App->win->resizable))
+		App->win->SetResizable(App->win->resizable);
 	if (ImGui::IsItemHovered())
 		ImGui::SetTooltip("Restart to apply");
 
-	if (ImGui::Checkbox("Borderless", &borderless))
-		App->window->SetBorderless(borderless);
+	if (ImGui::Checkbox("Borderless", &App->win->borderless))
+		App->win->SetBorderless(App->win->borderless);
 
 	ImGui::SameLine();
-	if (ImGui::Checkbox("Full Desktop", &full_desktop))
-		App->window->SetFullScreenDesktop(full_desktop);*/
+	if (ImGui::Checkbox("Full Desktop", &App->win->fullscreen_desktop))
+		App->win->SetFullScreenDesktop(App->win->fullscreen_desktop);
 }
 
-void PanelConfiguration::DrawModuleRenderer(trRenderer3D * module)
+void PanelConfiguration::ShowRenderer(trRenderer3D * module)
 {
-	/*ImGui::Text("Driver:");
-	ImGui::SameLine();
-	ImGui::TextColored(IMGUI_YELLOW, App->renderer3D->GetDriver());
-
-	bool vsync = App->renderer3D->GetVSync();
-	if (ImGui::Checkbox("Vertical Sync", &vsync))
-		App->renderer3D->SetVSync(vsync);*/
+	//todo
 }
 
-void PanelConfiguration::DrawModuleCamera(trCamera3D * module)
-{
-	/*ImGui::DragFloat3("Front", &App->camera->GetDummy()->frustum.front.x, 0.1f);
-	ImGui::DragFloat3("Up", &App->camera->GetDummy()->frustum.up.x, 0.1f);
-	ImGui::DragFloat3("Position", &App->camera->GetDummy()->frustum.pos.x, 0.1f);
-	ImGui::DragFloat("Mov Speed", &App->camera->mov_speed, 0.1f, 0.1f);
-	ImGui::DragFloat("Rot Speed", &App->camera->rot_speed, 0.05f, 0.01f);
-	ImGui::DragFloat("Zoom Speed", &App->camera->zoom_speed, 0.1f, 0.1f);
-	App->editor->props->DrawCameraComponent(module->GetDummy());*/
-}
-
-float rnd(float min, float max)
-{
-	return max * ((float)rand() / (float)RAND_MAX);
-}
-
-
-void PanelConfiguration::AddInput(const char * entry)
-{
-	input_buf.appendf(entry); // df or the other?
-	need_scroll = true;
-}
-
-void PanelConfiguration::AddFPS(float fps, float ms)
+void PanelConfiguration::FillChartFpsInfo(float fps, float ms)
 {
 	static uint count = 0;
 
-	if (count == FPS_LOG_SIZE)
+	if (count == CHART_FPS_CAP)
 	{
-		for (uint i = 0; i < FPS_LOG_SIZE - 1; ++i)
+		for (uint i = 0; i < CHART_FPS_CAP - 1; i++)
 		{
-			fps_log[i] = fps_log[i + 1];
-			ms_log[i] = ms_log[i + 1];
+			chart_fps[i] = chart_fps[i + 1];
+			chart_ms[i] = chart_ms[i + 1];
 		}
 	}
 	else
-		++count;
+		count++;
 
-	fps_log[count - 1] = fps;
-	ms_log[count - 1] = ms;
+	chart_fps[count - 1] = fps;
+	chart_ms[count - 1] = ms;
 }

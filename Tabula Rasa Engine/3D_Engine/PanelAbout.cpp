@@ -3,23 +3,16 @@
 #include "imgui.h"
 #include "trApp.h"
 
-// ---------------------------------------------------------
 PanelAbout::PanelAbout() : Panel("About")
 {
-	active = false;
 }
 
-// ---------------------------------------------------------
 PanelAbout::~PanelAbout()
 {}
 
-// ---------------------------------------------------------
 void PanelAbout::Draw()
 {
-	ImGui::Begin("About Tabula Rasa Engine", &active,
-		ImGuiWindowFlags_NoResize |
-		ImGuiWindowFlags_AlwaysAutoResize |
-		ImGuiWindowFlags_NoCollapse);
+	ImGui::Begin("About Tabula Rasa Engine", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
 
 	ImGui::Text("Version %s", VERSION);
 	ImGui::Separator();
@@ -72,6 +65,6 @@ void PanelAbout::Draw()
 	// TODO: add JSON parser used
 
 	ImGui::Separator();
-	ImGui::Text("Tabula Rasa Engine is licensed under the Public Domain, see LICENSE for more information.");
+	ImGui::Text("Tabula Rasa Engine is licensed under MIT/Public???, see LICENSE for more information.");
 	ImGui::End();
 }

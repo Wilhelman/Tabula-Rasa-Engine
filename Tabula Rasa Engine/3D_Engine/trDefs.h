@@ -91,4 +91,5 @@ inline const char* const PATH(const char* folder, const char* file)
 #define VSYNC true
 #define TITLE "Tabula Rasa Engine"
 
+
 #endif

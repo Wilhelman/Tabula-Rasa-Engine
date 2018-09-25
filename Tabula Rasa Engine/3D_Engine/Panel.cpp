@@ -9,7 +9,7 @@ Panel::~Panel()
 {}
 
 // ---------------------------------------------------------
-void Panel::SwitchActive()
+void Panel::TurnActive()
 {
 	active = !active;
 }
@@ -21,7 +21,7 @@ bool Panel::IsActive() const
 }
 
 // ---------------------------------------------------------
-SDL_Scancode Panel::GetShortCut() const
+SDL_Scancode Panel::GetCurrentShortCut() const
 {
 	return shortcut;
 }

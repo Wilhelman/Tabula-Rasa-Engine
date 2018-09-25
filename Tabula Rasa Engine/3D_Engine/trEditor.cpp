@@ -49,7 +49,6 @@ bool trEditor::Start()
 	ImGui::StyleColorsDark();
 
 	//Panels
-
 	panels.push_back(about = new PanelAbout());
 	panels.push_back(config = new PanelConfiguration());
 	panels.push_back(console = new PanelConsole());
@@ -61,8 +60,8 @@ bool trEditor::PreUpdate(float dt)
 {
 
 	ImGuiIO& io = ImGui::GetIO();
-	capture_keyboard = io.WantCaptureKeyboard;
-	capture_mouse = io.WantCaptureMouse;
+	user_using_keyboard = io.WantCaptureKeyboard;
+	user_using_mouse = io.WantCaptureMouse;
 
 	return true;
 }
@@ -87,10 +86,10 @@ bool trEditor::Update(float dt)
 		if (ImGui::BeginMenu("View"))
 		{
 			if (ImGui::MenuItem("Console", "1"))
-				console->SwitchActive();
+				console->TurnActive();
 
 			if (ImGui::MenuItem("Configuration", "4"))
-				config->SwitchActive();
+				config->TurnActive();
 
 			ImGui::EndMenu();
 		}
@@ -110,7 +109,7 @@ bool trEditor::Update(float dt)
 				App->RequestBrowser("https://github.com/Wilhelman/Tabula-Rasa-Engine/issues");
 
 			if (ImGui::MenuItem("About"))
-				about->SwitchActive();
+				about->TurnActive();
 
 			ImGui::EndMenu();
 		}
@@ -119,15 +118,18 @@ bool trEditor::Update(float dt)
 
 
 	// Draw active panels
-	for (std::vector<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+	std::vector<Panel*>::iterator it = panels.begin();
+	while( it != panels.end())
 	{
 		Panel* panel = (*it);
 
-		if (App->input->GetKey(panel->GetShortCut()) == KEY_DOWN)
-			panel->SwitchActive();
+		if (App->input->GetKey(panel->GetCurrentShortCut()) == KEY_DOWN)
+			panel->TurnActive();
 
 		if (panel->IsActive())
 			panel->Draw();
+
+		it++;
 	}
 
 	if (show_demo_window)
@@ -168,8 +170,7 @@ bool trEditor::CleanUp()
 	return true;
 }
 
-void trEditor::LogFPS(float current_fps, float current_ms)
+void trEditor::InfoFPSMS(float current_fps, float current_ms)
 {
-	if (config != nullptr)
-		config->AddFPS(current_fps, current_ms);
+	(config != nullptr) ? config->FillChartFpsInfo(current_fps, current_ms) : TR_LOG("trEditor error: configuration == nullptr");
 }

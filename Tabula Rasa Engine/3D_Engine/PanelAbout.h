@@ -11,8 +11,6 @@ public:
 
 	void Draw() override;
 
-private:
-
 };
 
 #endif// __PANELABOUT_H__
