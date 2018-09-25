@@ -154,21 +154,21 @@ uint trWindow::GetMonitorRefreshRate() const
 
 void trWindow::SetFullscreen(bool set)
 {
-	if (set != fullscreen)
+	/*if (set != fullscreen)
 	{
 		fullscreen = set;
 		if (fullscreen == true)
-		{
+		{*/
 			if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) != 0)
 				TR_LOG("Could not switch to fullscreen: %s\n", SDL_GetError());
 			fullscreen_desktop = false;
-		}
+		/*}
 		else
-		{
+		{*/
 			if (SDL_SetWindowFullscreen(window, 0) != 0)
 				TR_LOG("Could not switch to windowed: %s\n", SDL_GetError());
-		}
-	}
+		//}
+	//}
 }
 
 void trWindow::SetResizable(bool set)
@@ -179,8 +179,8 @@ void trWindow::SetResizable(bool set)
 
 void trWindow::SetBorderless(bool set)
 {
-	//if (set != borderless && fullscreen == false && fullscreen_desktop == false)
-	//{
+	/*if (set != borderless && fullscreen == false && fullscreen_desktop == false)
+	{*/
 		borderless = set;
 		SDL_SetWindowBordered(window, (SDL_bool)!borderless);
 	//}
@@ -188,19 +188,19 @@ void trWindow::SetBorderless(bool set)
 
 void trWindow::SetFullScreenDesktop(bool set)
 {
-	if (set != fullscreen_desktop)
-	{
+	/*if (set != fullscreen_desktop)
+	{*/
 		fullscreen_desktop = set;
-		if (fullscreen_desktop == true)
-		{
+		/*if (fullscreen_desktop == true)
+		{*/
 			if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
 				TR_LOG("Could not switch to fullscreen desktop: %s\n", SDL_GetError());
 			fullscreen = false;
-		}
+		/*}
 		else
-		{
+		{*/
 			if (SDL_SetWindowFullscreen(window, 0) != 0)
 				TR_LOG("Could not switch to windowed: %s\n", SDL_GetError());
-		}
-	}
+		/*}
+	}*/
 }

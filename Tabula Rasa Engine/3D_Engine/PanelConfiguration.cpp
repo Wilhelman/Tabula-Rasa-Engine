@@ -184,6 +184,7 @@ void PanelConfiguration::ShowWindow(trWindow * module)
 	ImGui::TextColored(IMGUI_YELLOW, "%u", App->win->GetMonitorRefreshRate());
 
 
+	//TODO : this is VERY UNSTABLE
 	if (ImGui::Checkbox("Fullscreen", &App->win->fullscreen))
 		App->win->SetFullscreen(App->win->fullscreen);
 
