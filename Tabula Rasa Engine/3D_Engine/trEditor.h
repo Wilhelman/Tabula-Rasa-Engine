@@ -29,6 +29,7 @@ public:
 	PanelAbout* about = nullptr;
 
 private:
+
 	std::vector<Panel *> panels;
 
 	bool capture_mouse = false;

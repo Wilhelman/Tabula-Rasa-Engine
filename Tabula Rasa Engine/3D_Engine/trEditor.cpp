@@ -3,15 +3,18 @@
 #include "trWindow.h"
 #include "trEditor.h"
 #include "trRenderer3D.h"
+#include "trInput.h"
 
+#include "Panel.h"
 #include "PanelAbout.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl2.h"
-#include <stdio.h>
 #include "SDL\include\SDL.h"
 #include "SDL\include\SDL_opengl.h"
+
+#include <vector>
 
 trEditor::trEditor() : trModule()
 {
@@ -28,11 +31,6 @@ bool trEditor::Init()
 {
 	TR_LOG("Init editor gui with imgui lib version %s", ImGui::GetVersion());
 
-	
-	//Panels
-
-	panels.push_back(about = new PanelAbout());
-
 	return true;
 }
 
@@ -42,24 +40,21 @@ bool trEditor::Start()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 
-	ImGuiIO& io = ImGui::GetIO();
-
 	ImGui_ImplSDL2_InitForOpenGL(App->win->window, App->render->context);
 	ImGui_ImplOpenGL2_Init();
 
 	// Setup style
 	ImGui::StyleColorsDark();
 
+	//Panels
+
+	panels.push_back(about = new PanelAbout());
+
 	return true;
 }
 
 bool trEditor::PreUpdate(float dt)
 {
-
-	ImGui_ImplOpenGL2_NewFrame();
-	//todo: do a getter for the window
-	ImGui_ImplSDL2_NewFrame(App->win->window);
-	ImGui::NewFrame();
 
 	ImGuiIO& io = ImGui::GetIO();
 	capture_keyboard = io.WantCaptureKeyboard;
@@ -70,6 +65,67 @@ bool trEditor::PreUpdate(float dt)
 
 bool trEditor::Update(float dt)
 {
+	ImGui_ImplOpenGL2_NewFrame();
+	//todo: do a getter for the window
+	ImGui_ImplSDL2_NewFrame(App->win->window);
+	ImGui::NewFrame();
+
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			/*if (ImGui::MenuItem("Quit", "Alt+F4"))
+				quit = true;*/
+
+			ImGui::EndMenu();
+		}
+		
+		if (ImGui::BeginMenu("View"))
+		{
+			if (ImGui::MenuItem("Console", "1"))
+				TR_LOG("Todo open console");
+
+			if (ImGui::MenuItem("Configuration", "4"))
+				TR_LOG("Todo open configuration");
+
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("Help"))
+		{
+			/*if (ImGui::MenuItem("Gui Demo"))
+				show_demo_window = true;*/
+
+			if (ImGui::MenuItem("Documentation"))
+				TR_LOG("Todo open Documentation about wiki or about what?");
+
+			/*if (ImGui::MenuItem("Download latest"))
+				ShellExecute(GetActiveWindow(), "open", "https://github.com/Wilhelman/Tabula-Rasa-Engine/releases", NULL, NULL, SW_SHOWNORMAL);
+
+			if (ImGui::MenuItem("Report a bug"))
+				ShellExecute(GetActiveWindow(), "open", "https://github.com/Wilhelman/Tabula-Rasa-Engine/issues", NULL, NULL, SW_SHOWNORMAL);
+				*/
+			if (ImGui::MenuItem("About"))
+				about->SwitchActive();
+
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	}
+
+
+	// Draw all active panels
+	for (std::vector<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+	{
+		Panel* panel = (*it);
+
+		if (App->input->GetKey(panel->GetShortCut()) == KEY_DOWN)
+			panel->SwitchActive();
+
+		if (panel->IsActive())
+			panel->Draw();
+		
+	}
 
 	return true;
 }
@@ -77,7 +133,8 @@ bool trEditor::Update(float dt)
 bool trEditor::PostUpdate(float dt)
 {
 	ImGui::Render();
-	//glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+	ImGuiIO& io = ImGui::GetIO();
+	glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
 	//glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
@@ -85,6 +142,9 @@ bool trEditor::PostUpdate(float dt)
 	glLineWidth(1.0f);
 
 	glBegin(GL_LINES);
+
+	glEnd();
+
 	return true;
 }
 
@@ -92,6 +152,13 @@ bool trEditor::PostUpdate(float dt)
 bool trEditor::CleanUp()
 {
 	TR_LOG("Cleaning trEditor");
+	ImGui_ImplOpenGL2_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+
+	SDL_GL_DeleteContext(App->render->context);
+	SDL_DestroyWindow(App->win->window);
+	SDL_Quit();
 
 	return true;
 }
