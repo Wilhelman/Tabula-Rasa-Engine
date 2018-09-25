@@ -228,6 +228,9 @@
     <ClCompile Include="PanelAbout.cpp">
       <Filter>Core\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="PanelConfiguration.cpp">
+      <Filter>Core\Editor</Filter>
+    </ClCompile>
     <ClCompile Include="PanelConsole.cpp">
       <Filter>Core\Editor</Filter>
     </ClCompile>
@@ -525,6 +528,9 @@
       <Filter>Core\Modules</Filter>
     </ClInclude>
     <ClInclude Include="PanelAbout.h">
+      <Filter>Core\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelConfiguration.h">
       <Filter>Core\Editor</Filter>
     </ClInclude>
     <ClInclude Include="PanelConsole.h">

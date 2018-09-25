@@ -8,6 +8,7 @@
 #include "Panel.h"
 #include "PanelAbout.h"
 #include "PanelConfiguration.h"
+#include "PanelConsole.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -51,6 +52,7 @@ bool trEditor::Start()
 
 	panels.push_back(about = new PanelAbout());
 	panels.push_back(config = new PanelConfiguration());
+	panels.push_back(console = new PanelConsole());
 
 	return true;
 }
