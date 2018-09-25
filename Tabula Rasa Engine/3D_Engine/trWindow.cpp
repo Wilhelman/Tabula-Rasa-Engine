@@ -130,9 +130,11 @@ void trWindow::GetMaxMinSize(uint & min_width, uint & min_height, uint & max_wid
 void trWindow::SetWidth(uint width)
 {
 	SDL_SetWindowSize(window, width, height);
+	this->width = width;
 }
 
 void trWindow::SetHeigth(uint height)
 {
 	SDL_SetWindowSize(window, width, height);
+	this->height = height;
 }

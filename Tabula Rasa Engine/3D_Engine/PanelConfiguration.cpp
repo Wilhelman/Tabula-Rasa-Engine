@@ -232,8 +232,8 @@ void PanelConfiguration::DrawModuleWindow(trWindow * module)
 
 	uint w, h, min_w, min_h, max_w, max_h;
 	App->win->GetMaxMinSize(min_w, min_h, max_w, max_h);
-	w = App->win->screen_surface->w;
-	h = App->win->screen_surface->h;
+	w = App->win->width;
+	h = App->win->height;
 
 	if (ImGui::SliderInt("Width", (int*)&w, min_w, max_w))
 		App->win->SetWidth(w);
