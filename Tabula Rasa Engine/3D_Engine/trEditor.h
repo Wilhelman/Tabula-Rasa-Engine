@@ -6,6 +6,7 @@
 
 class Panel;
 class PanelAbout;
+class PanelConfiguration;
 
 class trEditor : public trModule
 {
@@ -27,6 +28,7 @@ public:
 
 public:
 	PanelAbout* about = nullptr;
+	PanelConfiguration* config = nullptr;
 
 private:
 
