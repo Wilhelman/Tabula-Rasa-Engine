@@ -17,8 +17,10 @@
 // Constructor
 trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 {
-	PERF_START(ptimer);
-
+	frames = 0;
+	last_frame_ms = -1;
+	last_fps = -1;
+	capped_ms = 1000 / 60;
 	fps_counter = 0;
 
 	input = new trInput();
@@ -74,7 +76,6 @@ void trApp::AddModule(trModule* module)
 // Called before render is available
 bool trApp::Awake()
 {
-	PERF_START(ptimer);
 
 	pugi::xml_document	config_file;
 	pugi::xml_node		config;
@@ -94,10 +95,10 @@ bool trApp::Awake()
 		game_title = app_config.child("title").child_value();
 		organization =app_config.child("organization").child_value();
 
-		cap = app_config.attribute("framerate_cap").as_uint();
-
-		if (cap > 0)
-			capped_ms = 1000 / cap;
+		//cap = app_config.attribute("framerate_cap").as_uint();
+		//todo check this when json is implemented
+		//if (cap > 0)
+			//capped_ms = 1000 / cap;
 
 	}
 
@@ -122,8 +123,6 @@ bool trApp::Awake()
 // Called before the first frame
 bool trApp::Start()
 {
-	PERF_START(ptimer);
-
 	bool ret = true;
 
 	std::list<trModule*>::iterator it = modules.begin();
@@ -137,9 +136,6 @@ bool trApp::Start()
 		ret = (*it)->Start();
 		it++;
 	}
-	startup_time.Start();
-
-	//PERF_PEEK(ptimer);
 
 	return ret;
 }
@@ -182,58 +178,32 @@ pugi::xml_node trApp::LoadConfig(pugi::xml_document& config_file) const
 // ---------------------------------------------
 void trApp::PrepareUpdate()
 {
-
-	perf_timer.Start();
+	dt = (float)ms_timer.Read() / 1000.0f;
+	ms_timer.Start();
 
 }
 
 // ---------------------------------------------
 void trApp::FinishUpdate()
 {
-	fps_counter++;
-	frame_count++;
 
 	// Framerate calculations --
 
-	if (App->render->vsync_state)
-		vsync_to_show = "on";
-	else
-		vsync_to_show = "off";
+	++frames;
+	++fps_counter;
 
-	if (cap_state)
-		cap_to_show = "on";
-	else
-		cap_to_show = "off";
-
-	float avg_fps = float(frame_count) / startup_time.ReadSec();
-
-	float seconds_since_startup = (float)simple_timer.Read();
-
-	uint32 current_ms_frame = (uint32)perf_timer.ReadMs();
-	uint32 last_frame_ms = current_ms_frame;
-	uint32 frames_on_last_update = 0;
-
-
-	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
-		cap_state = !cap_state;
-
-	if (cap_state) {
-		capped_ms = 1000 / cap;
-
-		if (current_ms_frame < capped_ms && !App->render->vsync_state)
-			SDL_Delay(capped_ms - current_ms_frame);
+	if (fps_timer.Read() >= 1000)
+	{
+		last_fps = fps_counter;
+		fps_counter = 0;
+		fps_timer.Start();
 	}
 
-	double framerate = 1000.0f / perf_timer.ReadMs();
+	last_frame_ms = ms_timer.Read();
 
-	dt = 1.0f / (float)framerate;
-
-
-	static char title[256];
-	sprintf_s(title, 256, "%s - FPS: %.2f Av.FPS: %.2f Last Frame Ms: %u (Cap: %s  Vsync: %s)",
-		game_title.data(), framerate, avg_fps, last_frame_ms, cap_to_show.data(), vsync_to_show.data());
-
-	App->win->SetTitle(title);
+	// cap fps
+	if (capped_ms > 0 && (last_frame_ms < capped_ms))
+		SDL_Delay(capped_ms - last_frame_ms);
 
 	editor->LogFPS((float)fps_counter, (float)last_frame_ms);
 
@@ -286,7 +256,6 @@ bool trApp::DoUpdate()
 // Call modules after each loop iteration
 bool trApp::PostUpdate()
 {
-	PERF_START(ptimer);
 	bool ret = true;
 
 	trModule* pModule = NULL;
@@ -351,7 +320,7 @@ const char* trApp::GetOrganization() const
 
 void trApp::RequestBrowser(const char * url) const
 {
-	ShellExecute(GetActiveWindow(), "open", url, NULL, NULL, SW_SHOWNORMAL);
+	//ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 }
 
 void trApp::SetOrganization(const char * organization)

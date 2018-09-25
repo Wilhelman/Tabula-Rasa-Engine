@@ -144,7 +144,6 @@ bool trEditor::PostUpdate(float dt)
 	//glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
-
 	glLineWidth(1.0f);
 
 	glBegin(GL_LINES);

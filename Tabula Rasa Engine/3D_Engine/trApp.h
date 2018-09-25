@@ -9,6 +9,7 @@
 #include "PugiXml\src\pugixml.hpp"
 #include "trLog.h"
 #include <string>
+#include "SDL\include\SDL.h"
 
 // Modules
 class trWindow;
@@ -107,18 +108,17 @@ private:
 	std::string			vsync_to_show;
 	std::string			cap_to_show;
 
-	trPerfTimer			perf_timer;
-	trTimer				simple_timer;
-
-	trPerfTimer			ptimer;
-	uint64				frame_count = 0;
-	uint				cap = 0u;
-	trTimer				startup_time;
-	float				dt = 0.0f;
-	int					capped_ms = -1;
 	bool				all_modules_loaded = false;
 
-	int					fps_counter = 0;
+	//fps/ms
+	trTimer	ms_timer;
+	trTimer	fps_timer;
+	Uint32	frames;
+	float	dt;
+	int		fps_counter;
+	int		last_frame_ms;
+	int		last_fps;
+	int		capped_ms;
 
 };
 
