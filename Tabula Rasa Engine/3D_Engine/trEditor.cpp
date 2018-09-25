@@ -74,8 +74,8 @@ bool trEditor::Update(float dt)
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			/*if (ImGui::MenuItem("Quit", "Alt+F4"))
-				quit = true;*/
+			if (ImGui::MenuItem("Quit", "Alt+F4"))
+				return false;
 
 			ImGui::EndMenu();
 		}
@@ -93,8 +93,8 @@ bool trEditor::Update(float dt)
 
 		if (ImGui::BeginMenu("Help"))
 		{
-			/*if (ImGui::MenuItem("Gui Demo"))
-				show_demo_window = true;*/
+			if (ImGui::MenuItem("Gui Demo"))
+				show_demo_window = true;
 
 			if (ImGui::MenuItem("Documentation"))
 				App->RequestBrowser("https://github.com/Wilhelman/Tabula-Rasa-Engine/");
@@ -124,8 +124,10 @@ bool trEditor::Update(float dt)
 
 		if (panel->IsActive())
 			panel->Draw();
-		
 	}
+
+	if (show_demo_window)
+		ImGui::ShowDemoWindow(&show_demo_window);
 
 	return true;
 }

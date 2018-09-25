@@ -34,5 +34,6 @@ private:
 
 	bool capture_mouse = false;
 	bool capture_keyboard = false;
+	bool show_demo_window = false;
 
 };
