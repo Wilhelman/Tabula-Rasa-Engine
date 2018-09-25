@@ -3,10 +3,12 @@
 
 PanelConsole::PanelConsole() : Panel("Console", SDL_SCANCODE_1)
 {
+	active = false;
 }
 
 PanelConsole::~PanelConsole()
 {
+
 }
 
 void PanelConsole::Draw()
