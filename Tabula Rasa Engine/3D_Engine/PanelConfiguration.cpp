@@ -115,20 +115,37 @@ void PanelConfiguration::ShowApplication()
 void PanelConfiguration::ShowHardware(trHardware * module)
 {
 	trHardware::HWInfo info = module->GetHardwareInfo();
-	IMGUI_PRINT("SDL Version:", "v%u.%u %u", info.sdl_version[0], info.sdl_version[1], info.sdl_version[2]);
+	std::string info_str;
+	info_str = "v%u.%u.%u";
+	ImGui::Text("SDL Version:");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, info_str.c_str(), info.sdl_version[0], info.sdl_version[1], info.sdl_version[2]);
 
 	ImGui::Separator();
-	IMGUI_PRINT("CPUs:", "%u (Cache: %ukb)", info.cpu_count, info.cache_line_size);
-	IMGUI_PRINT("System RAM:", "%.1fGb", info.system_ram);
-	IMGUI_PRINT("Caps:", "%s%s%s%s%s%s",
-		info.has_rtdcs ? "RDTSC," : "",
+	info_str = "%u (Cache: %ukb)";
+	ImGui::Text("CPUs:");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, info_str.c_str(), info.cpu_count, info.cache_line_size);
+
+	info_str = "%.1fGb";
+	ImGui::Text("System RAM:");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, info_str.c_str(), info.system_ram);
+
+	info_str = "%s%s%s%s%s%s";
+	ImGui::Text("Caps:");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, info_str.c_str(), info.has_rtdcs ? "RDTSC," : "",
 		info.has_alti_vec ? "AltiVec," : "",
 		info.has_mmx ? "MMX," : "",
 		info.has_3d_now ? "3DNow," : "",
 		info.has_sse ? "SSE," : "",
 		info.has_sse2 ? "SSE2," : "");
-	IMGUI_PRINT("", "%s%s%s%s%s",
-		info.has_sse3 ? "SSE3," : "",
+
+	info_str = "%s%s%s%s%s";
+	ImGui::Text("");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, info_str.c_str(), info.has_sse3 ? "SSE3," : "",
 		info.has_sse41 ? "SSE41," : "",
 		info.has_sse42 ? "SSE42," : "",
 		info.has_avx ? "AVX," : "",
