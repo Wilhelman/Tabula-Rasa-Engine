@@ -185,7 +185,6 @@ void trApp::PrepareUpdate()
 // ---------------------------------------------
 void trApp::FinishUpdate()
 {
-
 	// Framerate calculations --
 
 	++frames;
@@ -319,7 +318,7 @@ const char* trApp::GetOrganization() const
 
 void trApp::RequestBrowser(const char * url) const
 {
-	//ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 }
 
 void trApp::SetOrganization(const char * organization)
@@ -337,6 +336,8 @@ uint trApp::GetFramerateLimit() const
 
 void trApp::SetFramerateLimit(uint max_framerate)
 {
-	(max_framerate > 0) ?
-		capped_ms = 1000 / max_framerate:capped_ms = 0;
+	if (max_framerate > 0)
+		capped_ms = 1000 / max_framerate;
+	else
+		capped_ms = 0;
 }
