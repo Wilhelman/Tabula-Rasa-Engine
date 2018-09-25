@@ -103,6 +103,7 @@ void PanelConfiguration::DrawApplication()
 
 		ImGui::Text("Limit Framerate:");
 		ImGui::SameLine();
+
 		ImGui::TextColored(ImVec4(0.f,1.f,1.f,1.f), "%i", App->GetFramerateLimit());
 
 		char title[25];
@@ -229,17 +230,17 @@ void PanelConfiguration::DrawModuleWindow(trWindow * module)
 	if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f))
 		App->win->SetBrightness(brightness);
 
-	/*uint w, h, min_w, min_h, max_w, max_h;
+	uint w, h, min_w, min_h, max_w, max_h;
 	App->win->GetMaxMinSize(min_w, min_h, max_w, max_h);
-	w = App->win->screen_surface.w;
-	h = App->win->screen_surface.h;
+	w = App->win->screen_surface->w;
+	h = App->win->screen_surface->h;
 
 	if (ImGui::SliderInt("Width", (int*)&w, min_w, max_w))
-		App->window->SetWidth(w);
+		App->win->SetWidth(w);
 
 	if (ImGui::SliderInt("Height", (int*)&h, min_h, max_h))
-		App->window->SetHeigth(h);
-
+		App->win->SetHeigth(h);
+	/*
 	ImGui::Text("Refresh rate:");
 	ImGui::SameLine();
 	ImGui::TextColored(IMGUI_YELLOW, "%u", App->window->GetRefreshRate());

@@ -28,8 +28,8 @@ bool trWindow::Awake(pugi::xml_node&)
 	else
 	{
 		//Create window
-		int width = SCREEN_WIDTH * SCREEN_SIZE;
-		int height = SCREEN_HEIGHT * SCREEN_SIZE;
+		width = SCREEN_WIDTH * SCREEN_SIZE;
+		height = SCREEN_HEIGHT * SCREEN_SIZE;
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 		//Use OpenGL 2.1
@@ -125,4 +125,14 @@ void trWindow::GetMaxMinSize(uint & min_width, uint & min_height, uint & max_wid
 	// Aparently this is only to gather what user setup in the SDl_SetWindowMaxumimSize()
 	//SDL_GetWindowMinimumSize(window, (int*) &min_width, (int*) &min_height);
 	//SDL_GetWindowMaximumSize(window, (int*) &max_width, (int*) &max_height);
+}
+
+void trWindow::SetWidth(uint width)
+{
+	SDL_SetWindowSize(window, width, height);
+}
+
+void trWindow::SetHeigth(uint height)
+{
+	SDL_SetWindowSize(window, width, height);
 }
