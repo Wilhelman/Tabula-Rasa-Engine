@@ -228,6 +228,9 @@
     <ClCompile Include="PanelAbout.cpp">
       <Filter>Core\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="PanelConsole.cpp">
+      <Filter>Core\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pugiconfig.hpp">
@@ -522,6 +525,9 @@
       <Filter>Core\Modules</Filter>
     </ClInclude>
     <ClInclude Include="PanelAbout.h">
+      <Filter>Core\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelConsole.h">
       <Filter>Core\Editor</Filter>
     </ClInclude>
   </ItemGroup>
