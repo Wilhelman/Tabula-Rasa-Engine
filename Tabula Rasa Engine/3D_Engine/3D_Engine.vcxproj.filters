@@ -40,9 +40,6 @@
     <Filter Include="Core\Editor">
       <UniqueIdentifier>{94ec3c63-599e-4865-a18e-719dca9cc99f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utilities\DeviceID">
-      <UniqueIdentifier>{21727692-21e8-4b95-83d8-0ef975ff056f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pugixml.cpp">
@@ -228,9 +225,6 @@
     <ClCompile Include="PanelAbout.cpp" />
     <ClCompile Include="trHardware.cpp">
       <Filter>Core\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="DeviceId.cpp">
-      <Filter>Utilities\DeviceID</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -525,9 +519,6 @@
     <ClInclude Include="PanelAbout.h" />
     <ClInclude Include="trHardware.h">
       <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="DeviceId.h">
-      <Filter>Utilities\DeviceID</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
