@@ -40,6 +40,9 @@
     <Filter Include="Core\Editor">
       <UniqueIdentifier>{94ec3c63-599e-4865-a18e-719dca9cc99f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities\3rd Party\mmgr">
+      <UniqueIdentifier>{a8dba504-30a2-4dc5-b1e6-511df3a67900}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pugixml.cpp">
@@ -233,6 +236,9 @@
     </ClCompile>
     <ClCompile Include="PanelConsole.cpp">
       <Filter>Core\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="mmgr\mmgr.cpp">
+      <Filter>Utilities\3rd Party\mmgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -538,6 +544,12 @@
     </ClInclude>
     <ClInclude Include="imgui_defs.h">
       <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="mmgr\mmgr.h">
+      <Filter>Utilities\3rd Party\mmgr</Filter>
+    </ClInclude>
+    <ClInclude Include="mmgr\nommgr.h">
+      <Filter>Utilities\3rd Party\mmgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

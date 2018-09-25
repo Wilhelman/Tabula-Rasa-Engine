@@ -1,10 +1,15 @@
-#include <stdlib.h>
-
+//#include "MemLeaks.h"
 #include "trDefs.h"
-#include "trLog.h"
 #include "trApp.h"
-#include "MemLeaks.h"
+#include "trLog.h"
 
+// Old school memory leak detector and other random awesomeness
+#ifdef _DEBUG
+	//#define TEST_MEMORY_MANAGER
+#include "mmgr/mmgr.h"
+#endif
+
+// We need to include this here because SDL overwrites main()
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
@@ -28,7 +33,7 @@ trApp* App = NULL;
 
 int main(int argc, char* args[])
 {
-	ReportMemoryLeaks();
+	//ReportMemoryLeaks();
 
 	TR_LOG("Engine starting ... %d");
 
@@ -95,7 +100,6 @@ int main(int argc, char* args[])
 			TR_LOG("CLEANUP PHASE ===============================");
 			if (App->CleanUp() == true)
 			{
-				RELEASE(App);
 				result = EXIT_SUCCESS;
 				state = EXIT;
 			}
@@ -113,7 +117,14 @@ int main(int argc, char* args[])
 		}
 	}
 
+	RELEASE(App);
+
 	TR_LOG("... Bye! :)\n");
+#ifdef _DEBUG
+	int leaks = MAX(0, m_getMemoryStatistics().totalAllocUnitCount );
+	
+	TR_LOG("With %d memory leaks!\n", (leaks > 0) ? leaks : 0);
+#endif
 
 	// Dump memory leaks
 	return result;
