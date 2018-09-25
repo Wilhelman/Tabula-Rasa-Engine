@@ -57,6 +57,7 @@
     <ClCompile Include="MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
     <ClCompile Include="Panel.cpp" />
+    <ClCompile Include="PanelAbout.cpp" />
     <ClCompile Include="pcg\entropy.c" />
     <ClCompile Include="trApp.cpp" />
     <ClCompile Include="trAudio.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="MathGeoLib\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Time\Clock.h" />
     <ClInclude Include="Panel.h" />
+    <ClInclude Include="PanelAbout.h" />
     <ClInclude Include="pcg\entropy.h" />
     <ClInclude Include="pcg\pcg_spinlock.h" />
     <ClInclude Include="pcg\pcg_variants.h" />

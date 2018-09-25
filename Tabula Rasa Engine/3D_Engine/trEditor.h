@@ -2,11 +2,10 @@
 #include "trModule.h"
 #include "trDefs.h"
 
-#include "SDL/include/SDL.h"
+#include <vector>
 
-#include "imgui.h"
-#include "imgui_impl_sdl.h"
-#include "imgui_impl_opengl2.h"
+class Panel;
+class PanelAbout;
 
 class trEditor : public trModule
 {
@@ -25,8 +24,11 @@ public:
 	bool UsingMouse() const;
 	bool UsingKeyboard() const;
 
+public:
+	PanelAbout* about = nullptr;
 
 private:
+	std::vector<Panel *> panels;
 
 	bool capture_mouse = false;
 	bool capture_keyboard = false;

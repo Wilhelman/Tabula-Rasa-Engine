@@ -35,6 +35,7 @@ bool trMainScene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool trMainScene::Start()
 {
+	/*
 	App->camera->Move(vec(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec(0.0f, 0.0f, 0.0f));
 
@@ -50,7 +51,7 @@ bool trMainScene::Start()
 
 	// Setup style
 	ImGui::StyleColorsDark();
-
+	*/
 
 	return true;
 }
@@ -58,17 +59,17 @@ bool trMainScene::Start()
 // Called each loop iteration
 bool trMainScene::PreUpdate(float dt)
 {
-
+	/*
 	if (quit)
 		return false;
-
+		*/
 	return true;
 
 }
 
 bool trMainScene::Update(float dt)
 {
-	ImGui_ImplOpenGL2_NewFrame();
+	/*ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->win->window);
 	ImGui::NewFrame();
 
@@ -80,13 +81,13 @@ bool trMainScene::Update(float dt)
 		ShowAboutWindow(&show_about_window);
 
 	ShowMenuBar();
-
+	*/
 	return true;
 }
 
 bool trMainScene::PostUpdate(float dt)
 {
-
+	/*
 	ImGui::Render();
 	glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
 	glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
@@ -97,7 +98,7 @@ bool trMainScene::PostUpdate(float dt)
 
 	glBegin(GL_LINES);
 
-
+	*/
 	//testing grid
 	/*float d = 100.0f;
 
@@ -109,14 +110,14 @@ bool trMainScene::PostUpdate(float dt)
 	glVertex3f(d, 0.0f, i);
 	}*/
 
-	glEnd();
+	//glEnd();
 
 	return true;
 }
 
 // Called before quitting
 bool trMainScene::CleanUp()
-{
+{/*
 	TR_LOG("Cleaning up trMainScene");
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
@@ -125,7 +126,7 @@ bool trMainScene::CleanUp()
 	SDL_GL_DeleteContext(App->render->context);
 	SDL_DestroyWindow(App->win->window);
 	SDL_Quit();
-
+	*/
 	return true;
 }
 
@@ -141,7 +142,7 @@ bool trMainScene::Save(pugi::xml_node& data) const
 
 	return true;
 }
-
+/*
 void trMainScene::ShowMenuBar()
 {
 	static float f = 0.0f;
@@ -197,7 +198,7 @@ void trMainScene::ShowMenuBar()
 		ImGui::EndMainMenuBar();
 	}
 }
-
+*//*
 void trMainScene::ShowAboutWindow(bool * p_open)
 {
 	ImGui::Begin("About Tabula Rasa Engine", p_open, ImGuiWindowFlags_AlwaysAutoResize);
@@ -211,4 +212,4 @@ void trMainScene::ShowAboutWindow(bool * p_open)
 	ImGui::Text("TODO: Licensed under MIT");
 
 	ImGui::End();
-}
+}*/

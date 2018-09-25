@@ -34,7 +34,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(camera);
 
 	AddModule(main_scene);
-	AddModule(editor);
+	//AddModule(editor);
 	
 
 	// render last to swap buffer
