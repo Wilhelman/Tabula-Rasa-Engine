@@ -25,5 +25,5 @@ void PanelConsole::Draw()
 
 void PanelConsole::AddLogToConsole(const char * log)
 {
-	text_buffer.append(log);
+	text_buffer.appendf(log);
 }

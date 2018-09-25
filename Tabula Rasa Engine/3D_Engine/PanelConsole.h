@@ -2,6 +2,7 @@
 #define __PANEL_CONSOLE_H__
 
 #include "Panel.h"
+#include "imgui.h"
 
 class PanelConsole : public Panel
 {
