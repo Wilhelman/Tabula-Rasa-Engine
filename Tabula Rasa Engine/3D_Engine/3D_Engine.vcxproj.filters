@@ -37,6 +37,9 @@
     <Filter Include="Utilities\3rd Party\PuguiXML">
       <UniqueIdentifier>{8611086a-dc86-4eab-a673-d0cc3fb5b88e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Editor">
+      <UniqueIdentifier>{94ec3c63-599e-4865-a18e-719dca9cc99f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pugixml.cpp">
@@ -215,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="trEditor.cpp">
       <Filter>Core\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Panel.cpp">
+      <Filter>Core\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -502,6 +508,9 @@
     </ClInclude>
     <ClInclude Include="trEditor.h">
       <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Panel.h">
+      <Filter>Core\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
