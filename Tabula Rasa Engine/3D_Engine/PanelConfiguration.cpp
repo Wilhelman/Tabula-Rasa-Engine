@@ -148,7 +148,7 @@ void PanelConfiguration::DrawApplication()
 void PanelConfiguration::DrawModuleHardware(trHardware * module)
 {
 	trHardware::HWInfo info = module->GetHardwareInfo();
-	IMGUI_PRINT("SDL Version:", info.sdl_version);
+	IMGUI_PRINT("SDL Version:", "v%u.%u %u", info.sdl_version[0], info.sdl_version[1], info.sdl_version[2]);
 
 	ImGui::Separator();
 	IMGUI_PRINT("CPUs:", "%u (Cache: %ukb)", info.cpu_count, info.cache_line_size);
