@@ -82,7 +82,6 @@ bool trApp::Awake()
 	pugi::xml_node		app_config;
 
 	bool ret = false;
-	cap_state = true;
 
 	config = LoadConfig(config_file);
 
@@ -205,7 +204,7 @@ void trApp::FinishUpdate()
 	if (capped_ms > 0 && (last_frame_ms < capped_ms))
 		SDL_Delay(capped_ms - last_frame_ms);
 
-	editor->LogFPS((float)fps_counter, (float)last_frame_ms);
+	editor->LogFPS((float)last_fps, (float)last_frame_ms);
 
 	if (!all_modules_loaded)
 		all_modules_loaded = true;

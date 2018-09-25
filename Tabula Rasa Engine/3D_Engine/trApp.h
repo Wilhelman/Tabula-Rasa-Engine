@@ -95,8 +95,6 @@ public:
 	trHardware*			hardware = nullptr;
 	
 
-	bool				cap_state = false;
-
 private:
 
 	std::list<trModule*>	modules;
