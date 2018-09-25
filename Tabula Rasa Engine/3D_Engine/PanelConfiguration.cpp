@@ -159,7 +159,12 @@ void PanelConfiguration::ShowAudio(trAudio * module)
 
 void PanelConfiguration::ShowInput(trInput * module)
 {
-	//todo
+	ImGui::Text("Mouse Position:");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, "%i,%i", module->GetMouseX(), module->GetMouseY());
+	ImGui::Text("Mouse Motion:");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, "%i,%i", module->GetMouseXMotion(), module->GetMouseYMotion());
 }
 
 void PanelConfiguration::ShowWindow(trWindow * module)
