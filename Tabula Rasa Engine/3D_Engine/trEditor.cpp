@@ -97,14 +97,14 @@ bool trEditor::Update(float dt)
 				show_demo_window = true;*/
 
 			if (ImGui::MenuItem("Documentation"))
-				TR_LOG("Todo open Documentation about wiki or about what?");
+				App->RequestBrowser("https://github.com/Wilhelman/Tabula-Rasa-Engine/");
 
-			/*if (ImGui::MenuItem("Download latest"))
-				ShellExecute(GetActiveWindow(), "open", "https://github.com/Wilhelman/Tabula-Rasa-Engine/releases", NULL, NULL, SW_SHOWNORMAL);
-
+			if (ImGui::MenuItem("Download latest"))
+				App->RequestBrowser("https://github.com/Wilhelman/Tabula-Rasa-Engine/releases");
+			
 			if (ImGui::MenuItem("Report a bug"))
-				ShellExecute(GetActiveWindow(), "open", "https://github.com/Wilhelman/Tabula-Rasa-Engine/issues", NULL, NULL, SW_SHOWNORMAL);
-				*/
+				App->RequestBrowser("https://github.com/Wilhelman/Tabula-Rasa-Engine/issues");
+
 			if (ImGui::MenuItem("About"))
 				about->SwitchActive();
 

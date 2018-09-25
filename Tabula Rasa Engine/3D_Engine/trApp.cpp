@@ -345,3 +345,8 @@ const char* trApp::GetOrganization() const
 {
 	return organization.data();
 }
+
+void trApp::RequestBrowser(const char * url) const
+{
+	ShellExecute(GetActiveWindow(), "open", url, NULL, NULL, SW_SHOWNORMAL);
+}

@@ -8,6 +8,7 @@
 #include "trTimer.h"
 #include "PugiXml\src\pugixml.hpp"
 #include "trLog.h"
+#include <string>
 
 // Modules
 class trWindow;
@@ -49,6 +50,8 @@ public:
 	const char* GetArgv(int index) const;
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
+
+	void RequestBrowser(const char* url)const;
 
 	// Load config file
 	pugi::xml_node LoadConfig(pugi::xml_document&) const;
