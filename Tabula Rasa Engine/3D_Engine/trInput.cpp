@@ -3,6 +3,12 @@
 #include "trInput.h"
 #include "trRenderer3D.h"
 
+#include "imgui.h"
+#include "imgui_impl_sdl.h"
+#include "imgui_impl_opengl2.h"
+#include "SDL\include\SDL.h"
+#include "SDL\include\SDL_opengl.h"
+
 
 
 #define MAX_KEYS 300
@@ -92,6 +98,9 @@ bool trInput::PreUpdate(float dt)
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
 	{
+
+		ImGui_ImplSDL2_ProcessEvent(&e);
+
 		switch (e.type)
 		{
 		case SDL_MOUSEWHEEL:

@@ -96,6 +96,7 @@ bool trWindow::CleanUp()
 void trWindow::SetTitle(const char* title)
 {
 	SDL_SetWindowTitle(window, title);
+	App->game_title = title;
 }
 
 void trWindow::SetBrightness(float set)

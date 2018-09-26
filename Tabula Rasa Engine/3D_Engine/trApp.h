@@ -94,14 +94,14 @@ public:
 	trEditor*			editor = nullptr;
 	trHardware*			hardware = nullptr;
 	
-
+	std::string			game_title;
 private:
 
 	std::list<trModule*>	modules;
 	int					argc = 0;
 	char**				args = nullptr;
 
-	std::string			game_title;
+	
 	std::string			organization;
 	std::string			vsync_to_show;
 	std::string			cap_to_show;
