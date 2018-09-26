@@ -4,10 +4,13 @@
 #include "Panel.h"
 #include "imgui.h"
 
+#include <string>
+#include <vector>
+
 class PanelConsole : public Panel
 {
 public:
-	PanelConsole();
+	PanelConsole(std::vector<std::string> init_logs);
 	virtual ~PanelConsole();
 
 	void Draw() override;

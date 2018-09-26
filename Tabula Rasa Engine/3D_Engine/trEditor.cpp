@@ -52,8 +52,7 @@ bool trEditor::Start()
 	//Panels
 	panels.push_back(about = new PanelAbout());
 	panels.push_back(config = new PanelConfiguration());
-	panels.push_back(console = new PanelConsole());
-	Log("Starting editor");
+	panels.push_back(console = new PanelConsole(init_logs));
 
 	return true;
 }
@@ -188,6 +187,7 @@ void trEditor::Log(const char * new_log)
 {
 	if (console != nullptr)
 		console->AddLogToConsole(new_log);
-	else
-		TR_LOG("Editor error: Console == nullptr");
+	else {
+		init_logs.push_back(new_log);
+	}
 }

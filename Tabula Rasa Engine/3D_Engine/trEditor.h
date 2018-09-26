@@ -3,6 +3,7 @@
 #include "trDefs.h"
 
 #include <vector>
+#include <string>
 
 class Panel;
 class PanelAbout;
@@ -39,6 +40,8 @@ public:
 	PanelConsole* console = nullptr;
 
 private:
+
+	std::vector<std::string> init_logs;
 
 	std::vector<Panel *> panels;
 

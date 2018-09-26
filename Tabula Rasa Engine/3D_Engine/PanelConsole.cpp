@@ -1,9 +1,16 @@
 #include "PanelConsole.h"
 #include "imgui.h"
 
-PanelConsole::PanelConsole() : Panel("Console", SDL_SCANCODE_1)
+PanelConsole::PanelConsole(std::vector<std::string> init_logs) : Panel("Console", SDL_SCANCODE_1)
 {
 	active = false;
+
+	std::vector<std::string>::iterator it = init_logs.begin();
+	while (it != init_logs.end())
+	{
+		this->AddLogToConsole((*it).c_str());
+		it++;
+	}
 }
 
 PanelConsole::~PanelConsole()

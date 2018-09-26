@@ -3,6 +3,7 @@
 #include "trAudio.h"
 #include <list>
 #include "trApp.h"
+#include "trEditor.h"
 
 #include "SDL/include/SDL.h"
 #include "SDL_mixer/include/SDL_mixer.h"
@@ -22,6 +23,8 @@ trAudio::~trAudio()
 bool trAudio::Awake(pugi::xml_node& audioNode)
 {
 	TR_LOG("Loading Audio Mixer");
+	App->editor->Log("Awake audio mixer");
+
 
 	SDL_Init(0);
 
