@@ -39,6 +39,7 @@ bool trEditor::Init()
 bool trEditor::Start()
 {
 	// Setup Dear ImGui binding
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 
@@ -52,6 +53,7 @@ bool trEditor::Start()
 	panels.push_back(about = new PanelAbout());
 	panels.push_back(config = new PanelConfiguration());
 	panels.push_back(console = new PanelConsole());
+	Log("Starting editor");
 
 	return true;
 }
@@ -180,4 +182,12 @@ bool trEditor::CleanUp()
 void trEditor::InfoFPSMS(float current_fps, float current_ms)
 {
 	(config != nullptr) ? config->FillChartFpsInfo(current_fps, current_ms) : TR_LOG("trEditor error: configuration == nullptr");
+}
+
+void trEditor::Log(const char * new_log)
+{
+	if (console != nullptr)
+		console->AddLogToConsole(new_log);
+	else
+		TR_LOG("Editor error: Console == nullptr");
 }

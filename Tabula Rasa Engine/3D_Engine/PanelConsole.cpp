@@ -13,17 +13,26 @@ PanelConsole::~PanelConsole()
 
 void PanelConsole::Draw()
 {
-	ImGui::Begin("Console", &active,
-		ImGuiWindowFlags_NoResize |
-		ImGuiWindowFlags_AlwaysAutoResize |
-		ImGuiWindowFlags_NoCollapse);
+	ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
 
-	ImGui::Text(text_buffer.begin());
+	ImGui::Begin("Console", &active);
+	ImGui::TextUnformatted(text_buffer.begin());
 
+	if (have_to_scroll)
+		ImGui::GetScrollMaxY();
+
+	have_to_scroll = false;
+	
 	ImGui::End();
 }
 
 void PanelConsole::AddLogToConsole(const char * log)
 {
 	text_buffer.appendf(log);
+	have_to_scroll = true;
+}
+
+void PanelConsole::ClearLog()
+{
+	text_buffer.clear();
 }

@@ -203,7 +203,7 @@ void trApp::FinishUpdate()
 	if (capped_ms > 0 && (last_frame_ms < capped_ms))
 		SDL_Delay(capped_ms - last_frame_ms);
 
-	editor->InfoFPSMS((float)last_fps, (float)last_frame_ms);
+	editor->InfoFPSMS((float)last_fps, (float)last_frame_ms); //todo ms not working correctly
 
 	if (!all_modules_loaded)
 		all_modules_loaded = true;
