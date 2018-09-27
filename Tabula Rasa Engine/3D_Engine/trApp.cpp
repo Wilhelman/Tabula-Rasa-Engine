@@ -366,7 +366,7 @@ bool trApp::LoadNow()
 
 bool trApp::SaveNow() const
 {
-	JSON_Value *schema = json_parse_string("{\"name\":\"\"}");
+	/*JSON_Value *schema = json_parse_string("{\"name\":\"\"}");
 	JSON_Value *user_data = json_parse_file("user_data.json");
 	char buf[256];
 	const char *name = NULL;
@@ -380,6 +380,6 @@ bool trApp::SaveNow() const
 	name = json_object_get_string(json_object(user_data), "name");
 	printf("Hello, %s.", name);
 	json_value_free(schema);
-	json_value_free(user_data);
+	json_value_free(user_data);*/
 	return true;
 }
