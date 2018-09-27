@@ -87,7 +87,7 @@ private:
 	bool PostUpdate();
 
 	bool LoadNow();
-	bool SaveNow() const;
+	bool SaveNow();
 
 public:
 

@@ -29,7 +29,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	audio = new trAudio();
 	camera = new trCamera3D();
 
-	//main_scene = new trMainScene(); unused
+	main_scene = new trMainScene();
 	editor = new trEditor();
 	hardware = new trHardware();
 	
@@ -40,7 +40,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(camera);
 
-	//AddModule(main_scene); unused
+	AddModule(main_scene);
 	AddModule(editor);
 	AddModule(hardware);
 
@@ -364,12 +364,38 @@ void trApp::Load()
 
 bool trApp::LoadNow()
 {
-	
 	return true;
 }
 
-bool trApp::SaveNow() const
+bool trApp::SaveNow()
 {
+
+	bool ret = true;
+
+	JSON_Value *root_value = json_value_init_object();
+	char *serialized_string = NULL;
+
+	trModule* pModule = NULL;
+	for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
+	{
+		pModule = (*it);
+
+		if (pModule->active == false) {
+			continue;
+		}
+
+		ret = (*it)->Save(*root_value);
+	}
+	
+
+	serialized_string = json_serialize_to_string_pretty(root_value);
+	puts(serialized_string);
+	json_serialize_to_file(root_value, "config.json");
+	json_free_serialized_string(serialized_string);
+	json_value_free(root_value);
+
+	/*
+
 	JSON_Value *schema = json_parse_string("{\"name\":\"\"}");
 	JSON_Value *user_data = json_parse_file("data.json");
 	char buf[256];
@@ -383,11 +409,11 @@ bool trApp::SaveNow() const
 
 	}
 	name = json_object_get_string(json_object(user_data), "name");
-	char log_test[30];
-	sprintf_s(buf, 256, "Nombre: %s",name);
+	char log_test[256];
+	sprintf_s(log_test, 256, "Nombre: %s",name);
 	editor->Log(log_test);
 	json_value_free(schema);
-	json_value_free(user_data);
+	json_value_free(user_data);*/
 
 	return true;
 }
