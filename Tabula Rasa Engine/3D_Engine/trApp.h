@@ -63,8 +63,6 @@ public:
 	// Load / Save
 	void Save();
 	void Load();
-	bool LoadNow();
-	bool SaveNow() const;
 
 	// Load config file
 	pugi::xml_node LoadConfig(pugi::xml_document&) const;
@@ -87,6 +85,9 @@ private:
 
 	// Call modules after each loop iteration
 	bool PostUpdate();
+
+	bool LoadNow();
+	bool SaveNow() const;
 
 public:
 

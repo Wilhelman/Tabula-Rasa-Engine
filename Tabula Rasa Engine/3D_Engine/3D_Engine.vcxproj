@@ -61,6 +61,7 @@
     <ClCompile Include="PanelAbout.cpp" />
     <ClCompile Include="PanelConfiguration.cpp" />
     <ClCompile Include="PanelConsole.cpp" />
+    <ClCompile Include="ParsonJson\parson.c" />
     <ClCompile Include="pcg\entropy.c" />
     <ClCompile Include="trApp.cpp" />
     <ClCompile Include="trAudio.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="PanelAbout.h" />
     <ClInclude Include="PanelConfiguration.h" />
     <ClInclude Include="PanelConsole.h" />
+    <ClInclude Include="ParsonJson\parson.h" />
     <ClInclude Include="pcg\entropy.h" />
     <ClInclude Include="pcg\pcg_spinlock.h" />
     <ClInclude Include="pcg\pcg_variants.h" />
