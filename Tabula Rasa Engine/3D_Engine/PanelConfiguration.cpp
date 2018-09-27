@@ -9,6 +9,7 @@
 #include "trCamera3D.h"
 #include "trEditor.h"
 #include "imgui_defs.h"
+#include "mmgr/mmgr.h"
 
 using namespace std;
 
@@ -109,6 +110,19 @@ void PanelConfiguration::ShowApplication()
 		ImGui::PlotHistogram("##framerate", &chart_fps[0], chart_fps.size(), 0, title, 0.0f, 100.0f, ImVec2(400, 90));
 		sprintf_s(title, 25, "Milliseconds %0.1f", chart_ms[chart_ms.size() - 1]);
 		ImGui::PlotHistogram("##milliseconds", &chart_ms[0], chart_ms.size(), 0, title, 0.0f, 40.0f, ImVec2(400, 90));
+
+		ImGui::Separator();
+		sMStats mem_stats = m_getMemoryStatistics();
+
+		ImGui::Text("Total Reported Mem: %u", mem_stats.totalReportedMemory);
+		ImGui::Text("Total Actual Mem: %u", mem_stats.totalActualMemory);
+		ImGui::Text("Peak Reported Mem: %u", mem_stats.peakReportedMemory);
+		ImGui::Text("Peak Actual Mem: %u", mem_stats.peakActualMemory);
+		ImGui::Text("Accumulated Reported Mem: %u", mem_stats.accumulatedReportedMemory);
+		ImGui::Text("Accumulated Actual Mem: %u", mem_stats.accumulatedActualMemory);
+		ImGui::Text("Accumulated Alloc Unit Count: %u", mem_stats.accumulatedAllocUnitCount);
+		ImGui::Text("Total Alloc Unit Count: %u", mem_stats.totalAllocUnitCount);
+		ImGui::Text("Peak Alloc Unit Count: %u", mem_stats.peakAllocUnitCount);
 	}
 }
 
@@ -214,7 +228,6 @@ void PanelConfiguration::ShowRenderer(trRenderer3D * module)
 
 void PanelConfiguration::FillChartFpsInfo(float fps, float ms)
 {
-
 	static uint chart_iterator = 0u;
 
 	if (chart_iterator == CHART_FPS_CAP)
