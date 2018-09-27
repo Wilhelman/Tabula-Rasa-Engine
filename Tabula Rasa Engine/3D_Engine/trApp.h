@@ -60,8 +60,15 @@ public:
 	uint GetFpsCap() const;
 	void SetFpsCap(uint max_framerate);
 
+	// Load / Save
+	void Save();
+	void Load();
+	bool LoadNow();
+	bool SaveNow() const;
+
 	// Load config file
 	pugi::xml_node LoadConfig(pugi::xml_document&) const;
+
 
 
 private:
@@ -108,6 +115,8 @@ private:
 	std::string			cap_to_show;
 
 	bool				all_modules_loaded = false;
+
+	bool				want_to_save, want_to_load = false;
 
 	//fps/ms
 	trTimer	ms_timer;
