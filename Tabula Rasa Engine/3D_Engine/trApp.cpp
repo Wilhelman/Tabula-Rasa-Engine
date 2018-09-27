@@ -29,7 +29,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	audio = new trAudio();
 	camera = new trCamera3D();
 
-	//main_scene = new trMainScene(); unused
+	main_scene = new trMainScene();
 	editor = new trEditor();
 	hardware = new trHardware();
 	
@@ -40,7 +40,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(camera);
 
-	//AddModule(main_scene); unused
+	AddModule(main_scene);
 	AddModule(editor);
 	AddModule(hardware);
 
@@ -375,13 +375,8 @@ bool trApp::SaveNow() const
 	char *serialized_string = NULL;
 
 
-
-	//this have to iterate
-	JSON_Object *root_object = json_value_get_object(root_value);
-	json_object_set_string(root_object, "name", "John Smith");
-	json_object_set_number(root_object, "age", 25);
-	json_object_dotset_string(root_object, "address.city", "Cupertino");
-	json_object_dotset_value(root_object, "contact.emails", json_parse_string("[\"email@example.com\",\"email2@example.com\"]"));
+	App->main_scene->Save(*root_value);
+	
 
 	serialized_string = json_serialize_to_string_pretty(root_value);
 	puts(serialized_string);

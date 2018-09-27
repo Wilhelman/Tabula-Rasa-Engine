@@ -67,6 +67,12 @@ bool trMainScene::Load(pugi::xml_node& data)
 // Save Game State
 bool trMainScene::Save(JSON_Value& data) const
 {
+	//this have to iterate
+	JSON_Object *root_object = json_value_get_object(&data);
+	json_object_set_string(root_object, "name", "John Smith");
+	json_object_set_number(root_object, "age", 25);
+	json_object_dotset_string(root_object, "address.city", "Cupertino");
+	json_object_dotset_value(root_object, "contact.emails", json_parse_string("[\"email@example.com\",\"email2@example.com\"]"));
 
 	return true;
 }
