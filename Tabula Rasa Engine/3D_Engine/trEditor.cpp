@@ -78,6 +78,10 @@ bool trEditor::Update(float dt)
 	{
 		if (ImGui::BeginMenu("File"))
 		{
+			if (ImGui::MenuItem("Save"))
+				App->Save();
+			if (ImGui::MenuItem("Load"))
+				App->Load();
 			if (ImGui::MenuItem("Quit", "Alt+F4"))
 				return false;
 

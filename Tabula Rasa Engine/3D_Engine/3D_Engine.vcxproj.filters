@@ -43,6 +43,9 @@
     <Filter Include="Utilities\3rd Party\mmgr">
       <UniqueIdentifier>{a8dba504-30a2-4dc5-b1e6-511df3a67900}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities\3rd Party\Parson">
+      <UniqueIdentifier>{0a60f577-701c-4f13-ad63-4bce7cbbf830}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pugixml.cpp">
@@ -239,6 +242,9 @@
     </ClCompile>
     <ClCompile Include="mmgr\mmgr.cpp">
       <Filter>Utilities\3rd Party\mmgr</Filter>
+    </ClCompile>
+    <ClCompile Include="ParsonJson\parson.c">
+      <Filter>Utilities\3rd Party\Parson</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -550,6 +556,9 @@
     </ClInclude>
     <ClInclude Include="mmgr\nommgr.h">
       <Filter>Utilities\3rd Party\mmgr</Filter>
+    </ClInclude>
+    <ClInclude Include="ParsonJson\parson.h">
+      <Filter>Utilities\3rd Party\Parson</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
