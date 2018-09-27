@@ -148,7 +148,6 @@ bool trEditor::PostUpdate(float dt)
 	ImGui::Render();
 	ImGuiIO& io = ImGui::GetIO();
 	glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
-	//glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
 	glLineWidth(1.0f);
