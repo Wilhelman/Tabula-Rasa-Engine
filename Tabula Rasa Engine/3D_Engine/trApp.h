@@ -7,6 +7,7 @@
 #include "trPerfTimer.h"
 #include "trTimer.h"
 #include "PugiXml\src\pugixml.hpp"
+#include "ParsonJson\parson.h"
 #include "trLog.h"
 #include <string>
 #include "SDL\include\SDL.h"
