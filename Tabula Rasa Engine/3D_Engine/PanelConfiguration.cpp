@@ -10,6 +10,7 @@
 #include "trEditor.h"
 #include "imgui_defs.h"
 #include "mmgr/mmgr.h"
+#include "trTimer.h"
 
 using namespace std;
 
@@ -20,6 +21,8 @@ chart_fps(CHART_FPS_CAP), chart_ms(CHART_FPS_CAP)
 	height = 420;
 	x_pos = 960;
 	y_pos = 610;
+
+	mem_timer.Start();
 }
 
 PanelConfiguration::~PanelConfiguration()
@@ -112,7 +115,28 @@ void PanelConfiguration::ShowApplication()
 		ImGui::PlotHistogram("##milliseconds", &chart_ms[0], chart_ms.size(), 0, title, 0.0f, 40.0f, ImVec2(400, 90));
 
 		ImGui::Separator();
+
 		sMStats mem_stats = m_getMemoryStatistics();
+
+		if (mem_timer.Read() > 0.05f)
+		{
+			mem_timer.Start();
+			if (mem_list.size() == CHART_MEM)
+			{
+				for (uint i = 0; i < CHART_MEM - 1; i++)
+					mem_list[i] = mem_list[i + 1];
+
+				mem_list[CHART_MEM - 1] = (float)mem_stats.totalReportedMemory;
+			}
+			else
+				mem_list.push_back((float)mem_stats.totalReportedMemory);
+			
+		}
+
+	
+
+		ImGui::PlotHistogram("##memory", &mem_list[0], mem_list.size(), 0, "Memory Consumption", 0.0f, (float)mem_stats.peakReportedMemory * 1.2f, ImVec2(310, 100));
+
 
 		ImGui::Text("Total Reported Mem: %u", mem_stats.totalReportedMemory);
 		ImGui::Text("Total Actual Mem: %u", mem_stats.totalActualMemory);

@@ -5,6 +5,8 @@
 #include "imgui.h"
 #include <vector>
 
+#include "trTimer.h"
+
 class trModule;
 class trWindow;
 class trInput;
@@ -37,6 +39,9 @@ private:
 
 	char app_name[TITLE_ORG_MAX_LENGTH];
 	char org_name[TITLE_ORG_MAX_LENGTH];
+
+	trTimer mem_timer;
+	std::vector<float> mem_list;
 
 };
 

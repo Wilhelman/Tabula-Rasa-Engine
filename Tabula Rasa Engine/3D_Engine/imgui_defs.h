@@ -4,7 +4,7 @@
 #include "imgui_internal.h"
 
 #define CHART_FPS_CAP 100
-
+#define CHART_MEM 100
 
 #define IMGUI_GREY ImVec4(0.6f,0.6f,0.6f,1.f)
 #define IMGUI_BLUE ImVec4(0.2f,0.2f,1.f,1.f)
