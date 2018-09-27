@@ -65,7 +65,7 @@ bool trMainScene::Load(pugi::xml_node& data)
 }
 
 // Save Game State
-bool trMainScene::Save(pugi::xml_node& data) const
+bool trMainScene::Save(JSON_Value& data) const
 {
 
 	return true;

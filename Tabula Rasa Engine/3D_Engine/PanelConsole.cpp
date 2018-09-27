@@ -20,8 +20,6 @@ PanelConsole::~PanelConsole()
 
 void PanelConsole::Draw()
 {
-	ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
-
 	ImGui::Begin("Console", &active);
 	ImGui::TextUnformatted(text_buffer.begin());
 
