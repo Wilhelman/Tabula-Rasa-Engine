@@ -364,23 +364,33 @@ void trApp::Load()
 
 bool trApp::LoadNow()
 {
-	
 	return true;
 }
 
-bool trApp::SaveNow() const
+bool trApp::SaveNow()
 {
+
+	bool ret = true;
 
 	JSON_Value *root_value = json_value_init_object();
 	char *serialized_string = NULL;
 
+	trModule* pModule = NULL;
+	for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
+	{
+		pModule = (*it);
 
-	App->main_scene->Save(*root_value);
+		if (pModule->active == false) {
+			continue;
+		}
+
+		ret = (*it)->Save(*root_value);
+	}
 	
 
 	serialized_string = json_serialize_to_string_pretty(root_value);
 	puts(serialized_string);
-	json_serialize_to_file(root_value, "data.json");
+	json_serialize_to_file(root_value, "config.json");
 	json_free_serialized_string(serialized_string);
 	json_value_free(root_value);
 
