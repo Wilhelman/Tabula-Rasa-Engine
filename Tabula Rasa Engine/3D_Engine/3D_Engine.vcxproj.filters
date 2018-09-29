@@ -46,6 +46,9 @@
     <Filter Include="Utilities\3rd Party\Parson">
       <UniqueIdentifier>{0a60f577-701c-4f13-ad63-4bce7cbbf830}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities\3rd Party\Glew">
+      <UniqueIdentifier>{d8ed328a-1a19-4379-88f8-fd115aef4025}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pugixml.cpp">
@@ -559,6 +562,18 @@
     </ClInclude>
     <ClInclude Include="ParsonJson\parson.h">
       <Filter>Utilities\3rd Party\Parson</Filter>
+    </ClInclude>
+    <ClInclude Include="glew-2.1.0\include\GL\eglew.h">
+      <Filter>Utilities\3rd Party\Glew</Filter>
+    </ClInclude>
+    <ClInclude Include="glew-2.1.0\include\GL\glew.h">
+      <Filter>Utilities\3rd Party\Glew</Filter>
+    </ClInclude>
+    <ClInclude Include="glew-2.1.0\include\GL\glxew.h">
+      <Filter>Utilities\3rd Party\Glew</Filter>
+    </ClInclude>
+    <ClInclude Include="glew-2.1.0\include\GL\wglew.h">
+      <Filter>Utilities\3rd Party\Glew</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
