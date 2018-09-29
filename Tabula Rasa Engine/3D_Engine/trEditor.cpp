@@ -31,8 +31,7 @@ trEditor::~trEditor()
 // Called before render is available
 bool trEditor::Init()
 {
-	TR_LOG("Init editor gui with imgui lib version %s", ImGui::GetVersion());
-
+	Log("Init editor gui with imgui lib version %s", ImGui::GetVersion());
 	return true;
 }
 
@@ -162,7 +161,7 @@ bool trEditor::PostUpdate(float dt)
 // Called before quitting
 bool trEditor::CleanUp()
 {
-	TR_LOG("Cleaning trEditor");
+	Log("trEditor: CleanUp");
 	std::vector<Panel*>::iterator it = panels.begin();
 
 	while (it != panels.end())
@@ -183,7 +182,7 @@ bool trEditor::CleanUp()
 
 void trEditor::InfoFPSMS(float current_fps, float current_ms)
 {
-	(config != nullptr) ? config->FillChartFpsInfo(current_fps, current_ms) : TR_LOG("trEditor error: configuration == nullptr");
+	(config != nullptr) ? config->FillChartFpsInfo(current_fps, current_ms) : Log("trEditor error: configuration == nullptr");
 }
 
 void trEditor::Log(const char * new_log, const char* format, ...)

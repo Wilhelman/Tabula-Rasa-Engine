@@ -2,6 +2,7 @@
 #include "trApp.h"
 #include "trInput.h"
 #include "trRenderer3D.h"
+#include "trEditor.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -30,13 +31,13 @@ trInput::~trInput()
 // Called before render is available
 bool trInput::Init()
 {
-	TR_LOG("Init SDL input event system");
+	App->editor->Log("trInput: Init SDL input event system");
 	bool ret = true;
 	SDL_Init(0);
 
 	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
-		TR_LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
+		App->editor->Log("trInput: SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 
@@ -136,7 +137,7 @@ bool trInput::PreUpdate(float dt)
 // Called before quitting
 bool trInput::CleanUp()
 {
-	TR_LOG("Quitting SDL input event subsystem");
+	App->editor->Log("Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
 }

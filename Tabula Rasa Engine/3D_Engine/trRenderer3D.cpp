@@ -3,6 +3,8 @@
 #include "trApp.h"
 #include "trRenderer3D.h"
 #include "trCamera3D.h"
+#include "trEditor.h"
+
 #include "SDL\include\SDL_opengl.h"
 //#include <gl/GL.h>
 //#include <gl/GLU.h>
@@ -22,7 +24,7 @@ trRenderer3D::~trRenderer3D()
 // Called before render is available
 bool trRenderer3D::Awake(pugi::xml_node& config)
 {
-	TR_LOG("Creating 3D Renderer context");
+	App->editor->Log("Renderer3D: Creating 3D Renderer context");
 	bool ret = true;
 
 	vsync_state = false;
@@ -33,14 +35,14 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
 		vsync_state = true;
-		TR_LOG("Using vsync");
+		App->editor->Log("Renderer3D: Using vsync");
 	}
 
 	//Create context
 	context = SDL_GL_CreateContext(App->win->window);
 	if (context == NULL)
 	{
-		TR_LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
+		App->editor->Log("Renderer3D: OpenGL context could not be created!SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 
@@ -48,7 +50,7 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 	{
 		//Use Vsync
 		if (VSYNC && SDL_GL_SetSwapInterval(1) < 0)
-			TR_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+			App->editor->Log("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
 
 		//Initialize Projection Matrix
 		glMatrixMode(GL_PROJECTION);
@@ -59,7 +61,7 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		if (error != GL_NO_ERROR)
 		{
 			//TR_LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
-			TR_LOG("Error initializing OpenGL!");
+			App->editor->Log("Renderer3D: Error initializing OpenGL!");
 			ret = false;
 		}
 
@@ -72,7 +74,7 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		if (error != GL_NO_ERROR)
 		{
 			//TR_LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
-			TR_LOG("Error initializing OpenGL!");
+			App->editor->Log("Renderer3D: Error initializing OpenGL!");
 			ret = false;
 		}
 
@@ -87,7 +89,7 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		if (error != GL_NO_ERROR)
 		{
 			//TR_LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
-			TR_LOG("Error initializing OpenGL!");
+			App->editor->Log("Renderer3D: Error initializing OpenGL!");
 			ret = false;
 		}
 
@@ -147,7 +149,8 @@ bool trRenderer3D::PostUpdate(float dt)
 // Called before quitting
 bool trRenderer3D::CleanUp()
 {
-	TR_LOG("Destroying 3D Renderer");
+	App->editor->Log("Renderer3D: CleanUp");
+
 
 	SDL_GL_DeleteContext(context);
 

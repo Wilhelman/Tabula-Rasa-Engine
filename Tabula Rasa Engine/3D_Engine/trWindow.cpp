@@ -1,6 +1,7 @@
 #include "trDefs.h"
 #include "trApp.h"
 #include "trWindow.h"
+#include "trEditor.h"
 
 trWindow::trWindow() : trModule()
 {
@@ -17,12 +18,12 @@ trWindow::~trWindow()
 // Called before render is available
 bool trWindow::Awake(pugi::xml_node&)
 {
-	TR_LOG("Init SDL window & surface");
+	App->editor->Log("trWindow: Init SDL window & surface");
 	bool ret = true;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		TR_LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
+		App->editor->Log("trWindow: SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 	else
@@ -64,7 +65,7 @@ bool trWindow::Awake(pugi::xml_node&)
 
 		if (window == NULL)
 		{
-			TR_LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+			App->editor->Log("trWindow: Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
 		}
 		else
@@ -80,7 +81,7 @@ bool trWindow::Awake(pugi::xml_node&)
 // Called before quitting
 bool trWindow::CleanUp()
 {
-	TR_LOG("Destroying SDL window and quitting all SDL systems");
+	App->editor->Log("trWindow: CleanUp");
 
 	//Destroy window
 	if (window != NULL)
@@ -103,7 +104,7 @@ void trWindow::SetBrightness(float set)
 {
 	CAP(set);
 	if (SDL_SetWindowBrightness(window, set) != 0)
-		TR_LOG("Could not change window brightness: %s\n", SDL_GetError());
+		App->editor->Log("trWindow: Could not change window brightness: %s\n", SDL_GetError());
 }
 
 float trWindow::GetBrightness() const
@@ -120,7 +121,7 @@ void trWindow::GetWindowConstraints(uint & min_width, uint & min_height, uint & 
 
 	SDL_DisplayMode dm;
 	if (SDL_GetDesktopDisplayMode(0, &dm) != 0)
-		TR_LOG("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
+		App->editor->Log("trWindow: SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
 	else
 	{
 		max_width = dm.w;
@@ -146,7 +147,7 @@ uint trWindow::GetMonitorRefreshRate() const
 
 	SDL_DisplayMode dm;
 	if (SDL_GetDesktopDisplayMode(0, &dm) != 0)
-		TR_LOG("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
+		App->editor->Log("trWindow: SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
 	else
 		ret = dm.refresh_rate;
 
@@ -161,13 +162,13 @@ void trWindow::SetFullscreen(bool set)
 		if (fullscreen == true)
 		{
 			if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) != 0)
-				TR_LOG("Could not switch to fullscreen: %s\n", SDL_GetError());
+				App->editor->Log("trWindow: Could not switch to fullscreen: %s\n", SDL_GetError());
 			fullscreen_desktop = false;
 		}
 		else
 		{
 			if (SDL_SetWindowFullscreen(window, 0) != 0)
-				TR_LOG("Could not switch to windowed: %s\n", SDL_GetError());
+				App->editor->Log("trWindow: Could not switch to windowed: %s\n", SDL_GetError());
 		}
 	}
 }
@@ -195,13 +196,13 @@ void trWindow::SetFullScreenDesktop(bool set)
 		if (fullscreen_desktop == true)
 		{
 			if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
-				TR_LOG("Could not switch to fullscreen desktop: %s\n", SDL_GetError());
+				App->editor->Log("trWindow: Could not switch to fullscreen desktop: %s\n", SDL_GetError());
 			fullscreen = false;
 		}
 		else
 		{
 			if (SDL_SetWindowFullscreen(window, 0) != 0)
-				TR_LOG("Could not switch to windowed: %s\n", SDL_GetError());
+				App->editor->Log("trWindow:Could not switch to windowed: %s\n", SDL_GetError());
 		}
 	}
 }

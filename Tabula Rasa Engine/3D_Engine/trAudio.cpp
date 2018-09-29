@@ -22,14 +22,14 @@ trAudio::~trAudio()
 // Called before render is available
 bool trAudio::Awake(pugi::xml_node& audioNode)
 {
-	App->editor->Log("Awake audio mixer");
+	App->editor->Log("trAudio: Awake audio mixer");
 
 
 	SDL_Init(0);
 
 	if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
 	{
-		TR_LOG("SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
+		App->editor->Log("trAudio: SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
 		return false;
 	}
 
@@ -51,7 +51,7 @@ void trAudio::InitAudio()
 	//Initialize SDL_mixer
 	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
 	{
-		TR_LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+		App->editor->Log("trAudio: SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 	}
 
 	Mix_AllocateChannels(16);
@@ -78,7 +78,7 @@ bool trAudio::CleanUp()
 	if (!active)
 		return true;
 
-	TR_LOG("Freeing sound FX, closing Mixer and Audio subsystem");
+	App->editor->Log("trAudio: Freeing sound FX, closing Mixer and Audio subsystem");
 
 	if (music != NULL)
 	{
@@ -123,7 +123,7 @@ bool trAudio::PlayMusic(const char* path, float fade_time)
 
 	if (music == NULL)
 	{
-		TR_LOG("Cannot load music %s. Mix_GetError(): %s\n", path, Mix_GetError());
+		App->editor->Log("trAudio: Cannot load music %s. Mix_GetError(): %s\n", path, Mix_GetError());
 		ret = false;
 	}
 	else
@@ -132,7 +132,7 @@ bool trAudio::PlayMusic(const char* path, float fade_time)
 		{
 			if (Mix_FadeInMusic(music, -1, (int)(fade_time * 1000.0f)) < 0)
 			{
-				TR_LOG("Cannot fade in music %s. Mix_GetError(): %s", path, Mix_GetError());
+				App->editor->Log("trAudio: Cannot fade in music %s. Mix_GetError(): %s", path, Mix_GetError());
 				ret = false;
 			}
 		}
@@ -140,13 +140,13 @@ bool trAudio::PlayMusic(const char* path, float fade_time)
 		{
 			if (Mix_PlayMusic(music, -1) < 0)
 			{
-				TR_LOG("Cannot play in music %s. Mix_GetError(): %s", path, Mix_GetError());
+				App->editor->Log("trAudio: Cannot play in music %s. Mix_GetError(): %s", path, Mix_GetError());
 				ret = false;
 			}
 		}
 	}
 
-	TR_LOG("Successfully playing %s", path);
+	App->editor->Log("trAudio: Successfully playing %s", path);
 	return ret;
 }
 
@@ -234,7 +234,7 @@ unsigned int trAudio::LoadFx(const char* path)
 
 	if (chunk == NULL)
 	{
-		TR_LOG("Cannot load wav %s. Mix_GetError(): %s", path, Mix_GetError());
+		App->editor->Log("Cannot load wav %s. Mix_GetError(): %s", path, Mix_GetError());
 	}
 	else
 	{

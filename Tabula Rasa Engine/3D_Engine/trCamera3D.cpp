@@ -2,6 +2,7 @@
 #include "trApp.h"
 #include "trInput.h"
 #include "trCamera3D.h"
+#include "trEditor.h"
 
 trCamera3D::trCamera3D() : trModule()
 {
@@ -22,7 +23,7 @@ trCamera3D::~trCamera3D()
 // -----------------------------------------------------------------
 bool trCamera3D::Start()
 {
-	TR_LOG("Setting up the camera");
+	App->editor->Log("trCamera3D: Setting up the camera");
 	bool ret = true;
 
 	return ret;
@@ -31,7 +32,7 @@ bool trCamera3D::Start()
 // -----------------------------------------------------------------
 bool trCamera3D::CleanUp()
 {
-	TR_LOG("Cleaning camera");
+	App->editor->Log("trCamera3D: CleanUp");
 
 	return true;
 }

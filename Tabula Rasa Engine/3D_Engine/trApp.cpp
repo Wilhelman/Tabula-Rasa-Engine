@@ -364,6 +364,8 @@ void trApp::Load()
 
 bool trApp::LoadNow()
 {
+	App->editor->Log("Loading ...");
+
 	/*
 
 	JSON_Value *schema = json_parse_string("{\"name\":\"\"}");
