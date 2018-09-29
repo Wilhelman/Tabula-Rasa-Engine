@@ -49,9 +49,11 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 
 	GLenum err = glewInit();
 
+	App->editor->Log("---------- Version info ----------");
+
 	if (err != GLEW_OK)
 	{
-		App->editor->Log("Glew library could not init");
+		App->editor->Log("Glew library could not init", (char*)glewGetErrorString(err));
 		ret = false;
 	}
 	else {
@@ -61,6 +63,15 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 
 	if (ret == true)
 	{
+
+		// get version info
+		
+		App->editor->Log("Vendor: ", (char*)glGetString(GL_VENDOR));
+		App->editor->Log("Renderer: ", (char*)glGetString(GL_RENDERER));
+		App->editor->Log("OpenGL version supported ", (char*)glGetString(GL_VERSION));
+		App->editor->Log("GLSL: ", (char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
+		App->editor->Log("---------- End info ----------");
+
 		//Use Vsync
 		if (VSYNC && SDL_GL_SetSwapInterval(1) < 0)
 			App->editor->Log("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
