@@ -7,6 +7,9 @@
 #include "trRenderer3D.h"
 #include "trInput.h"
 
+#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
+#pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
+#pragma comment (lib, "Glew/libx86/glew32.lib")
 
 #define VSYNC true
 
@@ -30,19 +33,29 @@ bool trMainScene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool trMainScene::Start()
 {
+
+	App->camera->Move(float3(1.f, 1.f, 1.f));
+	App->camera->LookAt(float3(0.f, 0.f, 0.f));
+
 	return true;
 }
 
 // Called each loop iteration
 bool trMainScene::PreUpdate(float dt)
 {
+	/*float vertices[] = {
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		0.0f,  0.5f, 0.0f
+	};*/
+
 	return true;
 
 }
 
 bool trMainScene::Update(float dt)
 {
-
+	
 	return true;
 }
 

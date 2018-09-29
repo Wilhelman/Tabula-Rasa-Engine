@@ -169,6 +169,9 @@ float* trCamera3D::GetViewMatrix()
 // -----------------------------------------------------------------
 void trCamera3D::CalculateViewMatrix()
 {
-	ViewMatrix = float4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -math::Dot(X, Position), -math::Dot(Y, Position), -math::Dot(Z, Position), 1.0f).Transposed();
-	ViewMatrixInverse = ViewMatrix.Inverted();
+	ViewMatrix = float4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -X.Dot(Position), -Y.Dot(Position), -Z.Dot(Position), 1.0f);
+
+	float4x4 inverse = ViewMatrix;
+	inverse.Inverse();
+	ViewMatrixInverse = inverse;
 }
