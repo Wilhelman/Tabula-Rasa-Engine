@@ -33,7 +33,7 @@ void PanelConsole::Draw()
 
 void PanelConsole::AddLogToConsole(const char * log)
 {
-	text_buffer.appendf(log);
+	text_buffer.empty() ? text_buffer.appendf(log) : text_buffer.appendf("\n%s",log);
 	have_to_scroll = true;
 }
 

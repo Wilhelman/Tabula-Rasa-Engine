@@ -401,6 +401,9 @@ bool trApp::LoadNow()
 
 bool trApp::SaveNow()
 {
+
+	App->editor->Log("Saving ...");
+
 	bool ret = true;
 
 	JSON_Value *root_value = json_value_init_object();
