@@ -249,6 +249,9 @@
     <ClCompile Include="ParsonJson\parson.c">
       <Filter>Utilities\3rd Party\Parson</Filter>
     </ClCompile>
+    <ClCompile Include="trPrimitives.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pugiconfig.hpp">
@@ -574,6 +577,9 @@
     </ClInclude>
     <ClInclude Include="glew-2.1.0\include\GL\wglew.h">
       <Filter>Utilities\3rd Party\Glew</Filter>
+    </ClInclude>
+    <ClInclude Include="trPrimitives.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
