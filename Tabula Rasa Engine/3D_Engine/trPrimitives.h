@@ -40,11 +40,11 @@ protected:
 };
 
 // ============================================
-class Cube : public trPrimitive
+class PCube : public trPrimitive
 {
 public:
-	Cube();
-	Cube(float sizeX, float sizeY, float sizeZ);
+	PCube();
+	PCube(float sizeX, float sizeY, float sizeZ);
 	void InnerRender() const;
 public:
 	math::vec size;

@@ -7,6 +7,8 @@
 #include "trRenderer3D.h"
 #include "trInput.h"
 
+#include "trPrimitives.h"
+
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 #pragma comment (lib, "Glew/libx86/glew32.lib")
@@ -55,7 +57,11 @@ bool trMainScene::PreUpdate(float dt)
 
 bool trMainScene::Update(float dt)
 {
-	
+
+	PCube cube_test;
+	cube_test.axis = true;
+	cube_test.Render();
+
 	return true;
 }
 

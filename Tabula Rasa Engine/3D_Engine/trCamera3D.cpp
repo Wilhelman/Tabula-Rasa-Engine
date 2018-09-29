@@ -161,9 +161,7 @@ void trCamera3D::Move(const vec &Movement)
 // -----------------------------------------------------------------
 float* trCamera3D::GetViewMatrix()
 {
-	ViewMatrix.Transpose();
-
-	return (float*)ViewMatrix.v;
+	return ViewMatrix.ptr();
 }
 
 // -----------------------------------------------------------------

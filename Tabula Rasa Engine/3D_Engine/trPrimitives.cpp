@@ -105,17 +105,17 @@ void trPrimitive::Scale(float x, float y, float z)
 }
 
 // CUBE ============================================
-Cube::Cube() : trPrimitive(), size(1.0f, 1.0f, 1.0f)
+PCube::PCube() : trPrimitive(), size(1.0f, 1.0f, 1.0f)
 {
 	type = PrimitiveTypes::Primitive_Cube;
 }
 
-Cube::Cube(float sizeX, float sizeY, float sizeZ) : trPrimitive(), size(sizeX, sizeY, sizeZ)
+PCube::PCube(float sizeX, float sizeY, float sizeZ) : trPrimitive(), size(sizeX, sizeY, sizeZ)
 {
 	type = PrimitiveTypes::Primitive_Cube;
 }
 
-void Cube::InnerRender() const
+void PCube::InnerRender() const
 {
 	float sx = size.x * 0.5f;
 	float sy = size.y * 0.5f;
