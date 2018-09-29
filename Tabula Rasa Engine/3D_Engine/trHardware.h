@@ -37,12 +37,13 @@ public:
 	// Destructor
 	~trHardware();
 
-	HWInfo GetHardwareInfo() const;
+	HWInfo GetHardwareInfo();
 
 
 private:
 
 	HWInfo hw_info;
+	bool log_displayed = false;
 };
 
 #endif // __trHARDWARE_H__

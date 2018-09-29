@@ -1,10 +1,14 @@
 #include "trHardware.h"
+#include "trEditor.h"
+#include "trApp.h"
 #include "SDL/include/SDL.h"
 
 
 trHardware::trHardware()
 {
 	this->name = "Hardware";
+
+	
 
 	SDL_version sdl_version;
 	SDL_GetVersion(&sdl_version);
@@ -34,8 +38,15 @@ trHardware::~trHardware()
 {
 }
 
-trHardware::HWInfo trHardware::GetHardwareInfo() const
+// todo: call log in constructor, and set this method back to const
+trHardware::HWInfo trHardware::GetHardwareInfo()
 {
+	if (!log_displayed)
+	{
+		App->editor->Log("Getting hardware info...");
+		log_displayed = true;
+	}
+	
 	return hw_info;
 }
 
