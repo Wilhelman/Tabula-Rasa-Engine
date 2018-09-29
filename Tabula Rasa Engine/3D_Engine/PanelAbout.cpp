@@ -2,6 +2,9 @@
 
 #include "imgui.h"
 #include "trApp.h"
+#include "trHardware.h"
+#include "trEditor.h"
+#include "Glew\include\GL\glew.h"
 
 PanelAbout::PanelAbout() : Panel("About")
 {
@@ -27,15 +30,20 @@ void PanelAbout::Draw()
 	if (ImGui::Button("Web page"))
 		App->RequestBrowser("https://visualstudio.microsoft.com/?rr=https%3A%2F%2Fwww.google.es%2F");
 
-	ImGui::Text("Input and audio: SDL v2.0.8");
+	ImGui::Text("Input and audio: SDL v%i.%i.%i", App->hardware->GetHardwareInfo().sdl_version[0], App->hardware->GetHardwareInfo().sdl_version[1], App->hardware->GetHardwareInfo().sdl_version[2]);
 	ImGui::SameLine();
 	if (ImGui::Button("Web page##Second"))
 		App->RequestBrowser("https://www.libsdl.org/index.php");
 
-	ImGui::Text("Graphics: OpenGL2");
+	ImGui::Text("Graphics: OpenGL v%s", (char*)glGetString(GL_VERSION));
 	ImGui::SameLine();
 	if (ImGui::Button("Web page##Third"))
 		App->RequestBrowser("https://www.opengl.org/");
+
+	ImGui::Text("Extension loading library: Glew v%s", (char*)glewGetString(GLEW_VERSION));
+	ImGui::SameLine();
+	if (ImGui::Button("Web page##Fourth"))
+		App->RequestBrowser("http://glew.sourceforge.net/");
 
 	ImGui::Text("Math: MathGeoLib v");
 	ImGui::SameLine();
@@ -44,12 +52,17 @@ void PanelAbout::Draw()
 
 	ImGui::Text("Random Number Generator: PCG (C Implementation) v0.94");
 	ImGui::SameLine();
-	if (ImGui::Button("Web page##Fourth"))
+	if (ImGui::Button("Web page##Fifth"))
 		App->RequestBrowser("http://www.pcg-random.org/");
 
-	ImGui::Text("GUI: Dear ImGui v1.65");
+	ImGui::Text("GUI: Dear ImGui v%s", ImGui::GetVersion());
 	ImGui::SameLine();
 	if (ImGui::Button("Github##Second"))
+		App->RequestBrowser("https://github.com/ocornut/imgui");
+
+	ImGui::Text("JSON parser: Parson v%");
+	ImGui::SameLine();
+	if (ImGui::Button("Github##Third"))
 		App->RequestBrowser("https://github.com/ocornut/imgui");
 
 	ImGui::Text("Profiler: Brofiler");
@@ -61,8 +74,6 @@ void PanelAbout::Draw()
 	ImGui::SameLine();
 	if (ImGui::Button("Flipcode archive"))
 		App->RequestBrowser("http://www.flipcode.com/archives/Presenting_A_Memory_Manager.shtml");
-
-	// TODO: add JSON parser used
 
 	ImGui::Separator();
 	ImGui::Text("Tabula Rasa Engine is licensed under MIT/Public???, see LICENSE for more information.");
