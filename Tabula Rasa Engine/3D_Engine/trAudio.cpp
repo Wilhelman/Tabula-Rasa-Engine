@@ -22,7 +22,6 @@ trAudio::~trAudio()
 // Called before render is available
 bool trAudio::Awake(pugi::xml_node& audioNode)
 {
-	TR_LOG("Loading Audio Mixer");
 	App->editor->Log("Awake audio mixer");
 
 

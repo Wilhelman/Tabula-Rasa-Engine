@@ -24,7 +24,7 @@ void PanelConsole::Draw()
 	ImGui::TextUnformatted(text_buffer.begin());
 
 	if (have_to_scroll)
-		ImGui::GetScrollMaxY();
+		ImGui::SetScrollHere(1.0f);
 
 	have_to_scroll = false;
 	

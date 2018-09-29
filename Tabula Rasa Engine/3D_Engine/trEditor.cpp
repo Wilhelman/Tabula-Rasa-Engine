@@ -186,11 +186,18 @@ void trEditor::InfoFPSMS(float current_fps, float current_ms)
 	(config != nullptr) ? config->FillChartFpsInfo(current_fps, current_ms) : TR_LOG("trEditor error: configuration == nullptr");
 }
 
-void trEditor::Log(const char * new_log)
+void trEditor::Log(const char * new_log, const char* format, ...)
 {
+	char log[100];
+	sprintf_s(log, 100, "%s %s", new_log, format);
+
 	if (console != nullptr)
-		console->AddLogToConsole(new_log);
+		console->AddLogToConsole(log);
 	else {
-		init_logs.push_back(new_log);
+		init_logs.push_back(log);
 	}
+
+	/*const char* tmp_log = log;
+
+	TR_LOG("asd %c",);*/
 }
