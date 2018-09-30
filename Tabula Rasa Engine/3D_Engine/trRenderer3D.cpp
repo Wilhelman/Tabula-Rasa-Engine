@@ -207,14 +207,15 @@ void trRenderer3D::OnResize(int width, int height)
 
 bool trRenderer3D::IsWireframeModeEnabled()
 {
-	GLboolean wireframe_mode = GL_FALSE;
-	wireframe_mode = glIsEnabled(GL_LINE);
+	GLint polygonMode[2];
+	glGetIntegerv(GL_POLYGON_MODE, polygonMode);
 
-	if (wireframe_mode)
+	if (polygonMode[0] == GL_LINE && polygonMode[1] == GL_LINE)
 		return true;
-	else
+	else if (polygonMode[0] == GL_FILL && polygonMode[1] == GL_FILL)
 		return false;
 
+	
 }
 
 void trRenderer3D::SwitchWireframeMode(bool toggle)

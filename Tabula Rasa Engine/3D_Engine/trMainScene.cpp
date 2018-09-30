@@ -76,10 +76,11 @@ void trMainScene::Draw()
 {
 	PCube cube_test;
 	cube_test.axis = true;
+	cube_test.color = Color(0.2f, 0.2f, 1.f, 1.f);
 	cube_test.Render();
-	/*PPlane plane_test;
+	PPlane plane_test;
 	plane_test.axis = true;
-	plane_test.Render();*/
+	plane_test.Render();
 }
 
 // Load Game State
