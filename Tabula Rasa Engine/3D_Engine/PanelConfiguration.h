@@ -43,10 +43,11 @@ private:
 	trTimer mem_timer;
 	std::vector<float> mem_list;
 
-	// todo: do this nicer, asking opengl
+	// TODO: do this nicer, asking opengl
 	bool depth_test = true;
 	bool cull_face = true;
 	bool lighting = true;
+	bool color_material = true;
 
 };
 

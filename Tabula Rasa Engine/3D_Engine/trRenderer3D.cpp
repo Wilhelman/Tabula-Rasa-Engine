@@ -244,6 +244,12 @@ void trRenderer3D::SwitchLighting(bool toggle)
 
 }
 
+void trRenderer3D::SwitchColorMaterial(bool toggle)
+{
+	(toggle) ?
+		glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
+}
+
 
 math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, float f) const
 {

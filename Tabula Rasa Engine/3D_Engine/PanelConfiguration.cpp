@@ -63,6 +63,14 @@ void PanelConfiguration::Draw()
 		ImGui::SameLine();
 		if (ImGui::Checkbox("##LIGHTING", &lighting))
 			App->render->SwitchLighting(lighting);
+
+		ImGui::Separator();
+
+		ImGui::Text("Switch Color Material");
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("##COLOR_MATERIAL", &color_material))
+			App->render->SwitchColorMaterial(color_material);
 			
 		ImGui::EndMenu();
 	}
