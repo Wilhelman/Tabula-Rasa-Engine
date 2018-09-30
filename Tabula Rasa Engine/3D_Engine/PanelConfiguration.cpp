@@ -36,10 +36,10 @@ void PanelConfiguration::Draw()
 	{
 		ImGui::Text("Switch wireframe");
 		ImGui::SameLine();
-		bool is_active = true;
-		if (ImGui::Checkbox("", &is_active)) {
-			//todo
-		}
+		bool is_active = App->render->IsWireframeModeEnabled();
+		
+		if (ImGui::Checkbox("", &is_active))
+			App->render->SwitchWireframeMode(is_active);
 		
 		if (ImGui::MenuItem("Load"))
 			TR_LOG("TODO: Load prefs");

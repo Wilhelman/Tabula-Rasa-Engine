@@ -24,6 +24,10 @@ public:
 
 	void OnResize(int width, int height);
 
+	bool IsWireframeModeEnabled();
+
+	void SwitchWireframeMode(bool toggle);
+
 	math::float4x4 Perspective(float fovy, float aspect, float n, float f) const;
 
 public:

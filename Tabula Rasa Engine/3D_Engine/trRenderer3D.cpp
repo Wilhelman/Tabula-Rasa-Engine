@@ -205,6 +205,26 @@ void trRenderer3D::OnResize(int width, int height)
 	glLoadIdentity();
 }
 
+bool trRenderer3D::IsWireframeModeEnabled()
+{
+	GLboolean wireframe_mode = GL_FALSE;
+	wireframe_mode = glIsEnabled(GL_LINE);
+
+	if (wireframe_mode)
+		return true;
+	else
+		return false;
+
+}
+
+void trRenderer3D::SwitchWireframeMode(bool toggle)
+{
+	if (toggle)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
 
 math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, float f) const
 {
