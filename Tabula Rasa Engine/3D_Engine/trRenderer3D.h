@@ -30,6 +30,7 @@ public:
 	void SwitchFaceCulling(bool toggle);
 	void SwitchLighting(bool toggle);
 	void SwitchColorMaterial(bool toggle);
+	void SwitchTexture2D(bool toggle);
 
 	math::float4x4 Perspective(float fovy, float aspect, float n, float f) const;
 

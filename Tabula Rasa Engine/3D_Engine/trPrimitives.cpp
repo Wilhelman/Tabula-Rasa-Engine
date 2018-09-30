@@ -67,7 +67,6 @@ void trPrimitive::Render() const
 		glEnable(GL_CULL_FACE);
 	}
 
-	glEnable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
 

@@ -48,6 +48,7 @@ private:
 	bool cull_face = true;
 	bool lighting = true;
 	bool color_material = true;
+	bool texture_2D = true;
 
 };
 

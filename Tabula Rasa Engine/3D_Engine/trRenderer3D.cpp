@@ -136,6 +136,7 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		lights[0].Active(true);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
+		glEnable(GL_TEXTURE_2D);
 	}
 
 	// Projection matrix for
@@ -248,6 +249,12 @@ void trRenderer3D::SwitchColorMaterial(bool toggle)
 {
 	(toggle) ?
 		glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
+}
+
+void trRenderer3D::SwitchTexture2D(bool toggle)
+{
+	(toggle) ?
+		glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
 }
 
 

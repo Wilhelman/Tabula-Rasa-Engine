@@ -43,7 +43,6 @@ void PanelConfiguration::Draw()
 		ImGui::Separator();
 
 		ImGui::Text("Switch Depth Test");
-
 		ImGui::SameLine();
 		if (ImGui::Checkbox("##DEPTH", &depth_test))
 			App->render->SwitchDepthMode(depth_test);
@@ -51,7 +50,6 @@ void PanelConfiguration::Draw()
 		ImGui::Separator();
 
 		ImGui::Text("Switch Cull Face");
-
 		ImGui::SameLine();
 		if (ImGui::Checkbox("##CULL_FACE", &cull_face))
 			App->render->SwitchFaceCulling(cull_face);
@@ -59,7 +57,6 @@ void PanelConfiguration::Draw()
 		ImGui::Separator();
 
 		ImGui::Text("Switch Lighting");
-
 		ImGui::SameLine();
 		if (ImGui::Checkbox("##LIGHTING", &lighting))
 			App->render->SwitchLighting(lighting);
@@ -67,10 +64,16 @@ void PanelConfiguration::Draw()
 		ImGui::Separator();
 
 		ImGui::Text("Switch Color Material");
-
 		ImGui::SameLine();
 		if (ImGui::Checkbox("##COLOR_MATERIAL", &color_material))
 			App->render->SwitchColorMaterial(color_material);
+
+		ImGui::Separator();
+
+		ImGui::Text("Switch Texture 2D");
+		ImGui::SameLine();
+		if (ImGui::Checkbox("##TEXTURE2D", &texture_2D))
+			App->render->SwitchTexture2D(texture_2D);
 			
 		ImGui::EndMenu();
 	}
