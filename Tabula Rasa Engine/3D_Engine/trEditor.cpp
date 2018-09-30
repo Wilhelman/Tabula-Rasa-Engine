@@ -57,6 +57,9 @@ bool trEditor::PreUpdate(float dt)
 	user_using_keyboard = io.WantCaptureKeyboard;
 	user_using_mouse = io.WantCaptureMouse;
 
+	if (have_to_quit)
+		return false;
+
 	return true;
 }
 
@@ -76,7 +79,7 @@ bool trEditor::Update(float dt)
 			if (ImGui::MenuItem("Load"))
 				App->Load();
 			if (ImGui::MenuItem("Quit", "Alt+F4"))
-				return false;
+				have_to_quit = true;
 
 			ImGui::EndMenu();
 		}
@@ -138,7 +141,6 @@ bool trEditor::Update(float dt)
 
 bool trEditor::PostUpdate(float dt)
 {
-	
 	return true;
 }
 

@@ -52,4 +52,6 @@ private:
 	//default imgui demo window
 	bool show_demo_window = false;
 
+	bool have_to_quit = false;
+
 };
