@@ -28,6 +28,7 @@ public:
 	void SwitchWireframeMode(bool toggle);
 	void SwitchDepthMode(bool toggle);
 	void SwitchFaceCulling(bool toggle);
+	void SwitchLighting(bool toggle);
 
 
 	math::float4x4 Perspective(float fovy, float aspect, float n, float f) const;

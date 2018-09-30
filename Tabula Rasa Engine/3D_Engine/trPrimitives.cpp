@@ -68,7 +68,6 @@ void trPrimitive::Render() const
 	}
 
 	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_LIGHTING);
 	glPopMatrix();
 }
 

@@ -55,6 +55,14 @@ void PanelConfiguration::Draw()
 		ImGui::SameLine();
 		if (ImGui::Checkbox("##CULL_FACE", &cull_face))
 			App->render->SwitchFaceCulling(cull_face);
+
+		ImGui::Separator();
+
+		ImGui::Text("Switch Lighting");
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("##LIGHTING", &lighting))
+			App->render->SwitchLighting(lighting);
 			
 		ImGui::EndMenu();
 	}

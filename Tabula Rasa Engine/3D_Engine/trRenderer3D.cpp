@@ -237,6 +237,13 @@ void trRenderer3D::SwitchFaceCulling(bool toggle)
 		glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
 }
 
+void trRenderer3D::SwitchLighting(bool toggle)
+{
+	(toggle) ?
+		glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
+
+}
+
 
 math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, float f) const
 {
