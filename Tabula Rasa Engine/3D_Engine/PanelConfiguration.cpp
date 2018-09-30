@@ -40,12 +40,21 @@ void PanelConfiguration::Draw()
 		if (ImGui::Checkbox("##WIREFRAME", &is_active))
 			App->render->SwitchWireframeMode(is_active);
 
+		ImGui::Separator();
+
 		ImGui::Text("Switch Depth Test");
 
 		ImGui::SameLine();
-		if (ImGui::Checkbox("##DEPTH", &depth_test)) {
+		if (ImGui::Checkbox("##DEPTH", &depth_test))
 			App->render->SwitchDepthMode(depth_test);
-		}
+		
+		ImGui::Separator();
+
+		ImGui::Text("Switch Cull Face");
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("##CULL_FACE", &cull_face))
+			App->render->SwitchFaceCulling(cull_face);
 			
 		ImGui::EndMenu();
 	}

@@ -44,6 +44,7 @@ private:
 	std::vector<float> mem_list;
 
 	bool depth_test = true;
+	bool cull_face = true;
 
 };
 

@@ -214,8 +214,6 @@ bool trRenderer3D::IsWireframeModeEnabled()
 		return true;
 	else if (polygonMode[0] == GL_FILL && polygonMode[1] == GL_FILL)
 		return false;
-
-	
 }
 
 void trRenderer3D::SwitchWireframeMode(bool toggle)
@@ -226,17 +224,17 @@ void trRenderer3D::SwitchWireframeMode(bool toggle)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-bool trRenderer3D::IsDepthModeEnabled()
-{
-	
-	return false;
-}
-
 void trRenderer3D::SwitchDepthMode(bool toggle)
 {
 	(toggle) ?
 		glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
 
+}
+
+void trRenderer3D::SwitchFaceCulling(bool toggle)
+{
+	(toggle) ?
+		glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
 }
 
 
