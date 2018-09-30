@@ -26,6 +26,7 @@ trRenderer3D::~trRenderer3D()
 bool trRenderer3D::Awake(pugi::xml_node& config)
 {
 	App->editor->Log("Renderer3D: Creating 3D Renderer context");
+
 	bool ret = true;
 
 	vsync_state = false;
@@ -76,10 +77,6 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		if (VSYNC && SDL_GL_SetSwapInterval(1) < 0)
 			App->editor->Log("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
 
-		//Initialize Projection Matrix
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-
 		//Check for error
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR)
@@ -89,8 +86,8 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 			ret = false;
 		}
 
-		//Initialize Modelview Matrix
-		glMatrixMode(GL_MODELVIEW);
+		//Initialize Projection Matrix
+		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 
 		//Check for error
@@ -148,11 +145,12 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 // PreUpdate: clear buffer
 bool trRenderer3D::PreUpdate(float dt)
 {
+	//Color c = cam->background;
+	//glClearColor(c.r, c.g, c.b, c.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
-
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetViewMatrix());
+	
 
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
@@ -175,7 +173,6 @@ bool trRenderer3D::CleanUp()
 {
 	App->editor->Log("Renderer3D: CleanUp");
 
-
 	SDL_GL_DeleteContext(context);
 
 	return true;
@@ -189,9 +186,30 @@ void trRenderer3D::OnResize(int width, int height)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	ProjectionMatrix = math::float4x4::OpenGLPerspProjRH(0.125f,512.0f,(float)width, (float)height);
-	glLoadMatrixf((GLfloat*)ProjectionMatrix.Transposed().ptr());
-
+	ProjectionMatrix = this->Perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
+	glLoadMatrixf((GLfloat*)ProjectionMatrix.ptr());
+	
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+
+math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, float f) const
+{
+	math::float4x4 Perspective;
+
+	float coty = 1.0f / tan(fovy * math::pi / 360.0f);
+
+	for (uint i = 0; i < 4; i++) {
+		for (uint j = 0; j < 4; j++)
+			Perspective[i][j] = 0.0f;
+	}
+
+	Perspective[0][0] = coty / aspect;
+	Perspective[1][1] = coty;
+	Perspective[2][2] = (n + f) / (n - f);
+	Perspective[2][3] = -1.0f;
+	Perspective[3][2] = 2.0f * n * f / (n - f);
+
+	return Perspective;
 }
