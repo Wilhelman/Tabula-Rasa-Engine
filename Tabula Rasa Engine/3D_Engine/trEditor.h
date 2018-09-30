@@ -17,12 +17,13 @@ public:
 	trEditor();
 	~trEditor();
 
-	bool Init();
 	bool Start();
 	bool PreUpdate(float dt);
 	bool Update(float dt);
 	bool PostUpdate(float dt);
 	bool CleanUp();
+
+	void Draw();
 
 	//todo implement this
 	bool UserUsingMouse() const;

@@ -57,11 +57,6 @@ bool trMainScene::PreUpdate(float dt)
 
 bool trMainScene::Update(float dt)
 {
-
-	PCube cube_test;
-	cube_test.axis = true;
-	cube_test.Render();
-
 	return true;
 }
 
@@ -75,6 +70,16 @@ bool trMainScene::PostUpdate(float dt)
 bool trMainScene::CleanUp()
 {
 	return true;
+}
+
+void trMainScene::Draw()
+{
+	PCube cube_test;
+	cube_test.axis = true;
+	cube_test.Render();
+	/*PPlane plane_test;
+	plane_test.axis = true;
+	plane_test.Render();*/
 }
 
 // Load Game State

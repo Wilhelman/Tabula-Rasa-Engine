@@ -28,16 +28,10 @@ trEditor::~trEditor()
 {
 }
 
-// Called before render is available
-bool trEditor::Init()
-{
-	Log("Init editor gui with imgui lib version %s", ImGui::GetVersion());
-	return true;
-}
-
 bool trEditor::Start()
 {
 	// Setup Dear ImGui binding
+	App->editor->Log("Init editor gui with imgui lib version %s", ImGui::GetVersion());
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -144,17 +138,7 @@ bool trEditor::Update(float dt)
 
 bool trEditor::PostUpdate(float dt)
 {
-	ImGui::Render();
-	ImGuiIO& io = ImGui::GetIO();
-	glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-
-	glLineWidth(1.0f);
-
-	glBegin(GL_LINES);
-
-	glEnd();
-
+	
 	return true;
 }
 
@@ -178,6 +162,12 @@ bool trEditor::CleanUp()
 	SDL_Quit();
 
 	return true;
+}
+
+void trEditor::Draw()
+{
+	ImGui::Render();
+	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 }
 
 void trEditor::InfoFPSMS(float current_fps, float current_ms)

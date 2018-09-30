@@ -4,6 +4,8 @@
 #include "trRenderer3D.h"
 #include "trCamera3D.h"
 #include "trEditor.h"
+#include "trMainScene.h"
+
 #include "Glew\include\GL\glew.h"
 
 #include "SDL\include\SDL_opengl.h"
@@ -164,6 +166,16 @@ bool trRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 bool trRenderer3D::PostUpdate(float dt)
 {
+	//RENDER GEOMETRY
+	App->main_scene->Draw();
+
+	//RENDER DEBUG
+	/// not yet
+
+	//RENDER GUI
+	App->editor->Draw();
+
+	//SWAP BUFFERS
 	SDL_GL_SwapWindow(App->win->window);
 	return true;
 }

@@ -4,18 +4,6 @@
 #include "SDL/include/SDL.h"
 #include "trModule.h"
 
-#include "imgui.h"
-#include "imgui_impl_sdl.h"
-#include "imgui_impl_opengl2.h"
-#include <stdio.h>
-#include "SDL\include\SDL.h"
-#include "SDL\include\SDL_opengl.h"
-#include "pcg/pcg_variants.h"
-
-#include "MathGeoLib/MathBuildConfig.h"
-#include "MathGeoLib/MathGeoLib.h"
-#include "MathGeoLib/MathGeoLibFwd.h"
-
 class trMainScene : public trModule
 {
 public:
@@ -38,6 +26,8 @@ public:
 
 	// Called before quitting
 	bool CleanUp();
+
+	void Draw();
 
 	// Load / Save
 	bool Load(pugi::xml_node&);
