@@ -32,11 +32,15 @@ void PanelConfiguration::Draw()
 {
 	ImGui::Begin("Configuration", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoFocusOnAppearing);
 
-	if (ImGui::BeginMenu("Options", false))
+	if (ImGui::BeginMenu("OpenGL Options"))
 	{
-		if (ImGui::MenuItem("Set Defaults"))
-			TR_LOG("TODO: Set defaults");
-
+		ImGui::Text("Switch wireframe");
+		ImGui::SameLine();
+		bool is_active = true;
+		if (ImGui::Checkbox("", &is_active)) {
+			//todo
+		}
+		
 		if (ImGui::MenuItem("Load"))
 			TR_LOG("TODO: Load prefs");
 
