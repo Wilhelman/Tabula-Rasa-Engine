@@ -8,8 +8,6 @@ trHardware::trHardware()
 {
 	this->name = "Hardware";
 
-	
-
 	SDL_version sdl_version;
 	SDL_GetVersion(&sdl_version);
 	hw_info.sdl_version[0] = sdl_version.major;
@@ -38,15 +36,14 @@ trHardware::~trHardware()
 {
 }
 
-// todo: call log in constructor, and set this method back to const
-trHardware::HWInfo trHardware::GetHardwareInfo()
+bool trHardware::Start()
 {
-	if (!log_displayed)
-	{
-		App->editor->Log("Getting hardware info...");
-		log_displayed = true;
-	}
-	
+	App->editor->Log("Getting hardware info...");
+	return true;
+}
+
+trHardware::HWInfo trHardware::GetHardwareInfo() const
+{
 	return hw_info;
 }
 
