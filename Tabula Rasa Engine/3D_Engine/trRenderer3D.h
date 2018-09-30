@@ -32,6 +32,8 @@ public:
 	void SwitchColorMaterial(bool toggle);
 	void SwitchTexture2D(bool toggle);
 
+	void DrawImage(char filename, int xx, int yy, int ww, int hh, int angle);
+
 	math::float4x4 Perspective(float fovy, float aspect, float n, float f) const;
 
 public:

@@ -154,13 +154,14 @@ bool trRenderer3D::PreUpdate(float dt)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetViewMatrix());
 	
+	char file[50] = "Game/textures/grass_texture.png";
 
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 
 	for (uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
-
+	DrawImage(*file, 0, 0, 1, 1, 10);
 	return true;
 }
 
@@ -255,6 +256,32 @@ void trRenderer3D::SwitchTexture2D(bool toggle)
 {
 	(toggle) ?
 		glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
+}
+
+void trRenderer3D::DrawImage(char filename, int xx, int yy, int ww, int hh, int angle)
+{
+	glBindTexture(GL_TEXTURE_2D, filename);
+
+	glLoadIdentity();
+	glTranslatef(xx, yy, 0.0);
+	glRotatef(angle, 0.0, 0.0, 1.0);
+	glTranslatef(-xx, -yy, 0.0);
+
+	// Draw a textured quad
+	glBegin(GL_QUADS);
+	glTexCoord2f(0, 0); glVertex2f(xx, yy);
+	glTexCoord2f(0, 1); glVertex2f(xx, yy + hh);
+	glTexCoord2f(1, 1); glVertex2f(xx + ww, yy + hh);
+	glTexCoord2f(1, 0); glVertex2f(xx + ww, yy);
+
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+
+	glMatrixMode(GL_MODELVIEW);
+	glEnd();
 }
 
 
