@@ -25,8 +25,10 @@ public:
 	void OnResize(int width, int height);
 
 	bool IsWireframeModeEnabled();
-
 	void SwitchWireframeMode(bool toggle);
+	bool IsDepthModeEnabled();
+	void SwitchDepthMode(bool toggle);
+
 
 	math::float4x4 Perspective(float fovy, float aspect, float n, float f) const;
 
@@ -36,6 +38,8 @@ public:
 	SDL_GLContext context;
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+
+	
 
 	bool			vsync_state = false;
 };

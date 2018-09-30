@@ -37,15 +37,15 @@ void PanelConfiguration::Draw()
 		ImGui::Text("Switch wireframe");
 		ImGui::SameLine();
 		bool is_active = App->render->IsWireframeModeEnabled();
-		
-		if (ImGui::Checkbox("", &is_active))
+		if (ImGui::Checkbox("##WIREFRAME", &is_active))
 			App->render->SwitchWireframeMode(is_active);
-		
-		if (ImGui::MenuItem("Load"))
-			TR_LOG("TODO: Load prefs");
 
-		if (ImGui::MenuItem("Save"))
-			TR_LOG("TODO: Save prefs");
+		ImGui::Text("Switch Depth Test");
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("##DEPTH", &depth_test)) {
+			App->render->SwitchDepthMode(depth_test);
+		}
 			
 		ImGui::EndMenu();
 	}

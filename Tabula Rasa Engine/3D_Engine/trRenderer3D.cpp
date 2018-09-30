@@ -226,6 +226,19 @@ void trRenderer3D::SwitchWireframeMode(bool toggle)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
+bool trRenderer3D::IsDepthModeEnabled()
+{
+	
+	return false;
+}
+
+void trRenderer3D::SwitchDepthMode(bool toggle)
+{
+	(toggle) ?
+		glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
+
+}
+
 
 math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, float f) const
 {

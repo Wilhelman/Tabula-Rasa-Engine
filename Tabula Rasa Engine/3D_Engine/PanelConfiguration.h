@@ -43,6 +43,8 @@ private:
 	trTimer mem_timer;
 	std::vector<float> mem_list;
 
+	bool depth_test = true;
+
 };
 
 #endif// __PANELCONFIGURATION_H__
