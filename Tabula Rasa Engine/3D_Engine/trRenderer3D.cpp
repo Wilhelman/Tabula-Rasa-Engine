@@ -62,13 +62,13 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 	else {
 		App->editor->Log("Using Glew ", (char*)glewGetString(GLEW_VERSION));
 	}
-		
+
 
 	if (ret == true)
 	{
 
 		// get version info
-		
+
 		App->editor->Log("Vendor: ", (char*)glGetString(GL_VENDOR));
 		App->editor->Log("Renderer: ", (char*)glGetString(GL_RENDERER));
 		App->editor->Log("OpenGL version supported ", (char*)glGetString(GL_VERSION));
@@ -142,6 +142,83 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+	//test
+	/*float vertices[108] = {
+		0.f, 0.f, 1.f,
+		1.f, 0.f, 1.f,
+		1.f, 1.f, 1.f,
+		0.f, 0.f, 1.f,
+		1.f, 1.f, 1.f,
+		0.f, 1.f, 1.f,
+		1.f, 0.f, 1.f,
+		1.f, 0.f, 0.f,
+		1.f, 1.f, 0.f,
+		1.f, 1.f, 1.f,
+		1.f, 0.f, 1.f,
+		1.f, 1.f, 0.f,
+		0.f, 1.f, 0.f,
+		0.f, 1.f, 1.f,
+		1.f, 1.f, 1.f,
+		0.f, 1.f, 0.f,
+		1.f, 1.f, 1.f,
+		1.f, 1.f, 0.f,
+		1.f, 1.f, 0.f,
+		1.f, 0.f, 0.f,
+		0.f, 0.f, 0.f,
+		1.f, 0.f, 0.f,
+		0.f, 0.f, 0.f,
+		0.f, 1.f, 0.f,
+		0.f, 1.f, 0.f,
+		0.f, 0.f, 0.f,
+		0.f, 0.f, 1.f,
+		0.f, 0.f, 1.f,
+		0.f, 1.f, 1.f,
+		0.f, 1.f, 0.f,
+		0.f, 0.f, 1.f,
+		0.f, 0.f, 0.f,
+		1.f, 0.f, 1.f,
+		1.f, 0.f, 1.f,
+		0.f, 0.f, 0.f,
+		1.f, 0.f, 0.f
+	};
+
+	my_id = 0;
+	glGenBuffers(1, (GLuint*) &(my_id));
+	glBindBuffer(GL_ARRAY_BUFFER, my_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*108 * 3,vertices, GL_STATIC_DRAW);*/
+
+	//test
+	float vertices[24] = {
+		0.f, 0.f, 1.f,
+		1.f, 0.f, 1.f,
+		1.f, 1.f, 1.f,
+		0.f, 1.f, 1.f,
+		1.f, 0.f, 0.f,
+		1.f, 1.f, 0.f,
+		0.f, 0.f, 0.f,
+		0.f, 1.f, 0.f
+	};
+
+	vertices_id = 0;
+	glGenBuffers(1, (GLuint*) &(vertices_id));
+	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 24 * 3, vertices, GL_STATIC_DRAW);
+
+	/*
+	uint ids[50] = {
+		0,1,2,
+		3,0,2,
+		2,1,4,
+		5,2,4,
+		3,2,7,
+		2,5,7,
+		5,4,6,
+		6,7,5,
+
+	}
+	*/
+	
+
 	return ret;
 }
 
@@ -174,6 +251,17 @@ bool trRenderer3D::PostUpdate(float dt)
 
 	//RENDER GUI
 	App->editor->Draw();
+
+	
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	// … draw other buffers
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	
+
 
 	//SWAP BUFFERS
 	SDL_GL_SwapWindow(App->win->window);
