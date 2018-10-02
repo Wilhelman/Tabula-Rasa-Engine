@@ -188,46 +188,15 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		1.f, 0.f, 0.f,
 	};
 
+	for (int i = 0; i < 108; i++)
+		vertices[i] -= 0.5f;
+
 	vertices_id = 0;
 	glGenBuffers(1, (GLuint*) &(vertices_id));
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*108 * 3,vertices, GL_STATIC_DRAW);
-	
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*108,vertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	// --------- Finish Vertex Array Mode Cube ---------
-
-	//test
-	// test with ids
-	/*
-	float vertices[24] = {
-		0.f, 0.f, 1.f,
-		1.f, 0.f, 1.f,
-		1.f, 1.f, 1.f,
-		0.f, 1.f, 1.f,
-		1.f, 0.f, 0.f,
-		1.f, 1.f, 0.f,
-		0.f, 0.f, 0.f,
-		0.f, 1.f, 0.f
-	};
-
-	vertices_id = 0;
-	glGenBuffers(1, (GLuint*) &(vertices_id));
-	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 24 * 3, vertices, GL_STATIC_DRAW);
-
-	/*
-	uint ids[50] = {
-		0,1,2,
-		3,0,2,
-		2,1,4,
-		5,2,4,
-		3,2,7,
-		2,5,7,
-		5,4,6,
-		6,7,5,
-
-	}
-	*/
-	
 
 	return ret;
 }
@@ -258,7 +227,7 @@ bool trRenderer3D::PostUpdate(float dt)
 	//glTranslatef(4.0f, 0.0f, 0.0f);
 	//glRotatef(45.0f, 1.0f, 1.0f, 0.f);
 
-	/*glBegin(GL_TRIANGLES);
+	glBegin(GL_TRIANGLES);
 
 	glVertex3f(0.f, 0.f, 1.f);
 	glVertex3f(1.f, 0.f, 1.f);
@@ -301,8 +270,8 @@ bool trRenderer3D::PostUpdate(float dt)
 	glVertex3f(1.f, 0.f, 1.f);
 	glVertex3f(0.f, 0.f, 0.f);
 	glVertex3f(1.f, 0.f, 0.f);
-
-	glEnd();*/
+	
+	glEnd();
 
 	// --------- Finish Direct Mode Cube ---------
 
@@ -320,6 +289,15 @@ bool trRenderer3D::PostUpdate(float dt)
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
+
+	glTranslatef(3.f, 0.5f, 0.f);
+	static float angle = 0.f;
+	glRotatef(angle, 1.f, 1.f, 0.f);
+
+	angle++;
+	if (angle >= 360.0f)
+		angle = 0.0f;
+
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	// … draw other buffers
 	glDrawArrays(GL_TRIANGLES, 0, 36);
