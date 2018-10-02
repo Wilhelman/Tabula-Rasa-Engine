@@ -7,7 +7,7 @@ PRay::PRay(math::vec origin, math::vec direction) : trPrimitive(), origin(origin
 {
 	type = PrimitiveTypes::Primitive_Ray;
 
-	//todo direction have to be calculated
+	//todo direction have to be calculated to the infinite for now is like an arrow
 
 	float vertices_array[6] = {
 		origin.x, origin.y, origin.z,

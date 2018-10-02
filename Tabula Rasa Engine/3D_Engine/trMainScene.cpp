@@ -10,6 +10,7 @@
 #include "PCube.h"
 #include "PPlane.h"
 #include "PArrow.h"
+#include "PFrustum.h"
 
 #include "trPrimitives.h"
 
@@ -49,14 +50,8 @@ bool trMainScene::Start()
 // Called each loop iteration
 bool trMainScene::PreUpdate(float dt)
 {
-	/*float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.0f,  0.5f, 0.0f
-	};*/
 
 	return true;
-
 }
 
 bool trMainScene::Update(float dt)
@@ -92,6 +87,9 @@ void trMainScene::Draw()
 	PArrow p_arrow(math::vec(0.f, 2.5f, 0.f), math::float4(0.f, 1.0f, 0.f, 1.f));
 	p_arrow.axis = true;
 	p_arrow.Render();
+
+	PFrustum frustum;
+	frustum.Render();
 	
 }
 

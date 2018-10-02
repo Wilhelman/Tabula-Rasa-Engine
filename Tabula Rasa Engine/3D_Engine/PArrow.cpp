@@ -64,9 +64,10 @@ PArrow::PArrow(math::vec destination, math::float4 color) : trPrimitive(), origi
 
 void PArrow::InnerRender() const
 {
-	glLineWidth(5.0f);
 	//glColor4f(color.x, color.y, color.z, color.w);
 	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glLineWidth(5.0f);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
@@ -76,5 +77,8 @@ void PArrow::InnerRender() const
 	glDrawElements(GL_LINES, vertices_index, GL_UNSIGNED_INT, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+	glLineWidth(1.0f);
+
 	glDisableClientState(GL_VERTEX_ARRAY);
+	
 }

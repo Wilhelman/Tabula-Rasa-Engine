@@ -66,6 +66,7 @@
     <ClCompile Include="pcg\entropy.c" />
     <ClCompile Include="PCube.cpp" />
     <ClCompile Include="PCylinder.cpp" />
+    <ClCompile Include="PFrustum.cpp" />
     <ClCompile Include="PPlane.cpp" />
     <ClCompile Include="PRay.cpp" />
     <ClCompile Include="PSphere.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="pcg\pcg_variants.h" />
     <ClInclude Include="PCube.h" />
     <ClInclude Include="PCylinder.h" />
+    <ClInclude Include="PFrustum.h" />
     <ClInclude Include="PPlane.h" />
     <ClInclude Include="PRay.h" />
     <ClInclude Include="PSphere.h" />

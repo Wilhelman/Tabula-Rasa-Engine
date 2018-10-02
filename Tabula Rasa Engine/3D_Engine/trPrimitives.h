@@ -17,7 +17,8 @@ enum PrimitiveTypes
 	Primitive_Cube,
 	Primitive_Sphere,
 	Primitive_Cylinder,
-	Primitive_Ray
+	Primitive_Ray,
+	Primitive_Frustum
 };
 
 class trPrimitive
