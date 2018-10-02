@@ -41,11 +41,12 @@ public:
 protected:
 	PrimitiveTypes type;
 
-	uint index = 0u;
+	uint indices_index = 0u;
+	uint vertices_index = 0u;
 
+	std::vector<GLushort> indices;
 	std::vector<GLfloat> vertices;
 	std::vector<GLfloat> normals;
-	std::vector<GLushort> indices;
 	//std::vector<GLfloat> texcoords; not needed yet
 };
 
