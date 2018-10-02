@@ -12,6 +12,7 @@ PSphere::PSphere(float radius, unsigned int rings, unsigned int sectors) : trPri
 {
 	type = PrimitiveTypes::Primitive_Sphere;
 
+	// From here only god knows what is going on
 	float const R = 1. / (float)(rings - 1);
 	float const S = 1. / (float)(sectors - 1);
 	int r, s;
@@ -43,37 +44,22 @@ PSphere::PSphere(float radius, unsigned int rings, unsigned int sectors) : trPri
 		*i++ = (r + 1) * sectors + (s + 1);
 		*i++ = (r + 1) * sectors + s;
 	}
+
+
+
 }
 
 void PSphere::InnerRender() const
 {
-	int stacks = 10;
-	int slices = 10;
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
 
-	int i, j;
-	for (j = 0; j < stacks; j++) {
-		double latitude1 = (PI / stacks) * j - PI / 2;
-		double latitude2 = (PI / stacks) * (j + 1) - PI / 2;
-		double sinLat1 = sin(latitude1);
-		double cosLat1 = cos(latitude1);
-		double sinLat2 = sin(latitude2);
-		double cosLat2 = cos(latitude2);
-		glBegin(GL_QUAD_STRIP);
-		for (i = 0; i <= slices; i++) {
-			double longitude = (2 * PI / slices) * i;
-			double sinLong = sin(longitude);
-			double cosLong = cos(longitude);
-			double x1 = cosLong * cosLat1;
-			double y1 = sinLong * cosLat1;
-			double z1 = sinLat1;
-			double x2 = cosLong * cosLat2;
-			double y2 = sinLong * cosLat2;
-			double z2 = sinLat2;
-			glNormal3d(x2, y2, z2);
-			glVertex3d(radius*x2, radius*y2, radius*z2);
-			glNormal3d(x1, y1, z1);
-			glVertex3d(radius*x1, radius*y1, radius*z1);
-		}
-		glEnd();
-	}
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, 0, &vertices[0]);
+	glNormalPointer(GL_FLOAT, 0, &normals[0]);
+	glDrawElements(GL_QUADS, indices.size(), GL_UNSIGNED_SHORT, &indices[0]);
+	glPopMatrix();
 }

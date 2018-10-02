@@ -99,6 +99,15 @@ void PCube::InnerRender() const
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
 
+	glTranslatef(position.x,position.y,position.z);
+
+	static float angle = 0.f;
+	glRotatef(angle, 1.f, 1.f, 0.f);
+
+	angle++;
+	if (angle >= 360.0f)
+		angle = 0.0f;
+
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

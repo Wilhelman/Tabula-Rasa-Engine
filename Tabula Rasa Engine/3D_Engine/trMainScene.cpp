@@ -80,7 +80,7 @@ bool trMainScene::CleanUp()
 
 void trMainScene::Draw()
 {
-	PCube cube_test(math::vec(0.f,0.f,0.f), math::vec(3.f, 1.f, 1.f));
+	PCube cube_test(math::vec(-3.f,1.f,0.f), math::vec(2.f, 1.f, 1.f));
 	cube_test.axis = true;
 	cube_test.color = Color(0.2f, 0.2f, 1.f, 1.f);
 	cube_test.Render();

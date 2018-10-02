@@ -18,7 +18,8 @@ PArrow::PArrow() : trPrimitive(), origin(0, 0, 0), destination(1, 1, 1), color(0
 	vertices_index = 0;
 	glGenBuffers(1, (GLuint*) &(vertices_index));
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 15, vertices_array, GL_STATIC_DRAW);	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 15, vertices_array, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	uint indices_array[5] = {
 		0, 1, 2, 3, 4
@@ -47,7 +48,8 @@ PArrow::PArrow(math::vec destination, math::float4 color) : trPrimitive(), origi
 	vertices_index = 0;
 	glGenBuffers(1, (GLuint*) &(vertices_index));
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 18, vertices_array, GL_STATIC_DRAW);	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 18, vertices_array, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	uint indices_array[6] = {
 		0, 1, 2, 3, 4, 5

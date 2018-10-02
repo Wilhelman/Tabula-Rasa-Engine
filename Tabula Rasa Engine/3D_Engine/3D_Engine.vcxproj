@@ -67,6 +67,7 @@
     <ClCompile Include="PCube.cpp" />
     <ClCompile Include="PCylinder.cpp" />
     <ClCompile Include="PPlane.cpp" />
+    <ClCompile Include="PRay.cpp" />
     <ClCompile Include="PSphere.cpp" />
     <ClCompile Include="trApp.cpp" />
     <ClCompile Include="trAudio.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="PCube.h" />
     <ClInclude Include="PCylinder.h" />
     <ClInclude Include="PPlane.h" />
+    <ClInclude Include="PRay.h" />
     <ClInclude Include="PSphere.h" />
     <ClInclude Include="trAnimation.h" />
     <ClInclude Include="trApp.h" />
