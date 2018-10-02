@@ -9,6 +9,7 @@
 
 #include "PCube.h"
 #include "PPlane.h"
+#include "PArrow.h"
 
 #include "trPrimitives.h"
 
@@ -87,6 +88,10 @@ void trMainScene::Draw()
 	PPlane plane_test;
 	plane_test.axis = true;
 	plane_test.Render();
+
+	PArrow p_arrow(math::vec(0.f, 2.5f, 0.f), math::vec(0.f, 1.0f, 0.f));
+	p_arrow.axis = true;
+	p_arrow.Render();
 	
 }
 

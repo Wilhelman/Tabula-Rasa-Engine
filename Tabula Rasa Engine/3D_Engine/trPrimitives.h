@@ -12,7 +12,7 @@
 enum PrimitiveTypes
 {
 	Primitive_Point,
-	Primitive_Line,
+	Primitive_Arrow,
 	Primitive_Plane,
 	Primitive_Cube,
 	Primitive_Sphere,
