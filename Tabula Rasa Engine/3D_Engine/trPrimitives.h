@@ -16,7 +16,8 @@ enum PrimitiveTypes
 	Primitive_Plane,
 	Primitive_Cube,
 	Primitive_Sphere,
-	Primitive_Cylinder
+	Primitive_Cylinder,
+	Primitive_Ray
 };
 
 class trPrimitive
@@ -44,6 +45,7 @@ protected:
 	uint indices_index = 0u;
 	uint vertices_index = 0u;
 
+	// TODO implement this
 	std::vector<GLushort> indices;
 	std::vector<GLfloat> vertices;
 	std::vector<GLfloat> normals;
