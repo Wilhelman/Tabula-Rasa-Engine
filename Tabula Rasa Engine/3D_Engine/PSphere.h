@@ -4,8 +4,9 @@ class PSphere : public trPrimitive
 {
 public:
 	PSphere();
-	PSphere(float radius, unsigned int rings, unsigned int sectors);
+	PSphere(math::vec position, float radius);
 	void InnerRender() const;
 public:
+	math::vec position;
 	float radius;
 };
