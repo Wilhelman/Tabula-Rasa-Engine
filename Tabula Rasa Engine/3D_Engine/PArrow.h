@@ -4,10 +4,10 @@ class PArrow : public trPrimitive
 {
 public:
 	PArrow();
-	PArrow(math::vec destination, math::vec color);
+	PArrow(math::vec destination, math::float4 color);
 	void InnerRender() const;
 public:
 	math::vec origin;
 	math::vec destination;
-	math::vec color;
+	math::float4 color;
 };
