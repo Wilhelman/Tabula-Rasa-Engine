@@ -245,6 +245,63 @@ bool trRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 bool trRenderer3D::PostUpdate(float dt)
 {
+	// --------- Direct Mode Cube - TODO: delete this when it's time ---------
+
+	glLineWidth(2.0f);
+	glBegin(GL_TRIANGLES);
+
+	//glRotatef(0.1f, 1.0f, 1.0f, 0.0f);
+
+	glVertex3f(0.f, 0.f, 1.f);
+	glVertex3f(1.f, 0.f, 1.f);
+	glVertex3f(1.f, 1.f, 1.f);
+	glVertex3f(0.f, 0.f, 1.f);
+	glVertex3f(1.f, 1.f, 1.f);
+	glVertex3f(0.f, 1.f, 1.f);
+
+	glVertex3f(1.f, 0.f, 1.f);
+	glVertex3f(1.f, 0.f, 0.f);
+	glVertex3f(1.f, 1.f, 0.f);
+	glVertex3f(1.f, 1.f, 1.f);
+	glVertex3f(1.f, 0.f, 1.f);
+	glVertex3f(1.f, 1.f, 0.f);
+
+	glVertex3f(0.f, 1.f, 0.f);
+	glVertex3f(0.f, 1.f, 1.f);
+	glVertex3f(1.f, 1.f, 1.f);
+	glVertex3f(0.f, 1.f, 0.f);
+	glVertex3f(1.f, 1.f, 1.f);
+	glVertex3f(1.f, 1.f, 0.f);
+
+	glVertex3f(1.f, 1.f, 0.f);
+	glVertex3f(1.f, 0.f, 0.f);
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(1.f, 1.f, 0.f);
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(0.f, 1.f, 0.f);
+
+	glVertex3f(0.f, 1.f, 0.f);
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(0.f, 0.f, 1.f);
+	glVertex3f(0.f, 0.f, 1.f);
+	glVertex3f(0.f, 1.f, 1.f);
+	glVertex3f(0.f, 1.f, 0.f);
+
+	glVertex3f(0.f, 0.f, 1.f);
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(1.f, 0.f, 1.f);
+	glVertex3f(1.f, 0.f, 1.f);
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(1.f, 0.f, 0.f);
+	
+	glEnd();
+	glLineWidth(1.0f);
+
+
+
+	// --------- Finish Direct Mode Cube ---------
+
+
 	//RENDER GEOMETRY
 	App->main_scene->Draw();
 
