@@ -6,7 +6,7 @@ public:
 	PCube();
 	PCube(math::vec position, math::vec size);
 	void InnerRender() const;
-private:
+public:
 	math::vec position;
 	math::vec size;
 };

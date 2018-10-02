@@ -6,28 +6,79 @@
 PPlane::PPlane() : trPrimitive(), normal(0, 1, 0), constant(1)
 {
 	type = PrimitiveTypes::Primitive_Plane;
+
+	//test
+	math::vec length(10.f, 0.f, 10.f);
+
+	math::vec offset_size = length / 2.f;
+
+	float vertices_arr[12] = { //TODO : DO IT WITH GLFLOATS!
+		offset_size.x, offset_size.y, offset_size.z,
+		offset_size.x, offset_size.y, -offset_size.z,
+		-offset_size.x, offset_size.y, -offset_size.z,
+		-offset_size.x, offset_size.y, offset_size.z
+	};
+
+	vertices_index = 0;
+	glGenBuffers(1, (GLuint*) &(vertices_index));
+	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, vertices_arr, GL_STATIC_DRAW);	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	uint indices_arr[6] = {
+		3,0,1,
+		1,2,3
+	};
+
+	indices_index = 0;
+	glGenBuffers(1, (GLuint*) &(indices_index));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_index);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 6, indices_arr, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-PPlane::PPlane(float x, float y, float z, float d) : trPrimitive(), normal(x, y, z), constant(d)
+PPlane::PPlane(math::vec normal, float d) : trPrimitive(), normal(normal), constant(d)
 {
 	type = PrimitiveTypes::Primitive_Plane;
+
+	//test
+	math::vec length(1.f, 1.f, 1.f);
+
+	math::vec offset_size = length / 2.f;
+
+	float vertices_arr[12] = { //TODO : DO IT WITH GLFLOATS!
+		offset_size.x, offset_size.y, offset_size.z,
+		offset_size.x, offset_size.y, -offset_size.z,
+		-offset_size.x, offset_size.y, -offset_size.z,
+		-offset_size.x, offset_size.y, offset_size.z
+	};
+
+	vertices_index = 0;
+	glGenBuffers(1, (GLuint*) &(vertices_index));
+	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, vertices_arr, GL_STATIC_DRAW);	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	uint indices_arr[6] = {
+		3,0,1,
+		1,2,3
+	};
+
+	indices_index = 0;
+	glGenBuffers(1, (GLuint*) &(indices_index));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_index);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 6, indices_arr, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 }
 
 void PPlane::InnerRender() const
 {
-	glLineWidth(1.0f);
+	glEnableClientState(GL_VERTEX_ARRAY);
 
-	glBegin(GL_LINES);
+	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	float d = 200.0f;
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_index);
+	glDrawElements(GL_TRIANGLES, vertices_index, GL_UNSIGNED_INT, NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	for (float i = -d; i <= d; i += 1.0f)
-	{
-		glVertex3f(i, 0.0f, -d);
-		glVertex3f(i, 0.0f, d);
-		glVertex3f(-d, 0.0f, i);
-		glVertex3f(d, 0.0f, i);
-	}
-
-	glEnd();
+	glDisableClientState(GL_VERTEX_ARRAY);
 }

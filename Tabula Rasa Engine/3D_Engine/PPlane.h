@@ -4,9 +4,11 @@ class PPlane : public trPrimitive
 {
 public:
 	PPlane();
-	PPlane(float x, float y, float z, float d);
+	PPlane(math::vec normal, float d);
 	void InnerRender() const;
 public:
-	math::vec normal;
+	
 	float constant;
+	math::vec position;
+	math::vec normal;
 };

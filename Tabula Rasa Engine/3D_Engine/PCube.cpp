@@ -9,7 +9,7 @@ PCube::PCube() : trPrimitive(), size(1.f,1.f,1.f)
 
 	type = PrimitiveTypes::Primitive_Cube;
 
-	float vertices_arr[24] = {
+	float vertices_arr[24] = { //TODO : DO IT WITH GLFLOATS!
 	-offset_size.x, -offset_size.y, offset_size.z,
 	offset_size.x, -offset_size.y, offset_size.z,
 	offset_size.x, offset_size.y, offset_size.z,
@@ -49,6 +49,8 @@ PCube::PCube() : trPrimitive(), size(1.f,1.f,1.f)
 PCube::PCube(math::vec position, math::vec size) :size(size), position(position)
 {
 	math::vec offset_size = size / 2.f;
+
+	//offset_size = offset_size + position;
 
 	type = PrimitiveTypes::Primitive_Cube;
 
