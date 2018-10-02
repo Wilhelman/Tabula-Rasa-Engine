@@ -4,8 +4,9 @@ class PCube : public trPrimitive
 {
 public:
 	PCube();
-	PCube(float sizeX, float sizeY, float sizeZ);
+	PCube(math::vec position, math::vec size);
 	void InnerRender() const;
-public:
+private:
+	math::vec position;
 	math::vec size;
 };
