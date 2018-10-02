@@ -40,7 +40,7 @@ public:
 	SDL_GLContext context;
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
-	uint my_id = 0;
+	uint vertices_id = 0;
 
 
 	
