@@ -12,6 +12,7 @@
 #include "PArrow.h"
 #include "PFrustum.h"
 #include "PCylinder.h"
+#include "PSphere.h"
 
 #include "trPrimitives.h"
 
@@ -91,6 +92,12 @@ void trMainScene::Draw()
 
 	PFrustum frustum;
 	frustum.Render();
+
+	PSphere sphere(math::vec(2.f, 3.f, -2.f), 1);
+	sphere.Render();
+
+	PSphere sphere2(math::vec(2.f, 6.f, -2.f), 3);
+	sphere2.Render();
 	
 }
 
