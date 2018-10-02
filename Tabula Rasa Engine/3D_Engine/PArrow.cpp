@@ -7,24 +7,27 @@ PArrow::PArrow() : trPrimitive(), origin(0, 0, 0), destination(1, 1, 1), color(0
 {
 	type = PrimitiveTypes::Primitive_Arrow;
 
-	float vertices_array[6] = {
+	float vertices_array[15] = {
 		origin.x, origin.y, origin.z,
-		destination.x, destination.y, destination.z
+		destination.x, destination.y, destination.z,
+		destination.x + 0.5f, destination.y, destination.z,
+		destination.x, destination.y + 1.0f, destination.z,
+		destination.x - 0.5f, destination.y, destination.z,
 	};
 
 	vertices_index = 0;
 	glGenBuffers(1, (GLuint*) &(vertices_index));
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6, vertices_array, GL_STATIC_DRAW);	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 15, vertices_array, GL_STATIC_DRAW);	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	uint indices_array[2] = {
-		0, 1
+	uint indices_array[5] = {
+		0, 1, 2, 3, 4
 	};
 
 	indices_index = 0;
 	glGenBuffers(1, (GLuint*) &(indices_index));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_index);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 2, indices_array, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 5, indices_array, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
@@ -32,24 +35,28 @@ PArrow::PArrow(math::vec destination, math::float4 color) : trPrimitive(), origi
 {
 	type = PrimitiveTypes::Primitive_Arrow;
 
-	float vertices_array[6] = {
+	float vertices_array[18] = {
 		origin.x, origin.y, origin.z,
-		destination.x, destination.y, destination.z
+		destination.x, destination.y, destination.z,
+		destination.x + 0.1f, destination.y - 0.2f, destination.z,
+		destination.x, destination.y, destination.z,
+		destination.x, destination.y, destination.z,
+		destination.x - 0.1f, destination.y - 0.2f, destination.z,
 	};
 
 	vertices_index = 0;
 	glGenBuffers(1, (GLuint*) &(vertices_index));
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6, vertices_array, GL_STATIC_DRAW);	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 18, vertices_array, GL_STATIC_DRAW);	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	uint indices_array[2] = {
-		0, 1
+	uint indices_array[6] = {
+		0, 1, 2, 3, 4, 5
 	};
 
 	indices_index = 0;
 	glGenBuffers(1, (GLuint*) &(indices_index));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_index);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 2, indices_array, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 6, indices_array, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
