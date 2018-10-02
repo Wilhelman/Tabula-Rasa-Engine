@@ -270,9 +270,6 @@
     <ClCompile Include="PPlane.cpp">
       <Filter>Utilities\Primitives</Filter>
     </ClCompile>
-    <ClCompile Include="PRay.cpp">
-      <Filter>Utilities\Primitives</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pugiconfig.hpp">
@@ -615,9 +612,6 @@
       <Filter>Utilities\Primitives</Filter>
     </ClInclude>
     <ClInclude Include="PPlane.h">
-      <Filter>Utilities\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="PRay.h">
       <Filter>Utilities\Primitives</Filter>
     </ClInclude>
   </ItemGroup>

@@ -23,7 +23,9 @@ PCube::PCube() : trPrimitive(), size(1.f,1.f,1.f)
 	vertices_index = 0;
 	glGenBuffers(1, (GLuint*) &(vertices_index));
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 24, vertices_arr, GL_STATIC_DRAW);	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 24, vertices_arr, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	uint indices_arr[36] = {
 	0,1,2,
 	3,0,2,
@@ -68,7 +70,9 @@ PCube::PCube(math::vec position, math::vec size) :size(size), position(position)
 	vertices_index = 0;
 	glGenBuffers(1, (GLuint*) &(vertices_index));
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 24, vertices_arr, GL_STATIC_DRAW);	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 24, vertices_arr, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	uint indices_arr[36] = {
 		0,1,2,
 		3,0,2,
