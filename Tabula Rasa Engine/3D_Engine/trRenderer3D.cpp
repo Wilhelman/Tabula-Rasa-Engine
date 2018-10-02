@@ -188,6 +188,8 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*108 * 3,vertices, GL_STATIC_DRAW);*/
 
 	//test
+	// test with ids
+	/*
 	float vertices[24] = {
 		0.f, 0.f, 1.f,
 		1.f, 0.f, 1.f,
@@ -230,7 +232,7 @@ bool trRenderer3D::PreUpdate(float dt)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetViewMatrix());
-	
+
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 
@@ -253,14 +255,13 @@ bool trRenderer3D::PostUpdate(float dt)
 	App->editor->Draw();
 
 	
-	glEnableClientState(GL_VERTEX_ARRAY);
+	/*glEnableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	// … draw other buffers
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	
+	glDisableClientState(GL_VERTEX_ARRAY);*/
 
 
 	//SWAP BUFFERS

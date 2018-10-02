@@ -49,6 +49,9 @@
     <Filter Include="Utilities\3rd Party\Glew">
       <UniqueIdentifier>{d8ed328a-1a19-4379-88f8-fd115aef4025}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities\Primitives">
+      <UniqueIdentifier>{c162c539-8b98-4e01-b680-d2ff8df8fc21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pugixml.cpp">
@@ -250,7 +253,22 @@
       <Filter>Utilities\3rd Party\Parson</Filter>
     </ClCompile>
     <ClCompile Include="trPrimitives.cpp">
-      <Filter>Utilities</Filter>
+      <Filter>Utilities\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="PCube.cpp">
+      <Filter>Utilities\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="PSphere.cpp">
+      <Filter>Utilities\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="PCylinder.cpp">
+      <Filter>Utilities\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="PArrow.cpp">
+      <Filter>Utilities\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="PPlane.cpp">
+      <Filter>Utilities\Primitives</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -579,7 +597,22 @@
       <Filter>Utilities\3rd Party\Glew</Filter>
     </ClInclude>
     <ClInclude Include="trPrimitives.h">
-      <Filter>Utilities</Filter>
+      <Filter>Utilities\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="PCube.h">
+      <Filter>Utilities\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="PSphere.h">
+      <Filter>Utilities\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="PCylinder.h">
+      <Filter>Utilities\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="PArrow.h">
+      <Filter>Utilities\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="PPlane.h">
+      <Filter>Utilities\Primitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

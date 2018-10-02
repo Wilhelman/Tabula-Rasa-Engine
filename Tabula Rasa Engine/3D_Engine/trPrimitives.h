@@ -3,7 +3,10 @@
 
 #include "Color.h"
 
+#include "trDefs.h"
+
 #include "MathGeoLib\MathGeoLib.h"
+#include "Glew\include\GL\glew.h"
 
 
 enum PrimitiveTypes
@@ -23,7 +26,7 @@ public:
 	trPrimitive();
 
 	virtual void	Render() const;
-	virtual void	InnerRender() const;
+	virtual void	InnerRender() const = 0;
 	void			SetPos(float x, float y, float z);
 	void			SetRotation(float angle, const math::vec &u);
 	void			Scale(float x, float y, float z);
@@ -37,63 +40,13 @@ public:
 
 protected:
 	PrimitiveTypes type;
+
+	uint index = 0u;
+
+	std::vector<GLfloat> vertices;
+	std::vector<GLfloat> normals;
+	std::vector<GLushort> indices;
+	//std::vector<GLfloat> texcoords; not needed yet
 };
 
-// ============================================
-class PCube : public trPrimitive
-{
-public:
-	PCube();
-	PCube(float sizeX, float sizeY, float sizeZ);
-	void InnerRender() const;
-public:
-	math::vec size;
-};
-
-// ============================================
-class PSphere : public trPrimitive
-{
-public:
-	PSphere();
-	PSphere(float radius);
-	void InnerRender() const;
-public:
-	float radius;
-};
-
-// ============================================
-class PCylinder : public trPrimitive
-{
-public:
-	PCylinder();
-	PCylinder(float radius, float height);
-	void InnerRender() const;
-public:
-	float radius;
-	float height;
-};
-
-// ============================================
-class PLine : public trPrimitive
-{
-public:
-	PLine();
-	PLine(float x, float y, float z);
-	void InnerRender() const;
-public:
-	math::vec origin;
-	math::vec destination;
-};
-
-// ============================================
-class PPlane : public trPrimitive
-{
-public:
-	PPlane();
-	PPlane(float x, float y, float z, float d);
-	void InnerRender() const;
-public:
-	math::vec normal;
-	float constant;
-};
 #endif // __PRIMITIVE_H__

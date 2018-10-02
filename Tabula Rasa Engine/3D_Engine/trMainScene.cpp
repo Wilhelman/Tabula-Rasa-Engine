@@ -7,6 +7,9 @@
 #include "trRenderer3D.h"
 #include "trInput.h"
 
+#include "PCube.h"
+#include "PPlane.h"
+
 #include "trPrimitives.h"
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
@@ -76,10 +79,10 @@ bool trMainScene::CleanUp()
 
 void trMainScene::Draw()
 {
-	/*PCube cube_test;
+	PCube cube_test;
 	cube_test.axis = true;
 	cube_test.color = Color(0.2f, 0.2f, 1.f, 1.f);
-	cube_test.Render();*/
+	cube_test.Render();
 
 	PPlane plane_test;
 	plane_test.axis = true;
