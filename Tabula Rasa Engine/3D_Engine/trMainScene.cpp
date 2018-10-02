@@ -11,6 +11,7 @@
 #include "PPlane.h"
 #include "PArrow.h"
 #include "PFrustum.h"
+#include "PCylinder.h"
 
 #include "trPrimitives.h"
 
