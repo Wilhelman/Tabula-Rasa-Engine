@@ -46,6 +46,9 @@ bool trMainScene::Start()
 	App->camera->Move(float3(1.f, 1.f, 1.f));
 	App->camera->LookAt(float3(0.f, 0.f, 0.f));
 
+	//test
+	cube_test = new PCube(math::vec(-3.f, 1.f, 0.f), math::vec(2.f, 1.f, 1.f));
+
 	return true;
 }
 
@@ -77,10 +80,10 @@ bool trMainScene::CleanUp()
 
 void trMainScene::Draw()
 {
-	PCube cube_test(math::vec(-3.f,1.f,0.f), math::vec(2.f, 1.f, 1.f));
-	cube_test.axis = true;
-	cube_test.color = Color(0.2f, 0.2f, 1.f, 1.f);
-	cube_test.Render();
+	
+	cube_test->axis = true;
+	cube_test->color = Color(0.2f, 0.2f, 1.f, 1.f);
+	cube_test->Render();
 	
 	PPlane plane_test;
 	plane_test.axis = true;

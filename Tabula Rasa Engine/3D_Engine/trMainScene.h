@@ -4,6 +4,8 @@
 #include "SDL/include/SDL.h"
 #include "trModule.h"
 
+class PCube;
+
 class trMainScene : public trModule
 {
 public:
@@ -33,7 +35,8 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(JSON_Value&) const;
 
-
+private:
+	PCube* cube_test = nullptr;
 };
 
 #endif // __trRENDER_H__

@@ -142,70 +142,12 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-
-	// --------- Vertex Array Mode Cube - TODO: delete this when it's time ---------
-	float vertices[108] = {
-		0.f, 0.f, 1.f,
-		1.f, 0.f, 1.f,
-		1.f, 1.f, 1.f,
-		0.f, 0.f, 1.f,
-		1.f, 1.f, 1.f,
-		0.f, 1.f, 1.f,
-
-		1.f, 0.f, 1.f,
-		1.f, 0.f, 0.f,
-		1.f, 1.f, 0.f,
-		1.f, 1.f, 1.f,
-		1.f, 0.f, 1.f,
-		1.f, 1.f, 0.f,
-
-		0.f, 1.f, 0.f,
-		0.f, 1.f, 1.f,
-		1.f, 1.f, 1.f,
-		0.f, 1.f, 0.f,
-		1.f, 1.f, 1.f,
-		1.f, 1.f, 0.f,
-		
-		1.f, 1.f, 0.f,
-		1.f, 0.f, 0.f,
-		0.f, 0.f, 0.f,
-		1.f, 1.f, 0.f,
-		0.f, 0.f, 0.f,
-		0.f, 1.f, 0.f,
-
-		0.f, 1.f, 0.f,
-		0.f, 0.f, 0.f,
-		0.f, 0.f, 1.f,
-		0.f, 0.f, 1.f,
-		0.f, 1.f, 1.f,
-		0.f, 1.f, 0.f,
-
-		0.f, 0.f, 1.f,
-		0.f, 0.f, 0.f,
-		1.f, 0.f, 1.f,
-		1.f, 0.f, 1.f,
-		0.f, 0.f, 0.f,
-		1.f, 0.f, 0.f,
-	};
-
-	for (int i = 0; i < 108; i++)
-		vertices[i] -= 0.5f;
-
-	vertices_id = 0;
-	glGenBuffers(1, (GLuint*) &(vertices_id));
-	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*108,vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	// --------- Finish Vertex Array Mode Cube ---------
-
 	return ret;
 }
 
 // PreUpdate: clear buffer
 bool trRenderer3D::PreUpdate(float dt)
 {
-	//Color c = cam->background;
-	//glClearColor(c.r, c.g, c.b, c.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetViewMatrix());
@@ -222,60 +164,7 @@ bool trRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 bool trRenderer3D::PostUpdate(float dt)
 {
-	// --------- Direct Mode Cube - TODO: delete this when it's time ---------
-
-	//glTranslatef(4.0f, 0.0f, 0.0f);
-	//glRotatef(45.0f, 1.0f, 1.0f, 0.f);
-
-	glBegin(GL_TRIANGLES);
-
-	glVertex3f(0.f, 0.f, 1.f);
-	glVertex3f(1.f, 0.f, 1.f);
-	glVertex3f(1.f, 1.f, 1.f);
-	glVertex3f(0.f, 0.f, 1.f);
-	glVertex3f(1.f, 1.f, 1.f);
-	glVertex3f(0.f, 1.f, 1.f);
-
-	glVertex3f(1.f, 0.f, 1.f);
-	glVertex3f(1.f, 0.f, 0.f);
-	glVertex3f(1.f, 1.f, 0.f);
-	glVertex3f(1.f, 1.f, 1.f);
-	glVertex3f(1.f, 0.f, 1.f);
-	glVertex3f(1.f, 1.f, 0.f);
-
-	glVertex3f(0.f, 1.f, 0.f);
-	glVertex3f(0.f, 1.f, 1.f);
-	glVertex3f(1.f, 1.f, 1.f);
-	glVertex3f(0.f, 1.f, 0.f);
-	glVertex3f(1.f, 1.f, 1.f);
-	glVertex3f(1.f, 1.f, 0.f);
-
-	glVertex3f(1.f, 1.f, 0.f);
-	glVertex3f(1.f, 0.f, 0.f);
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(1.f, 1.f, 0.f);
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(0.f, 1.f, 0.f);
-
-	glVertex3f(0.f, 1.f, 0.f);
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(0.f, 0.f, 1.f);
-	glVertex3f(0.f, 0.f, 1.f);
-	glVertex3f(0.f, 1.f, 1.f);
-	glVertex3f(0.f, 1.f, 0.f);
-
-	glVertex3f(0.f, 0.f, 1.f);
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(1.f, 0.f, 1.f);
-	glVertex3f(1.f, 0.f, 1.f);
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(1.f, 0.f, 0.f);
 	
-	glEnd();
-
-	// --------- Finish Direct Mode Cube ---------
-
-
 	//RENDER GEOMETRY
 	App->main_scene->Draw();
 
@@ -284,27 +173,6 @@ bool trRenderer3D::PostUpdate(float dt)
 
 	//RENDER GUI
 	App->editor->Draw();
-
-	// --------- Vertex Array Mode Cube - TODO: delete this when it's time ---------
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
-
-	glTranslatef(3.f, 0.5f, 0.f);
-	static float angle = 0.f;
-	glRotatef(angle, 1.f, 1.f, 0.f);
-
-	angle++;
-	if (angle >= 360.0f)
-		angle = 0.0f;
-
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	// … draw other buffers
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	// --------- Finish Vertex Array Mode Cube ---------
 
 	//SWAP BUFFERS
 	SDL_GL_SwapWindow(App->win->window);
