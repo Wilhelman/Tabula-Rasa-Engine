@@ -171,6 +171,10 @@ bool trRenderer3D::PostUpdate(float dt)
 	//RENDER DEBUG
 	/// not yet
 
+	//RENDER IMPORTED MESH
+	if(mesh_buffer_index != 0)
+		this->Draw();
+
 	//RENDER GUI
 	App->editor->Draw();
 
@@ -255,19 +259,34 @@ void trRenderer3D::SwitchTexture2D(bool toggle)
 		glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
 }
 
-void trRenderer3D::GenerateBufferForMesh(const Mesh mesh)
+void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 {
 	mesh_buffer_vertex = 0;
 	glGenBuffers(1, (GLuint*) &(mesh_buffer_vertex));
 	glBindBuffer(GL_ARRAY_BUFFER, mesh_buffer_vertex);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh.num_vertex, mesh.vertex, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->num_vertex, mesh->vertex, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	mesh_buffer_index = 0;
 	glGenBuffers(1, (GLuint*) &(mesh_buffer_index));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh_buffer_index);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh.num_index, mesh.index, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->num_index, mesh->index, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void trRenderer3D::Draw()
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh_buffer_vertex);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh_buffer_index);
+	glDrawElements(GL_TRIANGLES, mesh_buffer_vertex, GL_UNSIGNED_INT, NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 

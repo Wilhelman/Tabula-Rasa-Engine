@@ -22,7 +22,9 @@ PPlane::PPlane() : trPrimitive(), normal(0, 1, 0), constant(1)
 	vertices_index = 0;
 	glGenBuffers(1, (GLuint*) &(vertices_index));
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, vertices_arr, GL_STATIC_DRAW);	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, vertices_arr, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	uint indices_arr[6] = {
 		3,0,1,
 		1,2,3
@@ -54,7 +56,9 @@ PPlane::PPlane(math::vec normal, float d) : trPrimitive(), normal(normal), const
 	vertices_index = 0;
 	glGenBuffers(1, (GLuint*) &(vertices_index));
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, vertices_arr, GL_STATIC_DRAW);	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, vertices_arr, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	uint indices_arr[6] = {
 		3,0,1,
 		1,2,3

@@ -35,7 +35,9 @@ public:
 	void SwitchColorMaterial(bool toggle);
 	void SwitchTexture2D(bool toggle);
 
-	void GenerateBufferForMesh(const Mesh mesh);
+	void GenerateBufferForMesh(Mesh* mesh);
+
+	void Draw();
 
 	math::float4x4 Perspective(float fovy, float aspect, float n, float f) const;
 

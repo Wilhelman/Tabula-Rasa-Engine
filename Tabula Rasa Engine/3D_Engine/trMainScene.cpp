@@ -83,12 +83,13 @@ void trMainScene::Draw()
 	
 	/*cube_test->axis = true;
 	cube_test->color = Color(0.2f, 0.2f, 1.f, 1.f);
-	cube_test->Render();
+	cube_test->Render();*/
 	
-	PPlane plane_test;
+	PPlane plane_test; //for some reason import only draws if we render with primitives too
 	plane_test.axis = true;
 	plane_test.Render();
 
+	/*
 	PArrow p_arrow(math::vec(0.f, 2.5f, 0.f), math::float4(0.f, 1.0f, 0.f, 1.f));
 	p_arrow.axis = true;
 	p_arrow.Render();

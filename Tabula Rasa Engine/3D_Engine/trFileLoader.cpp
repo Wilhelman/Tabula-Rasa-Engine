@@ -4,6 +4,7 @@
 #include "trDefs.h"
 #include "trApp.h"
 #include "trEditor.h"
+#include "trRenderer3D.h"
 
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
@@ -28,7 +29,7 @@ bool trFileLoader::Awake(pugi::xml_node &)
 	struct aiLogStream stream;
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
 	aiAttachLogStream(&stream);
-
+	
 	return ret;
 }
 
@@ -66,7 +67,7 @@ bool trFileLoader::ImportFile(const char* file_path)
 			mesh_data.num_vertex = new_mesh->mNumVertices;
 			mesh_data.vertex = new float[mesh_data.num_vertex * 3];
 			memcpy(mesh_data.vertex, new_mesh->mVertices, sizeof(float) * mesh_data.num_vertex * 3);
-			App->editor->Log("New mesh with %d vertices", (const char*)mesh_data.num_vertex);
+			//App->editor->Log("New mesh with %d vertices", mesh_data.num_vertex); ep
 
 			// Index copy
 			if (new_mesh->HasFaces())
@@ -81,8 +82,10 @@ bool trFileLoader::ImportFile(const char* file_path)
 						memcpy(&mesh_data.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 				}
 			}
+			TR_LOG("Asd");
 		}
-		
+
+		App->render->GenerateBufferForMesh(&mesh_data);
 		aiReleaseImport(scene);
 		return true;
 	}
