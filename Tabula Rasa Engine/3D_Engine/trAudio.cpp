@@ -24,7 +24,6 @@ bool trAudio::Awake(pugi::xml_node& audioNode)
 {
 	App->editor->Log("trAudio: Awake audio mixer");
 
-
 	SDL_Init(0);
 
 	if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)

@@ -47,7 +47,7 @@ bool trMainScene::Start()
 	App->camera->LookAt(float3(0.f, 0.f, 0.f));
 
 	//test
-	cube_test = new PCube(math::vec(-3.f, 1.f, 0.f), math::vec(2.f, 1.f, 1.f));
+	//cube_test = new PCube(math::vec(-3.f, 1.f, 0.f), math::vec(2.f, 1.f, 1.f));
 
 	return true;
 }
@@ -81,7 +81,7 @@ bool trMainScene::CleanUp()
 void trMainScene::Draw()
 {
 	
-	cube_test->axis = true;
+	/*cube_test->axis = true;
 	cube_test->color = Color(0.2f, 0.2f, 1.f, 1.f);
 	cube_test->Render();
 	
@@ -100,7 +100,7 @@ void trMainScene::Draw()
 	sphere.Render();
 
 	PSphere sphere2(math::vec(2.f, 6.f, -2.f), 3);
-	sphere2.Render();
+	sphere2.Render();*/
 	
 }
 
