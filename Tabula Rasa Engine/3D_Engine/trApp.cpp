@@ -10,6 +10,7 @@
 #include "trCamera3D.h"
 #include "trEditor.h"
 #include "trHardware.h"
+#include "trFileLoader.h"
 
 #include "trMainScene.h"
 
@@ -32,6 +33,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	main_scene = new trMainScene();
 	editor = new trEditor();
 	hardware = new trHardware();
+	file_loader = new trFileLoader();
 	
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -43,6 +45,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(main_scene);
 	AddModule(editor);
 	AddModule(hardware);
+	AddModule(file_loader);
 
 	// render last to swap buffer
 	AddModule(render);

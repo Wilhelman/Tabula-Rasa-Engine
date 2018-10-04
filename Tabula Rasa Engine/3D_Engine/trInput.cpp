@@ -10,7 +10,7 @@
 #include "SDL\include\SDL.h"
 #include "SDL\include\SDL_opengl.h"
 
-
+#include "trFileLoader.h"
 
 #define MAX_KEYS 300
 
@@ -130,8 +130,10 @@ bool trInput::PreUpdate(float dt)
 			{
 				dropped_filedir = e.drop.file;
 
-				if (dropped_filedir != nullptr)
+				if (dropped_filedir != nullptr) {
 					App->editor->Log("File path dropped on window: ", dropped_filedir);
+					App->file_loader->ImportFile(dropped_filedir);
+				}
 				else
 					App->editor->Log("Cannot get file dropped path");
 

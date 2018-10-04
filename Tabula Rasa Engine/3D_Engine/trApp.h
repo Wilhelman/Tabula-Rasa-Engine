@@ -21,6 +21,7 @@ class trCamera3D;
 class trMainScene;
 class trEditor;
 class trHardware;
+class trFileLoader;
 
 class trApp
 {
@@ -102,6 +103,7 @@ public:
 
 	trEditor*			editor = nullptr;
 	trHardware*			hardware = nullptr;
+	trFileLoader*		file_loader = nullptr;
 	
 	std::string			game_title;
 private:
