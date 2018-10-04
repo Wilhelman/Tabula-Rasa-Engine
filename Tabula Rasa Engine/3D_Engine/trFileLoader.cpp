@@ -47,10 +47,13 @@ bool trFileLoader::CleanUp()
 	// Clean all log streams
 	aiDetachAllLogStreams();
 
+	delete[] mesh_data.index;
+	delete[] mesh_data.vertex;
+
 	return true;
 }
 
-bool trFileLoader::ImportFile(const char* file_path)
+bool trFileLoader::Import3DFile(const char* file_path)
 {
 	App->editor->Log("trFileLoader: Start importing a file with path: %s", file_path);
 
@@ -82,7 +85,6 @@ bool trFileLoader::ImportFile(const char* file_path)
 						memcpy(&mesh_data.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 				}
 			}
-			TR_LOG("Asd");
 		}
 
 		App->render->GenerateBufferForMesh(&mesh_data);

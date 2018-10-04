@@ -132,7 +132,7 @@ bool trInput::PreUpdate(float dt)
 
 				if (dropped_filedir != nullptr) {
 					App->editor->Log("File path dropped on window: ", dropped_filedir);
-					App->file_loader->ImportFile(dropped_filedir);
+					App->file_loader->Import3DFile(dropped_filedir);
 				}
 				else
 					App->editor->Log("Cannot get file dropped path");
