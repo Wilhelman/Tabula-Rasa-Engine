@@ -179,8 +179,8 @@ void trEditor::InfoFPSMS(float current_fps, float current_ms)
 
 void trEditor::Log(const char * new_log, const char* format, ...)
 {
-	char log[100];
-	sprintf_s(log, 100, "%s %s", new_log, format);
+	char log[200];
+	sprintf_s(log, 200, "%s %s", new_log, format);
 
 	if (console != nullptr)
 		console->AddLogToConsole(log);

@@ -99,7 +99,6 @@ bool trInput::PreUpdate(float dt)
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
 	{
-
 		ImGui_ImplSDL2_ProcessEvent(&e);
 
 		switch (e.type)
@@ -124,6 +123,20 @@ bool trInput::PreUpdate(float dt)
 		{
 			if (e.window.event == SDL_WINDOWEVENT_RESIZED)
 				App->render->OnResize(e.window.data1, e.window.data2);
+			break;
+		}
+
+		case SDL_DROPFILE:
+		{
+			dropped_filedir = e.drop.file;
+
+			if (dropped_filedir != nullptr)
+				App->editor->Log("File path dropped on window: ", dropped_filedir);
+			else
+				App->editor->Log("Cannot get file dropped path");
+
+			SDL_free(dropped_filedir);
+			break;
 		}
 		}
 	}
