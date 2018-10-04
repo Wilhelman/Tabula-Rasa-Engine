@@ -3,6 +3,9 @@
 
 #include "trModule.h"
 #include "trDefs.h"
+
+#include "trFileLoader.h"
+
 #include "Light.h"
 
 #include "MathGeoLib/MathBuildConfig.h"
@@ -32,6 +35,8 @@ public:
 	void SwitchColorMaterial(bool toggle);
 	void SwitchTexture2D(bool toggle);
 
+	void GenerateBufferForMesh(const Mesh mesh);
+
 	math::float4x4 Perspective(float fovy, float aspect, float n, float f) const;
 
 public:
@@ -42,5 +47,10 @@ public:
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 
 	bool			vsync_state = false;
+
+private:
+	uint mesh_buffer_vertex = 0u;
+	uint mesh_buffer_index = 0u;
+
 };
 #endif

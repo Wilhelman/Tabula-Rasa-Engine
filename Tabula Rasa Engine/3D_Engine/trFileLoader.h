@@ -1,13 +1,10 @@
 #ifndef __FILE_LOADER_H__
 #define __FILE_LOADER_H__
 
-#include <string>
-#include <map>
 #include "trModule.h"
-#include "Math.h"
 #include "trDefs.h"
 
-struct MeshData
+struct Mesh
 {
 	uint id_index = 0; // index in VRAM
 	uint num_index = 0;
@@ -36,7 +33,7 @@ public:
 
 private:
 
-	MeshData mesh_data;
+	Mesh mesh_data;
 
 };
 

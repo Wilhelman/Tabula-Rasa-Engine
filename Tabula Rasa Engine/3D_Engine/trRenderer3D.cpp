@@ -255,6 +255,21 @@ void trRenderer3D::SwitchTexture2D(bool toggle)
 		glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
 }
 
+void trRenderer3D::GenerateBufferForMesh(const Mesh mesh)
+{
+	mesh_buffer_vertex = 0;
+	glGenBuffers(1, (GLuint*) &(mesh_buffer_vertex));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh_buffer_vertex);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh.num_vertex, mesh.vertex, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	mesh_buffer_index = 0;
+	glGenBuffers(1, (GLuint*) &(mesh_buffer_index));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh_buffer_index);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh.num_index, mesh.index, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
 
 math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, float f) const
 {

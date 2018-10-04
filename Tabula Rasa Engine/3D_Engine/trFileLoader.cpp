@@ -62,10 +62,25 @@ bool trFileLoader::ImportFile(const char* file_path)
 		{
 			aiMesh* new_mesh = scene->mMeshes[i];
 
-			/*mesh_data.num_vertex = new_mesh->mNumVertices;
+			// Vertex copy
+			mesh_data.num_vertex = new_mesh->mNumVertices;
 			mesh_data.vertex = new float[mesh_data.num_vertex * 3];
-			memcpy(m.vertices, new_mesh->mVertices, sizeof(float) * m.num_vertices * 3);
-			App->editor->Log("New mesh with %d vertices", m.num_vertices);*/
+			memcpy(mesh_data.vertex, new_mesh->mVertices, sizeof(float) * mesh_data.num_vertex * 3);
+			App->editor->Log("New mesh with %d vertices", (const char*)mesh_data.num_vertex);
+
+			// Index copy
+			if (new_mesh->HasFaces())
+			{
+				mesh_data.num_index = new_mesh->mNumFaces * 3;
+				mesh_data.index = new uint[mesh_data.num_index]; // assume each face is a triangle
+				for (uint i = 0; i < new_mesh->mNumFaces; ++i)
+				{
+					if (new_mesh->mFaces[i].mNumIndices != 3)
+						App->editor->Log("WARNING, geometry face with != 3 indices!");
+					else
+						memcpy(&mesh_data.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+				}
+			}
 		}
 		
 		aiReleaseImport(scene);
