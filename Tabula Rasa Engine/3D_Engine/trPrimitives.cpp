@@ -25,7 +25,7 @@ void trPrimitive::Render() const
 		glLineWidth(2.0f);
 
 		//glDisable(GL_DEPTH_TEST);
-		glBegin(GL_LINES);
+		glBegin(GL_LINES); // todo: this should be in a buffer!
 
 		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 
