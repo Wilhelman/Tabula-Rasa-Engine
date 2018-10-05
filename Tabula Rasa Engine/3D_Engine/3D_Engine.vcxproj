@@ -69,6 +69,7 @@
     <ClCompile Include="PCylinder.cpp" />
     <ClCompile Include="PFrustum.cpp" />
     <ClCompile Include="PPlane.cpp" />
+    <ClCompile Include="PPoint.cpp" />
     <ClCompile Include="PRay.cpp" />
     <ClCompile Include="PSphere.cpp" />
     <ClCompile Include="trApp.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="PCylinder.h" />
     <ClInclude Include="PFrustum.h" />
     <ClInclude Include="PPlane.h" />
+    <ClInclude Include="PPoint.h" />
     <ClInclude Include="PRay.h" />
     <ClInclude Include="PSphere.h" />
     <ClInclude Include="trAnimation.h" />

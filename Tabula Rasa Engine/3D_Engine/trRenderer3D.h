@@ -16,6 +16,7 @@
 #define MAX_LIGHTS 8
 
 class PArrow;
+class PPoint;
 
 class trRenderer3D : public trModule
 {
@@ -58,6 +59,7 @@ private:
 	uint mesh_buffer_index = 0u;
 
 	std::vector<PArrow> normals_vec;
+	std::vector<PPoint> vertex_vec;
 
 };
 #endif

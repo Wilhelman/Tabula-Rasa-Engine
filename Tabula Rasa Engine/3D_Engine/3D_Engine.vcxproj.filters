@@ -288,6 +288,9 @@
     <ClCompile Include="glmath.cpp">
       <Filter>Utilities\3rd Party\TO_DELETE_GLMATH</Filter>
     </ClCompile>
+    <ClCompile Include="PPoint.cpp">
+      <Filter>Utilities\Primitives</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pugiconfig.hpp">
@@ -742,6 +745,9 @@
     </ClInclude>
     <ClInclude Include="glmath.h">
       <Filter>Utilities\3rd Party\TO_DELETE_GLMATH</Filter>
+    </ClInclude>
+    <ClInclude Include="PPoint.h">
+      <Filter>Utilities\Primitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

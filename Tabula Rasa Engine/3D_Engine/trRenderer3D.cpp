@@ -6,6 +6,7 @@
 #include "trEditor.h"
 #include "trMainScene.h"
 #include "PArrow.h"
+#include "PPoint.h"
 
 #include "MathGeoLib\MathGeoLib.h"
 #include "Glew\include\GL\glew.h"
@@ -179,7 +180,11 @@ bool trRenderer3D::PostUpdate(float dt)
 		this->Draw();
 
 		for (int i = 0; i < normals_vec.size(); i++)
+		{
 			normals_vec[i].Render();
+			vertex_vec[i].Render();
+		}
+			
 	}
 		
 
@@ -277,8 +282,11 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 		math::vec normal_pos(mesh->normals[i], mesh->normals[i + 1], mesh->normals[i + 2]);
 		math::vec destination = vertex_pos + normal_pos;
 	
-		PArrow p(vertex_pos, destination, math::float4(0.f, 1.f, 0.f, 1.f));
-		normals_vec.push_back(p);
+		PArrow normal(vertex_pos, destination, math::float4(0.f, 1.f, 0.f, 1.f));
+		PPoint vertex(vertex_pos, math::float4(0.f, 0.f, 1.f, 1.f));
+
+		normals_vec.push_back(normal);
+		vertex_vec.push_back(vertex);
 	}
 
 	normals_vec.shrink_to_fit();
