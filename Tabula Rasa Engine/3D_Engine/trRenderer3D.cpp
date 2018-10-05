@@ -274,7 +274,10 @@ void trRenderer3D::SwitchTexture2D(bool toggle)
 
 void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 {
+	this->mesh = mesh;
+
 	normals_vec.reserve(mesh->num_vertex);
+	vertex_vec.reserve(mesh->num_vertex);
 
 	for (int i = 0; i < normals_vec.capacity(); i += 3)
 	{
@@ -290,6 +293,7 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 	}
 
 	normals_vec.shrink_to_fit();
+	vertex_vec.shrink_to_fit();
 
 	mesh_buffer_vertex = 0;
 	glGenBuffers(1, (GLuint*) &(mesh_buffer_vertex));
@@ -308,6 +312,14 @@ void trRenderer3D::Draw()
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
 
+	/*for (int i = 0; i < vertex_vec.size(); i += 3)
+	{
+		glColor4f(mesh->colors[i], mesh->colors[i + 1],
+			mesh->colors[i + 2], mesh->colors[i + 3]);
+	}*/
+
+	glColor4f(mesh->mat_color.r, mesh->mat_color.g, mesh->mat_color.b, mesh->mat_color.a);
+
 	glBindBuffer(GL_ARRAY_BUFFER, mesh_buffer_vertex);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -315,6 +327,8 @@ void trRenderer3D::Draw()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh_buffer_index);
 	glDrawElements(GL_TRIANGLES, mesh_buffer_vertex, GL_UNSIGNED_INT, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	glColor4f(1.f, 1.f, 1.f, 1.f);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 }

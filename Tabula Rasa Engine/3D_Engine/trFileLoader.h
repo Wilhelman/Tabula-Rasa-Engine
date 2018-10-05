@@ -4,6 +4,12 @@
 #include "trModule.h"
 #include "trDefs.h"
 
+
+#include "Assimp/include/cimport.h"
+
+
+
+
 struct Mesh
 {
 	uint num_index = 0;
@@ -13,6 +19,10 @@ struct Mesh
 	float* vertex = nullptr;
 
 	float* normals = nullptr;
+
+	float* colors = nullptr;
+
+	aiColor4D mat_color;
 };
 
 class trFileLoader : public trModule

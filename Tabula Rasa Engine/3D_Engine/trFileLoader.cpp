@@ -50,6 +50,12 @@ bool trFileLoader::CleanUp()
 	delete[] mesh_data.index;
 	delete[] mesh_data.vertex;
 	delete[] mesh_data.normals;
+	delete[] mesh_data.colors;
+	
+	mesh_data.index = nullptr;
+	mesh_data.vertex = nullptr;
+	mesh_data.normals = nullptr;
+	mesh_data.colors = nullptr;
 
 	return true;
 }
@@ -65,14 +71,21 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		for (uint i = 0; i < scene->mNumMeshes; i++)
 		{
 			aiMesh* new_mesh = scene->mMeshes[i];
-		
+			aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
+
+			aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &mesh_data.mat_color);
 			// Vertex copy
 			mesh_data.num_vertex = new_mesh->mNumVertices;
 			mesh_data.vertex = new float[mesh_data.num_vertex * 3];
 			memcpy(mesh_data.vertex, new_mesh->mVertices, sizeof(float) * mesh_data.num_vertex * 3);
 
+			// Vertices' normals copy
 			aiVector3D* mesh_normals = new_mesh->mNormals;
 			mesh_data.normals = new float[mesh_data.num_vertex * 3];
+
+			// Vertices' colors copy
+			aiColor4D* mesh_colors = *new_mesh->mColors;
+			mesh_data.colors = new float[mesh_data.num_vertex * 3];
 
 			//App->editor->Log("New mesh with %d vertices", mesh_data.num_vertex); ep
 
@@ -89,12 +102,17 @@ bool trFileLoader::Import3DFile(const char* file_path)
 						memcpy(&mesh_data.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 				}
 
+				// Getting vertices' normals coordinates from loaded mesh
 				for (int i = 0; i < mesh_data.num_vertex && mesh_normals != nullptr; i++)
 				{
 					memcpy(mesh_data.normals, mesh_normals, sizeof(float) * mesh_data.num_vertex * 3);
-					TR_LOG("Normals: %i", mesh_data.normals[i]);
+
+					if (mesh_colors != nullptr)
+						memcpy(mesh_data.colors, &mesh_colors[i], sizeof(float) * mesh_data.num_vertex * 3);
 				}
 
+				
+				
 			}
 
 

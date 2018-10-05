@@ -90,6 +90,7 @@ bool trCamera3D::Update(float dt)
 			Y = rotate(Y, DeltaY, X);
 			Z = rotate(Z, DeltaY, X);
 
+			// Uncomment teh code below to cap camera rotation on Z / X axis by +/-90 degrees
 			/*if (Y.y < 0.0f)
 			{
 				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);

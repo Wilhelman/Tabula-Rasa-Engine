@@ -61,5 +61,7 @@ private:
 	std::vector<PArrow> normals_vec;
 	std::vector<PPoint> vertex_vec;
 
+	Mesh* mesh;
+
 };
 #endif

@@ -42,6 +42,5 @@ void PPoint::InnerRender() const
 	glPointSize(1.0f);
 	glColor4f(1.f, 1.f, 1.f, 1.f);
 
-
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
