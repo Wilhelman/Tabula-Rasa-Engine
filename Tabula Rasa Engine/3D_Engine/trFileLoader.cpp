@@ -58,14 +58,14 @@ bool trFileLoader::Import3DFile(const char* file_path)
 {
 	App->editor->Log("trFileLoader: Start importing a file with path: %s", file_path);
 
-	const aiScene* scene = aiImportFile(file_path, aiProcessPreset_TargetRealtime_MaxQuality);
-
+	const aiScene* scene = aiImportFile(file_path, aiProcessPreset_TargetRealtime_MaxQuality /*| aiProcess_GenNormals*/);
+	
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		for (uint i = 0; i < scene->mNumMeshes; i++)
 		{
 			aiMesh* new_mesh = scene->mMeshes[i];
-
+		
 			// Vertex copy
 			mesh_data.num_vertex = new_mesh->mNumVertices;
 			mesh_data.vertex = new float[mesh_data.num_vertex * 3];

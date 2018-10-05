@@ -90,11 +90,11 @@ bool trCamera3D::Update(float dt)
 			Y = rotate(Y, DeltaY, X);
 			Z = rotate(Z, DeltaY, X);
 
-			if (Y.y < 0.0f)
+			/*if (Y.y < 0.0f)
 			{
 				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
 				Y = cross(Z, X);
-			}
+			}*/
 		}
 
 		Position = Reference + Z * length(Position);
