@@ -85,9 +85,10 @@ bool trFileLoader::Import3DFile(const char* file_path)
 						memcpy(&mesh_data.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 				}
 			}
+
+			App->render->GenerateBufferForMesh(&mesh_data);
 		}
 
-		App->render->GenerateBufferForMesh(&mesh_data);
 		aiReleaseImport(scene);
 		return true;
 	}
