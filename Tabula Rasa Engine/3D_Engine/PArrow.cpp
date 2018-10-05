@@ -3,71 +3,38 @@
 #include "Glew\include\GL\glew.h"
 #include "trDefs.h"
 
-PArrow::PArrow() : trPrimitive(), origin(0, 0, 0), destination(1, 1, 1), color(0.f, 0.f, 0.f, 1.f)
+PArrow::PArrow(math::vec origin, math::vec direction) : trPrimitive(), origin(origin), destination(direction)
 {
 	type = PrimitiveTypes::Primitive_Arrow;
 
-	float vertices_array[15] = {
+	float vertices_array[6] = {
 		origin.x, origin.y, origin.z,
-		destination.x, destination.y, destination.z,
-		destination.x + 0.5f, destination.y, destination.z,
-		destination.x, destination.y + 1.0f, destination.z,
-		destination.x - 0.5f, destination.y, destination.z,
+		direction.x, direction.y, direction.z
 	};
 
 	vertices_index = 0;
 	glGenBuffers(1, (GLuint*) &(vertices_index));
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 15, vertices_array, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6, vertices_array, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	uint indices_array[5] = {
-		0, 1, 2, 3, 4
+	uint indices_array[2] = {
+		0, 1
 	};
 
 	indices_index = 0;
 	glGenBuffers(1, (GLuint*) &(indices_index));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_index);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 5, indices_array, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
-
-PArrow::PArrow(math::vec destination, math::float4 color) : trPrimitive(), origin(0.f, 0.f, 0.f), destination(destination.x, destination.y, destination.z), color(color.x, color.y, color.z, color.w)
-{
-	type = PrimitiveTypes::Primitive_Arrow;
-
-	float vertices_array[18] = {
-		origin.x, origin.y, origin.z,
-		destination.x, destination.y, destination.z,
-		destination.x + 0.1f, destination.y - 0.2f, destination.z,
-		destination.x, destination.y, destination.z,
-		destination.x, destination.y, destination.z,
-		destination.x - 0.1f, destination.y - 0.2f, destination.z,
-	};
-
-	vertices_index = 0;
-	glGenBuffers(1, (GLuint*) &(vertices_index));
-	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 18, vertices_array, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	uint indices_array[6] = {
-		0, 1, 2, 3, 4, 5
-	};
-
-	indices_index = 0;
-	glGenBuffers(1, (GLuint*) &(indices_index));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_index);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 6, indices_array, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 2, indices_array, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void PArrow::InnerRender() const
 {
-	//glColor4f(color.x, color.y, color.z, color.w);
 	glEnableClientState(GL_VERTEX_ARRAY);
 
-	glLineWidth(5.0f);
+	glLineWidth(3.0f);
+	glColor4f(1.f, 0.f, 0.f, 1.f);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
@@ -78,7 +45,8 @@ void PArrow::InnerRender() const
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	glLineWidth(1.0f);
+	glColor4f(1.f, 1.f, 1.f, 1.f);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
-	
+
 }

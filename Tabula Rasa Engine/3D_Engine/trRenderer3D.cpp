@@ -5,7 +5,9 @@
 #include "trCamera3D.h"
 #include "trEditor.h"
 #include "trMainScene.h"
+#include "PArrow.h"
 
+#include "MathGeoLib\MathGeoLib.h"
 #include "Glew\include\GL\glew.h"
 
 #include "SDL\include\SDL_opengl.h"
@@ -172,8 +174,14 @@ bool trRenderer3D::PostUpdate(float dt)
 	/// not yet
 
 	//RENDER IMPORTED MESH
-	if(mesh_buffer_index != 0)
+	if (mesh_buffer_index != 0)
+	{
 		this->Draw();
+
+		for (int i = 0; i < normals_vec.size(); i++)
+			normals_vec[i].Render();
+	}
+		
 
 	//RENDER GUI
 	App->editor->Draw();
@@ -261,6 +269,18 @@ void trRenderer3D::SwitchTexture2D(bool toggle)
 
 void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 {
+	normals_vec.reserve(mesh->num_vertex);
+
+	for (int i = 0; i < normals_vec.capacity(); i += 3)
+	{
+		math::vec vertex_pos(mesh->vertex[i], mesh->vertex[i + 1], mesh->vertex[i + 2]);
+		math::vec normal_pos(mesh->normals[i], mesh->normals[i + 1], mesh->normals[i + 2]);
+		math::vec destination = vertex_pos + normal_pos;
+	
+		PArrow p(vertex_pos, destination);
+		normals_vec.push_back(p);
+	}
+
 	mesh_buffer_vertex = 0;
 	glGenBuffers(1, (GLuint*) &(mesh_buffer_vertex));
 	glBindBuffer(GL_ARRAY_BUFFER, mesh_buffer_vertex);

@@ -7,12 +7,15 @@
 #include "trFileLoader.h"
 
 #include "Light.h"
+#include "trPrimitives.h"
 
 #include "MathGeoLib/MathBuildConfig.h"
 #include "MathGeoLib/MathGeoLib.h"
 #include "MathGeoLib/MathGeoLibFwd.h"
 
 #define MAX_LIGHTS 8
+
+class PArrow;
 
 class trRenderer3D : public trModule
 {
@@ -53,6 +56,8 @@ public:
 private:
 	uint mesh_buffer_vertex = 0u;
 	uint mesh_buffer_index = 0u;
+
+	std::vector<PArrow> normals_vec;
 
 };
 #endif

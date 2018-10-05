@@ -11,6 +11,8 @@ struct Mesh
 
 	uint num_vertex = 0;
 	float* vertex = nullptr;
+
+	float* normals = nullptr;
 };
 
 class trFileLoader : public trModule

@@ -37,6 +37,7 @@ void PRay::InnerRender() const
 
 	glLineWidth(3.0f);
 
+
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -46,6 +47,8 @@ void PRay::InnerRender() const
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	glLineWidth(1.0f);
+	glColor4f(1.f, 1.f, 1.f, 1.f);
+
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 
