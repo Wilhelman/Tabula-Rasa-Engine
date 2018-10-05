@@ -277,9 +277,11 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 		math::vec normal_pos(mesh->normals[i], mesh->normals[i + 1], mesh->normals[i + 2]);
 		math::vec destination = vertex_pos + normal_pos;
 	
-		PArrow p(vertex_pos, destination);
+		PArrow p(vertex_pos, destination, math::float4(0.f, 1.f, 0.f, 1.f));
 		normals_vec.push_back(p);
 	}
+
+	normals_vec.shrink_to_fit();
 
 	mesh_buffer_vertex = 0;
 	glGenBuffers(1, (GLuint*) &(mesh_buffer_vertex));
