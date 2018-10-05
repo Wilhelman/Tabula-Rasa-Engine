@@ -9,6 +9,9 @@
 
 #include "trApp.h"
 
+//TODO -> DELETE: using it temporaly for camera rotation
+#include "glmath.h"
+
 class trCamera3D : public trModule
 {
 public:
@@ -19,9 +22,9 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-	void Look(const vec &Position, const vec &Reference, bool RotateAroundReference = false);
-	void LookAt(const vec &Spot);
-	void Move(const vec &Movement);
+	void Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference = false);
+	void LookAt(const vec3 &Spot);
+	void Move(const vec3 &Movement);
 	float* GetViewMatrix();
 
 private:
@@ -30,13 +33,11 @@ private:
 
 public:
 
-	vec X, Y, Z, Position, Reference;
+	vec3 X, Y, Z, Position, Reference;
 
 private:
 
-	math::float4x4 ViewMatrix, ViewMatrixInverse;
-
-	math::float3x3 transform;
+	mat4x4 ViewMatrix, ViewMatrixInverse;
 };
 
 #endif

@@ -4,17 +4,19 @@
 #include "trCamera3D.h"
 #include "trEditor.h"
 
+
+
 trCamera3D::trCamera3D() : trModule()
 {
 	this->name = "Camera 3D";
 	CalculateViewMatrix();
 
-	X = vec(1.0f, 0.0f, 0.0f);
-	Y = vec(0.0f, 1.0f, 0.0f);
-	Z = vec(0.0f, 0.0f, 1.0f);
+	X = vec3(1.0f, 0.0f, 0.0f);
+	Y = vec3(0.0f, 1.0f, 0.0f);
+	Z = vec3(0.0f, 0.0f, 1.0f);
 
-	Position = vec(0.0f, 0.0f, 5.0f);
-	Reference = vec(0.0f, 0.0f, 0.0f);
+	Position = vec3(0.0f, 0.0f, 5.0f);
+	Reference = vec3(0.0f, 0.0f, 0.0f);
 }
 
 trCamera3D::~trCamera3D()
@@ -43,7 +45,7 @@ bool trCamera3D::Update(float dt)
 	// Implement a debug camera with keys and mouse
 	// Now we can make this movememnt frame rate independant!
 	
-	vec newPos(0.0f, 0.0f, 0.0f);
+	vec3 newPos(0.0f, 0.0f, 0.0f);
 	float speed = 3.0f * dt;
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 		speed = 8.0f * dt;
@@ -62,8 +64,7 @@ bool trCamera3D::Update(float dt)
 	Reference += newPos;
 
 	// Mouse motion ----------------
-	
-	
+
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		int dx = -App->input->GetMouseXMotion();
@@ -76,36 +77,27 @@ bool trCamera3D::Update(float dt)
 		if (dx != 0)
 		{
 			float DeltaX = (float)dx * Sensitivity;
-			transform = math::float3x3::RotateY(DeltaX);
 
-			X = transform * X;
-			Y = transform * Y;
-			Z = transform * Z;
-
+			X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+			Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+			Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 		}
 
 		if (dy != 0)
 		{
 			float DeltaY = (float)dy * Sensitivity;
 
-			transform = math::float3x3::RotateX(DeltaY);
+			Y = rotate(Y, DeltaY, X);
+			Z = rotate(Z, DeltaY, X);
 
-			X = transform * X;
-			Y = transform * Y;
-			Z = transform * Z;
-
-			//Y = rotate(Y, DeltaY, X);
-			//Z = rotate(Z, DeltaY, X);
-			
 			if (Y.y < 0.0f)
 			{
-				Z = vec(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-				Y = math::Cross(Z, X);
+				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+				Y = cross(Z, X);
 			}
 		}
 
-		Position = Reference + Z * Position.Length();
-		//Position = vec(0.0f, 0.0f, 0.0f);
+		Position = Reference + Z * length(Position);
 	}
 	
 	
@@ -116,15 +108,14 @@ bool trCamera3D::Update(float dt)
 }
 
 // -----------------------------------------------------------------
-void trCamera3D::Look(const vec &Position, const vec &Reference, bool RotateAroundReference)
+void trCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference)
 {
 	this->Position = Position;
 	this->Reference = Reference;
-	vec temp = Position - Reference;
 
-	Z = temp.Normalized();
-	X = Cross(vec(0.0f, 1.0f, 0.0f), Z).Normalized();
-	Y = Cross(Z, X);
+	Z = normalize(Position - Reference);
+	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
+	Y = cross(Z, X);
 
 	if (!RotateAroundReference)
 	{
@@ -136,21 +127,20 @@ void trCamera3D::Look(const vec &Position, const vec &Reference, bool RotateArou
 }
 
 // -----------------------------------------------------------------
-void trCamera3D::LookAt(const vec &Spot)
+void trCamera3D::LookAt(const vec3 &Spot)
 {
 	Reference = Spot;
-	vec temp = Position - Reference;
 
-	Z = temp.Normalized();
-	X = Cross(vec(0.0f, 1.0f, 0.0f), Z).Normalized();
-	Y = Cross(Z, X);
+	Z = normalize(Position - Reference);
+	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
+	Y = cross(Z, X);
 
 	CalculateViewMatrix();
 }
 
 
 // -----------------------------------------------------------------
-void trCamera3D::Move(const vec &Movement)
+void trCamera3D::Move(const vec3 &Movement)
 {
 	Position += Movement;
 	Reference += Movement;
@@ -161,15 +151,12 @@ void trCamera3D::Move(const vec &Movement)
 // -----------------------------------------------------------------
 float* trCamera3D::GetViewMatrix()
 {
-	return ViewMatrix.ptr();
+	return &ViewMatrix;
 }
 
 // -----------------------------------------------------------------
 void trCamera3D::CalculateViewMatrix()
 {
-	ViewMatrix = float4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -X.Dot(Position), -Y.Dot(Position), -Z.Dot(Position), 1.0f);
-
-	float4x4 inverse = ViewMatrix;
-	inverse.Inverse();
-	ViewMatrixInverse = inverse;
+	ViewMatrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, Position), -dot(Y, Position), -dot(Z, Position), 1.0f);
+	ViewMatrixInverse = inverse(ViewMatrix);
 }

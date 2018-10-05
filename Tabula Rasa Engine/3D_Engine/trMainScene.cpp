@@ -43,8 +43,8 @@ bool trMainScene::Awake(pugi::xml_node& config)
 bool trMainScene::Start()
 {
 
-	App->camera->Move(float3(1.f, 1.f, 1.f));
-	App->camera->LookAt(float3(0.f, 0.f, 0.f));
+	App->camera->Move(vec3(1.f, 1.f, 1.f));
+	App->camera->LookAt(vec3(0.f, 0.f, 0.f));
 
 	//test
 	//cube_test = new PCube(math::vec(-3.f, 1.f, 0.f), math::vec(2.f, 1.f, 1.f));
