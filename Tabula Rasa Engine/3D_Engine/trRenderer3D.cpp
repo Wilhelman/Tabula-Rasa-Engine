@@ -179,16 +179,24 @@ bool trRenderer3D::PostUpdate(float dt)
 	{
 		this->Draw();
 
-		if (show_mesh_normals) {
-			for (int i = 0; i < normals_vec.size(); i++)
-			{
-				normals_vec[i].Render();
+		if (show_mesh_vertices)
+		{
+			for (int i = 0; i < vertex_vec.size(); i++)
 				vertex_vec[i].Render();
-			}
 		}
-			
+
+		if (show_mesh_vertices_normals)
+		{
+			for (int i = 0; i < vertex_normals_vec.size(); i++)
+				vertex_normals_vec[i].Render();
+		}
+
+		if (show_mesh_faces_normals)
+		{
+			for (int i = 0; i < face_normals_vec.size(); i++)
+				face_normals_vec[i].Render();
+		}
 	}
-		
 
 	//RENDER GUI
 	App->editor->Draw();
@@ -296,10 +304,11 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 
 	this->mesh = mesh;
 
-	normals_vec.reserve(mesh->num_vertex);
-	vertex_vec.reserve(mesh->num_vertex);
-
-	for (int i = 0; i < normals_vec.capacity(); i += 3)
+	vertex_normals_vec.reserve(mesh->num_vertex);
+	face_normals_vec.reserve(mesh->num_vertex);
+	
+	// Filling vectors with vertices and vertices' normals coordinates
+	for (int i = 0; i < vertex_normals_vec.capacity(); i += 3)
 	{
 		math::vec vertex_pos(mesh->vertex[i], mesh->vertex[i + 1], mesh->vertex[i + 2]);
 		math::vec normal_pos(mesh->normals[i], mesh->normals[i + 1], mesh->normals[i + 2]);
@@ -308,12 +317,36 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 		PArrow normal(vertex_pos, destination, math::float4(0.f, 1.f, 0.f, 1.f));
 		PPoint vertex(vertex_pos, math::float4(0.f, 0.f, 1.f, 1.f));
 
-		normals_vec.push_back(normal);
+		vertex_normals_vec.push_back(normal);
 		vertex_vec.push_back(vertex);
 	}
 
-	normals_vec.shrink_to_fit();
+	vertex_normals_vec.shrink_to_fit();
 	vertex_vec.shrink_to_fit();
+
+	vertex_vec.reserve(mesh->num_faces);
+
+	// Filling vector with faces' normals
+	for (uint i = 0; i < mesh->num_vertex; i += 9)
+	{
+		math::vec tri_a(mesh->vertex[i], mesh->vertex[i + 1], mesh->vertex[i + 2]);
+		math::vec tri_b(mesh->vertex[i + 3], mesh->vertex[i + 4], mesh->vertex[i + 5]);
+		math::vec tri_c(mesh->vertex[i + 6], mesh->vertex[i + 7], mesh->vertex[i + 8]);
+
+		math::vec tri_center((tri_a.x + tri_b.x + tri_c.x) / 3.0f, 
+							 (tri_a.y + tri_b.y + tri_c.y) / 3.0f,
+							 (tri_a.z + tri_b.z + tri_c.z) / 3.0f);
+
+		math::vec u(tri_b - tri_a);
+		math::vec v(tri_c - tri_a);
+		math::vec result_normal = math::Cross(u, v).Normalized();
+		math::vec destination = tri_center + result_normal;
+
+		PArrow normal(tri_center, destination, math::float4(0.f, 0.f, 1.f, 1.f));
+		face_normals_vec.push_back(normal);
+	}
+
+	face_normals_vec.shrink_to_fit();
 
 	mesh_buffer_vertex = 0;
 	glGenBuffers(1, (GLuint*) &(mesh_buffer_vertex));

@@ -63,17 +63,19 @@ bool trFileLoader::CleanUp()
 bool trFileLoader::Import3DFile(const char* file_path)
 {
 	App->editor->Log("trFileLoader: Start importing a file with path: %s", file_path);
-
-	const aiScene* scene = aiImportFile(file_path, aiProcessPreset_TargetRealtime_MaxQuality /*| aiProcess_GenNormals*/);
 	
+	const aiScene* scene = aiImportFile(file_path, aiProcessPreset_TargetRealtime_MaxQuality);
+
+
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		for (uint i = 0; i < scene->mNumMeshes; i++)
 		{
 			aiMesh* new_mesh = scene->mMeshes[i];
+			
 			aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
-
 			aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &mesh_data.mat_color);
+
 			// Vertex copy
 			mesh_data.num_vertex = new_mesh->mNumVertices;
 			mesh_data.vertex = new float[mesh_data.num_vertex * 3];
@@ -92,6 +94,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			// Index copy
 			if (new_mesh->HasFaces())
 			{
+				mesh_data.num_faces = new_mesh->mNumFaces;
 				mesh_data.num_index = new_mesh->mNumFaces * 3;
 				mesh_data.index = new uint[mesh_data.num_index]; // assume each face is a triangle
 				for (uint i = 0; i < new_mesh->mNumFaces; ++i)
@@ -110,12 +113,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 					if (mesh_colors != nullptr)
 						memcpy(mesh_data.colors, &mesh_colors[i], sizeof(float) * mesh_data.num_vertex * 3);
 				}
-
-				
-				
 			}
-
-
 
 			App->render->GenerateBufferForMesh(&mesh_data);
 		}

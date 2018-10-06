@@ -54,13 +54,16 @@ public:
 
 	bool			vsync_state = false;
 
-	bool show_mesh_normals = false;
+	bool show_mesh_vertices = false;
+	bool show_mesh_vertices_normals = false;
+	bool show_mesh_faces_normals = false;
 
 private:
 	uint mesh_buffer_vertex = 0u;
 	uint mesh_buffer_index = 0u;
 
-	std::vector<PArrow> normals_vec;
+	std::vector<PArrow> vertex_normals_vec;
+	std::vector<PArrow> face_normals_vec;
 	std::vector<PPoint> vertex_vec;
 
 	Mesh* mesh;

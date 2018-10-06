@@ -19,9 +19,10 @@ struct Mesh
 	float* vertex = nullptr;
 
 	float* normals = nullptr;
+	float* normal_faces = nullptr;
+	uint num_faces = 0;
 
 	float* colors = nullptr;
-
 	aiColor4D mat_color;
 };
 
