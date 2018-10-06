@@ -347,8 +347,8 @@ void trRenderer3D::GenerateMeshDebug(Mesh* mesh)
 		math::vec tri_c(mesh->vertex[i + 6], mesh->vertex[i + 7], mesh->vertex[i + 8]);
 
 		math::vec tri_center((tri_a.x + tri_b.x + tri_c.x) / 3.0f,
-			(tri_a.y + tri_b.y + tri_c.y) / 3.0f,
-			(tri_a.z + tri_b.z + tri_c.z) / 3.0f);
+					         (tri_a.y + tri_b.y + tri_c.y) / 3.0f,
+							 (tri_a.z + tri_b.z + tri_c.z) / 3.0f);
 
 		math::vec u(tri_b - tri_a);
 		math::vec v(tri_c - tri_a);
