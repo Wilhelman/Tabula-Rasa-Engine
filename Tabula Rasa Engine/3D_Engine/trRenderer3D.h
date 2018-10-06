@@ -41,6 +41,9 @@ public:
 
 	void GenerateBufferForMesh(Mesh* mesh);
 
+	// Generates primitives (points and lines) to draw vertices and normals when needed
+	void GenerateMeshDebug(Mesh* mesh);
+
 	void Draw();
 
 	math::float4x4 Perspective(float fovy, float aspect, float n, float f) const;
