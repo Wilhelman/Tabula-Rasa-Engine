@@ -67,6 +67,7 @@ private:
 
 	std::vector<PArrow> vertex_normals_vec;
 	std::vector<PArrow> face_normals_vec;
+	std::vector<PPoint> point_face_normals_vec;
 	std::vector<PPoint> vertex_vec;
 
 	Mesh* mesh;

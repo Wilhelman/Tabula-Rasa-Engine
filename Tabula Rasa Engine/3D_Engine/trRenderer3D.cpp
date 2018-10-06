@@ -194,7 +194,10 @@ bool trRenderer3D::PostUpdate(float dt)
 		if (show_mesh_faces_normals)
 		{
 			for (int i = 0; i < face_normals_vec.size(); i++)
+			{
+				point_face_normals_vec[i].Render();
 				face_normals_vec[i].Render();
+			}	
 		}
 	}
 
@@ -340,7 +343,7 @@ void trRenderer3D::GenerateMeshDebug(Mesh* mesh)
 	face_normals_vec.reserve(mesh->num_faces);
 
 	// Filling vector with faces' normals
-	for (uint i = 0; i < mesh->num_vertex; i += 9)
+	for (uint i = 0; i < mesh->num_vertex; i += 9) // todo: check i
 	{
 		math::vec tri_a(mesh->vertex[i], mesh->vertex[i + 1], mesh->vertex[i + 2]);
 		math::vec tri_b(mesh->vertex[i + 3], mesh->vertex[i + 4], mesh->vertex[i + 5]);
@@ -355,7 +358,9 @@ void trRenderer3D::GenerateMeshDebug(Mesh* mesh)
 		math::vec result_normal = math::Cross(u, v).Normalized();
 		math::vec destination = tri_center + result_normal;
 
+		PPoint normal_point(tri_center, math::float4(0.f, 0.5f, 0.5f, 1.f));
 		PArrow normal(tri_center, destination, math::float4(0.f, 0.f, 1.f, 1.f));
+		point_face_normals_vec.push_back(normal_point);
 		face_normals_vec.push_back(normal);
 	}
 }
