@@ -306,7 +306,7 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 	mesh_buffer_vertex = 0;
 	glGenBuffers(1, (GLuint*) &(mesh_buffer_vertex));
 	glBindBuffer(GL_ARRAY_BUFFER, mesh_buffer_vertex);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->num_vertex, mesh->vertex, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->num_vertex, mesh->vertex, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	mesh_buffer_index = 0;
