@@ -47,9 +47,9 @@ protected:
 	uint vertices_index = 0u;
 
 	// TODO implement this
-	std::vector<GLushort> indices;
-	std::vector<GLfloat> vertices;
-	std::vector<GLfloat> normals;
+	float* indices = nullptr;
+	float* vertices = nullptr;
+	float* normals = nullptr;
 	//std::vector<GLfloat> texcoords; not needed yet
 };
 

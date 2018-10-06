@@ -53,17 +53,17 @@ void trPrimitive::Render() const
 
 	glColor3f(color.r, color.g, color.b);
 
-	if (wire) {
+	/*if (wire) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glDisable(GL_CULL_FACE);
-	}
+	}*/
 
 	InnerRender(); // maybe this is not needed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-	if (wire) {
+	/*if (wire) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glEnable(GL_CULL_FACE);
-	}
+	}*/
 
 	//glPopMatrix();
 }

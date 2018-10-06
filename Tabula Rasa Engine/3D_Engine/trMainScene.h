@@ -5,6 +5,7 @@
 #include "trModule.h"
 
 class PPlane;
+class PCube;
 
 class trMainScene : public trModule
 {
@@ -37,6 +38,7 @@ public:
 
 private:
 	PPlane* plane_test = nullptr;
+	PCube* cube_test = nullptr;
 };
 
 #endif // __trRENDER_H__

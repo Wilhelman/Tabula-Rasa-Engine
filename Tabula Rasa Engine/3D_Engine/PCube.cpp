@@ -5,6 +5,7 @@
 
 PCube::PCube() : trPrimitive(), size(1.f,1.f,1.f)
 {
+	position = math::vec(0.f, 0.f, 0.f);
 	math::vec offset_size = size / 2.f;
 
 	type = PrimitiveTypes::Primitive_Cube;

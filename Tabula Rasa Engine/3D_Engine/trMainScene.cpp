@@ -48,8 +48,6 @@ bool trMainScene::Start()
 	App->camera->Move(vec3(1.f, 1.f, 1.f));
 	App->camera->LookAt(vec3(0.f, 0.f, 0.f));
 
-	//test
-	plane_test = new PPlane();
 
 	return true;
 }
@@ -82,11 +80,16 @@ bool trMainScene::CleanUp()
 
 void trMainScene::Draw()
 {
-	
-	/*cube_test->axis = true;
+	//todo check this
+	/*cube_test = new PCube();
+	cube_test->axis = true;
 	cube_test->color = Color(0.2f, 0.2f, 1.f, 1.f);
 	cube_test->Render();*/
-	
+
+	//todo check this
+	plane_test = new PPlane();
+	plane_test->Render();
+
 	//for some reason import only draws if we render with primitives too
 	/*plane_test->axis = true;
 	plane_test->Render();*/
