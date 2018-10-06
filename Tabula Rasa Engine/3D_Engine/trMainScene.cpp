@@ -7,6 +7,8 @@
 #include "trRenderer3D.h"
 #include "trInput.h"
 
+#include "trPrimitives.h"
+
 #include "PCube.h"
 #include "PPlane.h"
 #include "PArrow.h"
@@ -14,7 +16,7 @@
 #include "PCylinder.h"
 #include "PSphere.h"
 
-#include "trPrimitives.h"
+
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -47,7 +49,7 @@ bool trMainScene::Start()
 	App->camera->LookAt(vec3(0.f, 0.f, 0.f));
 
 	//test
-	//cube_test = new PCube(math::vec(-3.f, 1.f, 0.f), math::vec(2.f, 1.f, 1.f));
+	plane_test = new PPlane();
 
 	return true;
 }
@@ -85,9 +87,9 @@ void trMainScene::Draw()
 	cube_test->color = Color(0.2f, 0.2f, 1.f, 1.f);
 	cube_test->Render();*/
 	
-	PPlane plane_test; //for some reason import only draws if we render with primitives too
-	plane_test.axis = true;
-	plane_test.Render();
+	//for some reason import only draws if we render with primitives too
+	/*plane_test->axis = true;
+	plane_test->Render();*/
 
 	/*
 	PArrow p_arrow(math::vec(0.f, 2.5f, 0.f), math::float4(0.f, 1.0f, 0.f, 1.f));

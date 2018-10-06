@@ -15,8 +15,8 @@ PrimitiveTypes trPrimitive::GetType() const
 // ------------------------------------------------------------
 void trPrimitive::Render() const
 {
-	glPushMatrix();
-	glMultMatrixf((GLfloat*)transform.ptr());
+	//glPushMatrix();
+	//glMultMatrixf((GLfloat*)transform.ptr());
 
 
 	if (axis == true)
@@ -24,7 +24,6 @@ void trPrimitive::Render() const
 		// Draw Axis Grid
 		glLineWidth(2.0f);
 
-		//glDisable(GL_DEPTH_TEST);
 		glBegin(GL_LINES); // todo: this should be in a buffer!
 
 		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
@@ -48,7 +47,6 @@ void trPrimitive::Render() const
 		glVertex3f(-0.05f, -0.1f, 1.05f); glVertex3f(0.05f, -0.1f, 1.05f);
 
 		glEnd();
-		//glEnable(GL_DEPTH_TEST);
 
 		glLineWidth(1.0f);
 	}
@@ -67,7 +65,7 @@ void trPrimitive::Render() const
 		glEnable(GL_CULL_FACE);
 	}
 
-	glPopMatrix();
+	//glPopMatrix();
 }
 
 
