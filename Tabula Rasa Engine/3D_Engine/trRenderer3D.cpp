@@ -327,7 +327,7 @@ void trRenderer3D::GenerateMeshDebug(Mesh* mesh)
 	vertex_normals_vec.reserve(mesh->num_vertex);
 
 	// Filling vectors with vertices and vertices' normals coordinates
-	for (int i = 0; i < vertex_vec.capacity(); i += 3)
+	for (int i = 0; i < mesh->num_vertex * 3.f; i += 3)
 	{
 		math::vec vertex_pos(mesh->vertex[i], mesh->vertex[i + 1], mesh->vertex[i + 2]);
 		math::vec normal_pos(mesh->normals[i], mesh->normals[i + 1], mesh->normals[i + 2]);
@@ -343,7 +343,7 @@ void trRenderer3D::GenerateMeshDebug(Mesh* mesh)
 	face_normals_vec.reserve(mesh->num_faces);
 
 	// Filling vector with faces' normals
-	for (uint i = 0; i < mesh->num_vertex; i += 9) // todo: check i
+	for (uint i = 0; i < mesh->num_vertex * 3.f; i += 9) // todo: check i
 	{
 		math::vec tri_a(mesh->vertex[i], mesh->vertex[i + 1], mesh->vertex[i + 2]);
 		math::vec tri_b(mesh->vertex[i + 3], mesh->vertex[i + 4], mesh->vertex[i + 5]);
