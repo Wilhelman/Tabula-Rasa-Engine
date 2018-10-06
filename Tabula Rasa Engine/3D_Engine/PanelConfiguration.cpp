@@ -79,8 +79,7 @@ void PanelConfiguration::Draw()
 
 		ImGui::Text("Mesh normals and vertex");
 		ImGui::SameLine();
-		if (ImGui::Checkbox("##MESH_NORMALS_VERTEX", &App->render->show_mesh_normals))
-			TR_LOG("ep");
+		ImGui::Checkbox("##MESH_NORMALS_VERTEX", &App->render->show_mesh_normals);
 			
 		ImGui::EndMenu();
 	}
