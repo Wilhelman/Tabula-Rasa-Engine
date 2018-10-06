@@ -5,6 +5,7 @@
 #include "trHardware.h"
 #include "trEditor.h"
 #include "Glew\include\GL\glew.h"
+#include "Assimp\include\version.h"
 
 PanelAbout::PanelAbout() : Panel("About")
 {
@@ -60,6 +61,11 @@ void PanelAbout::Draw()
 	if (ImGui::Button("Github##Second"))
 		App->RequestBrowser("https://github.com/ocornut/imgui");
 
+	ImGui::Text("3D Model importer: Assimp v%i.%i.%i", aiGetVersionMinor(), aiGetVersionMajor(), aiGetVersionRevision());
+	ImGui::SameLine();
+	if (ImGui::Button("Web page##Sixth"))
+		App->RequestBrowser("http://www.assimp.org/");
+
 	ImGui::Text("JSON parser: Parson v%");
 	ImGui::SameLine();
 	if (ImGui::Button("Github##Third"))
@@ -67,7 +73,7 @@ void PanelAbout::Draw()
 
 	ImGui::Text("Profiler: Brofiler");
 	ImGui::SameLine();
-	if (ImGui::Button("Web page##Fifth"))
+	if (ImGui::Button("Web page##Seventh"))
 		App->RequestBrowser("http://www.brofiler.com/");
 
 	ImGui::Text("Memomory manager: mmgr");
