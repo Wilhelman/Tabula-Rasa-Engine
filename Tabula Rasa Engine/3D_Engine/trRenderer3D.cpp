@@ -179,10 +179,12 @@ bool trRenderer3D::PostUpdate(float dt)
 	{
 		this->Draw();
 
-		for (int i = 0; i < normals_vec.size(); i++)
-		{
-			normals_vec[i].Render();
-			vertex_vec[i].Render();
+		if (show_mesh_normals) {
+			for (int i = 0; i < normals_vec.size(); i++)
+			{
+				normals_vec[i].Render();
+				vertex_vec[i].Render();
+			}
 		}
 			
 	}

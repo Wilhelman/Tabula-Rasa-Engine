@@ -74,6 +74,13 @@ void PanelConfiguration::Draw()
 		ImGui::SameLine();
 		if (ImGui::Checkbox("##TEXTURE2D", &texture_2D))
 			App->render->SwitchTexture2D(texture_2D);
+
+		ImGui::Separator();
+
+		ImGui::Text("Mesh normals and vertex");
+		ImGui::SameLine();
+		if (ImGui::Checkbox("##MESH_NORMALS_VERTEX", &App->render->show_mesh_normals))
+			TR_LOG("ep");
 			
 		ImGui::EndMenu();
 	}

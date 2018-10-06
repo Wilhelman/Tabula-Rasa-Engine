@@ -54,6 +54,8 @@ public:
 
 	bool			vsync_state = false;
 
+	bool show_mesh_normals = false;
+
 private:
 	uint mesh_buffer_vertex = 0u;
 	uint mesh_buffer_index = 0u;
