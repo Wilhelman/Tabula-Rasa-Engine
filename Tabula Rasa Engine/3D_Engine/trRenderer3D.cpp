@@ -370,12 +370,6 @@ void trRenderer3D::Draw()
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
 
-	/*for (int i = 0; i < vertex_vec.size(); i += 3)
-	{
-		glColor4f(mesh->colors[i], mesh->colors[i + 1],
-			mesh->colors[i + 2], mesh->colors[i + 3]);
-	}*/
-
 	glColor4f(mesh->mat_color.r, mesh->mat_color.g, mesh->mat_color.b, mesh->mat_color.a);
 
 	glBindBuffer(GL_ARRAY_BUFFER, mesh_buffer_vertex);

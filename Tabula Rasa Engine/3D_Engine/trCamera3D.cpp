@@ -46,7 +46,7 @@ bool trCamera3D::Update(float dt)
 	// Now we can make this movememnt frame rate independant!
 	
 	vec3 newPos(0.0f, 0.0f, 0.0f);
-	float speed = 3.0f * dt;
+	float speed = 5.0f * dt;
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 		speed = 8.0f * dt;
 
@@ -60,6 +60,12 @@ bool trCamera3D::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
 
+	if (App->input->GetMouseZ() > 0)
+		newPos -= Z * speed * 2.f;
+
+	if (App->input->GetMouseZ() < 0)
+		newPos += Z * speed * 2.f;
+
 	Position += newPos;
 	Reference += newPos;
 
@@ -67,16 +73,16 @@ bool trCamera3D::Update(float dt)
 
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
+		float orbit_sensitivity = 0.25f;
+
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
-
-		float Sensitivity = 0.25f;
 
 		Position -= Reference;
 
 		if (dx != 0)
 		{
-			float DeltaX = (float)dx * Sensitivity;
+			float DeltaX = (float)dx * orbit_sensitivity;
 
 			X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 			Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
@@ -85,7 +91,7 @@ bool trCamera3D::Update(float dt)
 
 		if (dy != 0)
 		{
-			float DeltaY = (float)dy * Sensitivity;
+			float DeltaY = (float)dy * orbit_sensitivity;
 
 			Y = rotate(Y, DeltaY, X);
 			Z = rotate(Z, DeltaY, X);
@@ -99,6 +105,19 @@ bool trCamera3D::Update(float dt)
 		}
 
 		Position = Reference + Z * length(Position);
+	}
+	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
+	{
+		float pan_sensitivity = 0.01f;
+
+		int dx = -App->input->GetMouseXMotion();
+		int dy = App->input->GetMouseYMotion();
+
+		newPos += X * dx * pan_sensitivity;
+		newPos += Y * dy * pan_sensitivity;
+
+		Position += newPos;
+		Reference += newPos;
 	}
 	
 	
