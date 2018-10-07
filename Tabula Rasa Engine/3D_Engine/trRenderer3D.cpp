@@ -216,22 +216,20 @@ bool trRenderer3D::CleanUp()
 
 	SDL_GL_DeleteContext(context);
 
-	// TODO WHEN PRIMITIVES WORK NICER REDO THIS CLEAN
-	/*for (uint i = 0; i < normals_vec.size(); ++i)
-	{
-		if (normals_vec[i] != nullptr)
-		{
-			delete normals_vec[i];
-			normals_vec.erase(normals_vec.cbegin() + i);
-			normals_vec.shrink_to_fit();
-			delete vertex_vec[i];
-			vertex_vec.erase(vertex_vec.cbegin() + i);
-			vertex_vec.shrink_to_fit();
-		}
-	}
-	normals_vec.clear();
-	vertex_vec.clear();*/
+	vertex_normals_vec.clear();
+	face_normals_vec.clear();
+	point_face_normals_vec.clear();
+	vertex_vec.clear();
 
+	std::vector<Mesh*>::iterator it = meshes.begin();
+	while (it != meshes.end())
+	{
+		delete (*it);
+		it++;
+	}
+
+	meshes.clear();
+	
 	return true;
 }
 
@@ -364,6 +362,23 @@ void trRenderer3D::GenerateMeshDebug(Mesh* mesh)
 	}
 }
 
+
+void trRenderer3D::ClearScene()
+{
+	vertex_normals_vec.clear();
+	face_normals_vec.clear();
+	point_face_normals_vec.clear();
+	vertex_vec.clear();
+
+	std::vector<Mesh*>::iterator it = meshes.begin();
+	while (it != meshes.end())
+	{
+		delete (*it);
+		it++;
+	}
+
+	meshes.clear();
+}
 
 void trRenderer3D::Draw()
 {

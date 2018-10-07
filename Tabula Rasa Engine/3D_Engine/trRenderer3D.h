@@ -44,6 +44,9 @@ public:
 	// Generates primitives (points and lines) to draw vertices and normals when needed
 	void GenerateMeshDebug(Mesh* mesh);
 
+	// Cleans all the meshes in the scene (not the primitives);
+	void ClearScene();
+
 	void Draw();
 
 	math::float4x4 Perspective(float fovy, float aspect, float n, float f) const;

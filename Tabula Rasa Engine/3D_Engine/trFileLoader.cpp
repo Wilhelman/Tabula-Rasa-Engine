@@ -72,6 +72,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		App->render->ClearScene();
 		for (uint i = 0; i < scene->mNumMeshes; i++)
 		{
 			mesh_data = new Mesh(); // our mesh
