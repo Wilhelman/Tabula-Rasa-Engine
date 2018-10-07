@@ -12,10 +12,12 @@
 
 struct Mesh
 {
-	uint num_index = 0;
+	uint buffer_index = 0u;
+	uint num_index = 0u;
 	uint* index = nullptr;
 
-	uint num_vertex = 0;
+	uint buffer_vertex = 0u;
+	uint num_vertex = 0u;
 	float* vertex = nullptr;
 
 	float* normals = nullptr;

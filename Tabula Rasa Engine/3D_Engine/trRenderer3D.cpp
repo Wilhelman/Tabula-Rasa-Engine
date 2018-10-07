@@ -175,7 +175,7 @@ bool trRenderer3D::PostUpdate(float dt)
 	/// not yet
 
 	//RENDER IMPORTED MESH
-	if (mesh_buffer_index != 0)
+	if (!meshes.empty())
 	{
 		this->Draw();
 
@@ -303,20 +303,19 @@ void trRenderer3D::SwitchTexture2D(bool toggle)
 
 void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 {
-	this->mesh = mesh;
-	GenerateMeshDebug(this->mesh);
+	GenerateMeshDebug(mesh);
 
-	mesh_buffer_vertex = 0;
-	glGenBuffers(1, (GLuint*) &(mesh_buffer_vertex));
-	glBindBuffer(GL_ARRAY_BUFFER, mesh_buffer_vertex);
+	glGenBuffers(1, (GLuint*) &(mesh->buffer_vertex));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_vertex);
 	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->num_vertex, mesh->vertex, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	mesh_buffer_index = 0;
-	glGenBuffers(1, (GLuint*) &(mesh_buffer_index));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh_buffer_index);
+	glGenBuffers(1, (GLuint*) &(mesh->buffer_index));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->buffer_index);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->num_index, mesh->index, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	meshes.push_back(mesh);
 }
 
 void trRenderer3D::GenerateMeshDebug(Mesh* mesh)
@@ -370,17 +369,23 @@ void trRenderer3D::Draw()
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
 
-	glColor4f(mesh->mat_color.r, mesh->mat_color.g, mesh->mat_color.b, mesh->mat_color.a);
+	std::vector<Mesh*>::iterator it = meshes.begin();
+	while (it != meshes.end())
+	{
+		Mesh* mesh = (*it);
+		glColor4f(mesh->mat_color.r, mesh->mat_color.g, mesh->mat_color.b, mesh->mat_color.a);
 
-	glBindBuffer(GL_ARRAY_BUFFER, mesh_buffer_vertex);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_vertex);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh_buffer_index);
-	glDrawElements(GL_TRIANGLES, mesh_buffer_vertex, GL_UNSIGNED_INT, NULL);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->buffer_index);
+		glDrawElements(GL_TRIANGLES, mesh->buffer_vertex, GL_UNSIGNED_INT, NULL);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	glColor4f(1.f, 1.f, 1.f, 1.f);
+		glColor4f(1.f, 1.f, 1.f, 1.f);
+		it++;
+	}
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
