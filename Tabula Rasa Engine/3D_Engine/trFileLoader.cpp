@@ -47,19 +47,6 @@ bool trFileLoader::CleanUp()
 	// Clean all log streams
 	aiDetachAllLogStreams();
 
-	delete[] mesh_data->index;
-	delete[] mesh_data->vertex;
-	delete[] mesh_data->normals;
-	delete[] mesh_data->colors;
-	
-	mesh_data->index = nullptr;
-	mesh_data->vertex = nullptr;
-	mesh_data->normals = nullptr;
-	mesh_data->colors = nullptr;
-
-	delete mesh_data;
-	mesh_data = nullptr;
-
 	return true;
 }
 
@@ -68,7 +55,6 @@ bool trFileLoader::Import3DFile(const char* file_path)
 	App->editor->Log("trFileLoader: Start importing a file with path: %s", file_path);
 	
 	const aiScene* scene = aiImportFile(file_path, aiProcessPreset_TargetRealtime_MaxQuality);
-
 
 	if (scene != nullptr && scene->HasMeshes())
 	{

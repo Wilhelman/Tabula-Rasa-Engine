@@ -216,19 +216,7 @@ bool trRenderer3D::CleanUp()
 
 	SDL_GL_DeleteContext(context);
 
-	vertex_normals_vec.clear();
-	face_normals_vec.clear();
-	point_face_normals_vec.clear();
-	vertex_vec.clear();
-
-	std::vector<Mesh*>::iterator it = meshes.begin();
-	while (it != meshes.end())
-	{
-		delete (*it);
-		it++;
-	}
-
-	meshes.clear();
+	this->ClearScene();
 	
 	return true;
 }
