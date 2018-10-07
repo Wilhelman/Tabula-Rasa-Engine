@@ -8,8 +8,6 @@
 #include "Assimp/include/cimport.h"
 
 
-
-
 struct Mesh
 {
 	uint buffer_index = 0u;
@@ -46,7 +44,7 @@ public:
 
 private:
 
-	Mesh mesh_data;
+	Mesh* mesh_data = nullptr;
 
 };
 
