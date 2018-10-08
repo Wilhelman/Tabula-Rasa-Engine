@@ -18,6 +18,8 @@
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 #pragma comment (lib, "Glew/libx86/glew32.lib")
 
+//#pragma comment (lib, "DevIL/libx86/ILUT.lib")
+
 trRenderer3D::trRenderer3D() : trModule()
 {
 	name = "Renderer 3D";
@@ -389,7 +391,7 @@ void trRenderer3D::GenerateMeshDebug(Mesh* mesh)
 
 	vertex_vec.reserve(mesh->num_vertex);
 	vertex_normals_vec.reserve(mesh->num_vertex);
-	
+
 	// Filling vectors with vertices and vertices' normals coordinates
 	for (int i = 0; i < mesh->num_vertex * 3.f; i += 3)
 	{
