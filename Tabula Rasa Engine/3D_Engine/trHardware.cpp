@@ -1,5 +1,4 @@
 #include "trHardware.h"
-#include "trEditor.h"
 #include "trApp.h"
 #include "SDL/include/SDL.h"
 
@@ -37,7 +36,7 @@ bool trHardware::Start()
 	hw_info.has_sse41 = SDL_HasSSE41();
 	hw_info.has_sse42 = SDL_HasSSE42();
 
-	App->editor->Log("trHardware: Obtained hardware info");
+	TR_LOG("trHardware: Obtained hardware info");
 	return true;
 }
 

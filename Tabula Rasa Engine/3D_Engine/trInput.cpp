@@ -2,7 +2,6 @@
 #include "trApp.h"
 #include "trInput.h"
 #include "trRenderer3D.h"
-#include "trEditor.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -31,13 +30,13 @@ trInput::~trInput()
 // Called before render is available
 bool trInput::Init()
 {
-	App->editor->Log("trInput: Init SDL input event system");
+	TR_LOG("trInput: Init SDL input event system");
 	bool ret = true;
 	SDL_Init(0);
 
 	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
-		App->editor->Log("trInput: SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
+		TR_LOG("trInput: SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 
@@ -131,11 +130,11 @@ bool trInput::PreUpdate(float dt)
 				dropped_filedir = e.drop.file;
 
 				if (dropped_filedir != nullptr) {
-					App->editor->Log("File path dropped on window: ", dropped_filedir);
+					TR_LOG("File path dropped on window: ", dropped_filedir);
 					App->file_loader->Import3DFile(dropped_filedir);
 				}
 				else
-					App->editor->Log("Cannot get file dropped path");
+					TR_LOG("Cannot get file dropped path");
 
 				SDL_free(dropped_filedir);
 				break;
@@ -152,7 +151,7 @@ bool trInput::PreUpdate(float dt)
 // Called before quitting
 bool trInput::CleanUp()
 {
-	App->editor->Log("Quitting SDL input event subsystem");
+	TR_LOG("Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
 }

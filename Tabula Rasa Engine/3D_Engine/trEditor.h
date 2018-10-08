@@ -31,7 +31,7 @@ public:
 
 	void InfoFPSMS(float current_fps, float current_ms);
 
-	void Log(const char* new_log, const char* format = "", ...);
+	void Log(const char* new_log);
 
 public:
 

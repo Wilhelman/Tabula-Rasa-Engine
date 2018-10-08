@@ -3,7 +3,6 @@
 
 #include "trDefs.h"
 #include "trApp.h"
-#include "trEditor.h"
 #include "trRenderer3D.h"
 
 #include "Assimp/include/cimport.h"
@@ -22,7 +21,7 @@ trFileLoader::~trFileLoader()
 
 bool trFileLoader::Awake(pugi::xml_node &)
 {
-	App->editor->Log("Loading File Loader");
+	TR_LOG("Loading File Loader");
 	bool ret = true;
 
 	// Stream log messages to Debug window
@@ -42,7 +41,7 @@ bool trFileLoader::Start()
 // Called before quitting or switching levels
 bool trFileLoader::CleanUp()
 {
-	App->editor->Log("Cleaning File Loader");
+	TR_LOG("Cleaning File Loader");
 
 	// Clean all log streams
 	aiDetachAllLogStreams();
@@ -52,7 +51,7 @@ bool trFileLoader::CleanUp()
 
 bool trFileLoader::Import3DFile(const char* file_path)
 {
-	App->editor->Log("trFileLoader: Start importing a file with path: %s", file_path);
+	TR_LOG("trFileLoader: Start importing a file with path: %s", file_path);
 	
 	const aiScene* scene = aiImportFile(file_path, aiProcessPreset_TargetRealtime_MaxQuality);
 
@@ -86,7 +85,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			aiColor4D* mesh_colors = *new_mesh->mColors;
 			mesh_data->colors = new float[mesh_data->num_vertex * 3];
 
-			//App->editor->Log("New mesh with %d vertices", mesh_data.num_vertex); ep
+			TR_LOG("trFileLoader: Importing new mesh with %d vertices", mesh_data->num_vertex);
 
 			// Index copy
 			if (new_mesh->HasFaces())
@@ -97,7 +96,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 				for (uint i = 0; i < new_mesh->mNumFaces; ++i)
 				{
 					if (new_mesh->mFaces[i].mNumIndices != 3)
-						App->editor->Log("WARNING, geometry face with != 3 indices!");
+						TR_LOG("WARNING, geometry face with != 3 indices!");
 					else
 						memcpy(&mesh_data->index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 				}
@@ -119,7 +118,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		return true;
 	}
 	
-	App->editor->Log("trFileLoader: Error importing a file: %s", file_path);
+	TR_LOG("trFileLoader: Error importing a file: %s", file_path);
 
 	aiReleaseImport(scene);
 

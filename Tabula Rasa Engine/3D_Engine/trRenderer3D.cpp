@@ -3,10 +3,10 @@
 #include "trApp.h"
 #include "trRenderer3D.h"
 #include "trCamera3D.h"
-#include "trEditor.h"
 #include "trMainScene.h"
 #include "PArrow.h"
 #include "PPoint.h"
+#include "trEditor.h"
 
 #include "MathGeoLib\MathGeoLib.h"
 #include "Glew\include\GL\glew.h"
@@ -30,7 +30,7 @@ trRenderer3D::~trRenderer3D()
 // Called before render is available
 bool trRenderer3D::Awake(pugi::xml_node& config)
 {
-	App->editor->Log("Renderer3D: Creating 3D Renderer context");
+	TR_LOG("Renderer3D: Creating 3D Renderer context");
 
 	bool ret = true;
 
@@ -42,28 +42,28 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
 		vsync_state = true;
-		App->editor->Log("Renderer3D: Using vsync");
+		TR_LOG("Renderer3D: Using vsync");
 	}
 
 	//Create context
 	context = SDL_GL_CreateContext(App->win->window);
 	if (context == NULL)
 	{
-		App->editor->Log("Renderer3D: OpenGL context could not be created!SDL_Error: %s\n", SDL_GetError());
+		TR_LOG("Renderer3D: OpenGL context could not be created!SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 
 	GLenum err = glewInit();
 
-	App->editor->Log("---------- Version info ----------");
+	TR_LOG("---------- Version info ----------");
 
 	if (err != GLEW_OK)
 	{
-		App->editor->Log("Glew library could not init", (char*)glewGetErrorString(err));
+		TR_LOG("Glew library could not init", (char*)glewGetErrorString(err));
 		ret = false;
 	}
 	else {
-		App->editor->Log("Using Glew ", (char*)glewGetString(GLEW_VERSION));
+		TR_LOG("Using Glew ", (char*)glewGetString(GLEW_VERSION));
 	}
 
 
@@ -72,22 +72,22 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 
 		// get version info
 
-		App->editor->Log("Vendor: ", (char*)glGetString(GL_VENDOR));
-		App->editor->Log("Renderer: ", (char*)glGetString(GL_RENDERER));
-		App->editor->Log("OpenGL version supported ", (char*)glGetString(GL_VERSION));
-		App->editor->Log("GLSL: ", (char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
-		App->editor->Log("---------- End info ----------");
+		TR_LOG("Vendor: ", (char*)glGetString(GL_VENDOR));
+		TR_LOG("Renderer: ", (char*)glGetString(GL_RENDERER));
+		TR_LOG("OpenGL version supported ", (char*)glGetString(GL_VERSION));
+		TR_LOG("GLSL: ", (char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
+		TR_LOG("---------- End info ----------");
 
 		//Use Vsync
 		if (VSYNC && SDL_GL_SetSwapInterval(1) < 0)
-			App->editor->Log("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
+			TR_LOG("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
 
 		//Check for error
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
 			//TR_LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
-			App->editor->Log("Renderer3D: Error initializing OpenGL!");
+			TR_LOG("Renderer3D: Error initializing OpenGL!");
 			ret = false;
 		}
 
@@ -100,7 +100,7 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		if (error != GL_NO_ERROR)
 		{
 			//TR_LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
-			App->editor->Log("Renderer3D: Error initializing OpenGL!");
+			TR_LOG("Renderer3D: Error initializing OpenGL!");
 			ret = false;
 		}
 
@@ -115,7 +115,7 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		if (error != GL_NO_ERROR)
 		{
 			//TR_LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
-			App->editor->Log("Renderer3D: Error initializing OpenGL!");
+			TR_LOG("Renderer3D: Error initializing OpenGL!");
 			ret = false;
 		}
 
@@ -212,7 +212,7 @@ bool trRenderer3D::PostUpdate(float dt)
 // Called before quitting
 bool trRenderer3D::CleanUp()
 {
-	App->editor->Log("Renderer3D: CleanUp");
+	TR_LOG("Renderer3D: CleanUp");
 
 	SDL_GL_DeleteContext(context);
 

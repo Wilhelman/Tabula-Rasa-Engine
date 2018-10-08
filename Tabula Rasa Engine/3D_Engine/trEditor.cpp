@@ -31,7 +31,7 @@ trEditor::~trEditor()
 bool trEditor::Start()
 {
 	// Setup Dear ImGui binding
-	App->editor->Log("Init editor gui with imgui lib version %s", ImGui::GetVersion());
+	TR_LOG("Init editor gui with imgui lib version %s", ImGui::GetVersion());
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -177,18 +177,11 @@ void trEditor::InfoFPSMS(float current_fps, float current_ms)
 	(config != nullptr) ? config->FillChartFpsInfo(current_fps, current_ms) : Log("trEditor error: configuration == nullptr");
 }
 
-void trEditor::Log(const char * new_log, const char* format, ...)
+void trEditor::Log(const char * new_log)
 {
-	char log[200];
-	sprintf_s(log, 200, "%s %s", new_log, format);
-
 	if (console != nullptr)
-		console->AddLogToConsole(log);
+		console->AddLogToConsole(new_log);
 	else {
-		init_logs.push_back(log);
+		init_logs.push_back(new_log);
 	}
-
-	/*const char* tmp_log = log;
-
-	TR_LOG("asd %c",);*/
 }

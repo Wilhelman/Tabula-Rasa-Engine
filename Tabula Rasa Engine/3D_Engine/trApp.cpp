@@ -367,7 +367,7 @@ void trApp::Load()
 
 bool trApp::LoadNow()
 {
-	App->editor->Log("Loading ...");
+	TR_LOG("Loading ...");
 
 	/*
 
@@ -407,7 +407,7 @@ bool trApp::LoadNow()
 bool trApp::SaveNow()
 {
 
-	App->editor->Log("Saving ...");
+	TR_LOG("Saving ...");
 
 	bool ret = true;
 
