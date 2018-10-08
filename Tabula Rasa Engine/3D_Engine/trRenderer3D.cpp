@@ -59,11 +59,11 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 
 	if (err != GLEW_OK)
 	{
-		TR_LOG("Glew library could not init", (char*)glewGetErrorString(err));
+		TR_LOG("Glew library could not init %s", glewGetErrorString(err));
 		ret = false;
 	}
 	else {
-		TR_LOG("Using Glew ", (char*)glewGetString(GLEW_VERSION));
+		TR_LOG("Using Glew %s", glewGetString(GLEW_VERSION));
 	}
 
 
@@ -72,10 +72,10 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 
 		// get version info
 
-		TR_LOG("Vendor: ", (char*)glGetString(GL_VENDOR));
-		TR_LOG("Renderer: ", (char*)glGetString(GL_RENDERER));
-		TR_LOG("OpenGL version supported ", (char*)glGetString(GL_VERSION));
-		TR_LOG("GLSL: ", (char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
+		TR_LOG("Vendor: %s", (char*)glGetString(GL_VENDOR));
+		TR_LOG("Renderer: %s", (char*)glGetString(GL_RENDERER));
+		TR_LOG("OpenGL version supported %s", (char*)glGetString(GL_VERSION));
+		TR_LOG("GLSL: %s", (char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
 		TR_LOG("---------- End info ----------");
 
 		//Use Vsync
