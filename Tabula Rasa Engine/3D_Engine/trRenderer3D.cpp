@@ -389,7 +389,7 @@ void trRenderer3D::GenerateMeshDebug(Mesh* mesh)
 
 	vertex_vec.reserve(mesh->num_vertex);
 	vertex_normals_vec.reserve(mesh->num_vertex);
-
+	
 	// Filling vectors with vertices and vertices' normals coordinates
 	for (int i = 0; i < mesh->num_vertex * 3.f; i += 3)
 	{

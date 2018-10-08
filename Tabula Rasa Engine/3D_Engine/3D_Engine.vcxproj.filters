@@ -58,6 +58,9 @@
     <Filter Include="Utilities\3rd Party\TO_DELETE_GLMATH">
       <UniqueIdentifier>{9fdf4ef1-a7c5-409f-a785-5ee67e0a0d53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities\3rd Party\DevIL">
+      <UniqueIdentifier>{5a4e4e97-8a43-4d33-b72b-598f9f3f00c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pugixml.cpp">
@@ -749,6 +752,30 @@
     <ClInclude Include="PPoint.h">
       <Filter>Utilities\Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="DevIL\include\il_wrap.h">
+      <Filter>Utilities\3rd Party\DevIL</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\ilu.h">
+      <Filter>Utilities\3rd Party\DevIL</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\ilu_region.h">
+      <Filter>Utilities\3rd Party\DevIL</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\ilut.h">
+      <Filter>Utilities\3rd Party\DevIL</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\ilut_config.h">
+      <Filter>Utilities\3rd Party\DevIL</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\devil_cpp_wrapper.hpp">
+      <Filter>Utilities\3rd Party\DevIL</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\devil_internal_exports.h">
+      <Filter>Utilities\3rd Party\DevIL</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\il.h">
+      <Filter>Utilities\3rd Party\DevIL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Math\float2.inl">
@@ -792,6 +819,12 @@
     </None>
     <None Include="Assimp\include\vector3.inl">
       <Filter>Utilities\3rd Party\Assimp</Filter>
+    </None>
+    <None Include="DevIL\include\stamp-h.in">
+      <Filter>Utilities\3rd Party\DevIL</Filter>
+    </None>
+    <None Include="DevIL\include\DevIL.i">
+      <Filter>Utilities\3rd Party\DevIL</Filter>
     </None>
   </ItemGroup>
 </Project>

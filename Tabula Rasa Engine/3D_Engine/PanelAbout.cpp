@@ -6,6 +6,7 @@
 #include "trEditor.h"
 #include "Glew\include\GL\glew.h"
 #include "Assimp\include\version.h"
+#include "DevIL\include\il.h"
 
 PanelAbout::PanelAbout() : Panel("About")
 {
@@ -66,6 +67,11 @@ void PanelAbout::Draw()
 	if (ImGui::Button("Web page##Sixth"))
 		App->RequestBrowser("http://www.assimp.org/");
 
+	ImGui::Text("Image loader: Developer's Image Library (DevIL) v%i.%i.%i", 1, 8, 0);
+	ImGui::SameLine();
+	if (ImGui::Button("Web page##Seventh"))
+		App->RequestBrowser("http://openil.sourceforge.net/");
+
 	ImGui::Text("JSON parser: Parson v%");
 	ImGui::SameLine();
 	if (ImGui::Button("Github##Third"))
@@ -73,7 +79,7 @@ void PanelAbout::Draw()
 
 	ImGui::Text("Profiler: Brofiler");
 	ImGui::SameLine();
-	if (ImGui::Button("Web page##Seventh"))
+	if (ImGui::Button("Web page##Eigth"))
 		App->RequestBrowser("http://www.brofiler.com/");
 
 	ImGui::Text("Memomory manager: mmgr");

@@ -124,6 +124,14 @@
     <ClInclude Include="Assimp\include\vector3.h" />
     <ClInclude Include="Assimp\include\version.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="DevIL\include\devil_cpp_wrapper.hpp" />
+    <ClInclude Include="DevIL\include\devil_internal_exports.h" />
+    <ClInclude Include="DevIL\include\il.h" />
+    <ClInclude Include="DevIL\include\ilu.h" />
+    <ClInclude Include="DevIL\include\ilut.h" />
+    <ClInclude Include="DevIL\include\ilut_config.h" />
+    <ClInclude Include="DevIL\include\ilu_region.h" />
+    <ClInclude Include="DevIL\include\il_wrap.h" />
     <ClInclude Include="glew-2.1.0\include\GL\eglew.h" />
     <ClInclude Include="glew-2.1.0\include\GL\glew.h" />
     <ClInclude Include="glew-2.1.0\include\GL\glxew.h" />
@@ -251,6 +259,8 @@
     <None Include="Assimp\include\quaternion.inl" />
     <None Include="Assimp\include\vector2.inl" />
     <None Include="Assimp\include\vector3.inl" />
+    <None Include="DevIL\include\DevIL.i" />
+    <None Include="DevIL\include\stamp-h.in" />
     <None Include="MathGeoLib\Geometry\KDTree.inl" />
     <None Include="MathGeoLib\Geometry\QuadTree.inl" />
     <None Include="MathGeoLib\Geometry\TriangleMesh_IntersectRay_AVX.inl" />
