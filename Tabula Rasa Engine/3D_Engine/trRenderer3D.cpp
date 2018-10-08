@@ -383,7 +383,7 @@ void trRenderer3D::Draw()
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->buffer_index);
-		glDrawElements(GL_TRIANGLES, mesh->buffer_vertex, GL_UNSIGNED_INT, NULL);
+		glDrawElements(GL_TRIANGLES, mesh->num_index, GL_UNSIGNED_INT, NULL);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 		glColor4f(1.f, 1.f, 1.f, 1.f);

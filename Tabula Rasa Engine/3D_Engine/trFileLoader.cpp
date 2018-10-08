@@ -67,10 +67,6 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
 			aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &mesh_data->mat_color);
 
-			
-			// Reset the buffers index!!!
-			mesh_data->buffer_index = 0u;
-			mesh_data->buffer_vertex = 0u;
 
 			// Vertex copy
 			mesh_data->num_vertex = new_mesh->mNumVertices;
