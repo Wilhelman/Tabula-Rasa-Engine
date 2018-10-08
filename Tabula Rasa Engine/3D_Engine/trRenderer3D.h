@@ -74,5 +74,7 @@ private:
 	std::vector<Mesh*> meshes;
 	//Mesh* mesh;
 
+	uint texture_index = 0u;
+
 };
 #endif

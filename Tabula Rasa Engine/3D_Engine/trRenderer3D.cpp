@@ -142,6 +142,32 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		glEnable(GL_TEXTURE_2D);
 	}
 
+	// Loading texture
+	const int checker_height = 120;
+	const int checker_width = 120;
+	GLubyte checkImage[checker_height][checker_width][4];
+	for (int i = 0; i < checker_height; i++) {
+		for (int j = 0; j < checker_width; j++) {
+			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
+			checkImage[i][j][0] = (GLubyte)c;
+			checkImage[i][j][1] = (GLubyte)c;
+			checkImage[i][j][2] = (GLubyte)c;
+			checkImage[i][j][3] = (GLubyte)255;
+		}
+	}
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &texture_index);
+	glBindTexture(GL_TEXTURE_2D, texture_index);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, checker_width, checker_height,
+		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+
+
+
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -175,7 +201,7 @@ bool trRenderer3D::PostUpdate(float dt)
 	/// not yet
 
 	//RENDER IMPORTED MESH
-	if (!meshes.empty())
+	/*if (!meshes.empty())
 	{
 		this->Draw();
 
@@ -199,7 +225,60 @@ bool trRenderer3D::PostUpdate(float dt)
 				face_normals_vec[i].Render();
 			}	
 		}
-	}
+	}*/
+
+	glBindTexture(GL_TEXTURE_2D, texture_index);
+
+	glLineWidth(2.0f);
+	glBegin(GL_TRIANGLES);
+
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.f, 0.f, 1.f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(1.f, 0.f, 1.f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(1.f, 1.f, 1.f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.f, 0.f, 1.f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(1.f, 1.f, 1.f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(0.f, 1.f, 1.f);
+
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(1.f, 0.f, 1.f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(1.f, 0.f, 0.f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(1.f, 1.f, 0.f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(1.f, 1.f, 1.f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(1.f, 0.f, 1.f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(1.f, 1.f, 0.f);
+
+	glVertex3f(0.f, 1.f, 0.f);
+	glVertex3f(0.f, 1.f, 1.f);
+	glVertex3f(1.f, 1.f, 1.f);
+	glVertex3f(0.f, 1.f, 0.f);
+	glVertex3f(1.f, 1.f, 1.f);
+	glVertex3f(1.f, 1.f, 0.f);
+
+	glVertex3f(1.f, 1.f, 0.f);
+	glVertex3f(1.f, 0.f, 0.f);
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(1.f, 1.f, 0.f);
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(0.f, 1.f, 0.f);
+
+	glVertex3f(0.f, 1.f, 0.f);
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(0.f, 0.f, 1.f);
+	glVertex3f(0.f, 0.f, 1.f);
+	glVertex3f(0.f, 1.f, 1.f);
+	glVertex3f(0.f, 1.f, 0.f);
+
+	glVertex3f(0.f, 0.f, 1.f);
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(1.f, 0.f, 1.f);
+	glVertex3f(1.f, 0.f, 1.f);
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(1.f, 0.f, 0.f);
+	
+
+	glEnd();
+	glLineWidth(1.0f);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
 
 	//RENDER GUI
 	App->editor->Draw();
