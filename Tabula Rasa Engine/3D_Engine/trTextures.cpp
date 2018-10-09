@@ -1,11 +1,11 @@
 #include "trTextures.h"
 #include "trApp.h"
 #include "trEditor.h"
+#include "trRenderer3D.h"
+
 #include "DevIL\include\ilut.h"
 #include "DevIL\include\il.h"
 #include "DevIL\include\ilu.h"
-
-
 
 #pragma comment (lib, "DevIL/libx86/DevIL.lib")
 #pragma comment (lib, "DevIL/libx86/ILU.lib")
@@ -69,11 +69,8 @@ void trTextures::LoadImageFromPath(const char * path)
 
 	App->editor->Log("Freeing image...");
 	ilDeleteImages(1, &image);
-}
 
-ImageTexture trTextures::GetLoadedTexture() const
-{
-	return loaded_texture;
+	App->render->SetTexture(&loaded_texture);
 }
 
 

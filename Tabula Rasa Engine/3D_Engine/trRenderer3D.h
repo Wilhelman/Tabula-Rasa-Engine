@@ -17,6 +17,7 @@
 
 class PArrow;
 class PPoint;
+class ImageTexture;
 
 class trRenderer3D : public trModule
 {
@@ -43,6 +44,8 @@ public:
 
 	// Generates primitives (points and lines) to draw vertices and normals when needed
 	void GenerateMeshDebug(Mesh* mesh);
+
+	void SetTexture(ImageTexture* texture);
 
 	// Cleans all the meshes in the scene (not the primitives);
 	void ClearScene();
@@ -72,7 +75,7 @@ private:
 	std::vector<PPoint> vertex_vec;
 
 	std::vector<Mesh*> meshes;
-	//Mesh* mesh;
+	ImageTexture* last_texture;
 
 	uint texture_index = 0u;
 

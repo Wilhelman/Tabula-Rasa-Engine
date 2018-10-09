@@ -28,7 +28,6 @@ public:
 	bool CleanUp();
 
 	void LoadImageFromPath(const char* path);
-	ImageTexture GetLoadedTexture() const;
 
 private:
 	ImageTexture loaded_texture;

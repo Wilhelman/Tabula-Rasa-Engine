@@ -83,11 +83,11 @@ bool trFileLoader::Import3DFile(const char* file_path)
 
 			// Textures copy
 			if (new_mesh->HasTextureCoords(0)) {//i?
-				mesh_data->num_uv_texture = new_mesh->mNumVertices;
-				mesh_data->uv_texture = new float[mesh_data->num_uv_texture * 2];
-				for (int i = 0; i < mesh_data->num_uv_texture; i++) {
-					mesh_data->uv_texture[i * 2] = new_mesh->mTextureCoords[0][i].x;
-					mesh_data->uv_texture[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
+				mesh_data->num_uv = new_mesh->mNumVertices;
+				mesh_data->uv = new float[mesh_data->num_uv * 2];
+				for (int i = 0; i < mesh_data->num_uv; i++) {
+					mesh_data->uv[i * 2] = new_mesh->mTextureCoords[0][i].x;
+					mesh_data->uv[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
 				}
 			}
 

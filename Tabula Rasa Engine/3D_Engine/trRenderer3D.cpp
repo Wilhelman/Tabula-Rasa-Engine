@@ -161,15 +161,7 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		}
 	}*/
 
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, (GLuint*)App->tex->GetLoadedTexture().index);
-	glBindTexture(GL_TEXTURE_2D, App->tex->GetLoadedTexture().index);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, App->tex->GetLoadedTexture().width, App->tex->GetLoadedTexture().height,
-		0, GL_RGBA, GL_UNSIGNED_BYTE, (GLubyte*)App->tex->GetLoadedTexture().image);
+	
 
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -325,9 +317,9 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->num_vertex, mesh->vertex, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glGenBuffers(1, (GLuint*) &(mesh->buffer_uv_texture));
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_uv_texture);
-	glBufferData(GL_ARRAY_BUFFER, 2 * mesh->num_uv_texture * sizeof(GLfloat), mesh->uv_texture, GL_STATIC_DRAW);
+	glGenBuffers(1, (GLuint*) &(mesh->buffer_uv));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_uv);
+	glBufferData(GL_ARRAY_BUFFER, 2 * mesh->num_uv * sizeof(GLfloat), mesh->uv, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glGenBuffers(1, (GLuint*) &(mesh->buffer_index));
@@ -382,6 +374,22 @@ void trRenderer3D::GenerateMeshDebug(Mesh* mesh)
 		point_face_normals_vec.push_back(normal_point);
 		face_normals_vec.push_back(normal);
 	}
+}
+
+void trRenderer3D::SetTexture(ImageTexture * texture)
+{
+	this->last_texture = texture;
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	//glGenTextures(1, (GLuint*)last_texture->index);
+	glBindTexture(GL_TEXTURE_2D, last_texture->index);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, last_texture->width, last_texture->height, 
+		0, GL_RGBA, GL_UNSIGNED_BYTE, (GLubyte*)last_texture->image);
+
 }
 
 
