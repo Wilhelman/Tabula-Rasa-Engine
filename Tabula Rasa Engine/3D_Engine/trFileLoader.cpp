@@ -12,6 +12,14 @@
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
+void StreamCallback(const char* msg, char* user_msg) {
+	std::string tmp = msg;
+	// For some reason ~ and % make assertion in s_printf! weird
+	tmp.erase(std::remove(tmp.begin(), tmp.end(), '~'), tmp.end());
+	tmp.erase(std::remove(tmp.begin(), tmp.end(), '%'), tmp.end());
+	TR_LOG(tmp.c_str());
+}
+
 trFileLoader::trFileLoader()
 {
 }
@@ -26,8 +34,9 @@ bool trFileLoader::Awake(pugi::xml_node &)
 
 	// Stream log messages to Debug window
 	struct aiLogStream stream;
-	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
+	stream.callback = StreamCallback;
 	aiAttachLogStream(&stream);
+	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
 	
 	return ret;
 }
