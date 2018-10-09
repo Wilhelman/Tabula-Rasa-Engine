@@ -85,6 +85,7 @@
     <ClCompile Include="trPerfTimer.cpp" />
     <ClCompile Include="trPrimitives.cpp" />
     <ClCompile Include="trRenderer3D.cpp" />
+    <ClCompile Include="trTextures.cpp" />
     <ClCompile Include="trTimer.cpp" />
     <ClCompile Include="trWindow.cpp" />
     <ClCompile Include="pugixml.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="trPoint.h" />
     <ClInclude Include="trPrimitives.h" />
     <ClInclude Include="trRenderer3D.h" />
+    <ClInclude Include="trTextures.h" />
     <ClInclude Include="trTimer.h" />
     <ClInclude Include="trWindow.h" />
     <ClInclude Include="MemLeaks.h" />

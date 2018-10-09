@@ -15,6 +15,7 @@
 // Modules
 class trWindow;
 class trInput;
+class trTextures;
 class trRenderer3D;
 class trAudio;
 class trCamera3D;
@@ -95,6 +96,7 @@ public:
 	// Modules
 	trWindow*			win = nullptr;
 	trInput*			input = nullptr;
+	trTextures*			tex = nullptr;
 	trRenderer3D*		render = nullptr;
 	trAudio*			audio = nullptr;
 	trCamera3D*			camera = nullptr;

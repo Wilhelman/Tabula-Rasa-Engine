@@ -5,6 +5,7 @@
 #include "trLog.h"
 #include "trWindow.h"
 #include "trInput.h"
+#include "trTextures.h"
 #include "trRenderer3D.h"
 #include "trAudio.h"
 #include "trCamera3D.h"
@@ -26,6 +27,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 
 	input = new trInput();
 	win = new trWindow();
+	tex = new trTextures();
 	render = new trRenderer3D();
 	audio = new trAudio();
 	camera = new trCamera3D();
@@ -46,6 +48,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(editor);
 	AddModule(hardware);
 	AddModule(file_loader);
+	AddModule(tex);
 
 	// render last to swap buffer
 	AddModule(render);
