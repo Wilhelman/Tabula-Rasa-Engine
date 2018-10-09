@@ -147,8 +147,8 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 
 	ilutRenderer(ILUT_OPENGL);
 
-	// Loading texture
-	const int checker_height = 120;
+	// Loading FAKE texture
+	/*const int checker_height = 120;
 	const int checker_width = 120;
 	GLubyte checkImage[checker_height][checker_width][4];
 	for (int i = 0; i < checker_height; i++) {
@@ -159,7 +159,7 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 			checkImage[i][j][2] = (GLubyte)c;
 			checkImage[i][j][3] = (GLubyte)255;
 		}
-	}
+	}*/
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glGenTextures(1, (GLuint*)App->tex->GetLoadedTexture().index);
@@ -229,59 +229,6 @@ bool trRenderer3D::PostUpdate(float dt)
 			}	
 		}
 	}
-
-	glBindTexture(GL_TEXTURE_2D, App->tex->GetLoadedTexture().index);
-
-	glLineWidth(2.0f);
-	glBegin(GL_TRIANGLES);
-
-	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.f, 0.f, 1.f);
-	glTexCoord2f(1.0f, 0.0f); glVertex3f(1.f, 0.f, 1.f);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(1.f, 1.f, 1.f);
-	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.f, 0.f, 1.f);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(1.f, 1.f, 1.f);
-	glTexCoord2f(1.0f, 0.0f); glVertex3f(0.f, 1.f, 1.f);
-
-	glTexCoord2f(0.0f, 0.0f); glVertex3f(1.f, 0.f, 1.f);
-	glTexCoord2f(1.0f, 0.0f); glVertex3f(1.f, 0.f, 0.f);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(1.f, 1.f, 0.f);
-	glTexCoord2f(0.0f, 1.0f); glVertex3f(1.f, 1.f, 1.f);
-	glTexCoord2f(0.0f, 0.0f); glVertex3f(1.f, 0.f, 1.f);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(1.f, 1.f, 0.f);
-
-	glVertex3f(0.f, 1.f, 0.f);
-	glVertex3f(0.f, 1.f, 1.f);
-	glVertex3f(1.f, 1.f, 1.f);
-	glVertex3f(0.f, 1.f, 0.f);
-	glVertex3f(1.f, 1.f, 1.f);
-	glVertex3f(1.f, 1.f, 0.f);
-
-	glVertex3f(1.f, 1.f, 0.f);
-	glVertex3f(1.f, 0.f, 0.f);
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(1.f, 1.f, 0.f);
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(0.f, 1.f, 0.f);
-
-	glVertex3f(0.f, 1.f, 0.f);
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(0.f, 0.f, 1.f);
-	glVertex3f(0.f, 0.f, 1.f);
-	glVertex3f(0.f, 1.f, 1.f);
-	glVertex3f(0.f, 1.f, 0.f);
-
-	glVertex3f(0.f, 0.f, 1.f);
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(1.f, 0.f, 1.f);
-	glVertex3f(1.f, 0.f, 1.f);
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(1.f, 0.f, 0.f);
-	
-
-	glEnd();
-	glLineWidth(1.0f);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
 
 	//RENDER GUI
 	App->editor->Draw();
@@ -378,6 +325,11 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->num_vertex, mesh->vertex, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+	glGenBuffers(1, (GLuint*) &(mesh->buffer_uv_texture));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_uv_texture);
+	glBufferData(GL_ARRAY_BUFFER, 2 * mesh->num_uv_texture * sizeof(GLfloat), mesh->uv_texture, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	glGenBuffers(1, (GLuint*) &(mesh->buffer_index));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->buffer_index);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->num_index, mesh->index, GL_STATIC_DRAW);
@@ -463,6 +415,10 @@ void trRenderer3D::Draw()
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_vertex);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		/*glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_uv_texture);
+		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+		glBindTexture(GL_TEXTURE_2D, App->tex->GetLoadedTexture().index);//todo*/
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->buffer_index);
 		glDrawElements(GL_TRIANGLES, mesh->num_index, GL_UNSIGNED_INT, NULL);

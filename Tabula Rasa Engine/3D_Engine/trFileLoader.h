@@ -18,7 +18,9 @@ struct Mesh
 	uint num_vertex = 0u;
 	float* vertex = nullptr;
 
-	float* texture = nullptr;
+	uint buffer_uv_texture = 0u;
+	uint num_uv_texture = 0u;
+	float* uv_texture = nullptr;
 
 	float* normals = nullptr;
 	float* normal_faces = nullptr;

@@ -82,11 +82,15 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			memcpy(mesh_data->vertex, new_mesh->mVertices, sizeof(float) * mesh_data->num_vertex * 3);
 
 			// Textures copy
-			if (new_mesh->HasTextureCoords(0)) { //i?
-				mesh_data->texture = new float[mesh_data->num_vertex * 3];
-				memcpy(mesh_data->texture, new_mesh->mTextureCoords, sizeof(float) * mesh_data->num_vertex * 3);
+			if (new_mesh->HasTextureCoords(0)) {//i?
+				mesh_data->num_uv_texture = new_mesh->mNumVertices;
+				mesh_data->uv_texture = new float[mesh_data->num_uv_texture * 2];
+				for (int i = 0; i < mesh_data->num_uv_texture; i++) {
+					mesh_data->uv_texture[i * 2] = new_mesh->mTextureCoords[0][i].x;
+					mesh_data->uv_texture[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
+				}
 			}
-			
+
 			// Vertices' normals copy
 			aiVector3D* mesh_normals = new_mesh->mNormals;
 			mesh_data->normals = new float[mesh_data->num_vertex * 3];
