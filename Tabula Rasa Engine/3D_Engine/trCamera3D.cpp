@@ -42,6 +42,15 @@ bool trCamera3D::Update(float dt)
 {
 	// Implement a debug camera with keys and mouse
 	// Now we can make this movememnt frame rate independant!
+
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) { //TODO REMOVE THIS fake
+		X = vec3(1.0f, 0.0f, 0.0f);
+		Y = vec3(0.0f, 1.0f, 0.0f);
+		Z = vec3(0.0f, 0.0f, 1.0f);
+
+		Position = vec3(0.0f, 0.0f, 5.0f);
+		Reference = vec3(0.0f, 0.0f, 0.0f);
+	}
 	
 	vec3 newPos(0.0f, 0.0f, 0.0f);
 	float speed = 5.0f * dt;
