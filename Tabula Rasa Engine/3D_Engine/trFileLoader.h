@@ -18,6 +18,8 @@ struct Mesh
 	uint num_vertex = 0u;
 	float* vertex = nullptr;
 
+	float* texture = nullptr;
+
 	float* normals = nullptr;
 	float* normal_faces = nullptr;
 	uint num_faces = 0;

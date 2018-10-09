@@ -76,12 +76,17 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
 			aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &mesh_data->mat_color);
 
-
 			// Vertex copy
 			mesh_data->num_vertex = new_mesh->mNumVertices;
 			mesh_data->vertex = new float[mesh_data->num_vertex * 3];
 			memcpy(mesh_data->vertex, new_mesh->mVertices, sizeof(float) * mesh_data->num_vertex * 3);
 
+			// Textures copy
+			if (new_mesh->HasTextureCoords(0)) { //i?
+				mesh_data->texture = new float[mesh_data->num_vertex * 3];
+				memcpy(mesh_data->texture, new_mesh->mTextureCoords, sizeof(float) * mesh_data->num_vertex * 3);
+			}
+			
 			// Vertices' normals copy
 			aiVector3D* mesh_normals = new_mesh->mNormals;
 			mesh_data->normals = new float[mesh_data->num_vertex * 3];
