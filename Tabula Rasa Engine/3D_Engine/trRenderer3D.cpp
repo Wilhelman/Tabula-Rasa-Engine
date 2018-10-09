@@ -18,7 +18,9 @@
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 #pragma comment (lib, "Glew/libx86/glew32.lib")
 
-//#pragma comment (lib, "DevIL/libx86/ILUT.lib")
+#pragma comment (lib, "DevIL/libx86/DevIL.lib") // TODO: add these 3 lines where needed
+#pragma comment (lib, "DevIL/libx86/ILU.lib")
+#pragma comment (lib, "DevIL/libx86/ILUT.lib")
 
 trRenderer3D::trRenderer3D() : trModule()
 {
