@@ -27,7 +27,7 @@ public:
 	bool Start();
 	bool CleanUp();
 
-	void LoadImageFromPath(const char* path);
+	uint LoadImageFromPath(const char* path);
 
 private:
 	ImageTexture loaded_texture;

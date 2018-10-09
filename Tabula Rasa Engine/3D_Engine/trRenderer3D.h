@@ -75,7 +75,7 @@ private:
 	std::vector<PPoint> vertex_vec;
 
 	std::vector<Mesh*> meshes;
-	ImageTexture* last_texture = nullptr;
+	uint last_texture = 0u;
 
 };
 #endif

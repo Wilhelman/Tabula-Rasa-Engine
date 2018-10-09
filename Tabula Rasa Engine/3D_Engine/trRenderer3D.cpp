@@ -378,18 +378,16 @@ void trRenderer3D::GenerateMeshDebug(Mesh* mesh)
 
 void trRenderer3D::SetTexture(ImageTexture * texture)
 {
-	this->last_texture = texture;
+	//this->last_texture = texture->image;
 
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	/*glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glGenTextures(1, (GLuint*)last_texture->index);
 	glBindTexture(GL_TEXTURE_2D, last_texture->index);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	//const int lala = last_texture->height;
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, lala, lala,
-		//0, GL_RGBA, GL_UNSIGNED_BYTE, &last_texture->image);
+	glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_BPP), (GLsizei)last_texture->width, (GLsizei)last_texture->height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, &last_texture->image);*/
 
 }
 
@@ -413,32 +411,36 @@ void trRenderer3D::ClearScene()
 
 void trRenderer3D::Draw()
 {
+	last_texture = App->tex->LoadImageFromPath("Models/Baker_house.png");
+
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	std::vector<Mesh*>::iterator it = meshes.begin();
 	while (it != meshes.end())
 	{
 		Mesh* mesh = (*it);
-		glColor4f(mesh->mat_color.r, mesh->mat_color.g, mesh->mat_color.b, mesh->mat_color.a);
+		//glColor4f(mesh->mat_color.r, mesh->mat_color.g, mesh->mat_color.b, mesh->mat_color.a); wtf
 
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_vertex);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		if (last_texture != nullptr) {
+		if (last_texture != 0u) {
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_uv);
+			glBindTexture(GL_TEXTURE_2D, last_texture);
 			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-			glBindTexture(GL_TEXTURE_2D, last_texture->image);//todo
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->buffer_index);
 		glDrawElements(GL_TRIANGLES, mesh->num_index, GL_UNSIGNED_INT, NULL);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-		glColor4f(1.f, 1.f, 1.f, 1.f);
+		//glColor4f(1.f, 1.f, 1.f, 1.f);
 		it++;
 	}
-
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
