@@ -372,36 +372,23 @@ bool trApp::LoadNow()
 {
 	TR_LOG("Loading ...");
 
-	/*
-
-	JSON_Value *schema = json_parse_string("{\"name\":\"\"}");
-	JSON_Value *user_data = json_parse_file("data.json");
-	char buf[256];
-	const char *name = NULL;
-	if (user_data == NULL || json_validate(schema, user_data) != JSONSuccess) {
-
-	sprintf_s(buf, 256, "Nombre de prueba");
-	user_data = json_value_init_object();
-	json_object_set_string(json_object(user_data), "name", buf);
-	json_serialize_to_file(user_data, "user_data.json");
-
-	}
-	name = json_object_get_string(json_object(user_data), "name");
-	char log_test[256];
-	sprintf_s(log_test, 256, "Nombre: %s",name);
-	editor->Log(log_test);
-	json_value_free(schema);
-	json_value_free(user_data);*/
 	bool ret = true;
 
-	JSON_Value *root_value = json_value_init_object();
+	JSON_Value* root_value = json_parse_file("config.json");
+
 	char *serialized_string = NULL;
 
+	for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
+	{
+		trModule* pModule = (*it);
 
-	serialized_string = json_serialize_to_string_pretty(root_value);
-	puts(serialized_string);
-	json_serialize_to_file(root_value, "config.json");
-	json_free_serialized_string(serialized_string);
+		if (pModule->active == false) {
+			continue;
+		}
+
+		ret = (*it)->Load(*root_value);
+	}
+
 	json_value_free(root_value);
 
 	return ret;
@@ -417,10 +404,9 @@ bool trApp::SaveNow()
 	JSON_Value *root_value = json_value_init_object();
 	char *serialized_string = NULL;
 
-	trModule* pModule = NULL;
 	for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
 	{
-		pModule = (*it);
+		trModule* pModule = (*it);
 
 		if (pModule->active == false) {
 			continue;

@@ -66,7 +66,7 @@ public:
 		return true;
 	}
 
-	virtual bool Load(pugi::xml_node&)
+	virtual bool Load(JSON_Value&)
 	{
 		return true;
 	}
