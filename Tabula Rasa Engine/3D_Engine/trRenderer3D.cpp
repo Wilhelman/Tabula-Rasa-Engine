@@ -381,14 +381,15 @@ void trRenderer3D::SetTexture(ImageTexture * texture)
 	this->last_texture = texture;
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	//glGenTextures(1, (GLuint*)last_texture->index);
+	glGenTextures(1, (GLuint*)last_texture->index);
 	glBindTexture(GL_TEXTURE_2D, last_texture->index);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, last_texture->width, last_texture->height, 
-		0, GL_RGBA, GL_UNSIGNED_BYTE, (GLubyte*)last_texture->image);
+	//const int lala = last_texture->height;
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, lala, lala,
+		//0, GL_RGBA, GL_UNSIGNED_BYTE, &last_texture->image);
 
 }
 
@@ -424,10 +425,12 @@ void trRenderer3D::Draw()
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		/*glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_uv_texture);
-		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-		glBindTexture(GL_TEXTURE_2D, App->tex->GetLoadedTexture().index);//todo*/
-
+		if (last_texture != nullptr) {
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_uv);
+			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+			glBindTexture(GL_TEXTURE_2D, last_texture->image);//todo
+		}
+		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->buffer_index);
 		glDrawElements(GL_TRIANGLES, mesh->num_index, GL_UNSIGNED_INT, NULL);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

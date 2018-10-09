@@ -1,6 +1,5 @@
 #include "trTextures.h"
 #include "trApp.h"
-#include "trEditor.h"
 #include "trRenderer3D.h"
 
 #include "DevIL\include\ilut.h"
@@ -25,12 +24,12 @@ bool trTextures::Awake(pugi::xml_node &)
 	    iluGetInteger(ILU_VERSION_NUM) < ILU_VERSION ||
 		ilutGetInteger(ILUT_VERSION_NUM) < ILUT_VERSION) 
 	{
-		App->editor->Log("DevIL version is different...exiting!\n");
+		TR_LOG("DevIL version is different...exiting!\n");
 		return false;
 	}
 
 	ilInit();
-	App->editor->Log("Initializating DevIL...\n");
+	TR_LOG("Initializating DevIL...\n");
 
 	return true;
 }
@@ -52,9 +51,9 @@ void trTextures::LoadImageFromPath(const char * path)
 	ilBindImage(image);
 
 	if (ilLoadImage(path))
-		App->editor->Log("Image succesfully loaded from path");
+		TR_LOG("Image succesfully loaded from path");
 	else
-		App->editor->Log("Cannot load image from path...");
+		TR_LOG("Cannot load image from path...");
 
 	ILenum error;
 	error = ilGetError();
@@ -62,13 +61,13 @@ void trTextures::LoadImageFromPath(const char * path)
 	while ((error = ilGetError()) != IL_NO_ERROR) 
 		TR_LOG("%d: %s/n", error, iluErrorString(error));
 
-	loaded_texture.index = ilutGLBindTexImage();
+	loaded_texture.index = 0u;
 	loaded_texture.image = image;
 	loaded_texture.width = ilGetInteger(IL_IMAGE_WIDTH);
 	loaded_texture.height = ilGetInteger(IL_IMAGE_HEIGHT);
 
-	App->editor->Log("Freeing image...");
-	ilDeleteImages(1, &image);
+	TR_LOG("Freeing image...");
+	//ilDeleteImages(1, &image);
 
 	App->render->SetTexture(&loaded_texture);
 }
