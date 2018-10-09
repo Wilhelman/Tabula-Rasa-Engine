@@ -374,7 +374,10 @@ bool trApp::LoadNow()
 
 	bool ret = true;
 
-	JSON_Value* root_value = json_parse_file("config.json");
+	std::string str = "config.json";
+	const char *cstr = str.c_str();
+
+	JSON_Value* root_value = json_parse_file(cstr);
 
 	char *serialized_string = NULL;
 
