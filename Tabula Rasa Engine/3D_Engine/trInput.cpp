@@ -10,6 +10,7 @@
 #include "SDL\include\SDL_opengl.h"
 
 #include "trFileLoader.h"
+#include "trTextures.h"
 
 #define MAX_KEYS 300
 
@@ -131,7 +132,17 @@ bool trInput::PreUpdate(float dt)
 
 				if (dropped_filedir != nullptr) {
 					TR_LOG("File path dropped on window: ", dropped_filedir);
-					App->file_loader->Import3DFile(dropped_filedir);
+
+					std::string file_format(".xyz");
+					file_format[3] = dropped_filedir[strlen(dropped_filedir) - 1];
+					file_format[2] = dropped_filedir[strlen(dropped_filedir) - 2];
+					file_format[1] = dropped_filedir[strlen(dropped_filedir) - 3];
+					file_format[0] = dropped_filedir[strlen(dropped_filedir) - 4];
+
+					if (file_format.compare(".fbx") == 0 || file_format.compare(".FBX") == 0)
+						App->file_loader->Import3DFile(dropped_filedir);
+					else			
+						App->tex->LoadImageFromPath(dropped_filedir);
 				}
 				else
 					TR_LOG("Cannot get file dropped path");

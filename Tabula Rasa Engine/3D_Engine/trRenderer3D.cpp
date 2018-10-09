@@ -7,9 +7,11 @@
 #include "PArrow.h"
 #include "PPoint.h"
 #include "trEditor.h"
+#include "trTextures.h"
 
 #include "MathGeoLib\MathGeoLib.h"
 #include "Glew\include\GL\glew.h"
+#include "DevIL\include\ilut.h"
 
 #include "SDL\include\SDL_opengl.h"
 
@@ -18,9 +20,6 @@
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 #pragma comment (lib, "Glew/libx86/glew32.lib")
 
-#pragma comment (lib, "DevIL/libx86/DevIL.lib") // TODO: add these 3 lines where needed
-#pragma comment (lib, "DevIL/libx86/ILU.lib")
-#pragma comment (lib, "DevIL/libx86/ILUT.lib")
 
 trRenderer3D::trRenderer3D() : trModule()
 {
@@ -146,6 +145,8 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 		glEnable(GL_TEXTURE_2D);
 	}
 
+	ilutRenderer(ILUT_OPENGL);
+
 	// Loading texture
 	const int checker_height = 120;
 	const int checker_width = 120;
@@ -161,16 +162,14 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 	}
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, &texture_index);
-	glBindTexture(GL_TEXTURE_2D, texture_index);
+	glGenTextures(1, (GLuint*)App->tex->GetLoadedTexture().index);
+	glBindTexture(GL_TEXTURE_2D, App->tex->GetLoadedTexture().index);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, checker_width, checker_height,
-		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
-
-
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, App->tex->GetLoadedTexture().width, App->tex->GetLoadedTexture().height,
+		0, GL_RGBA, GL_UNSIGNED_BYTE, (GLubyte*)App->tex->GetLoadedTexture().image);
 
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -205,7 +204,7 @@ bool trRenderer3D::PostUpdate(float dt)
 	/// not yet
 
 	//RENDER IMPORTED MESH
-	/*if (!meshes.empty())
+	if (!meshes.empty())
 	{
 		this->Draw();
 
@@ -229,9 +228,9 @@ bool trRenderer3D::PostUpdate(float dt)
 				face_normals_vec[i].Render();
 			}	
 		}
-	}*/
+	}
 
-	glBindTexture(GL_TEXTURE_2D, texture_index);
+	glBindTexture(GL_TEXTURE_2D, App->tex->GetLoadedTexture().index);
 
 	glLineWidth(2.0f);
 	glBegin(GL_TRIANGLES);
