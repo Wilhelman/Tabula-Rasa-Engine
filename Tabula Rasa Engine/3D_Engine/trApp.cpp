@@ -374,26 +374,29 @@ bool trApp::LoadNow()
 
 	bool ret = true;
 
-	std::string str = "config.json";
-	const char *cstr = str.c_str();
+	JSON_Value* root_value = nullptr;
+	root_value = json_parse_file("config.json");
 
-	JSON_Value* root_value = json_parse_file(cstr);
+	if (root_value != nullptr) {
 
-	char *serialized_string = NULL;
+		TR_LOG("config.json loaded correctly, iterating between modules ...");
 
-	for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
-	{
-		trModule* pModule = (*it);
+		for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
+		{
+			trModule* pModule = (*it);
 
-		if (pModule->active == false) {
-			continue;
+			if (pModule->active == false) {
+				continue;
+			}
+
+			ret = (*it)->Load(*root_value);
 		}
-
-		ret = (*it)->Load(*root_value);
+		json_value_free(root_value);
 	}
-
-	json_value_free(root_value);
-
+	else
+		TR_LOG("trApp: Error loading config.json file");
+	
+	
 	return ret;
 }
 
