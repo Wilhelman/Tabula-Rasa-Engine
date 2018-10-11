@@ -80,17 +80,7 @@ inline const char* const PATH(const char* folder, const char* file)
 #define DEGTORAD 0.0174532925199432957f
 #define RADTODEG 57.295779513082320876f
 
-// Configuration -----------
-#define VERSION "v0.2-development"
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 1024
-#define SCREEN_SIZE 1
-#define WIN_FULLSCREEN false
-#define WIN_RESIZABLE true
-#define WIN_BORDERLESS false
-#define WIN_FULLSCREEN_DESKTOP false
-#define VSYNC true
-#define TITLE "Tabula Rasa Engine"
+// For imGui text edit
 #define TITLE_ORG_MAX_LENGTH 77
 
 

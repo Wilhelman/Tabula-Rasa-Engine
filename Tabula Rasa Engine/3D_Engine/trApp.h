@@ -48,17 +48,20 @@ public:
 	// Add a new module to handle
 	void AddModule(trModule* module);
 
-	// Exposing some properties for reading
+	// Exposing some properties for reading aka getters
 	int GetArgc() const;
 	const char* GetArgv(int index) const;
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
+	uint GetFpsCap() const;
+	const char* GetVersion()const;
 
 	void RequestBrowser(const char* url)const;
 
+	// Setters
+	void SetTitle(const char* title);
 	void SetOrganization(const char* organization);
-
-	uint GetFpsCap() const;
+	void SetVersion(const char* version);
 	void SetFpsCap(uint max_framerate);
 
 	// Load / Save
@@ -94,39 +97,35 @@ public:
 	trRenderer3D*		render = nullptr;
 	trAudio*			audio = nullptr;
 	trCamera3D*			camera = nullptr;
-	
 	trMainScene*		main_scene = nullptr;
-
 	trEditor*			editor = nullptr;
 	trHardware*			hardware = nullptr;
 	trFileLoader*		file_loader = nullptr;
 	
-	std::string			game_title;
+	
 private:
 
-	std::list<trModule*>	modules;
+	std::list<trModule*>modules;
 	int					argc = 0;
 	char**				args = nullptr;
 
-	
 	std::string			organization;
-	std::string			vsync_to_show;
-	std::string			cap_to_show;
+	std::string			game_title;
+	std::string			version;
 
 	bool				all_modules_loaded = false;
-
 	bool				want_to_save, want_to_load = false;
 
 	//fps/ms
-	trTimer	ms_timer;
-	trTimer	fps_timer;
-	Uint32	frames;
-	float	dt = 0.f;
-	int		fps_counter = 0;
-	int		last_frame_ms = 0;
-	int		last_fps = 0;
-	int		capped_ms = 0;
-	bool    cap_fps = true;
+	trTimer				ms_timer;
+	trTimer				fps_timer;
+	Uint32				frames;
+	float				dt = 0.f;
+	int					fps_counter = 0;
+	int					last_frame_ms = 0;
+	int					last_fps = 0;
+	int					capped_ms = 0;
+	bool				cap_fps = true;
 
 };
 

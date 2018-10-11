@@ -37,25 +37,27 @@ bool trRenderer3D::Awake(JSON_Object* config)
 
 	bool ret = true;
 
-	Uint32 flags = SDL_RENDERER_ACCELERATED;
-
-	if (config != nullptr) {
-		if (json_object_get_boolean(config, "vsync")) {
-			flags |= SDL_RENDERER_PRESENTVSYNC;
-			TR_LOG("Renderer3D: vSync ENABLED");
-		}
-		else {
-			TR_LOG("Renderer3D: vSync DISABLED");
-		}
-		
-	}
-
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
 	if (context == NULL)
 	{
 		TR_LOG("Renderer3D: OpenGL context could not be created!SDL_Error: %s\n", SDL_GetError());
 		ret = false;
+	}
+
+	if (config != nullptr) {
+		if (json_object_get_boolean(config, "vsync")) {
+			if (SDL_GL_SetSwapInterval(1) < 0)
+				TR_LOG("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
+			else
+				TR_LOG("Renderer3D: vSync ENABLED");
+		}
+		else {
+			if (SDL_GL_SetSwapInterval(0) < 0)
+				TR_LOG("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
+			else
+				TR_LOG("Renderer3D: vSync DISABLED");
+		}
 	}
 
 	GLenum err = glewInit();
@@ -83,16 +85,11 @@ bool trRenderer3D::Awake(JSON_Object* config)
 		TR_LOG("GLSL: %s", (char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
 		TR_LOG("---------- End info ----------");
 
-		//Use Vsync
-		if (VSYNC && SDL_GL_SetSwapInterval(1) < 0)
-			TR_LOG("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
-
 		//Check for error
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
-			//TR_LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
-			TR_LOG("Renderer3D: Error initializing OpenGL!");
+			TR_LOG("Renderer3D: Error initializing OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
 
@@ -104,8 +101,7 @@ bool trRenderer3D::Awake(JSON_Object* config)
 		error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
-			//TR_LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
-			TR_LOG("Renderer3D: Error initializing OpenGL!");
+			TR_LOG("Renderer3D: Error initializing OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
 
@@ -119,8 +115,7 @@ bool trRenderer3D::Awake(JSON_Object* config)
 		error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
-			//TR_LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
-			TR_LOG("Renderer3D: Error initializing OpenGL!");
+			TR_LOG("trRenderer3D: Error initializing OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
 
@@ -166,7 +161,7 @@ bool trRenderer3D::Awake(JSON_Object* config)
 	
 
 	// Projection matrix for
-	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	OnResize(App->window->GetWidth(), App->window->GetHeight());
 
 	return ret;
 }

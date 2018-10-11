@@ -4,7 +4,7 @@
 
 trWindow::trWindow() : trModule()
 {
-	name = "Window";
+	name = "window";
 	window = NULL;
 	screen_surface = NULL;
 }
@@ -27,40 +27,44 @@ bool trWindow::Awake(JSON_Object* config)
 	}
 	else
 	{
+		if (config != nullptr) {
+			this->SetWidth(json_object_get_number(config, "width"));
+			this->SetHeight(json_object_get_number(config, "height"));
+			this->SetScale(json_object_get_number(config, "scale"));
+			this->SetFullscreen(json_object_get_boolean(config, "fullscreen"));
+			this->SetResizable(json_object_get_boolean(config, "resizable"));
+			this->SetBorderless(json_object_get_boolean(config, "borderless"));
+			this->SetFullscreenWindowed(json_object_get_boolean(config, "fullscreen_window"));
+		}
+		
 		//Create window
-		width = SCREEN_WIDTH * SCREEN_SIZE;
-		height = SCREEN_HEIGHT * SCREEN_SIZE;
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 		//Use OpenGL 2.1
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
-		if (WIN_FULLSCREEN == true)
+		if (fullscreen)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
-			fullscreen = true;
 		}
 
-		if (WIN_RESIZABLE == true)
+		if (resizable)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
-			resizable = true;
 		}
 
-		if (WIN_BORDERLESS == true)
+		if (borderless)
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
-			borderless = true;
 		}
 
-		if (WIN_FULLSCREEN_DESKTOP == true)
+		if (fullscreen_desktop)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-			fullscreen_desktop = true;
 		}
 
-		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		window = SDL_CreateWindow(App->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
 		if (window == NULL)
 		{
@@ -96,7 +100,7 @@ bool trWindow::CleanUp()
 void trWindow::SetTitle(const char* title)
 {
 	SDL_SetWindowTitle(window, title);
-	App->game_title = title;
+	App->SetTitle(title);
 }
 
 void trWindow::SetBrightness(float set)
@@ -111,33 +115,21 @@ float trWindow::GetBrightness() const
 	return SDL_GetWindowBrightness(window);
 }
 
-void trWindow::GetWindowConstraints(uint & min_width, uint & min_height, uint & max_width, uint & max_height) const
-{
-	min_width = 640;
-	min_height = 480;
-	max_width = 3000;
-	max_height = 2000;
-
-	SDL_DisplayMode dm;
-	if (SDL_GetDesktopDisplayMode(0, &dm) != 0)
-		TR_LOG("trWindow: SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
-	else
-	{
-		max_width = dm.w;
-		max_height = dm.h;
-	}
-}
-
 void trWindow::SetWidth(uint width)
 {
 	SDL_SetWindowSize(window, width, height);
 	this->width = width;
 }
 
-void trWindow::SetHeigth(uint height)
+void trWindow::SetHeight(uint height)
 {
 	SDL_SetWindowSize(window, width, height);
 	this->height = height;
+}
+
+void trWindow::SetScale(uint scale)
+{
+	this->scale = scale;
 }
 
 uint trWindow::GetMonitorRefreshRate() const
@@ -187,7 +179,7 @@ void trWindow::SetBorderless(bool set)
 	//}
 }
 
-void trWindow::SetFullScreenDesktop(bool set)
+void trWindow::SetFullscreenWindowed(bool set)
 {
 	if (set != fullscreen_desktop)
 	{
@@ -204,4 +196,19 @@ void trWindow::SetFullScreenDesktop(bool set)
 				TR_LOG("trWindow:Could not switch to windowed: %s\n", SDL_GetError());
 		}
 	}
+}
+
+uint trWindow::GetWidth() const
+{
+	return width * scale;
+}
+
+uint trWindow::GetHeight() const
+{
+	return height * scale;
+}
+
+uint trWindow::GetScale() const
+{
+	return scale;
 }

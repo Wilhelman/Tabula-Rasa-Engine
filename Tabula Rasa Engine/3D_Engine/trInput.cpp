@@ -11,6 +11,7 @@
 
 #include "trFileLoader.h"
 #include "trTextures.h"
+#include "trWindow.h"
 
 #define MAX_KEYS 300
 
@@ -71,8 +72,8 @@ bool trInput::PreUpdate(float dt)
 
 	Uint32 buttons = SDL_GetMouseState(&mouse_x, &mouse_y);
 
-	mouse_x /= SCREEN_SIZE;
-	mouse_y /= SCREEN_SIZE;
+	mouse_x /= App->window->scale;
+	mouse_y /= App->window->scale;
 	mouse_z = 0;
 
 	for (int i = 0; i < 5; ++i)
@@ -108,11 +109,11 @@ bool trInput::PreUpdate(float dt)
 				break;
 
 			case SDL_MOUSEMOTION:
-				mouse_x = e.motion.x / SCREEN_SIZE;
-				mouse_y = e.motion.y / SCREEN_SIZE;
+				mouse_x = e.motion.x / App->window->scale;
+				mouse_y = e.motion.y / App->window->scale;
 
-				mouse_x_motion = e.motion.xrel / SCREEN_SIZE;
-				mouse_y_motion = e.motion.yrel / SCREEN_SIZE;
+				mouse_x_motion = e.motion.xrel / App->window->scale;
+				mouse_y_motion = e.motion.yrel / App->window->scale;
 				break;
 
 			case SDL_QUIT:

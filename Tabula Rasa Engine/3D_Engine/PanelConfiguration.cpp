@@ -261,21 +261,18 @@ void PanelConfiguration::ShowWindow(trWindow * module)
 	if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f))
 		App->window->SetBrightness(brightness);
 
-	uint w, h, min_w, min_h, max_w, max_h;
-	App->window->GetWindowConstraints(min_w, min_h, max_w, max_h);
-	w = App->window->width;
-	h = App->window->height;
+	uint width = App->window->GetWidth();
+	uint height = App->window->GetHeight();
 
-	if (ImGui::SliderInt("Width", (int*)&w, min_w, max_w))
-		App->window->SetWidth(w);
+	if (ImGui::SliderInt("Width", (int*)&width, MIN_WIDTH, MAX_WIDTH))
+		App->window->SetWidth(width);
 
-	if (ImGui::SliderInt("Height", (int*)&h, min_h, max_h))
-		App->window->SetHeigth(h);
+	if (ImGui::SliderInt("Height", (int*)&height, MIN_HEIGHT, MAX_HEIGHT))
+		App->window->SetHeight(height);
 	
 	ImGui::Text("Refresh rate:");
 	ImGui::SameLine();
 	ImGui::TextColored(IMGUI_YELLOW, "%u", App->window->GetMonitorRefreshRate());
-
 
 	//TODO : this is VERY UNSTABLE
 	if (ImGui::Checkbox("Fullscreen", &App->window->fullscreen))
@@ -284,15 +281,13 @@ void PanelConfiguration::ShowWindow(trWindow * module)
 	ImGui::SameLine();
 	if (ImGui::Checkbox("Resizable", &App->window->resizable))
 		App->window->SetResizable(App->window->resizable);
-	if (ImGui::IsItemHovered())
-		ImGui::SetTooltip("Restart to apply");
 
 	if (ImGui::Checkbox("Borderless", &App->window->borderless))
 		App->window->SetBorderless(App->window->borderless);
 
 	ImGui::SameLine();
 	if (ImGui::Checkbox("Full Desktop", &App->window->fullscreen_desktop))
-		App->window->SetFullScreenDesktop(App->window->fullscreen_desktop);
+		App->window->SetFullscreenWindowed(App->window->fullscreen_desktop);
 }
 
 void PanelConfiguration::ShowRenderer(trRenderer3D * module)

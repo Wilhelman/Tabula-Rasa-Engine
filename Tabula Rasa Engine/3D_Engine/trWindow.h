@@ -18,36 +18,39 @@ public:
 	bool Awake(JSON_Object* config = nullptr);
 	bool CleanUp();
 
-	void SetTitle(const char* title);
+	void SetTitle(const char*);
 
 	//Setters/Getters
+	void SetBrightness(float);
+	void SetWidth(uint);
+	void SetHeight(uint);
+	void SetScale(uint);
+	void SetFullscreen(bool);
+	void SetResizable(bool);
+	void SetBorderless(bool);
+	void SetFullscreenWindowed(bool);
+
+	uint GetWidth() const;
+	uint GetHeight() const;
+	uint GetScale() const;
 	float GetBrightness() const;
-	void SetBrightness(float set);
-	void GetWindowConstraints(uint& min_width, uint& min_height, uint& max_width, uint& max_height) const;
-	void SetWidth(uint width);
-	void SetHeigth(uint height);
 	uint GetMonitorRefreshRate() const;
-	void SetFullscreen(bool set);
-	void SetResizable(bool set);
-	void SetBorderless(bool set);
-	void SetFullScreenDesktop(bool set);
 
 public:
 	//The window we'll be rendering to
-	SDL_Window* window;
+	SDL_Window* window = nullptr;
 
 	//The surface contained by the window
-	SDL_Surface* screen_surface;
+	SDL_Surface* screen_surface = nullptr;
 
-	//this attributes should have getters and setters..
-	int width = 0;
-	int height = 0;
+	uint width = 500;
+	uint height = 500;
+	uint scale = 1;
 
 	bool fullscreen = false;
 	bool resizable = false;
 	bool borderless = false;
 	bool fullscreen_desktop = false;
-	//end this attributes warning
 };
 
 #endif // __ModuleWindow_H__

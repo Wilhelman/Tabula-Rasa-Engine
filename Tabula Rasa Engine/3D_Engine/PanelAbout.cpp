@@ -19,7 +19,7 @@ void PanelAbout::Draw()
 {
 	ImGui::Begin("About Tabula Rasa Engine", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
 
-	ImGui::Text("Version %s", VERSION);
+	ImGui::Text("Version %s", App->GetVersion());
 	ImGui::Separator();
 	ImGui::Text("By Guillermo Garcia Subirana and Victor Maso Garcia.");
 	ImGui::Separator();

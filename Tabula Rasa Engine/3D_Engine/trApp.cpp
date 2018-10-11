@@ -93,10 +93,11 @@ bool trApp::Awake()
 
 		TR_LOG("trApp: config.json loaded correctly, iterating between modules ...");
 		JSON_Object* app_obj = json_object_get_object(json_value_get_object(root_value), "app");
-		game_title = json_object_get_string(app_obj, "title");
-		organization = json_object_get_string(app_obj, "organization");
-		capped_ms = 1000 / json_object_get_number(app_obj, "framerate_cap");
+		this->SetTitle(json_object_get_string(app_obj, "title"));
+		this->SetOrganization(json_object_get_string(app_obj, "organization"));
+		this->SetFpsCap(json_object_get_number(app_obj, "framerate_cap"));
 		cap_fps = json_object_get_boolean(app_obj, "cap_framerate");
+		this->SetVersion(json_object_get_string(app_obj, "version"));
 
 		for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
 		{
@@ -309,6 +310,11 @@ const char* trApp::GetTitle() const
 	return game_title.data();
 }
 
+void trApp::SetTitle(const char * title)
+{
+	game_title = title;
+}
+
 // ---------------------------------------
 const char* trApp::GetOrganization() const
 {
@@ -325,12 +331,23 @@ void trApp::SetOrganization(const char * organization)
 	this->organization = organization;
 }
 
+void trApp::SetVersion(const char * version)
+{
+	this->version = version;
+}
+
+
 uint trApp::GetFpsCap() const
 {
 	if (capped_ms > 0)
 		return (uint)((1.0f / (float)capped_ms) * 1000.0f);
 	else
 		return 0;
+}
+
+const char * trApp::GetVersion() const
+{
+	return version.c_str();
 }
 
 void trApp::SetFpsCap(uint max_framerate)
