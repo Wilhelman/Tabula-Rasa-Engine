@@ -4,8 +4,7 @@
 #include "SDL/include/SDL.h"
 #include "trModule.h"
 
-class PPlane;
-class PCube;
+class PGrid;
 
 class trMainScene : public trModule
 {
@@ -37,8 +36,7 @@ public:
 	bool Save(JSON_Object* config = nullptr) const;
 
 private:
-	PPlane* plane_test = nullptr;
-	PCube* cube_test = nullptr;
+	PGrid* grid = nullptr;
 };
 
 #endif // __trRENDER_H__

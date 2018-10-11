@@ -41,6 +41,7 @@ PCube::PCube() : trPrimitive(), size(1.f,1.f,1.f)
 	1,0,6,
 	1,6,4
 	};
+	num_index = 36; //test
 
 	indices_index  = 0;
 	glGenBuffers(1, (GLuint*) &(indices_index));
@@ -89,6 +90,8 @@ PCube::PCube(math::vec position, math::vec size) :size(size), position(position)
 		1,6,4
 	};
 
+	
+
 	indices_index = 0;
 	glGenBuffers(1, (GLuint*) &(indices_index));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_index);
@@ -114,7 +117,7 @@ void PCube::InnerRender() const
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_index);
-	glDrawElements(GL_TRIANGLES, vertices_index, GL_UNSIGNED_INT, NULL);
+	glDrawElements(GL_TRIANGLES, num_index, GL_UNSIGNED_INT, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	glDisableClientState(GL_VERTEX_ARRAY);

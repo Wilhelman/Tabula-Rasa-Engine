@@ -18,7 +18,8 @@ enum PrimitiveTypes
 	Primitive_Sphere,
 	Primitive_Cylinder,
 	Primitive_Ray,
-	Primitive_Frustum
+	Primitive_Frustum,
+	Primitive_Grid
 };
 
 class trPrimitive
@@ -38,7 +39,7 @@ public:
 
 	Color color;
 	math::float4x4 transform;
-	bool axis, wire;
+	bool axis;
 
 protected:
 	PrimitiveTypes type;
@@ -46,11 +47,13 @@ protected:
 	uint indices_index = 0u;
 	uint vertices_index = 0u;
 
+	uint num_index = 0u;
+	uint num_vertices = 0u;
+
 	// TODO implement this
 	float* indices = nullptr;
 	float* vertices = nullptr;
 	float* normals = nullptr;
-	//std::vector<GLfloat> texcoords; not needed yet
 };
 
 #endif // __PRIMITIVE_H__

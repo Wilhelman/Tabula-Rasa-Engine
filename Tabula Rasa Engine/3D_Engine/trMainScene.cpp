@@ -9,20 +9,7 @@
 
 #include "trPrimitives.h"
 
-#include "PCube.h"
-#include "PPlane.h"
-#include "PArrow.h"
-#include "PFrustum.h"
-#include "PCylinder.h"
-#include "PSphere.h"
-
-
-
-#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
-#pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
-#pragma comment (lib, "Glew/libx86/glew32.lib")
-
-#define VSYNC true
+#include "PGrid.h"
 
 trMainScene::trMainScene() : trModule()
 {
@@ -48,6 +35,8 @@ bool trMainScene::Start()
 	App->camera->Move(vec3(1.f, 1.f, 1.f));
 	App->camera->LookAt(vec3(0.f, 0.f, 0.f));
 
+	grid = new PGrid();
+	grid->axis = true;
 
 	return true;
 }
@@ -75,39 +64,13 @@ bool trMainScene::PostUpdate(float dt)
 // Called before quitting
 bool trMainScene::CleanUp()
 {
+	delete grid;//todo check
 	return true;
 }
 
 void trMainScene::Draw()
 {
-	//todo check this
-	/*cube_test = new PCube();
-	cube_test->axis = true;
-	cube_test->color = Color(0.2f, 0.2f, 1.f, 1.f);
-	cube_test->Render();*/
-
-	//todo check this
-	plane_test = new PPlane();
-	plane_test->Render();
-
-	//for some reason import only draws if we render with primitives too
-	/*plane_test->axis = true;
-	plane_test->Render();*/
-
-	/*
-	PArrow p_arrow(math::vec(0.f, 2.5f, 0.f), math::float4(0.f, 1.0f, 0.f, 1.f));
-	p_arrow.axis = true;
-	p_arrow.Render();
-	*/
-	/*PFrustum frustum;
-	frustum.Render();*/
-	/*
-	PSphere sphere(math::vec(2.f, 3.f, -2.f), 1);
-	sphere.Render();
-
-	PSphere sphere2(math::vec(2.f, 6.f, -2.f), 3);
-	sphere2.Render();*/
-	
+	grid->Render();
 }
 
 // Load Game State

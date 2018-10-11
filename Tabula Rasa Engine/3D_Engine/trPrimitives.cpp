@@ -3,7 +3,7 @@
 #include "Glew\include\GL\glew.h"
 
 // ------------------------------------------------------------
-trPrimitive::trPrimitive() : transform(math::float4x4::identity), color(White), wire(false), axis(false), type(PrimitiveTypes::Primitive_Point)
+trPrimitive::trPrimitive() : transform(math::float4x4::identity), color(White), axis(false), type(PrimitiveTypes::Primitive_Point)
 {}
 
 // ------------------------------------------------------------

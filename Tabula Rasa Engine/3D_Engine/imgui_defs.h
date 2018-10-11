@@ -6,9 +6,9 @@
 #define CHART_FPS_CAP 100
 #define CHART_MEM 100
 #define MIN_WIDTH 300
-#define MAX_WIDTH 3000
+#define MAX_WIDTH 2000
 #define MIN_HEIGHT 300
-#define MAX_HEIGHT 3000
+#define MAX_HEIGHT 2000
 
 #define IMGUI_BLUE ImVec4(0.2f,0.2f,1.f,1.f)
 #define IMGUI_GREEN ImVec4(0.f,1.f,0.f,1.f)

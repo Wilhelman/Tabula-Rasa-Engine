@@ -297,6 +297,9 @@
     <ClCompile Include="trTextures.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="PGrid.cpp">
+      <Filter>Utilities\Primitives</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pugiconfig.hpp">
@@ -781,6 +784,9 @@
     </ClInclude>
     <ClInclude Include="trTextures.h">
       <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="PGrid.h">
+      <Filter>Utilities\Primitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
