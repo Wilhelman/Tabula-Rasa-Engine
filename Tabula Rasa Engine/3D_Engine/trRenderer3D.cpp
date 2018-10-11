@@ -142,24 +142,6 @@ bool trRenderer3D::Awake(JSON_Object* config)
 		glEnable(GL_TEXTURE_2D);
 	}
 
-	ilutRenderer(ILUT_OPENGL);
-
-	// Loading FAKE texture
-	/*const int checker_height = 120;
-	const int checker_width = 120;
-	GLubyte checkImage[checker_height][checker_width][4];
-	for (int i = 0; i < checker_height; i++) {
-		for (int j = 0; j < checker_width; j++) {
-			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
-			checkImage[i][j][0] = (GLubyte)c;
-			checkImage[i][j][1] = (GLubyte)c;
-			checkImage[i][j][2] = (GLubyte)c;
-			checkImage[i][j][3] = (GLubyte)255;
-		}
-	}*/
-
-	
-
 	// Projection matrix for
 	OnResize(App->window->GetWidth(), App->window->GetHeight());
 
@@ -373,19 +355,9 @@ void trRenderer3D::GenerateMeshDebug(Mesh* mesh)
 	}
 }
 
-void trRenderer3D::SetTexture(ImageTexture * texture)
+void trRenderer3D::SetTextureID(const uint texture)
 {
-	//this->last_texture = texture->image;
-
-	/*glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, (GLuint*)last_texture->index);
-	glBindTexture(GL_TEXTURE_2D, last_texture->index);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_BPP), (GLsizei)last_texture->width, (GLsizei)last_texture->height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, &last_texture->image);*/
-
+	this->texture_id = texture;
 }
 
 
@@ -408,33 +380,35 @@ void trRenderer3D::ClearScene()
 
 void trRenderer3D::Draw()
 {
-	last_texture = App->texture->LoadImageFromPath("Models/Baker_house.png");
-
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
 	std::vector<Mesh*>::iterator it = meshes.begin();
 	while (it != meshes.end())
 	{
 		Mesh* mesh = (*it);
-		//glColor4f(mesh->mat_color.r, mesh->mat_color.g, mesh->mat_color.b, mesh->mat_color.a); wtf
 
+		//if(texture_id == 0) // If the texture is missing, we set the ambient color of the mesh
+			//glColor4f(mesh->mat_color.r, mesh->mat_color.g, mesh->mat_color.b, mesh->mat_color.a);
+
+		glBindTexture(GL_TEXTURE_2D, texture_id);
+		
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_vertex);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		if (last_texture != 0u) {
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_uv);
-			glBindTexture(GL_TEXTURE_2D, last_texture);
-			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-		}
-		
+		//texture
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_uv);
+		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->buffer_index);
 		glDrawElements(GL_TRIANGLES, mesh->num_index, GL_UNSIGNED_INT, NULL);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-		//glColor4f(1.f, 1.f, 1.f, 1.f);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		glColor4f(1.f, 1.f, 1.f, 1.f);
+		
 		it++;
 	}
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);

@@ -27,10 +27,12 @@ public:
 	bool Start();
 	bool CleanUp();
 
-	uint LoadImageFromPath(const char* path);
+	void LoadImageFromPath(const char* path);
+
+	const uint GetTextureID();
 
 private:
-	ImageTexture loaded_texture;
+	uint texture_id = 0u;
 };
 
 #endif // __TEXTURES_H__

@@ -29,6 +29,8 @@ bool trTextures::Awake(JSON_Object* config)
 	}
 
 	ilInit();
+	iluInit();
+	ilutInit();
 	TR_LOG("trTexture: Initializating DevIL ...");
 
 	return true;
@@ -44,82 +46,61 @@ bool trTextures::CleanUp()
 	return true;
 }
 
-uint trTextures::LoadImageFromPath(const char * path)
+void trTextures::LoadImageFromPath(const char * path)
 {
-	ILuint imageID;				// Create an image ID as a ULuint
+	uint img_id = 0u;
+	uint texture_id = 0u;
 
-	GLuint textureID;			// Create a texture ID as a GLuint
+	ILenum error_num;
 
-	ILboolean success;			// Create a flag to keep track of success/failure
+	ilGenImages(1, &img_id);
+	ilBindImage(img_id);
 
-	ILenum error;				// Create a flag to keep track of the IL error state
-
-	ilGenImages(1, &imageID); 		// Generate the image ID
-
-	ilBindImage(imageID); 			// Bind the image
-
-	success = ilLoadImage(path); 	// Load the image file
-
-											// If we managed to load the image, then we can start to do things with it...
-	if (success)
+	if (ilLoadImage(path))
 	{
-		// If the image is flipped (i.e. upside-down and mirrored, flip it the right way up!)
-		ILinfo ImageInfo;
-		iluGetImageInfo(&ImageInfo);
-		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
-		{
+		// Flip the image if needed
+		ILinfo img_info;
+		iluGetImageInfo(&img_info);
+		if (img_info.Origin == IL_ORIGIN_UPPER_LEFT)
 			iluFlipImage();
-		}
 
-		// Convert the image into a suitable format to work with
-		// NOTE: If your image contains alpha channel you can replace IL_RGB with IL_RGBA
-		success = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
-
-		// Quit out if we failed the conversion
-		if (!success)
+		// Convert the image to RGBA format -> can also be RGB
+		if (!ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE))
 		{
-			error = ilGetError();
-			std::cout << "Image conversion failed - IL reports error: " << error << " - " << iluErrorString(error) << std::endl;
-			exit(-1);
+			error_num = ilGetError();
+			TR_LOG("trTexture: Error converting the image - %i - %s", error_num, iluErrorString(error_num));
 		}
 
-		// Generate a new texture
-		glGenTextures(1, &textureID);
+		glGenTextures(1, &texture_id);
+		glBindTexture(GL_TEXTURE_2D, texture_id);
 
-		// Bind the texture to a name
-		glBindTexture(GL_TEXTURE_2D, textureID);
-
-		// Set texture clamping method
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
-		// Set texture interpolation method to use linear interpolation (no MIPMAPS)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-		// Specify the texture specification
-		glTexImage2D(GL_TEXTURE_2D, 				// Type of texture
-			0,				// Pyramid level (for mip-mapping) - 0 is the top level
-			ilGetInteger(IL_IMAGE_FORMAT),	// Internal pixel format to use. Can be a generic type like GL_RGB or GL_RGBA, or a sized type
-			ilGetInteger(IL_IMAGE_WIDTH),	// Image width
-			ilGetInteger(IL_IMAGE_HEIGHT),	// Image height
-			0,				// Border width in pixels (can either be 1 or 0)
-			ilGetInteger(IL_IMAGE_FORMAT),	// Format of image pixel data
-			GL_UNSIGNED_BYTE,		// Image data type
-			ilGetData());			// The actual image data itself
+		glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), ilGetInteger(IL_IMAGE_WIDTH),
+			ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
 	}
-	else // If we failed to open the image file in the first place...
+	else
 	{
-		error = ilGetError();
-		std::cout << "Image load failed - IL reports error: " << error << " - " << iluErrorString(error) << std::endl;
-
+		error_num = ilGetError();
+		TR_LOG("trTexture: Error loading the image - %i - %s from path - %s", error_num , iluErrorString(error_num),path);
 	}
 
-	ilDeleteImages(1, &imageID); // Because we have already copied image data into texture data we can release memory used by image.
+	ilDeleteImages(1, &img_id);
 
-	std::cout << "Texture creation successful." << std::endl;
+	if (texture_id != 0) {
+		TR_LOG("trTexture: Texture created correctly");
+		App->render->SetTextureID(texture_id);
+	 }
+		
+}
 
-	return textureID; // Return the GLuint to the texture so you can use it!
+const uint trTextures::GetTextureID()
+{
+	return texture_id;
 }
 
 

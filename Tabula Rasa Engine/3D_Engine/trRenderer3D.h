@@ -33,7 +33,7 @@ public:
 	void OnResize(int width, int height);
 
 	bool IsWireframeModeEnabled();
-	void SwitchWireframeMode(bool toggle);
+	void SwitchWireframeMode(bool toggle); // todo this is bad
 	void SwitchDepthMode(bool toggle);
 	void SwitchFaceCulling(bool toggle);
 	void SwitchLighting(bool toggle);
@@ -45,7 +45,7 @@ public:
 	// Generates primitives (points and lines) to draw vertices and normals when needed
 	void GenerateMeshDebug(Mesh* mesh);
 
-	void SetTexture(ImageTexture* texture);
+	void SetTextureID(const uint texture);
 
 	// Cleans all the meshes in the scene (not the primitives);
 	void ClearScene();
@@ -74,7 +74,8 @@ private:
 	std::vector<PPoint> vertex_vec;
 
 	std::vector<Mesh*> meshes;
-	uint last_texture = 0u;
+
+	uint texture_id = 0u;
 
 };
 #endif
