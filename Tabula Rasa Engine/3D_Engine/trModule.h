@@ -31,7 +31,7 @@ public:
 	}
 
 	// Called before render is available
-	virtual bool Awake(pugi::xml_node&)
+	virtual bool Awake(JSON_Object* config = nullptr)
 	{
 		return true;
 	}
@@ -66,12 +66,12 @@ public:
 		return true;
 	}
 
-	virtual bool Load(JSON_Value&)
+	virtual bool Load(JSON_Object* config = nullptr)
 	{
 		return true;
 	}
 
-	virtual bool Save(JSON_Value&) const
+	virtual bool Save(JSON_Object* config = nullptr) const
 	{
 		return true;
 	}

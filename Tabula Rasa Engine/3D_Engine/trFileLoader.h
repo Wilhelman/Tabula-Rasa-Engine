@@ -38,7 +38,7 @@ public:
 	~trFileLoader();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node&);
+	bool Awake(JSON_Object* config = nullptr);
 
 	// Called before the first frame
 	bool Start();

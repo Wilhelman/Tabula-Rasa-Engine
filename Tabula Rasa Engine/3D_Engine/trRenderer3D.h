@@ -25,7 +25,7 @@ public:
 	trRenderer3D();
 	~trRenderer3D();
 
-	bool Awake(pugi::xml_node&);
+	bool Awake(JSON_Object* config = nullptr);
 	bool PreUpdate(float dt);
 	bool PostUpdate(float dt);
 	bool CleanUp();

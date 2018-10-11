@@ -31,7 +31,7 @@ trRenderer3D::~trRenderer3D()
 {}
 
 // Called before render is available
-bool trRenderer3D::Awake(pugi::xml_node& config)
+bool trRenderer3D::Awake(JSON_Object* config)
 {
 	TR_LOG("Renderer3D: Creating 3D Renderer context");
 
@@ -41,12 +41,12 @@ bool trRenderer3D::Awake(pugi::xml_node& config)
 
 	Uint32 flags = SDL_RENDERER_ACCELERATED;
 
-	if (config.child("vsync").attribute("value").as_bool(true) == true)
-	{
+	/*if (config.child("vsync").attribute("value").as_bool(true) == true)
+	{*/
 		flags |= SDL_RENDERER_PRESENTVSYNC;
 		vsync_state = true;
 		TR_LOG("Renderer3D: Using vsync");
-	}
+	//}
 
 	//Create context
 	context = SDL_GL_CreateContext(App->win->window);

@@ -15,7 +15,7 @@ public:
 	// Destructor
 	virtual ~trWindow();
 
-	bool Awake(pugi::xml_node&);
+	bool Awake(JSON_Object* config = nullptr);
 	bool CleanUp();
 
 	void SetTitle(const char* title);

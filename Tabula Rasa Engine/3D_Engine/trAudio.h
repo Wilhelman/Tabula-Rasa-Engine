@@ -20,7 +20,7 @@ public:
 	virtual ~trAudio();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node&);
+	bool Awake(JSON_Object* config = nullptr);
 
 
 	bool Update(float dt);

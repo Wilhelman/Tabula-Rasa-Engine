@@ -82,45 +82,40 @@ void trApp::AddModule(trModule* module)
 // Called before render is available
 bool trApp::Awake()
 {
+	bool ret = true;
 
-	pugi::xml_document	config_file;
-	pugi::xml_node		config;
-	pugi::xml_node		app_config;
+	JSON_Value* root_value = nullptr;
+	root_value = json_parse_file("config.json");
 
-	bool ret = false;
+	if (root_value != nullptr) {
 
-	config = LoadConfig(config_file);
+		TR_LOG("trApp: config.json loaded correctly, iterating between modules ...");
+		JSON_Object* data = json_value_get_object(root_value);
+		JSON_Object* root_obj = json_object_get_object(data, "app");
+		game_title = json_object_get_string(root_obj, "title");
+		organization = json_object_get_string(root_obj, "organization");
+		//todo FPS things from json ...
 
-
-	if (config.empty() == false)
-	{
-		// self-config
-		ret = true;
-		app_config = config.child("app");
-		game_title = app_config.child("title").child_value();
-		organization =app_config.child("organization").child_value();
-
-		//cap = app_config.attribute("framerate_cap").as_uint();
-		//todo check this when json is implemented
-		//if (cap > 0)
-			//capped_ms = 1000 / cap;
-
-	}
-
-	if (ret == true)
-	{
-
-		std::list<trModule*>::iterator it = modules.begin();
-
-		while (it != modules.end() && ret == true)
+		for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
 		{
-			ret = (*it)->Awake(config.child((*it)->name.data()));
-			
-			it++;
-		}
-	}
+			JSON_Object* module_obj = json_object_get_object(root_obj, (*it)->name.c_str());
 
-//	PERF_PEEK(ptimer);
+			ret = (*it)->Awake(module_obj);
+			if(!ret)
+				TR_LOG("trApp: Error awakening in: %s", (*it)->name.c_str());
+		}
+
+		json_value_free(root_value);
+	}
+	else {
+
+		TR_LOG("trApp: Error loading config.json file");
+
+		for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
+			ret = (*it)->Awake();
+
+	}
+		
 
 	return ret;
 }
@@ -389,7 +384,9 @@ bool trApp::LoadNow()
 				continue;
 			}
 
-			ret = (*it)->Load(*root_value);
+			JSON_Object* module_obj = json_object_get_object(json_value_get_object(root_value), (*it)->name.c_str());
+
+			ret = (*it)->Load(module_obj);
 		}
 		json_value_free(root_value);
 	}
@@ -407,7 +404,14 @@ bool trApp::SaveNow()
 
 	bool ret = true;
 
-	JSON_Value *root_value = json_value_init_object();
+	JSON_Value* root_value = nullptr;
+	root_value = json_parse_file("config.json");
+
+	if (root_value == nullptr) {
+		TR_LOG("trApp: Can't load config.json, generating a new one ...");
+		root_value = json_value_init_object();
+	}
+
 	char *serialized_string = NULL;
 
 	for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
@@ -418,7 +422,8 @@ bool trApp::SaveNow()
 			continue;
 		}
 
-		ret = (*it)->Save(*root_value);
+		JSON_Object* module_obj = json_object_get_object(json_value_get_object(root_value), (*it)->name.c_str());
+		ret = (*it)->Save(module_obj);
 	}
 	
 	serialized_string = json_serialize_to_string_pretty(root_value);

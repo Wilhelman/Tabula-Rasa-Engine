@@ -17,7 +17,7 @@ public:
 	virtual ~trMainScene();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node&);
+	bool Awake(JSON_Object* config = nullptr);
 
 	// Called before the first frame
 	bool Start();
@@ -33,8 +33,8 @@ public:
 	void Draw();
 
 	// Load / Save
-	bool Load(pugi::xml_node&);
-	bool Save(JSON_Value&) const;
+	bool Load(JSON_Object* config = nullptr);
+	bool Save(JSON_Object* config = nullptr) const;
 
 private:
 	PPlane* plane_test = nullptr;

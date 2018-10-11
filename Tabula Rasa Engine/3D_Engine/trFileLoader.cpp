@@ -27,7 +27,7 @@ trFileLoader::trFileLoader()
 trFileLoader::~trFileLoader()
 {}
 
-bool trFileLoader::Awake(pugi::xml_node &)
+bool trFileLoader::Awake(JSON_Object* config)
 {
 	TR_LOG("Loading File Loader");
 	bool ret = true;

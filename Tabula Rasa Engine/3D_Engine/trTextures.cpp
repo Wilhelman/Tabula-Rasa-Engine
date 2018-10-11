@@ -18,7 +18,7 @@ trTextures::~trTextures()
 {
 }
 
-bool trTextures::Awake(pugi::xml_node &)
+bool trTextures::Awake(JSON_Object* config)
 {
 	if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION ||
 	    iluGetInteger(ILU_VERSION_NUM) < ILU_VERSION ||

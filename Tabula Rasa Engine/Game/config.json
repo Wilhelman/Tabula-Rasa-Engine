@@ -1,29 +1,20 @@
 {
-  "config": {
-    "app": {
-      "-framerate_cap": "60",
-      "title": "Tabula Rasa Engine",
-      "organization": "None"
-    },
-    "renderer": {
-      "vsync": { "-value": "true" }
-    },
-    "window": {
-      "resolution": {
-        "-width": "968",
-        "-height": "648",
-        "-scale": "1"
-      },
-      "fullscreen": { "-value": "false" },
-      "borderless": { "-value": "false" },
-      "resizable": { "-value": "false" },
-      "fullscreen_window": { "-value": "false" }
-    },
-    "audio": {
-      "-fx": "64",
-      "-music": "64",
-      "lvlMusic": { "-name": "textures/source_spritesheet.png" }
-    },
-    "file_system": { "path": "data.zip" }
-  }
+	"app": {
+		"cap_framerate": true,
+		"framerate_cap": "60",
+		"title": "Tabula Rasa Engine",
+		"organization": "None"
+	},
+	"renderer": {
+		"vsync": true
+	},
+	"window": {
+		"width": "968",
+		"height": "648",
+		"scale": "1",
+		"fullscreen": false,
+		"borderless": false,
+		"resizable": false,
+		"fullscreen_window": false
+	}
 }

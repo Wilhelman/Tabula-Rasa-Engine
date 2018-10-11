@@ -15,7 +15,7 @@ trWindow::~trWindow()
 }
 
 // Called before render is available
-bool trWindow::Awake(pugi::xml_node&)
+bool trWindow::Awake(JSON_Object* config)
 {
 	TR_LOG("trWindow: Init SDL window & surface");
 	bool ret = true;

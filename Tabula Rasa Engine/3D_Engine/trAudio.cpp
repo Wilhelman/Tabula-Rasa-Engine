@@ -19,7 +19,7 @@ trAudio::~trAudio()
 {}
 
 // Called before render is available
-bool trAudio::Awake(pugi::xml_node& audioNode)
+bool trAudio::Awake(JSON_Object* config)
 {
 	TR_LOG("trAudio: Awake audio mixer");
 
