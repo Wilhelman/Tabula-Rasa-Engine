@@ -76,6 +76,10 @@ bool trCamera3D::Update(float dt)
 	Position += newPos;
 	Reference += newPos;
 
+	// TODO: this should orbit the obj. Check LookAt to see why the camera always points there once called
+	//if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_DOWN) 
+		//LookAt(vec3(0.f, 0.f, 0.f));
+
 	// Mouse motion ----------------
 
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
