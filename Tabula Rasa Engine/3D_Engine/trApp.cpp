@@ -26,8 +26,8 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	fps_counter = 0;
 
 	input = new trInput();
-	win = new trWindow();
-	tex = new trTextures();
+	window = new trWindow();
+	texture = new trTextures();
 	render = new trRenderer3D();
 	audio = new trAudio();
 	camera = new trCamera3D();
@@ -40,7 +40,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
-	AddModule(win);
+	AddModule(window);
 	AddModule(audio);
 	AddModule(camera);
 
@@ -48,7 +48,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(editor);
 	AddModule(hardware);
 	AddModule(file_loader);
-	AddModule(tex);
+	AddModule(texture);
 
 	// render last to swap buffer
 	AddModule(render);
@@ -89,12 +89,14 @@ bool trApp::Awake()
 
 	if (root_value != nullptr) {
 
+		JSON_Object* root_obj = json_value_get_object(root_value);
+
 		TR_LOG("trApp: config.json loaded correctly, iterating between modules ...");
-		JSON_Object* data = json_value_get_object(root_value);
-		JSON_Object* root_obj = json_object_get_object(data, "app");
-		game_title = json_object_get_string(root_obj, "title");
-		organization = json_object_get_string(root_obj, "organization");
-		//todo FPS things from json ...
+		JSON_Object* app_obj = json_object_get_object(json_value_get_object(root_value), "app");
+		game_title = json_object_get_string(app_obj, "title");
+		organization = json_object_get_string(app_obj, "organization");
+		capped_ms = 1000 / json_object_get_number(app_obj, "framerate_cap");
+		cap_fps = json_object_get_boolean(app_obj, "cap_framerate");
 
 		for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
 		{
@@ -160,22 +162,6 @@ bool trApp::Update()
 }
 
 // ---------------------------------------------
-pugi::xml_node trApp::LoadConfig(pugi::xml_document& config_file) const
-{
-	pugi::xml_node ret;
-
-	pugi::xml_parse_result result = config_file.load_file("config.xml");
-
-	if (result == NULL) {
-		//LOG("Could not load xml file config.xml. pugi error: %s", result.description());
-	}
-	else
-		ret = config_file.child("config");
-
-	return ret;
-}
-
-// ---------------------------------------------
 void trApp::PrepareUpdate()
 {
 	dt = (float)ms_timer.Read() / 1000.0f;
@@ -211,8 +197,10 @@ void trApp::FinishUpdate()
 	last_frame_ms = ms_timer.Read();
 
 	// cap fps
-	if (capped_ms > 0 && (last_frame_ms < capped_ms))
-		SDL_Delay(capped_ms - last_frame_ms);
+	if (cap_fps) {
+		if (capped_ms > 0 && (last_frame_ms < capped_ms))
+			SDL_Delay(capped_ms - last_frame_ms);
+	}
 
 	editor->InfoFPSMS((float)last_fps, (float)last_frame_ms); //todo ms not working correctly
 

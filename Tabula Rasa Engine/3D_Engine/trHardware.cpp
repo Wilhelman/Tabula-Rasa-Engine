@@ -35,8 +35,6 @@ bool trHardware::Start()
 	hw_info.has_sse3 = SDL_HasSSE3();
 	hw_info.has_sse41 = SDL_HasSSE41();
 	hw_info.has_sse42 = SDL_HasSSE42();
-
-	TR_LOG("trHardware: Obtained hardware info");
 	return true;
 }
 

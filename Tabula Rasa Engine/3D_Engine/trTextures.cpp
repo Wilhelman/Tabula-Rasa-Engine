@@ -24,12 +24,12 @@ bool trTextures::Awake(JSON_Object* config)
 	    iluGetInteger(ILU_VERSION_NUM) < ILU_VERSION ||
 		ilutGetInteger(ILUT_VERSION_NUM) < ILUT_VERSION) 
 	{
-		TR_LOG("DevIL version is different...exiting!\n");
+		TR_LOG("trTexture: DevIL version is different ... exiting!");
 		return false;
 	}
 
 	ilInit();
-	TR_LOG("Initializating DevIL...\n");
+	TR_LOG("trTexture: Initializating DevIL ...");
 
 	return true;
 }

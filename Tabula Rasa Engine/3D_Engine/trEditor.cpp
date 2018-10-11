@@ -31,12 +31,12 @@ trEditor::~trEditor()
 bool trEditor::Start()
 {
 	// Setup Dear ImGui binding
-	TR_LOG("Init editor gui with imgui lib version %s", ImGui::GetVersion());
+	TR_LOG("trEditor: Init editor with IMGUI lib version %s", ImGui::GetVersion());
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 
-	ImGui_ImplSDL2_InitForOpenGL(App->win->window, App->render->context);
+	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->render->context);
 	ImGui_ImplOpenGL2_Init();
 
 	// Setup style
@@ -67,7 +67,7 @@ bool trEditor::Update(float dt)
 {
 	ImGui_ImplOpenGL2_NewFrame();
 	//todo: do a getter for the window
-	ImGui_ImplSDL2_NewFrame(App->win->window);
+	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
 
 	if (ImGui::BeginMainMenuBar())
@@ -160,7 +160,7 @@ bool trEditor::CleanUp()
 	ImGui::DestroyContext();
 
 	SDL_GL_DeleteContext(App->render->context);
-	SDL_DestroyWindow(App->win->window);
+	SDL_DestroyWindow(App->window->window);
 	SDL_Quit();
 
 	return true;

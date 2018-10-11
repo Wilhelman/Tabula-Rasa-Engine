@@ -61,7 +61,6 @@ public:
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 
-	bool			vsync_state = false;
 
 	bool show_mesh_vertices = false;
 	bool show_mesh_vertices_normals = false;

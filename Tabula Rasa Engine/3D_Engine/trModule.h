@@ -9,7 +9,6 @@
 struct PhysBody3D;
 
 #include <string>
-#include "PugiXml\src\pugixml.hpp"
 #include "ParsonJson\parson.h"
 
 class trApp;

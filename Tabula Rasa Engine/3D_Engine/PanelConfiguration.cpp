@@ -98,8 +98,8 @@ void PanelConfiguration::Draw()
 
 	ShowApplication();
 
-	if (SetUpCollapsingHeader(App->win))
-		ShowWindow(App->win);
+	if (SetUpCollapsingHeader(App->window))
+		ShowWindow(App->window);
 
 	if (SetUpCollapsingHeader(App->render))
 		ShowRenderer(App->render);
@@ -143,7 +143,7 @@ void PanelConfiguration::ShowApplication()
 	{
 		strcpy_s(app_name, TITLE_ORG_MAX_LENGTH, App->GetTitle());
 		if (ImGui::InputText("App Name", app_name, TITLE_ORG_MAX_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
-			App->win->SetTitle(app_name);
+			App->window->SetTitle(app_name);
 
 		strcpy_s(org_name, TITLE_ORG_MAX_LENGTH, App->GetOrganization());
 		if (ImGui::InputText("Organization", org_name, TITLE_ORG_MAX_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
@@ -257,42 +257,42 @@ void PanelConfiguration::ShowInput(trInput * module)
 
 void PanelConfiguration::ShowWindow(trWindow * module)
 {
-	float brightness = App->win->GetBrightness();
+	float brightness = App->window->GetBrightness();
 	if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f))
-		App->win->SetBrightness(brightness);
+		App->window->SetBrightness(brightness);
 
 	uint w, h, min_w, min_h, max_w, max_h;
-	App->win->GetWindowConstraints(min_w, min_h, max_w, max_h);
-	w = App->win->width;
-	h = App->win->height;
+	App->window->GetWindowConstraints(min_w, min_h, max_w, max_h);
+	w = App->window->width;
+	h = App->window->height;
 
 	if (ImGui::SliderInt("Width", (int*)&w, min_w, max_w))
-		App->win->SetWidth(w);
+		App->window->SetWidth(w);
 
 	if (ImGui::SliderInt("Height", (int*)&h, min_h, max_h))
-		App->win->SetHeigth(h);
+		App->window->SetHeigth(h);
 	
 	ImGui::Text("Refresh rate:");
 	ImGui::SameLine();
-	ImGui::TextColored(IMGUI_YELLOW, "%u", App->win->GetMonitorRefreshRate());
+	ImGui::TextColored(IMGUI_YELLOW, "%u", App->window->GetMonitorRefreshRate());
 
 
 	//TODO : this is VERY UNSTABLE
-	if (ImGui::Checkbox("Fullscreen", &App->win->fullscreen))
-		App->win->SetFullscreen(App->win->fullscreen);
+	if (ImGui::Checkbox("Fullscreen", &App->window->fullscreen))
+		App->window->SetFullscreen(App->window->fullscreen);
 
 	ImGui::SameLine();
-	if (ImGui::Checkbox("Resizable", &App->win->resizable))
-		App->win->SetResizable(App->win->resizable);
+	if (ImGui::Checkbox("Resizable", &App->window->resizable))
+		App->window->SetResizable(App->window->resizable);
 	if (ImGui::IsItemHovered())
 		ImGui::SetTooltip("Restart to apply");
 
-	if (ImGui::Checkbox("Borderless", &App->win->borderless))
-		App->win->SetBorderless(App->win->borderless);
+	if (ImGui::Checkbox("Borderless", &App->window->borderless))
+		App->window->SetBorderless(App->window->borderless);
 
 	ImGui::SameLine();
-	if (ImGui::Checkbox("Full Desktop", &App->win->fullscreen_desktop))
-		App->win->SetFullScreenDesktop(App->win->fullscreen_desktop);
+	if (ImGui::Checkbox("Full Desktop", &App->window->fullscreen_desktop))
+		App->window->SetFullScreenDesktop(App->window->fullscreen_desktop);
 }
 
 void PanelConfiguration::ShowRenderer(trRenderer3D * module)

@@ -23,7 +23,7 @@
 
 trRenderer3D::trRenderer3D() : trModule()
 {
-	name = "Renderer 3D";
+	name = "renderer3D";
 }
 
 // Destructor
@@ -37,19 +37,21 @@ bool trRenderer3D::Awake(JSON_Object* config)
 
 	bool ret = true;
 
-	vsync_state = false;
-
 	Uint32 flags = SDL_RENDERER_ACCELERATED;
 
-	/*if (config.child("vsync").attribute("value").as_bool(true) == true)
-	{*/
-		flags |= SDL_RENDERER_PRESENTVSYNC;
-		vsync_state = true;
-		TR_LOG("Renderer3D: Using vsync");
-	//}
+	if (config != nullptr) {
+		if (json_object_get_boolean(config, "vsync")) {
+			flags |= SDL_RENDERER_PRESENTVSYNC;
+			TR_LOG("Renderer3D: vSync ENABLED");
+		}
+		else {
+			TR_LOG("Renderer3D: vSync DISABLED");
+		}
+		
+	}
 
 	//Create context
-	context = SDL_GL_CreateContext(App->win->window);
+	context = SDL_GL_CreateContext(App->window->window);
 	if (context == NULL)
 	{
 		TR_LOG("Renderer3D: OpenGL context could not be created!SDL_Error: %s\n", SDL_GetError());
@@ -226,7 +228,7 @@ bool trRenderer3D::PostUpdate(float dt)
 	App->editor->Draw();
 
 	//SWAP BUFFERS
-	SDL_GL_SwapWindow(App->win->window);
+	SDL_GL_SwapWindow(App->window->window);
 	return true;
 }
 
@@ -411,7 +413,7 @@ void trRenderer3D::ClearScene()
 
 void trRenderer3D::Draw()
 {
-	last_texture = App->tex->LoadImageFromPath("Models/Baker_house.png");
+	last_texture = App->texture->LoadImageFromPath("Models/Baker_house.png");
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);

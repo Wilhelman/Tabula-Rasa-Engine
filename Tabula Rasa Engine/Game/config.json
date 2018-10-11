@@ -1,12 +1,12 @@
 {
 	"app": {
 		"cap_framerate": true,
-		"framerate_cap": "60",
+		"framerate_cap": 60,
 		"title": "Tabula Rasa Engine",
 		"organization": "None"
 	},
-	"renderer": {
-		"vsync": true
+	"renderer3D": {
+		"vsync": false
 	},
 	"window": {
 		"width": "968",

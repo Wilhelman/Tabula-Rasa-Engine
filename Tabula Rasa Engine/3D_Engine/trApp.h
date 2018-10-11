@@ -6,7 +6,6 @@
 #include "trModule.h"
 #include "trPerfTimer.h"
 #include "trTimer.h"
-#include "PugiXml\src\pugixml.hpp"
 #include "ParsonJson\parson.h"
 #include "trLog.h"
 #include <string>
@@ -66,11 +65,6 @@ public:
 	void Save();
 	void Load();
 
-	// Load config file
-	pugi::xml_node LoadConfig(pugi::xml_document&) const;
-
-
-
 private:
 
 	// Call modules before each loop iteration
@@ -94,9 +88,9 @@ private:
 public:
 
 	// Modules
-	trWindow*			win = nullptr;
+	trWindow*			window = nullptr;
 	trInput*			input = nullptr;
-	trTextures*			tex = nullptr;
+	trTextures*			texture = nullptr;
 	trRenderer3D*		render = nullptr;
 	trAudio*			audio = nullptr;
 	trCamera3D*			camera = nullptr;
@@ -127,11 +121,12 @@ private:
 	trTimer	ms_timer;
 	trTimer	fps_timer;
 	Uint32	frames;
-	float	dt;
-	int		fps_counter;
-	int		last_frame_ms;
-	int		last_fps;
-	int		capped_ms;
+	float	dt = 0.f;
+	int		fps_counter = 0;
+	int		last_frame_ms = 0;
+	int		last_fps = 0;
+	int		capped_ms = 0;
+	bool    cap_fps = true;
 
 };
 

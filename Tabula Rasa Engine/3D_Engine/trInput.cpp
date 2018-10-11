@@ -142,7 +142,7 @@ bool trInput::PreUpdate(float dt)
 					if (file_format.compare(".fbx") == 0 || file_format.compare(".FBX") == 0)
 						App->file_loader->Import3DFile(dropped_filedir);
 					else			
-						App->tex->LoadImageFromPath(dropped_filedir);
+						App->texture->LoadImageFromPath(dropped_filedir);
 				}
 				else
 					TR_LOG("Cannot get file dropped path");

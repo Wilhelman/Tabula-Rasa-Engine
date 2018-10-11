@@ -29,7 +29,7 @@ trFileLoader::~trFileLoader()
 
 bool trFileLoader::Awake(JSON_Object* config)
 {
-	TR_LOG("Loading File Loader");
+	TR_LOG("trFileLoader: Loading File Loader");
 	bool ret = true;
 
 	// Stream log messages to Debug window
