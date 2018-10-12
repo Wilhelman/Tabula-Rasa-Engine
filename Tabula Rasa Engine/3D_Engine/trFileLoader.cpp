@@ -4,6 +4,7 @@
 #include "trDefs.h"
 #include "trApp.h"
 #include "trRenderer3D.h"
+#include "trCamera3D.h"
 
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
@@ -81,6 +82,11 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			mesh_data->vertex = new float[mesh_data->num_vertex * 3];
 			memcpy(mesh_data->vertex, new_mesh->mVertices, sizeof(float) * mesh_data->num_vertex * 3);
 
+			for (uint i = 0; i < mesh_data->num_vertex; i++)
+				scene_vertices.push_back(&mesh_data->vertex[i]);
+
+			scene_num_vertex += mesh_data->num_vertex;
+
 			// Textures copy
 			if (new_mesh->HasTextureCoords(0)) {//i?
 				mesh_data->num_uv = new_mesh->mNumVertices;
@@ -129,6 +135,12 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		}
 
 		aiReleaseImport(scene);
+
+		AABB bounding_box(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
+		bounding_box.Enclose((float3*)mesh_data->vertex, mesh_data->num_vertex);
+		App->camera->CenterOnScene(&bounding_box);
+
+
 		return true;
 	}
 	

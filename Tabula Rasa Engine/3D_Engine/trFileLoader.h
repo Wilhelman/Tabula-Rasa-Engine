@@ -3,7 +3,8 @@
 
 #include "trModule.h"
 #include "trDefs.h"
-
+#include <list>
+#include "MathGeoLib\MathGeoLib.h"
 
 #include "Assimp/include/cimport.h"
 
@@ -49,6 +50,10 @@ public:
 private:
 
 	Mesh* mesh_data = nullptr;
+	
+	std::vector<float*> scene_vertices;
+	uint scene_num_vertex = 0;
+
 
 };
 

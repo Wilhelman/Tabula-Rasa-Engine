@@ -1,6 +1,7 @@
 #include "trDefs.h"
 #include "trApp.h"
 #include "trInput.h"
+#include "trWindow.h"
 #include "trCamera3D.h"
 
 
@@ -57,8 +58,8 @@ bool trCamera3D::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 		speed = 8.0f * dt;
 
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
+	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_REPEAT) newPos.y += speed;
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) newPos.y -= speed;
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
@@ -66,6 +67,8 @@ bool trCamera3D::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
+
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) CenterOnScene(&b_box);
 
 	if (App->input->GetMouseZ() > 0)
 		newPos -= Z * speed * 2.f;
@@ -81,6 +84,9 @@ bool trCamera3D::Update(float dt)
 		//LookAt(vec3(0.f, 0.f, 0.f));
 
 	// Mouse motion ----------------
+
+	//if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_DOWN)
+		//LookAt(vec3(0.f, 0.f, 0.f));
 
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
@@ -115,7 +121,11 @@ bool trCamera3D::Update(float dt)
 			}*/
 		}
 
+	
+
 		Position = Reference + Z * length(Position);
+
+		
 	}
 	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
 	{
@@ -190,4 +200,27 @@ void trCamera3D::CalculateViewMatrix()
 {
 	ViewMatrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, Position), -dot(Y, Position), -dot(Z, Position), 1.0f);
 	ViewMatrixInverse = inverse(ViewMatrix);
+}
+
+void trCamera3D::CenterOnScene(AABB* bounding_box)
+{
+	b_box = *bounding_box;
+
+	if (&b_box != nullptr)
+	{
+		vec center_bbox(b_box.Centroid());
+		vec move_dir = (vec(Position.x, Position.y, Position.z) - center_bbox).Normalized();
+
+		float radius = b_box.MinimalEnclosingSphere().r;
+		double fov = DEG_TO_RAD(60.0f);
+		double cam_distance = Abs(App->window->GetWidth() / App->window->GetHeight() * radius / Sin(fov / 2.f));
+
+		vec final_pos = center_bbox + move_dir * cam_distance;
+		Position = vec3(final_pos.x, final_pos.y, final_pos.z);
+
+		if (Position.y < 0.f)
+			Position.y *= -1.f;
+
+		LookAt(vec3(center_bbox.x, center_bbox.y, center_bbox.z));
+	}
 }

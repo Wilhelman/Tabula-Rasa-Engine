@@ -27,6 +27,8 @@ public:
 	void Move(const vec3 &Movement);
 	float* GetViewMatrix();
 
+	void CenterOnScene(AABB* bounding_box = nullptr);
+
 private:
 
 	void CalculateViewMatrix();
@@ -38,6 +40,7 @@ public:
 private:
 
 	mat4x4 ViewMatrix, ViewMatrixInverse;
+	AABB b_box;
 };
 
 #endif
