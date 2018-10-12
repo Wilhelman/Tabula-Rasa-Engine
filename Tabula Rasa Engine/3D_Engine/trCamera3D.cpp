@@ -40,21 +40,10 @@ bool trCamera3D::CleanUp()
 
 // -----------------------------------------------------------------
 bool trCamera3D::Update(float dt)
-{
-	// Implement a debug camera with keys and mouse
-	// Now we can make this movememnt frame rate independant!
-
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) { //TODO REMOVE THIS fake
-		X = vec3(1.0f, 0.0f, 0.0f);
-		Y = vec3(0.0f, 1.0f, 0.0f);
-		Z = vec3(0.0f, 0.0f, 1.0f);
-
-		Position = vec3(0.0f, 0.0f, 5.0f);
-		Reference = vec3(0.0f, 0.0f, 0.0f);
-	}
-	
+{	
 	vec3 newPos(0.0f, 0.0f, 0.0f);
 	float speed = 5.0f * dt;
+
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 		speed = 8.0f * dt;
 
@@ -95,8 +84,6 @@ bool trCamera3D::Update(float dt)
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
 
-		Position -= Reference;
-
 		if (dx != 0)
 		{
 			float DeltaX = (float)dx * orbit_sensitivity;
@@ -114,18 +101,13 @@ bool trCamera3D::Update(float dt)
 			Z = rotate(Z, DeltaY, X);
 
 			// Uncomment teh code below to cap camera rotation on Z / X axis by +/-90 degrees
-			/*if (Y.y < 0.0f)
+			if (Y.y < 0.0f)
 			{
 				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
 				Y = cross(Z, X);
-			}*/
+			}
 		}
 
-	
-
-		Position = Reference + Z * length(Position);
-
-		
 	}
 	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
 	{
