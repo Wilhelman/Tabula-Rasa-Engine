@@ -68,7 +68,7 @@ bool trCamera3D::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) CenterOnScene(&b_box);
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) CenterOnScene();
 
 	if (App->input->GetMouseZ() > 0)
 		newPos -= Z * speed * 2.f;
@@ -204,14 +204,15 @@ void trCamera3D::CalculateViewMatrix()
 
 void trCamera3D::CenterOnScene(AABB* bounding_box)
 {
-	b_box = *bounding_box;
+	if (bounding_box != nullptr)
+		b_box = bounding_box;
 
-	if (&b_box != nullptr)
+	if (b_box != nullptr)
 	{
-		vec center_bbox(b_box.Centroid());
+		vec center_bbox(b_box->Centroid());
 		vec move_dir = (vec(Position.x, Position.y, Position.z) - center_bbox).Normalized();
 
-		float radius = b_box.MinimalEnclosingSphere().r;
+		float radius = b_box->MinimalEnclosingSphere().r;
 		double fov = DEG_TO_RAD(60.0f);
 		double cam_distance = Abs(App->window->GetWidth() / App->window->GetHeight() * radius / Sin(fov / 2.f));
 
@@ -223,4 +224,6 @@ void trCamera3D::CenterOnScene(AABB* bounding_box)
 
 		LookAt(vec3(center_bbox.x, center_bbox.y, center_bbox.z));
 	}
+		
+	
 }
