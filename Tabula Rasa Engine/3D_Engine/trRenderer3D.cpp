@@ -8,6 +8,7 @@
 #include "PPoint.h"
 #include "trEditor.h"
 #include "trTextures.h"
+#include "trInput.h"
 
 #include "Glew\include\GL\glew.h"
 #include "SDL\include\SDL_opengl.h"
@@ -175,8 +176,24 @@ bool trRenderer3D::PostUpdate(float dt)
 	if (!meshes.empty())
 		this->Draw();
 
+	/*if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_REPEAT)
+	{
+		int width = App->window->GetWidth();
+		int height = App->window->GetWidth();
+		float* data = new float[width * height];
+		glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, data);
+
+		//depthSample = 2.0 * depthSample - 1.0;
+		//float zLinear = 2.0 * zNear * zFar / (zFar + zNear - depthSample * (zFar - zNear));
+		
+		glDrawPixels(width, height, GL_LUMINANCE, GL_FLOAT, data);
+		delete[] data;
+	}*/
+
 	//RENDER GUI
 	App->editor->Draw();
+
+
 
 	//SWAP BUFFERS
 	SDL_GL_SwapWindow(App->window->window);
