@@ -40,7 +40,7 @@ public:
 private:
 
 	mat4x4 ViewMatrix, ViewMatrixInverse;
-	AABB* b_box = nullptr;
+	AABB b_box;
 };
 
 #endif

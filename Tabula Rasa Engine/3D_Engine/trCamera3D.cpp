@@ -68,7 +68,7 @@ bool trCamera3D::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) CenterOnScene(b_box);
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) CenterOnScene(&b_box);
 
 	if (App->input->GetMouseZ() > 0)
 		newPos -= Z * speed * 2.f;
@@ -84,6 +84,9 @@ bool trCamera3D::Update(float dt)
 		//LookAt(vec3(0.f, 0.f, 0.f));
 
 	// Mouse motion ----------------
+
+	//if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_DOWN)
+		//LookAt(vec3(0.f, 0.f, 0.f));
 
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
@@ -118,10 +121,10 @@ bool trCamera3D::Update(float dt)
 			}*/
 		}
 
+	
+
 		Position = Reference + Z * length(Position);
 
-		if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_DOWN)
-			LookAt(vec3(0.f, 0.f, 0.f));
 		
 	}
 	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
@@ -201,14 +204,14 @@ void trCamera3D::CalculateViewMatrix()
 
 void trCamera3D::CenterOnScene(AABB* bounding_box)
 {
-	b_box = bounding_box;
+	b_box = *bounding_box;
 
-	if (b_box != nullptr)
+	if (&b_box != nullptr)
 	{
-		vec center_bbox(b_box->Centroid());
+		vec center_bbox(b_box.Centroid());
 		vec move_dir = (vec(Position.x, Position.y, Position.z) - center_bbox).Normalized();
 
-		float radius = b_box->MinimalEnclosingSphere().r;
+		float radius = b_box.MinimalEnclosingSphere().r;
 		double fov = DEG_TO_RAD(60.0f);
 		double cam_distance = Abs(App->window->GetWidth() / App->window->GetHeight() * radius / Sin(fov / 2.f));
 
