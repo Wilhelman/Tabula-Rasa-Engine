@@ -9,10 +9,7 @@
 #include "trEditor.h"
 #include "trTextures.h"
 
-#include "MathGeoLib\MathGeoLib.h"
 #include "Glew\include\GL\glew.h"
-#include "DevIL\include\ilut.h"
-
 #include "SDL\include\SDL_opengl.h"
 
 
@@ -176,30 +173,7 @@ bool trRenderer3D::PostUpdate(float dt)
 
 	//RENDER IMPORTED MESH
 	if (!meshes.empty())
-	{
 		this->Draw();
-
-		if (show_mesh_vertices)
-		{
-			for (int i = 0; i < vertex_vec.size(); i++)
-				vertex_vec[i].Render();
-		}
-
-		if (show_mesh_vertices_normals)
-		{
-			for (int i = 0; i < vertex_normals_vec.size(); i++)
-				vertex_normals_vec[i].Render();
-		}
-
-		if (show_mesh_faces_normals)
-		{
-			for (int i = 0; i < face_normals_vec.size(); i++)
-			{
-				point_face_normals_vec[i].Render();
-				face_normals_vec[i].Render();
-			}	
-		}
-	}
 
 	//RENDER GUI
 	App->editor->Draw();
@@ -217,7 +191,7 @@ bool trRenderer3D::CleanUp()
 	SDL_GL_DeleteContext(context);
 
 	this->ClearScene();
-	
+
 	return true;
 }
 
@@ -316,19 +290,15 @@ void trRenderer3D::SetTextureID(const uint texture)
 
 void trRenderer3D::ClearScene()
 {
-	vertex_normals_vec.clear();
-	face_normals_vec.clear();
-	point_face_normals_vec.clear();
-	vertex_vec.clear();
-
 	std::vector<Mesh*>::iterator it = meshes.begin();
 	while (it != meshes.end())
 	{
 		delete (*it);
 		it++;
 	}
-
 	meshes.clear();
+
+	texture_id = 0u;
 }
 
 void trRenderer3D::Draw()
@@ -341,10 +311,10 @@ void trRenderer3D::Draw()
 	{
 		Mesh* mesh = (*it);
 
-		if(texture_id == 0) // If the texture is missing, we set the ambient color of the mesh
-			glColor4f(mesh->ambient_color.w, mesh->ambient_color.x, mesh->ambient_color.y, mesh->ambient_color.z);
-
 		glBindTexture(GL_TEXTURE_2D, texture_id);
+
+		if (texture_id == 0) // If the texture is missing, we set the ambient color of the mesh
+			glColor4f(mesh->ambient_color->w, mesh->ambient_color->x, mesh->ambient_color->y, mesh->ambient_color->z);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
@@ -359,10 +329,10 @@ void trRenderer3D::Draw()
 		glDrawElements(GL_TRIANGLES, mesh->index_size, GL_UNSIGNED_INT, NULL);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+		glColor4f(1.f, 1.f, 1.f, 1.f);
+
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-		glColor4f(1.f, 1.f, 1.f, 1.f);
-		
 		it++;
 	}
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -388,4 +358,18 @@ math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, floa
 	Perspective[3][2] = 2.0f * n * f / (n - f);
 
 	return Perspective;
+}
+
+Mesh::~Mesh()
+{
+	if (indices != nullptr) { delete[] indices; indices = nullptr; }
+	if (vertices != nullptr) { delete[] vertices; vertices = nullptr; }
+	if (uvs != nullptr) { delete[] uvs; uvs = nullptr; }
+
+	if (bounding_box != nullptr) { delete bounding_box; bounding_box = nullptr; }
+	if (ambient_color != nullptr) { delete ambient_color; ambient_color = nullptr; }
+
+	glDeleteBuffers(1, (GLuint*)&index_buffer);
+	glDeleteBuffers(1, (GLuint*)&vertex_buffer);
+	glDeleteBuffers(1, (GLuint*)&uv_buffer);
 }

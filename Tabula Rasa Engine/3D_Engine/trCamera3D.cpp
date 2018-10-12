@@ -224,6 +224,4 @@ void trCamera3D::CenterOnScene(AABB* bounding_box)
 
 		LookAt(vec3(center_bbox.x, center_bbox.y, center_bbox.z));
 	}
-		
-	
 }

@@ -30,13 +30,11 @@ struct Mesh
 	uint size_uv = 0u;
 	float* uvs = nullptr;
 
-	float* normals = nullptr;
-	float* normal_faces = nullptr;
-	uint num_faces = 0;
-
-	math::float4 ambient_color;
+	math::float4* ambient_color;
 
 	math::AABB* bounding_box = nullptr;
+
+	~Mesh();
 };
 
 class trRenderer3D : public trModule
@@ -84,11 +82,6 @@ public:
 	bool show_mesh_faces_normals = false;
 
 private:
-
-	std::vector<PArrow> vertex_normals_vec;
-	std::vector<PArrow> face_normals_vec;
-	std::vector<PPoint> point_face_normals_vec;
-	std::vector<PPoint> vertex_vec;
 
 	std::vector<Mesh*> meshes;
 

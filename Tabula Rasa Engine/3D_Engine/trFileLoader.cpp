@@ -14,11 +14,7 @@
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
 void StreamCallback(const char* msg, char* user_msg) {
-	std::string tmp = msg;
-	// For some reason ~ and % make assertion in s_printf! weird
-	tmp.erase(std::remove(tmp.begin(), tmp.end(), '~'), tmp.end());
-	tmp.erase(std::remove(tmp.begin(), tmp.end(), '%'), tmp.end());
-	TR_LOG(tmp.c_str());
+	TR_LOG("trFileLoader: %s",msg);
 }
 
 trFileLoader::trFileLoader()
@@ -77,10 +73,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
 			aiColor4D tmp_color;
 			aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &tmp_color);
-			mesh_data->ambient_color.w = tmp_color.r;
-			mesh_data->ambient_color.x = tmp_color.g;
-			mesh_data->ambient_color.y = tmp_color.b;
-			mesh_data->ambient_color.z = tmp_color.a;
+			mesh_data->ambient_color = new float4(tmp_color.r, tmp_color.g, tmp_color.b, tmp_color.a);
 
 			// Vertex copy
 			mesh_data->vertex_size = new_mesh->mNumVertices;
@@ -110,8 +103,6 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			// Index copy
 			if (new_mesh->HasFaces())
 			{
-
-				mesh_data->num_faces = new_mesh->mNumFaces;
 				mesh_data->index_size = new_mesh->mNumFaces * 3;
 				mesh_data->indices = new uint[mesh_data->index_size]; // assume each face is a triangle
 				for (uint i = 0; i < new_mesh->mNumFaces; ++i)
