@@ -109,7 +109,54 @@ bool trCamera3D::Update(float dt)
 		}
 
 	}
-	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
+	
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT
+		&& App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
+	{
+		if (b_box != nullptr)
+			LookAt(vec3(b_box->Centroid().x, b_box->Centroid().y, b_box->Centroid().z));
+		else
+			LookAt(vec3(0.f, 0.f, 0.f));
+
+
+		int dx = -App->input->GetMouseXMotion();
+		int dy = -App->input->GetMouseYMotion();
+
+		float Sensitivity = 0.25f;
+
+		Position -= Reference;
+
+		if (dx != 0)
+		{
+			float DeltaX = (float)dx * Sensitivity;
+
+			X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+			Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+			Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+		}
+
+		if (dy != 0)
+		{
+			float DeltaY = (float)dy * Sensitivity;
+
+			Y = rotate(Y, DeltaY, X);
+			Z = rotate(Z, DeltaY, X);
+
+			if (Y.y < 0.0f)
+			{
+				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+				Y = cross(Z, X);
+			}
+		}
+
+		Position = Reference + Z * length(Position);
+
+
+	}
+
+	
+	
+	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
 	{
 		float pan_sensitivity = 0.01f;
 
