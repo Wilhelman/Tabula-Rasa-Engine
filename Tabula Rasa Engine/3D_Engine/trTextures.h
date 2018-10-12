@@ -28,11 +28,6 @@ public:
 	bool CleanUp();
 
 	void LoadImageFromPath(const char* path);
-
-	const uint GetTextureID();
-
-private:
-	uint texture_id = 0u;
 };
 
 #endif // __TEXTURES_H__

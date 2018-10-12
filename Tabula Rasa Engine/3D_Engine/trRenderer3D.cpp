@@ -304,6 +304,11 @@ void trRenderer3D::SetTextureID(const uint texture)
 	this->texture_id = texture;
 }
 
+const uint trRenderer3D::GetTextureID() const
+{
+	return texture_id;
+}
+
 
 void trRenderer3D::ClearScene()
 {
@@ -314,8 +319,6 @@ void trRenderer3D::ClearScene()
 		it++;
 	}
 	meshes.clear();
-
-	texture_id = 0u;
 }
 
 void trRenderer3D::Draw()

@@ -43,11 +43,21 @@ bool trTextures::Start()
 
 bool trTextures::CleanUp()
 {
+	uint tmp_id = App->render->GetTextureID();
+
+	if (tmp_id != 0)  // Delete the last texture
+		ilDeleteImages(1, &tmp_id);
+
 	return true;
 }
 
 void trTextures::LoadImageFromPath(const char * path)
 {
+	uint tmp_id = App->render->GetTextureID();
+
+	if (tmp_id != 0)  // Delete the last texture
+		ilDeleteImages(1, &tmp_id);
+	
 	uint img_id = 0u;
 	uint texture_id = 0u;
 
@@ -98,9 +108,5 @@ void trTextures::LoadImageFromPath(const char * path)
 		
 }
 
-const uint trTextures::GetTextureID()
-{
-	return texture_id;
-}
 
 

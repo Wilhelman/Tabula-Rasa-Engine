@@ -5,17 +5,14 @@
 #include "trDefs.h"
 
 #include "Light.h"
-#include "trPrimitives.h"
+
+#include "Glew\include\GL\glew.h"
 
 #include "MathGeoLib/MathBuildConfig.h"
 #include "MathGeoLib/MathGeoLib.h"
 #include "MathGeoLib/MathGeoLibFwd.h"
 
 #define MAX_LIGHTS 8
-
-class PArrow;
-class PPoint;
-
 struct Mesh
 {
 	uint index_buffer = 0u;
@@ -61,6 +58,7 @@ public:
 	void GenerateBufferForMesh(Mesh* mesh);
 
 	void SetTextureID(const uint texture);
+	const uint GetTextureID()const;
 
 	// Cleans all the meshes in the scene (not the primitives);
 	void ClearScene();

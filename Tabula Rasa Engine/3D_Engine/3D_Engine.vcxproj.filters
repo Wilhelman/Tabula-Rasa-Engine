@@ -34,9 +34,6 @@
     <Filter Include="Utilities\3rd Party\PCG">
       <UniqueIdentifier>{a6711847-3719-4428-816a-1dacb375a5a1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utilities\3rd Party\PuguiXML">
-      <UniqueIdentifier>{8611086a-dc86-4eab-a673-d0cc3fb5b88e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Editor">
       <UniqueIdentifier>{94ec3c63-599e-4865-a18e-719dca9cc99f}</UniqueIdentifier>
     </Filter>
@@ -63,9 +60,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pugixml.cpp">
-      <Filter>Utilities\3rd Party\PuguiXML</Filter>
-    </ClCompile>
     <ClCompile Include="trWindow.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
@@ -299,12 +293,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pugiconfig.hpp">
-      <Filter>Utilities\3rd Party\PuguiXML</Filter>
-    </ClInclude>
-    <ClInclude Include="pugixml.hpp">
-      <Filter>Utilities\3rd Party\PuguiXML</Filter>
-    </ClInclude>
     <ClInclude Include="MemLeaks.h">
       <Filter>Core</Filter>
     </ClInclude>
