@@ -9,6 +9,9 @@ class Panel;
 class PanelAbout;
 class PanelConfiguration;
 class PanelConsole;
+class PanelInspector;
+
+class Mesh;
 
 class trEditor : public trModule
 {
@@ -25,9 +28,7 @@ public:
 
 	void Draw();
 
-	//todo implement this
-	bool UserUsingMouse() const;
-	bool UserUsingKeyboard() const;
+	void SetupInspectorWith(Mesh* mesh);
 
 	void InfoFPSMS(float current_fps, float current_ms);
 
@@ -39,6 +40,7 @@ public:
 	PanelAbout* about = nullptr;
 	PanelConfiguration* config = nullptr;
 	PanelConsole* console = nullptr;
+	PanelInspector* inspector = nullptr;
 
 private:
 

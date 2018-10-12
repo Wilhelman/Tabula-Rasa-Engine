@@ -29,19 +29,20 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	texture = new trTextures();
 	render = new trRenderer3D();
 	camera = new trCamera3D();
-
 	main_scene = new trMainScene();
-	editor = new trEditor();
 	hardware = new trHardware();
 	file_loader = new trFileLoader();
+	editor = new trEditor();
 	
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
+
+	AddModule(editor); // Editor should be the last in clean up!
+
 	AddModule(input);
 	AddModule(window);
 	AddModule(camera);
 	AddModule(main_scene);
-	AddModule(editor);
 	AddModule(hardware);
 	AddModule(file_loader);
 	AddModule(texture);

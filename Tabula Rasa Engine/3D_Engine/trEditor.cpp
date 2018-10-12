@@ -9,6 +9,7 @@
 #include "PanelAbout.h"
 #include "PanelConfiguration.h"
 #include "PanelConsole.h"
+#include "PanelInspector.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -46,6 +47,7 @@ bool trEditor::Start()
 	panels.push_back(about = new PanelAbout());
 	panels.push_back(config = new PanelConfiguration());
 	panels.push_back(console = new PanelConsole(init_logs));
+	panels.push_back(inspector = new PanelInspector());
 
 	return true;
 }
@@ -89,8 +91,11 @@ bool trEditor::Update(float dt)
 			if (ImGui::MenuItem("Console", "1"))
 				console->TurnActive();
 
-			if (ImGui::MenuItem("Configuration", "4"))
+			if (ImGui::MenuItem("Configuration", "2"))
 				config->TurnActive();
+
+			if (ImGui::MenuItem("Inspector", "I"))
+				inspector->TurnActive();
 
 			ImGui::EndMenu();
 		}
@@ -150,9 +155,10 @@ bool trEditor::CleanUp()
 	Log("trEditor: CleanUp");
 	std::vector<Panel*>::iterator it = panels.begin();
 
-	while (it != panels.end())
-		RELEASE(*it++);//is this legal?
-
+	while (it != panels.end()) {
+		delete(*it);//is this legal? todo go to each panel
+		it++;
+	}
 	panels.clear();
 
 	ImGui_ImplOpenGL2_Shutdown();
@@ -171,6 +177,12 @@ void trEditor::Draw()
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 }
+
+void trEditor::SetupInspectorWith(Mesh* mesh)
+{
+	inspector->SetDataFrom(mesh);
+}
+
 
 void trEditor::InfoFPSMS(float current_fps, float current_ms)
 {

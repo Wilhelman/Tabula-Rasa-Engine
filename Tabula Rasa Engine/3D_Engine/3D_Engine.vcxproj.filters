@@ -291,6 +291,9 @@
     <ClCompile Include="PGrid.cpp">
       <Filter>Utilities\Primitives</Filter>
     </ClCompile>
+    <ClCompile Include="PanelInspector.cpp">
+      <Filter>Core\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MemLeaks.h">
@@ -769,6 +772,9 @@
     </ClInclude>
     <ClInclude Include="PGrid.h">
       <Filter>Utilities\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelInspector.h">
+      <Filter>Core\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

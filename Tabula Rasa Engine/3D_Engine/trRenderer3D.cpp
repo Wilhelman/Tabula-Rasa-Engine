@@ -297,6 +297,7 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 	meshes.push_back(mesh);
 
 	App->camera->CenterOnScene(mesh->bounding_box);
+	App->editor->SetupInspectorWith(mesh);
 }
 
 void trRenderer3D::SetTextureID(const uint texture)
@@ -388,6 +389,8 @@ Mesh::~Mesh()
 
 	if (bounding_box != nullptr) { delete bounding_box; bounding_box = nullptr; }
 	if (ambient_color != nullptr) { delete ambient_color; ambient_color = nullptr; }
+
+	name.clear();
 
 	glDeleteBuffers(1, (GLuint*)&index_buffer);
 	glDeleteBuffers(1, (GLuint*)&vertex_buffer);

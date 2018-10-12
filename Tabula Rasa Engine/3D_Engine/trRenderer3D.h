@@ -15,6 +15,8 @@
 #define MAX_LIGHTS 8
 struct Mesh
 {
+	std::string name;
+
 	uint index_buffer = 0u;
 	uint index_size = 0u;
 	uint* indices = nullptr;
@@ -71,11 +73,9 @@ public:
 
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
-	float3x3 NormalMatrix;
-	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+	float4x4 ProjectionMatrix;
 
-
-	bool show_mesh_vertices = false;
+	bool show_mesh_vertices = false; // todo ...
 	bool show_mesh_vertices_normals = false;
 	bool show_mesh_faces_normals = false;
 

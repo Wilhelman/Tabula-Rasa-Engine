@@ -68,6 +68,18 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		{
 			mesh_data = new Mesh(); // our mesh
 
+			std::string tmp = file_path;
+			// Let's get the file name to print it in inspector:
+			const size_t last_slash = tmp.find_last_of("\\/");
+			if (std::string::npos != last_slash)
+				tmp.erase(0, last_slash + 1);
+			/*const size_t extension = tmp.rfind('.');
+			if (std::string::npos != extension)
+				tmp.erase(extension);*/
+
+			tmp = tmp + std::to_string(i + 1);
+			mesh_data->name = tmp;
+
 			aiMesh* new_mesh = scene->mMeshes[i];
 			
 			aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
@@ -122,8 +134,6 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		}
 
 		aiReleaseImport(scene);
-
-		
 
 		return true;
 	}
