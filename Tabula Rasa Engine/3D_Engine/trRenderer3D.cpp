@@ -259,7 +259,6 @@ void trRenderer3D::SwitchDepthMode(bool toggle)
 {
 	(toggle) ?
 		glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
-
 }
 
 void trRenderer3D::SwitchFaceCulling(bool toggle)
@@ -289,70 +288,24 @@ void trRenderer3D::SwitchTexture2D(bool toggle)
 
 void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 {
-	GenerateMeshDebug(mesh);
-
-	glGenBuffers(1, (GLuint*) &(mesh->buffer_vertex));
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_vertex);
-	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->num_vertex, mesh->vertex, GL_STATIC_DRAW);
+	glGenBuffers(1, (GLuint*) &(mesh->vertex_buffer));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
+	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->vertex_size, mesh->vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glGenBuffers(1, (GLuint*) &(mesh->buffer_uv));
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_uv);
-	glBufferData(GL_ARRAY_BUFFER, 2 * mesh->num_uv * sizeof(GLfloat), mesh->uv, GL_STATIC_DRAW);
+	glGenBuffers(1, (GLuint*) &(mesh->uv_buffer));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
+	glBufferData(GL_ARRAY_BUFFER, 2 * mesh->size_uv * sizeof(GLfloat), mesh->uvs, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glGenBuffers(1, (GLuint*) &(mesh->buffer_index));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->buffer_index);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->num_index, mesh->index, GL_STATIC_DRAW);
+	glGenBuffers(1, (GLuint*) &(mesh->index_buffer));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->index_buffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->index_size, mesh->indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	meshes.push_back(mesh);
-}
 
-void trRenderer3D::GenerateMeshDebug(Mesh* mesh)
-{
-	//TODO CLEAN vertex and normals
-
-	vertex_vec.reserve(mesh->num_vertex);
-	vertex_normals_vec.reserve(mesh->num_vertex);
-
-	// Filling vectors with vertices and vertices' normals coordinates
-	for (int i = 0; i < mesh->num_vertex * 3.f; i += 3)
-	{
-		math::vec vertex_pos(mesh->vertex[i], mesh->vertex[i + 1], mesh->vertex[i + 2]);
-		math::vec normal_pos(mesh->normals[i], mesh->normals[i + 1], mesh->normals[i + 2]);
-		math::vec destination = vertex_pos + normal_pos;
-
-		PArrow normal(vertex_pos, destination, math::float4(0.f, 1.f, 0.f, 1.f));
-		PPoint vertex(vertex_pos, math::float4(0.f, 0.f, 1.f, 1.f));
-
-		vertex_normals_vec.push_back(normal);
-		vertex_vec.push_back(vertex);
-	}
-
-	face_normals_vec.reserve(mesh->num_faces);
-
-	// Filling vector with faces' normals
-	for (uint i = 0; i < mesh->num_vertex * 3.f; i += 9) // todo: check i
-	{
-		math::vec tri_a(mesh->vertex[i], mesh->vertex[i + 1], mesh->vertex[i + 2]);
-		math::vec tri_b(mesh->vertex[i + 3], mesh->vertex[i + 4], mesh->vertex[i + 5]);
-		math::vec tri_c(mesh->vertex[i + 6], mesh->vertex[i + 7], mesh->vertex[i + 8]);
-
-		math::vec tri_center((tri_a.x + tri_b.x + tri_c.x) / 3.0f,
-					         (tri_a.y + tri_b.y + tri_c.y) / 3.0f,
-							 (tri_a.z + tri_b.z + tri_c.z) / 3.0f);
-
-		math::vec u(tri_b - tri_a);
-		math::vec v(tri_c - tri_a);
-		math::vec result_normal = math::Cross(u, v).Normalized();
-		math::vec destination = tri_center + result_normal;
-
-		PPoint normal_point(tri_center, math::float4(0.f, 0.5f, 0.5f, 1.f));
-		PArrow normal(tri_center, destination, math::float4(0.f, 0.f, 1.f, 1.f));
-		point_face_normals_vec.push_back(normal_point);
-		face_normals_vec.push_back(normal);
-	}
+	App->camera->CenterOnScene(mesh->bounding_box);
 }
 
 void trRenderer3D::SetTextureID(const uint texture)
@@ -382,27 +335,28 @@ void trRenderer3D::Draw()
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
 	std::vector<Mesh*>::iterator it = meshes.begin();
 	while (it != meshes.end())
 	{
 		Mesh* mesh = (*it);
 
-		//if(texture_id == 0) // If the texture is missing, we set the ambient color of the mesh
-			//glColor4f(mesh->mat_color.r, mesh->mat_color.g, mesh->mat_color.b, mesh->mat_color.a);
+		if(texture_id == 0) // If the texture is missing, we set the ambient color of the mesh
+			glColor4f(mesh->ambient_color.w, mesh->ambient_color.x, mesh->ambient_color.y, mesh->ambient_color.z);
 
 		glBindTexture(GL_TEXTURE_2D, texture_id);
 		
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_vertex);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		//texture
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_uv);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
 		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->buffer_index);
-		glDrawElements(GL_TRIANGLES, mesh->num_index, GL_UNSIGNED_INT, NULL);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->index_buffer);
+		glDrawElements(GL_TRIANGLES, mesh->index_size, GL_UNSIGNED_INT, NULL);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 		glBindTexture(GL_TEXTURE_2D, 0);

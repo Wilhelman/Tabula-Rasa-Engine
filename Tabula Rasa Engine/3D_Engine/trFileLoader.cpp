@@ -75,71 +75,64 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			aiMesh* new_mesh = scene->mMeshes[i];
 			
 			aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
-			aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &mesh_data->mat_color);
+			aiColor4D tmp_color;
+			aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &tmp_color);
+			mesh_data->ambient_color.w = tmp_color.r;
+			mesh_data->ambient_color.x = tmp_color.g;
+			mesh_data->ambient_color.y = tmp_color.b;
+			mesh_data->ambient_color.z = tmp_color.a;
 
 			// Vertex copy
-			mesh_data->num_vertex = new_mesh->mNumVertices;
-			mesh_data->vertex = new float[mesh_data->num_vertex * 3];
-			memcpy(mesh_data->vertex, new_mesh->mVertices, sizeof(float) * mesh_data->num_vertex * 3);
+			mesh_data->vertex_size = new_mesh->mNumVertices;
+			mesh_data->vertices = new float[mesh_data->vertex_size * 3];
+			memcpy(mesh_data->vertices, new_mesh->mVertices, sizeof(float) * mesh_data->vertex_size * 3);
 
-			for (uint i = 0; i < mesh_data->num_vertex; i++)
-				scene_vertices.push_back(&mesh_data->vertex[i]);
+			for (uint i = 0; i < mesh_data->vertex_size; i++)
+				scene_vertices.push_back(&mesh_data->vertices[i]);
 
-			scene_num_vertex += mesh_data->num_vertex;
+			scene_num_vertex += mesh_data->vertex_size;
 
 			// Textures copy
 			if (new_mesh->HasTextureCoords(0)) {//i?
-				mesh_data->num_uv = new_mesh->mNumVertices;
-				mesh_data->uv = new float[mesh_data->num_uv * 2];
-				for (int i = 0; i < mesh_data->num_uv; i++) {
-					mesh_data->uv[i * 2] = new_mesh->mTextureCoords[0][i].x;
-					mesh_data->uv[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
+				mesh_data->size_uv = new_mesh->mNumVertices;
+				mesh_data->uvs = new float[mesh_data->size_uv * 2];
+				for (int i = 0; i < mesh_data->size_uv; i++) {
+					mesh_data->uvs[i * 2] = new_mesh->mTextureCoords[0][i].x;
+					mesh_data->uvs[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
 				}
 			}
 
-			// Vertices' normals copy
-			aiVector3D* mesh_normals = new_mesh->mNormals;
-			mesh_data->normals = new float[mesh_data->num_vertex * 3];
-
 			// Vertices' colors copy
 			aiColor4D* mesh_colors = *new_mesh->mColors;
-			mesh_data->colors = new float[mesh_data->num_vertex * 3];
 
-			TR_LOG("trFileLoader: Importing new mesh with %d vertices", mesh_data->num_vertex);
+			TR_LOG("trFileLoader: Importing new mesh with %d vertices", mesh_data->vertex_size);
 
 			// Index copy
 			if (new_mesh->HasFaces())
 			{
+
 				mesh_data->num_faces = new_mesh->mNumFaces;
-				mesh_data->num_index = new_mesh->mNumFaces * 3;
-				mesh_data->index = new uint[mesh_data->num_index]; // assume each face is a triangle
+				mesh_data->index_size = new_mesh->mNumFaces * 3;
+				mesh_data->indices = new uint[mesh_data->index_size]; // assume each face is a triangle
 				for (uint i = 0; i < new_mesh->mNumFaces; ++i)
 				{
 					if (new_mesh->mFaces[i].mNumIndices != 3)
 						TR_LOG("WARNING, geometry face with != 3 indices!");
 					else
-						memcpy(&mesh_data->index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+						memcpy(&mesh_data->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 				}
 
-				// Getting vertices' normals coordinates from loaded mesh
-				for (int i = 0; i < mesh_data->num_vertex && mesh_normals != nullptr; i++)
-				{
-					memcpy(mesh_data->normals, mesh_normals, sizeof(float) * mesh_data->num_vertex * 3);
-
-					if (mesh_colors != nullptr)
-						memcpy(mesh_data->colors, &mesh_colors[i], sizeof(float) * mesh_data->num_vertex * 3);
-				}
 			}
+
+			mesh_data->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
+			mesh_data->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
 
 			App->render->GenerateBufferForMesh(mesh_data);
 		}
 
 		aiReleaseImport(scene);
 
-		AABB bounding_box(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
-		bounding_box.Enclose((float3*)mesh_data->vertex, mesh_data->num_vertex);
-		App->camera->CenterOnScene(&bounding_box);
-
+		
 
 		return true;
 	}

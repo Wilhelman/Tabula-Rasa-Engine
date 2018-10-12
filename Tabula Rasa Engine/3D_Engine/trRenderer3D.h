@@ -4,8 +4,6 @@
 #include "trModule.h"
 #include "trDefs.h"
 
-#include "trFileLoader.h"
-
 #include "Light.h"
 #include "trPrimitives.h"
 
@@ -17,7 +15,29 @@
 
 class PArrow;
 class PPoint;
-class ImageTexture;
+
+struct Mesh
+{
+	uint index_buffer = 0u;
+	uint index_size = 0u;
+	uint* indices = nullptr;
+
+	uint vertex_buffer = 0u;
+	uint vertex_size = 0u;
+	float* vertices = nullptr;
+
+	uint uv_buffer = 0u;
+	uint size_uv = 0u;
+	float* uvs = nullptr;
+
+	float* normals = nullptr;
+	float* normal_faces = nullptr;
+	uint num_faces = 0;
+
+	math::float4 ambient_color;
+
+	math::AABB* bounding_box = nullptr;
+};
 
 class trRenderer3D : public trModule
 {
@@ -41,9 +61,6 @@ public:
 	void SwitchTexture2D(bool toggle);
 
 	void GenerateBufferForMesh(Mesh* mesh);
-
-	// Generates primitives (points and lines) to draw vertices and normals when needed
-	void GenerateMeshDebug(Mesh* mesh);
 
 	void SetTextureID(const uint texture);
 
@@ -74,6 +91,8 @@ private:
 	std::vector<PPoint> vertex_vec;
 
 	std::vector<Mesh*> meshes;
+
+	math::AABB* last_mesh_bounding_box = nullptr;
 
 	uint texture_id = 0u;
 

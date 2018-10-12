@@ -8,28 +8,7 @@
 
 #include "Assimp/include/cimport.h"
 
-
-struct Mesh
-{
-	uint buffer_index = 0u;
-	uint num_index = 0u;
-	uint* index = nullptr;
-
-	uint buffer_vertex = 0u;
-	uint num_vertex = 0u;
-	float* vertex = nullptr;
-
-	uint buffer_uv = 0u;
-	uint num_uv = 0u;
-	float* uv = nullptr;
-
-	float* normals = nullptr;
-	float* normal_faces = nullptr;
-	uint num_faces = 0;
-
-	float* colors = nullptr;
-	aiColor4D mat_color;
-};
+class Mesh;
 
 class trFileLoader : public trModule
 {
