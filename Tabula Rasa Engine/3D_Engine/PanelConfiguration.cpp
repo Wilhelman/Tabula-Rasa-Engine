@@ -4,7 +4,6 @@
 #include "trHardware.h"
 #include "trWindow.h"
 #include "trInput.h"
-#include "trAudio.h"
 #include "trRenderer3D.h"
 #include "trCamera3D.h"
 #include "trEditor.h"
@@ -103,9 +102,6 @@ void PanelConfiguration::Draw()
 
 	if (SetUpCollapsingHeader(App->render))
 		ShowRenderer(App->render);
-
-	if (SetUpCollapsingHeader(App->audio))
-		ShowAudio(App->audio);
 
 	if (SetUpCollapsingHeader(App->input))
 		ShowInput(App->input);

@@ -7,7 +7,6 @@
 #include "trInput.h"
 #include "trTextures.h"
 #include "trRenderer3D.h"
-#include "trAudio.h"
 #include "trCamera3D.h"
 #include "trEditor.h"
 #include "trHardware.h"
@@ -29,7 +28,6 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	window = new trWindow();
 	texture = new trTextures();
 	render = new trRenderer3D();
-	audio = new trAudio();
 	camera = new trCamera3D();
 
 	main_scene = new trMainScene();
@@ -41,9 +39,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	// Reverse order of CleanUp
 	AddModule(input);
 	AddModule(window);
-	AddModule(audio);
 	AddModule(camera);
-
 	AddModule(main_scene);
 	AddModule(editor);
 	AddModule(hardware);
@@ -53,11 +49,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	// render last to swap buffer
 	AddModule(render);
 
-	//the start one
-
 	//disable modules here
-
-	//PERF_PEEK(ptimer);
 }
 
 // Destructor

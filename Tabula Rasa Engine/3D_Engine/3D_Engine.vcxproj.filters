@@ -69,9 +69,6 @@
     <ClCompile Include="trWindow.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="trAudio.cpp">
-      <Filter>Core\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="trInput.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
@@ -312,9 +309,6 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="trWindow.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="trAudio.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
     <ClInclude Include="trInput.h">

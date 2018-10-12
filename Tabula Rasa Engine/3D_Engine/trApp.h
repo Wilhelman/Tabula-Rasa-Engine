@@ -16,7 +16,6 @@ class trWindow;
 class trInput;
 class trTextures;
 class trRenderer3D;
-class trAudio;
 class trCamera3D;
 class trMainScene;
 class trEditor;
@@ -95,7 +94,6 @@ public:
 	trInput*			input = nullptr;
 	trTextures*			texture = nullptr;
 	trRenderer3D*		render = nullptr;
-	trAudio*			audio = nullptr;
 	trCamera3D*			camera = nullptr;
 	trMainScene*		main_scene = nullptr;
 	trEditor*			editor = nullptr;
