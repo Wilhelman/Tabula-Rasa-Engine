@@ -245,21 +245,26 @@ void PanelConfiguration::ShowHardware(trHardware * module)
 	ImGui::SameLine();
 	ImGui::TextColored(IMGUI_YELLOW, "%s", (char*)glGetString(GL_RENDERER));
 
+	float updated_vram_budget = CONV_MEM_UP((float)info.vram_budget);
+	float updated_vram_usage = CONV_MEM_UP((float)info.vram_usage);
+	float updated_vram_available = CONV_MEM_UP((float)info.vram_available);
+	float updated_vram_reserved = CONV_MEM_UP((float)info.vram_reserved);
+
 	ImGui::Text("VRAM Budget: ");
 	ImGui::SameLine();
-	ImGui::TextColored(IMGUI_YELLOW, "%i%s", info.vram_budget, " Mb");
+	ImGui::TextColored(IMGUI_YELLOW, "%.2f%s", updated_vram_budget, " Mb");
 
 	ImGui::Text("VRAM Usage: ");
 	ImGui::SameLine();
-	ImGui::TextColored(IMGUI_YELLOW, "%i%s", info.vram_usage, " Mb");
+	ImGui::TextColored(IMGUI_YELLOW, "%.2f%s", updated_vram_usage, " Mb");
 
 	ImGui::Text("VRAM Available: ");
 	ImGui::SameLine();
-	ImGui::TextColored(IMGUI_YELLOW, "%i%s", info.vram_available, " Mb");
+	ImGui::TextColored(IMGUI_YELLOW, "%.2f%s", updated_vram_available, " Mb");
 
 	ImGui::Text("VRAM Reserved: ");
 	ImGui::SameLine();
-	ImGui::TextColored(IMGUI_YELLOW, "%i%s", info.vram_reserved, " Mb");
+	ImGui::TextColored(IMGUI_YELLOW, "%.2f%s", updated_vram_reserved, " Mb");
 
 	ImGui::Separator();
 
