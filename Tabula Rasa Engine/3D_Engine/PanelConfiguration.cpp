@@ -31,52 +31,6 @@ void PanelConfiguration::Draw()
 {
 	ImGui::Begin("Configuration", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoFocusOnAppearing);
 
-	if (ImGui::BeginMenu("OpenGL Options"))
-	{
-		ImGui::Text("Switch wireframe");
-		ImGui::SameLine();
-		bool is_active = App->render->IsWireframeModeEnabled();
-		if (ImGui::Checkbox("##WIREFRAME", &is_active))
-			App->render->SwitchWireframeMode(is_active);
-
-		ImGui::Separator();
-
-		ImGui::Text("Switch Depth Test");
-		ImGui::SameLine();
-		if (ImGui::Checkbox("##DEPTH", &depth_test))
-			App->render->SwitchDepthMode(depth_test);
-		
-		ImGui::Separator();
-
-		ImGui::Text("Switch Cull Face");
-		ImGui::SameLine();
-		if (ImGui::Checkbox("##CULL_FACE", &cull_face))
-			App->render->SwitchFaceCulling(cull_face);
-
-		ImGui::Separator();
-
-		ImGui::Text("Switch Lighting");
-		ImGui::SameLine();
-		if (ImGui::Checkbox("##LIGHTING", &lighting))
-			App->render->SwitchLighting(lighting);
-
-		ImGui::Separator();
-
-		ImGui::Text("Switch Color Material");
-		ImGui::SameLine();
-		if (ImGui::Checkbox("##COLOR_MATERIAL", &color_material))
-			App->render->SwitchColorMaterial(color_material);
-
-		ImGui::Separator();
-
-		ImGui::Text("Switch Texture 2D");
-		ImGui::SameLine();
-		if (ImGui::Checkbox("##TEXTURE2D", &texture_2D))
-			App->render->SwitchTexture2D(texture_2D);
-
-		ImGui::EndMenu();
-	}
-
 	ShowApplication();
 
 	if (SetUpCollapsingHeader(App->window))
@@ -107,7 +61,6 @@ bool PanelConfiguration::SetUpCollapsingHeader(trModule* module)
 			module->TurnActive();
 			module->CleanUp();
 		}
-			
 
 		ret = true;
 	}
@@ -309,7 +262,48 @@ void PanelConfiguration::ShowWindow(trWindow * module)
 
 void PanelConfiguration::ShowRenderer(trRenderer3D * module)
 {
-	//todo
+	ImGui::Separator();
+
+	ImGui::Text("Switch wireframe");
+	ImGui::SameLine();
+	bool is_active = App->render->IsWireframeModeEnabled();
+	if (ImGui::Checkbox("##WIREFRAME", &is_active))
+		App->render->SwitchWireframeMode(is_active);
+
+	ImGui::Separator();
+
+	ImGui::Text("Switch Depth Test");
+	ImGui::SameLine();
+	if (ImGui::Checkbox("##DEPTH", &depth_test))
+		App->render->SwitchDepthMode(depth_test);
+
+	ImGui::Separator();
+
+	ImGui::Text("Switch Cull Face");
+	ImGui::SameLine();
+	if (ImGui::Checkbox("##CULL_FACE", &cull_face))
+		App->render->SwitchFaceCulling(cull_face);
+
+	ImGui::Separator();
+
+	ImGui::Text("Switch Lighting");
+	ImGui::SameLine();
+	if (ImGui::Checkbox("##LIGHTING", &lighting))
+		App->render->SwitchLighting(lighting);
+
+	ImGui::Separator();
+
+	ImGui::Text("Switch Color Material");
+	ImGui::SameLine();
+	if (ImGui::Checkbox("##COLOR_MATERIAL", &color_material))
+		App->render->SwitchColorMaterial(color_material);
+
+	ImGui::Separator();
+
+	ImGui::Text("Switch Texture 2D");
+	ImGui::SameLine();
+	if (ImGui::Checkbox("##TEXTURE2D", &texture_2D))
+		App->render->SwitchTexture2D(texture_2D);
 }
 
 void PanelConfiguration::FillChartFpsInfo(float fps, float ms)
