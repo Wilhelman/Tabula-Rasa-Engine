@@ -313,8 +313,6 @@ const uint trRenderer3D::GetTextureID() const
 	return ret;
 }
 
-
-
 void trRenderer3D::ClearScene()
 {
 	std::vector<Mesh*>::iterator it = meshes.begin();
