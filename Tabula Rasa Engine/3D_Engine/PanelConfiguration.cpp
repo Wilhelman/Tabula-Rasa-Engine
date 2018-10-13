@@ -74,24 +74,6 @@ void PanelConfiguration::Draw()
 		if (ImGui::Checkbox("##TEXTURE2D", &texture_2D))
 			App->render->SwitchTexture2D(texture_2D);
 
-		ImGui::Separator();
-
-		ImGui::Text("Mesh vertices");
-		ImGui::SameLine();
-		ImGui::Checkbox("##MESH_VERTICES", &App->render->show_mesh_vertices);
-
-		ImGui::Separator();
-
-		ImGui::Text("Mesh vertices' normals");
-		ImGui::SameLine();
-		ImGui::Checkbox("##MESH_VERTICES_NORMALS", &App->render->show_mesh_vertices_normals);
-
-		ImGui::Separator();
-
-		ImGui::Text("Mesh faces' normals");
-		ImGui::SameLine();
-		ImGui::Checkbox("##MESH_FACES_NORMALS", &App->render->show_mesh_faces_normals);
-			
 		ImGui::EndMenu();
 	}
 
