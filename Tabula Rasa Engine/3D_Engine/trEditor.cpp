@@ -45,6 +45,9 @@ bool trEditor::Start()
 
 	// Maya-like style
 
+	ImGuiIO& io = ImGui::GetIO();
+	io.Fonts->AddFontFromFileTTF("fonts/Roboto-Regular.ttf", 16.0f);
+
 	ImGuiStyle& style = ImGui::GetStyle();
 
 	style.ChildRounding = 3.f;
