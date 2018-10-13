@@ -24,18 +24,49 @@ void PanelInspector::Draw()
 
 	if (!meshes.empty()) {
 		ImGui::Text("Model name: %s", meshes.at(0)->name.c_str());
+		ImGui::SameLine();
+		//ImGui::Checkbox("Enabled"); todo enable or disable
 		ImGui::Text("Source: %s", meshes.at(0)->path.c_str());
-		ImGui::Text("Number of meshes: %i", meshes.size());
-		ImGui::Text("Total vertices: %i", meshes.size());
-		ImGui::Text("Total indices: %i", meshes.size());
-		ImGui::Text("Total UV: %i", meshes.size());
+
+		// todo: remove this total calculator when we have the gameobject class
+		int total_vertices = 0, total_indices = 0, total_uvs = 0, total_faces = 0;
 		for (uint i = 0; i < meshes.size(); i++)
 		{
-			std::string tmp = "Mesh ";
+			total_vertices += meshes.at(i)->vertex_size;
+			total_indices += meshes.at(i)->index_size;
+			total_uvs += meshes.at(i)->size_uv;
+			total_faces += meshes.at(i)->face_size;
+		}
+
+		ImGui::Text("Number of meshes: %i", meshes.size());
+		ImGui::Text("Total triangles: %i", total_faces);
+		ImGui::Text("Total vertices: %i", total_vertices);
+		ImGui::Text("Total indices: %i", total_indices);
+		ImGui::Text("Total UVS: %i", total_uvs);
+
+		if (ImGui::CollapsingHeader("Transformation")) {}
+		ImGui::Text("GameObject read-only values", total_uvs);
+		ImGui::Separator();
+		ImGui::Text("Position:");
+		float pos[3] = { meshes.front()->position.x,meshes.front()->position.y, meshes.front()->position.z };
+		ImGui::InputFloat3("", pos, 2);
+		ImGui::Text("Rotation:");
+		float rot[3] = { meshes.front()->rotation.x,meshes.front()->rotation.y, meshes.front()->rotation.z };
+		ImGui::InputFloat3("", rot, 2);
+		ImGui::Text("Scale:");
+		float sca[3] = { meshes.front()->scale.x,meshes.front()->scale.y, meshes.front()->scale.z };
+		ImGui::InputFloat3("", sca, 2);
+
+		for (uint i = 0; i < meshes.size(); i++)
+		{
+			std::string tmp = "Info Mesh ";
 			tmp = tmp + std::to_string(i + 1);
 			if (ImGui::CollapsingHeader(tmp.c_str()))
 			{
-				ImGui::Text("Mesh source path: %s", meshes.at(i)->path.c_str());
+				ImGui::Text("Triangles: %i", meshes.at(i)->face_size);
+				ImGui::Text("Vertices: %i", meshes.at(i)->vertex_size);
+				ImGui::Text("Indices: %i", meshes.at(i)->index_size);
+				ImGui::Text("UVS: %i", meshes.at(i)->size_uv);
 			}
 		}
 	}

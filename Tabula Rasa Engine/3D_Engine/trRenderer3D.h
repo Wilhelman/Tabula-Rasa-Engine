@@ -13,14 +13,21 @@
 #include "MathGeoLib/MathGeoLibFwd.h"
 
 #define MAX_LIGHTS 8
+
 struct Mesh
 {
+	math::vec position;
+	math::vec scale;
+	math::vec rotation;
+	
 	std::string name;
 	std::string path;
 
 	uint index_buffer = 0u;
 	uint index_size = 0u;
 	uint* indices = nullptr;
+
+	uint face_size = 0u;
 
 	uint vertex_buffer = 0u;
 	uint vertex_size = 0u;

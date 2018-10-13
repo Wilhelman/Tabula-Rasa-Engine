@@ -67,7 +67,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		for (uint i = 0; i < scene->mNumMeshes; i++)
 		{
 			mesh_data = new Mesh(); // our mesh
-
+			
 			std::string tmp = file_path;
 			// Let's get the file name to print it in inspector:
 			const size_t last_slash = tmp.find_last_of("\\/");
@@ -81,6 +81,19 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			mesh_data->path = file_path;
 
 			aiMesh* new_mesh = scene->mMeshes[i];
+
+			// Calculate the position, scale and rotation
+			aiVector3D translation;
+			aiVector3D scaling;
+			aiQuaternion rotation;
+			aiNode* node = scene->mRootNode;
+			node->mTransformation.Decompose(scaling, rotation, translation);
+			Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
+			float3 quat_to_euler = rot.ToEulerXYZ(); // transforming it to euler to show it in inspector
+
+			mesh_data->position.Set(translation.x, translation.y, translation.z);
+			mesh_data->scale.Set(scaling.x, scaling.y, scaling.z);
+			mesh_data->rotation.Set(quat_to_euler.x, quat_to_euler.y, quat_to_euler.z);
 			
 			aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
 			aiColor4D tmp_color;
@@ -115,6 +128,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			// Index copy
 			if (new_mesh->HasFaces())
 			{
+				mesh_data->face_size = new_mesh->mNumFaces;
 				mesh_data->index_size = new_mesh->mNumFaces * 3;
 				mesh_data->indices = new uint[mesh_data->index_size]; // assume each face is a triangle
 				for (uint i = 0; i < new_mesh->mNumFaces; ++i)
