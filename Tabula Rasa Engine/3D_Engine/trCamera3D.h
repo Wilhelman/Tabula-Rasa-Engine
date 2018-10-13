@@ -35,11 +35,11 @@ private:
 
 public:
 
-	vec3 X, Y, Z, Position, Reference;
+	vec3 X, Y, Z, pos, ref;
 
 private:
 
-	mat4x4 ViewMatrix, ViewMatrixInverse;
+	mat4x4 view_matrix, view_inv_matrix;
 	AABB* b_box = nullptr;
 };
 

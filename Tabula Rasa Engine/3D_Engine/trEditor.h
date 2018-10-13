@@ -46,7 +46,7 @@ private:
 
 	std::vector<std::string> init_logs;
 
-	std::vector<Panel *> panels;
+	std::vector<Panel*> panels;
 
 	bool user_using_mouse = false;
 	bool user_using_keyboard = false;

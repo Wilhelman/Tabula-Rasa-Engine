@@ -29,7 +29,7 @@ struct Mesh
 	uint size_uv = 0u;
 	float* uvs = nullptr;
 
-	math::float4* ambient_color;
+	math::float4* ambient_color = nullptr;
 
 	math::AABB* bounding_box = nullptr;
 

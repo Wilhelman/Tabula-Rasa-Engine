@@ -14,8 +14,8 @@ trCamera3D::trCamera3D() : trModule()
 	Y = vec3(0.0f, 1.0f, 0.0f);
 	Z = vec3(0.0f, 0.0f, 1.0f);
 
-	Position = vec3(0.0f, 0.0f, 5.0f);
-	Reference = vec3(0.0f, 0.0f, 0.0f);
+	pos = vec3(0.0f, 0.0f, 5.0f);
+	ref = vec3(0.0f, 0.0f, 0.0f);
 }
 
 trCamera3D::~trCamera3D()
@@ -65,8 +65,8 @@ bool trCamera3D::Update(float dt)
 	if (App->input->GetMouseZ() < 0)
 		newPos += Z * speed * 2.f;
 
-	Position += newPos;
-	Reference += newPos;
+	pos += newPos;
+	ref += newPos;
 
 	// TODO: this should orbit the obj. Check LookAt to see why the camera always points there once called
 	//if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_DOWN) 
@@ -124,7 +124,7 @@ bool trCamera3D::Update(float dt)
 
 		float Sensitivity = 0.25f;
 
-		Position -= Reference;
+		pos -= ref;
 
 		if (dx != 0)
 		{
@@ -149,7 +149,7 @@ bool trCamera3D::Update(float dt)
 			}
 		}
 
-		Position = Reference + Z * length(Position);
+		pos = ref + Z * length(pos);
 
 
 	}
@@ -166,8 +166,8 @@ bool trCamera3D::Update(float dt)
 		newPos += X * dx * pan_sensitivity;
 		newPos += Y * dy * pan_sensitivity;
 
-		Position += newPos;
-		Reference += newPos;
+		pos += newPos;
+		ref += newPos;
 	}
 	
 	
@@ -180,8 +180,8 @@ bool trCamera3D::Update(float dt)
 // -----------------------------------------------------------------
 void trCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference)
 {
-	this->Position = Position;
-	this->Reference = Reference;
+	this->pos = Position;
+	this->ref = Reference;
 
 	Z = normalize(Position - Reference);
 	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
@@ -189,8 +189,8 @@ void trCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool RotateAr
 
 	if (!RotateAroundReference)
 	{
-		this->Reference = this->Position;
-		this->Position += Z * 0.05f;
+		this->ref = this->pos;
+		this->pos += Z * 0.05f;
 	}
 
 	CalculateViewMatrix();
@@ -199,9 +199,9 @@ void trCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool RotateAr
 // -----------------------------------------------------------------
 void trCamera3D::LookAt(const vec3 &Spot)
 {
-	Reference = Spot;
+	ref = Spot;
 
-	Z = normalize(Position - Reference);
+	Z = normalize(pos - ref);
 	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
 	Y = cross(Z, X);
 
@@ -212,8 +212,8 @@ void trCamera3D::LookAt(const vec3 &Spot)
 // -----------------------------------------------------------------
 void trCamera3D::Move(const vec3 &Movement)
 {
-	Position += Movement;
-	Reference += Movement;
+	pos += Movement;
+	ref += Movement;
 
 	CalculateViewMatrix();
 }
@@ -221,14 +221,14 @@ void trCamera3D::Move(const vec3 &Movement)
 // -----------------------------------------------------------------
 float* trCamera3D::GetViewMatrix()
 {
-	return &ViewMatrix;
+	return &view_matrix;
 }
 
 // -----------------------------------------------------------------
 void trCamera3D::CalculateViewMatrix()
 {
-	ViewMatrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, Position), -dot(Y, Position), -dot(Z, Position), 1.0f);
-	ViewMatrixInverse = inverse(ViewMatrix);
+	view_matrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, pos), -dot(Y, pos), -dot(Z, pos), 1.0f);
+	view_inv_matrix = inverse(view_matrix);
 }
 
 void trCamera3D::CenterOnScene(AABB* bounding_box)
@@ -239,17 +239,17 @@ void trCamera3D::CenterOnScene(AABB* bounding_box)
 	if (b_box != nullptr)
 	{
 		vec center_bbox(b_box->Centroid());
-		vec move_dir = (vec(Position.x, Position.y, Position.z) - center_bbox).Normalized();
+		vec move_dir = (vec(pos.x, pos.y, pos.z) - center_bbox).Normalized();
 
 		float radius = b_box->MinimalEnclosingSphere().r;
 		double fov = DEG_TO_RAD(60.0f);
 		double cam_distance = Abs(App->window->GetWidth() / App->window->GetHeight() * radius / Sin(fov / 2.f));
 
 		vec final_pos = center_bbox + move_dir * cam_distance;
-		Position = vec3(final_pos.x, final_pos.y, final_pos.z);
+		pos = vec3(final_pos.x, final_pos.y, final_pos.z);
 
-		if (Position.y < 0.f)
-			Position.y *= -1.f;
+		if (pos.y < 0.f)
+			pos.y *= -1.f;
 
 		LookAt(vec3(center_bbox.x, center_bbox.y, center_bbox.z));
 	}
