@@ -12,6 +12,12 @@
 //TODO -> DELETE: using it temporaly for camera rotation
 #include "glmath.h"
 
+#define ROTATION_SENSITIVITY 0.25f
+#define ORBIT_SENSITIVITY 0.25f
+#define PAN_SENSITVITY 0.01f
+#define CAM_SPEED 5.f
+#define CAM_BOOST_SPEED 8.f
+
 class trCamera3D : public trModule
 {
 public:
@@ -20,6 +26,9 @@ public:
 
 	bool Start();
 	bool Update(float dt);
+	void ProcessMouseWheelInput(vec3 &new_pos, float speed);
+	void ProcessKeyboardInput(vec3 &new_pos, float speed);
+	void ProcessMouseMotiont(int dx, int dy, float sensitivity);
 	bool CleanUp();
 
 	void Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference = false);

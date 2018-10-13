@@ -41,140 +41,121 @@ bool trCamera3D::CleanUp()
 // -----------------------------------------------------------------
 bool trCamera3D::Update(float dt)
 {	
-	vec3 newPos(0.0f, 0.0f, 0.0f);
-	float speed = 5.0f * dt;
+	vec3 new_pos(0.0f, 0.0f, 0.0f);
+
+	float speed = CAM_SPEED * dt;
 
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-		speed = 8.0f * dt;
+		speed = CAM_BOOST_SPEED * dt;
 
-	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_REPEAT) newPos.y += speed;
-	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) newPos.y -= speed;
+	// ----- Camera movement with with keyboard -----
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
+	ProcessKeyboardInput(new_pos, speed);
 
+	// ----- Camera zoom-in / zoom-out with mouse wheel -----
 
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
+	ProcessMouseWheelInput(new_pos, speed);
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) CenterOnScene();
+	pos += new_pos;
+	ref += new_pos;
 
-	if (App->input->GetMouseZ() > 0)
-		newPos -= Z * speed * 2.f;
-
-	if (App->input->GetMouseZ() < 0)
-		newPos += Z * speed * 2.f;
-
-	pos += newPos;
-	ref += newPos;
-
-	// TODO: this should orbit the obj. Check LookAt to see why the camera always points there once called
-	//if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_DOWN) 
-		//LookAt(vec3(0.f, 0.f, 0.f));
-
-	// Mouse motion ----------------
-
-	//if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_DOWN)
-		//LookAt(vec3(0.f, 0.f, 0.f));
+	// ----- Camera FPS-like rotation with mouse -----
 
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
-		float orbit_sensitivity = 0.25f;
-
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
 
-		if (dx != 0)
-		{
-			float DeltaX = (float)dx * orbit_sensitivity;
-
-			X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-		}
-
-		if (dy != 0)
-		{
-			float DeltaY = (float)dy * orbit_sensitivity;
-
-			Y = rotate(Y, DeltaY, X);
-			Z = rotate(Z, DeltaY, X);
-
-			// Uncomment teh code below to cap camera rotation on Z / X axis by +/-90 degrees
-			if (Y.y < 0.0f)
-			{
-				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-				Y = cross(Z, X);
-			}
-		}
-
+		ProcessMouseMotiont(dx, dy, ORBIT_SENSITIVITY);
 	}
-	
+
+	// ----- Camera orbit around target with mouse and panning -----
+
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT
-		&& App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
+		     && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
 		if (b_box != nullptr)
 			LookAt(vec3(b_box->Centroid().x, b_box->Centroid().y, b_box->Centroid().z));
 		else
 			LookAt(vec3(0.f, 0.f, 0.f));
 
-
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
 
-		float Sensitivity = 0.25f;
-
 		pos -= ref;
 
-		if (dx != 0)
-		{
-			float DeltaX = (float)dx * Sensitivity;
-
-			X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-		}
-
-		if (dy != 0)
-		{
-			float DeltaY = (float)dy * Sensitivity;
-
-			Y = rotate(Y, DeltaY, X);
-			Z = rotate(Z, DeltaY, X);
-
-			if (Y.y < 0.0f)
-			{
-				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-				Y = cross(Z, X);
-			}
-		}
+		ProcessMouseMotiont(dx, dy, ROTATION_SENSITIVITY);
 
 		pos = ref + Z * length(pos);
-
-
 	}
-
-	
-	
-	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
+	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
 	{
 		float pan_sensitivity = 0.01f;
 
 		int dx = -App->input->GetMouseXMotion();
 		int dy = App->input->GetMouseYMotion();
 
-		newPos += X * dx * pan_sensitivity;
-		newPos += Y * dy * pan_sensitivity;
+		new_pos += X * dx * pan_sensitivity;
+		new_pos += Y * dy * pan_sensitivity;
 
-		pos += newPos;
-		ref += newPos;
+		pos += new_pos;
+		ref += new_pos;
 	}
 	
-	
-	// Recalculate matrix -------------
+	// ----- Recalculate matrix -----
+
 	CalculateViewMatrix();
 
 	return true;
+}
+
+void trCamera3D::ProcessMouseWheelInput(vec3 &new_pos, float speed)
+{
+	if (App->input->GetMouseZ() > 0)
+		new_pos -= Z * speed * 2.f;
+
+	if (App->input->GetMouseZ() < 0)
+		new_pos += Z * speed * 2.f;
+}
+
+void trCamera3D::ProcessKeyboardInput(vec3 &new_pos, float speed)
+{
+	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_REPEAT) new_pos.y += speed;
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) new_pos.y -= speed;
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) new_pos -= Z * speed;
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) new_pos += Z * speed;
+
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) new_pos -= X * speed;
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) new_pos += X * speed;
+
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) CenterOnScene();
+}
+
+void trCamera3D::ProcessMouseMotiont(int dx, int dy, float sensitivity)
+{
+	if (dx != 0)
+	{
+		float DeltaX = (float)dx * sensitivity;
+
+		X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+		Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+		Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+	}
+
+	if (dy != 0)
+	{
+		float DeltaY = (float)dy * sensitivity;
+
+		Y = rotate(Y, DeltaY, X);
+		Z = rotate(Z, DeltaY, X);
+
+		if (Y.y < 0.0f)
+		{
+			Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+			Y = cross(Z, X);
+		}
+	}
 }
 
 // -----------------------------------------------------------------
