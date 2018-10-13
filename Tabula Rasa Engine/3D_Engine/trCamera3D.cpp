@@ -70,7 +70,6 @@ bool trCamera3D::Update(float dt)
 	}
 
 	// ----- Camera orbit around target with mouse and panning -----
-
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT
 		     && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
@@ -148,7 +147,7 @@ void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 		Y = rotate(Y, delta_y, X);
 		Z = rotate(Z, delta_y, X);
 
-		if (Y.y < 0.0f)
+		if (Y.y < -1.0f) // todo minimal issue orbiting obj
 		{
 			Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
 			Y = cross(Z, X);
