@@ -24,7 +24,7 @@ public:
 
 private:
 	std::vector<Mesh*> meshes;
-	Texture* texture = nullptr; //for now only one tex
+	Texture* texture = nullptr; //for now only one texture
 };
 
 #endif// __PANEL_CONSOLE_H__

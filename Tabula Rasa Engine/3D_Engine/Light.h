@@ -18,6 +18,6 @@ struct Light
 	Color diffuse;
 	vec position;
 
-	int ref;
-	bool on;
+	int ref = 0;
+	bool on = false;
 };

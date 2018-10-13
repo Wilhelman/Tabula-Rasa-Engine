@@ -102,7 +102,5 @@ private:
 
 	math::AABB* last_mesh_bounding_box = nullptr;
 
-	
-
 };
 #endif

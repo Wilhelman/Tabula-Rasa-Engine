@@ -34,7 +34,6 @@ private:
 	uint scene_num_vertex = 0;
 	AABB* model_bouncing_box = nullptr;
 
-
 };
 
 #endif // __FILE_LOADER_H__

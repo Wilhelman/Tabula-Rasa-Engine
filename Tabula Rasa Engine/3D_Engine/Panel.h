@@ -22,7 +22,7 @@ public:
 public:
 	bool active = false;
 
-	int x_pos, y_pos, width, height;
+	int x_pos = 0, y_pos = 0, width = 0, height = 0;
 
 protected:
 

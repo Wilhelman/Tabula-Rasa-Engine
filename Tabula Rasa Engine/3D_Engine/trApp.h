@@ -117,7 +117,7 @@ private:
 	//fps/ms
 	trTimer				ms_timer;
 	trTimer				fps_timer;
-	Uint32				frames;
+	Uint32				frames = 0;
 	float				dt = 0.f;
 	int					fps_counter = 0;
 	int					last_frame_ms = 0;

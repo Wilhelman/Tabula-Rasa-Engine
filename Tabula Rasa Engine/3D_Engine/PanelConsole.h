@@ -17,7 +17,6 @@ public:
 	void AddLogToConsole(const char* log);
 	void ClearLog();
 
-
 private:
 
 	ImGuiTextBuffer text_buffer;

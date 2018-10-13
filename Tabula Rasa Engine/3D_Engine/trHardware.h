@@ -2,6 +2,7 @@
 #define __trHARDWARE_H__
 
 #include "trModule.h"
+#include "trDefs.h"
 #include "Glew/include/GL/glew.h"
 
 // Memory conversions
@@ -25,8 +26,8 @@ public:
 	{
 		unsigned int sdl_version[3];
 
-		unsigned int cpu_count = 0u;
-		unsigned int cache_line_size = 0u;
+		uint cpu_count = 0u;
+		uint cache_line_size = 0u;
 		float system_ram = 0.0f;
 
 		bool has_3d_now = false;

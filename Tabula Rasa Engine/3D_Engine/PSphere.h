@@ -3,10 +3,14 @@
 class PSphere : public trPrimitive
 {
 public:
+
 	PSphere();
 	PSphere(math::vec position, float radius);
 	void InnerRender() const;
+
 public:
+
 	math::vec position;
-	float radius;
+	float radius = 0.f;
+
 };

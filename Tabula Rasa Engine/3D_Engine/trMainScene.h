@@ -36,6 +36,7 @@ public:
 	bool Save(JSON_Object* config = nullptr) const;
 
 private:
+
 	PGrid* grid = nullptr;
 	std::string default_mesh;
 };

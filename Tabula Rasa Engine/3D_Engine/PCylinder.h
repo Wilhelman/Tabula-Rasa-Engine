@@ -8,6 +8,6 @@ public:
 	PCylinder(float radius, float height);
 	void InnerRender() const;
 public:
-	float radius;
-	float height;
+	float radius = 0.f;
+	float height = 0.f;
 };

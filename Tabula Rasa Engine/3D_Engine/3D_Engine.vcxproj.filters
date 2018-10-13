@@ -317,9 +317,6 @@
     <ClInclude Include="trLog.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="trPoint.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="trTimer.h">
       <Filter>Utilities\Tools</Filter>
     </ClInclude>

@@ -40,7 +40,7 @@ public:
 
 	Color color;
 	math::float4x4 transform;
-	bool axis;
+	bool axis = false;
 
 protected:
 	PrimitiveTypes type;

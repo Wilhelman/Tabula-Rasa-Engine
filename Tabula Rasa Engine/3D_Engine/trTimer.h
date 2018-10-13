@@ -16,7 +16,9 @@ public:
 	float ReadSec() const;
 
 private:
+
 	uint32	started_at = 0;
+
 };
 
 #endif //__ctTIMER_H__

@@ -246,7 +246,6 @@
     <ClInclude Include="trMainScene.h" />
     <ClInclude Include="trModule.h" />
     <ClInclude Include="trPerfTimer.h" />
-    <ClInclude Include="trPoint.h" />
     <ClInclude Include="trPrimitives.h" />
     <ClInclude Include="trRenderer3D.h" />
     <ClInclude Include="trTextures.h" />
