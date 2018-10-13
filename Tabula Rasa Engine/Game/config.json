@@ -9,6 +9,9 @@
 	"renderer3D": {
 		"vsync": true
 	},
+	"main_scene":{
+		"default_mesh": "assets/models/BakerHouse.fbx"
+	},
 	"window": {
 		"width": 1024,
 		"height": 768,

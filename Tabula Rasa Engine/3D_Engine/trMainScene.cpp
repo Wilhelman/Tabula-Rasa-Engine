@@ -6,6 +6,7 @@
 #include "trWindow.h"
 #include "trRenderer3D.h"
 #include "trInput.h"
+#include "trFileLoader.h"
 
 #include "trPrimitives.h"
 
@@ -25,6 +26,8 @@ bool trMainScene::Awake(JSON_Object* config)
 {
 	bool ret = true;
 
+	default_mesh = json_object_get_string(config, "default_mesh");
+
 	return ret;
 }
 
@@ -37,6 +40,8 @@ bool trMainScene::Start()
 
 	grid = new PGrid();
 	grid->axis = true;
+
+	App->file_loader->Import3DFile(default_mesh.c_str());
 
 	return true;
 }

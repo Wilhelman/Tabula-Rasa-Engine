@@ -37,6 +37,7 @@ public:
 
 private:
 	PGrid* grid = nullptr;
+	std::string default_mesh;
 };
 
 #endif // __trRENDER_H__
