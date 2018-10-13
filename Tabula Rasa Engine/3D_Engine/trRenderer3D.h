@@ -16,6 +16,7 @@
 struct Mesh
 {
 	std::string name;
+	std::string path;
 
 	uint index_buffer = 0u;
 	uint index_size = 0u;

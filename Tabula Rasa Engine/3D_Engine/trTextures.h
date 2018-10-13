@@ -3,16 +3,8 @@
 
 #include "trModule.h"
 #include "trDefs.h"
-#include "DevIL\include\il.h"
-#include "Glew\include\GL\glew.h"
 
-struct ImageTexture
-{
-	GLuint index = 0;
-	GLubyte image = 0;
-	int width = 0;
-	int height = 0;
-};
+
 class trTextures : public trModule
 {
 public:

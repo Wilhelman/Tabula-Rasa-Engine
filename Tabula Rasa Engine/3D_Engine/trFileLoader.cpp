@@ -73,12 +73,12 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			const size_t last_slash = tmp.find_last_of("\\/");
 			if (std::string::npos != last_slash)
 				tmp.erase(0, last_slash + 1);
-			/*const size_t extension = tmp.rfind('.');
+			const size_t extension = tmp.rfind('.');
 			if (std::string::npos != extension)
-				tmp.erase(extension);*/
+				tmp.erase(extension);
 
-			tmp = tmp + std::to_string(i + 1);
 			mesh_data->name = tmp;
+			mesh_data->path = file_path;
 
 			aiMesh* new_mesh = scene->mMeshes[i];
 			
