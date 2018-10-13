@@ -44,6 +44,13 @@ struct Mesh
 	~Mesh();
 };
 
+struct Texture { // just to send info to inspector easily: to remove when gameobject enter
+	uint id = 0u;
+	uint width = 0u;
+	uint height = 0u;
+	std::string path;
+};
+
 class trRenderer3D : public trModule
 {
 public:
@@ -67,7 +74,7 @@ public:
 
 	void GenerateBufferForMesh(Mesh* mesh);
 
-	void SetTextureID(const uint texture);
+	void SetTexture(Texture* texture);
 	const uint GetTextureID()const;
 
 	// Cleans all the meshes in the scene (not the primitives);
@@ -90,10 +97,11 @@ public:
 private:
 
 	std::vector<Mesh*> meshes;
+	Texture* texture = nullptr;
 
 	math::AABB* last_mesh_bounding_box = nullptr;
 
-	uint texture_id = 0u;
+	
 
 };
 #endif

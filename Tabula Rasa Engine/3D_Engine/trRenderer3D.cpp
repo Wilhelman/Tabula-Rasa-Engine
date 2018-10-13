@@ -300,15 +300,18 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 	App->editor->SetupInspectorWith(mesh);
 }
 
-void trRenderer3D::SetTextureID(const uint texture)
+void trRenderer3D::SetTexture(Texture* texture)
 {
-	this->texture_id = texture;
+	this->texture = texture;
 }
 
 const uint trRenderer3D::GetTextureID() const
 {
-	return texture_id;
+	uint ret;
+	(this->texture != nullptr) ? ret = texture->id : ret = 0u;
+	return ret;
 }
+
 
 
 void trRenderer3D::ClearScene()
@@ -332,9 +335,10 @@ void trRenderer3D::Draw()
 	{
 		Mesh* mesh = (*it);
 
-		glBindTexture(GL_TEXTURE_2D, texture_id);
+		if(texture != nullptr)
+			glBindTexture(GL_TEXTURE_2D, texture->id);
 
-		if (texture_id == 0) // If the texture is missing, we set the ambient color of the mesh
+		if (texture == nullptr) // If the texture is missing, we set the ambient color of the mesh
 			glColor4f(mesh->ambient_color->w, mesh->ambient_color->x, mesh->ambient_color->y, mesh->ambient_color->z);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
@@ -352,7 +356,8 @@ void trRenderer3D::Draw()
 
 		glColor4f(1.f, 1.f, 1.f, 1.f);
 
-		glBindTexture(GL_TEXTURE_2D, 0);
+		if (texture != nullptr)
+			glBindTexture(GL_TEXTURE_2D, 0);
 
 		it++;
 	}

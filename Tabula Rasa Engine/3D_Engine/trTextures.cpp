@@ -57,9 +57,11 @@ void trTextures::LoadImageFromPath(const char * path)
 
 	if (tmp_id != 0)  // Delete the last texture
 		ilDeleteImages(1, &tmp_id);
+
+	Texture* tmp_tex = new Texture();
 	
 	uint img_id = 0u;
-	uint texture_id = 0u;
+	tmp_tex->id = 0u;
 
 	ILenum error_num;
 
@@ -81,8 +83,8 @@ void trTextures::LoadImageFromPath(const char * path)
 			TR_LOG("trTexture: Error converting the image - %i - %s", error_num, iluErrorString(error_num));
 		}
 
-		glGenTextures(1, &texture_id);
-		glBindTexture(GL_TEXTURE_2D, texture_id);
+		glGenTextures(1, &tmp_tex->id);
+		glBindTexture(GL_TEXTURE_2D, tmp_tex->id);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
@@ -92,6 +94,12 @@ void trTextures::LoadImageFromPath(const char * path)
 
 		glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), ilGetInteger(IL_IMAGE_WIDTH),
 			ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
+	
+		//fill the rest of the texture info
+		tmp_tex->path = path;
+		tmp_tex->width = ilGetInteger(IL_IMAGE_WIDTH);
+		tmp_tex->height = ilGetInteger(IL_IMAGE_HEIGHT);
+		
 	}
 	else
 	{
@@ -101,9 +109,9 @@ void trTextures::LoadImageFromPath(const char * path)
 
 	ilDeleteImages(1, &img_id);
 
-	if (texture_id != 0) {
+	if (tmp_tex->id != 0) {
 		TR_LOG("trTexture: Texture created correctly");
-		App->render->SetTextureID(texture_id);
+		App->render->SetTexture(tmp_tex);
 	 }
 		
 }
