@@ -4,7 +4,7 @@
 #include "trDefs.h"
 #include "trApp.h"
 #include "trRenderer3D.h"
-#include "trCamera3D.h"
+#include "trTextures.h"
 
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
@@ -67,7 +67,8 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		for (uint i = 0; i < scene->mNumMeshes; i++)
 		{
 			mesh_data = new Mesh(); // our mesh
-			
+			aiTexture** tex = scene->mTextures;
+			//(**tex).
 			std::string tmp = file_path;
 			// Let's get the file name to print it in inspector:
 			const size_t last_slash = tmp.find_last_of("\\/");
@@ -90,15 +91,29 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			node->mTransformation.Decompose(scaling, rotation, translation);
 			Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
 			float3 quat_to_euler = rot.ToEulerXYZ(); // transforming it to euler to show it in inspector
-
 			mesh_data->position.Set(translation.x, translation.y, translation.z);
 			mesh_data->scale.Set(scaling.x, scaling.y, scaling.z);
 			mesh_data->rotation.Set(quat_to_euler.x, quat_to_euler.y, quat_to_euler.z);
 			
+			// Material color of the mesh
 			aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
 			aiColor4D tmp_color;
 			aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &tmp_color);
 			mesh_data->ambient_color = new float4(tmp_color.r, tmp_color.g, tmp_color.b, tmp_color.a);
+
+			// Getting the texture path
+			TR_LOG("trFileLoader: Trying to find the embeded texture ...");
+			aiString tmp_path;
+			material->GetTexture(aiTextureType_DIFFUSE, 0, &tmp_path);
+			std::string path = tmp_path.data;
+			if (!path.empty()) { // Let's search the texture in our path assets/textures
+				std::string posible_path = "assets/textures/";
+				posible_path = posible_path + path;
+				TR_LOG("trFileLoader: Search in - %s", posible_path);
+				App->texture->LoadImageFromPath(posible_path.c_str());
+			}
+			else
+				TR_LOG("trFileLoader: Didn't find any embeded texture");
 
 			// Vertex copy
 			mesh_data->vertex_size = new_mesh->mNumVertices;

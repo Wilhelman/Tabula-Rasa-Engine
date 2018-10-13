@@ -322,6 +322,8 @@ void trRenderer3D::ClearScene()
 		it++;
 	}
 	meshes.clear();
+
+
 }
 
 void trRenderer3D::Draw()
