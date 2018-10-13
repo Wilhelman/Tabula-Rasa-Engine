@@ -4,7 +4,7 @@
 
 trWindow::trWindow() : trModule()
 {
-	name = "window";
+	name = "Window";
 	window = NULL;
 	screen_surface = NULL;
 }

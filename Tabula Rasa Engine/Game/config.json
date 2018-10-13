@@ -6,13 +6,13 @@
 		"organization": "None",
 		"version": "v0.3.0-development"
 	},
-	"renderer3D": {
+	"Renderer3D": {
 		"vsync": true
 	},
 	"main_scene":{
 		"default_mesh": "assets/models/BakerHouse.fbx"
 	},
-	"window": {
+	"Window": {
 		"width": 1024,
 		"height": 768,
 		"scale": 1,

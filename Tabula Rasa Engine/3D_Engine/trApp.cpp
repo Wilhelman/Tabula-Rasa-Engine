@@ -190,13 +190,14 @@ void trApp::FinishUpdate()
 
 	last_frame_ms = ms_timer.Read();
 
-	// cap fps
-	if (cap_fps) {
+	// Cap fps
+	if (cap_fps) 
+	{
 		if (capped_ms > 0 && (last_frame_ms < capped_ms))
 			SDL_Delay(capped_ms - last_frame_ms);
 	}
 
-	editor->InfoFPSMS((float)last_fps, (float)last_frame_ms); //todo ms not working correctly
+	editor->InfoFPSMS((float)last_fps, (float)last_frame_ms);
 
 	if (!all_modules_loaded)
 		all_modules_loaded = true;

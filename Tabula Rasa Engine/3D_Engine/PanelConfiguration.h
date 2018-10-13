@@ -27,7 +27,6 @@ public:
 
 	void ShowApplication();
 	void ShowHardware(trHardware * module);
-	void ShowAudio(trAudio * module);
 	void ShowInput(trInput * module);
 	void ShowWindow(trWindow * module);
 	void ShowRenderer(trRenderer3D * module);

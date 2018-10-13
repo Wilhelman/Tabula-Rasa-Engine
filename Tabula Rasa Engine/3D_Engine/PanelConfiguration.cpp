@@ -280,11 +280,6 @@ void PanelConfiguration::ShowHardware(trHardware * module)
 
 }
 
-void PanelConfiguration::ShowAudio(trAudio * module)
-{
-	//todo
-}
-
 void PanelConfiguration::ShowInput(trInput * module)
 {
 	ImGui::Text("Mouse Position:");
