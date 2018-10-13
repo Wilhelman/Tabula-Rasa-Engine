@@ -315,14 +315,17 @@ const uint trRenderer3D::GetTextureID() const
 
 void trRenderer3D::ClearScene()
 {
+	App->editor->CleanInspectorData();
+
 	std::vector<Mesh*>::iterator it = meshes.begin();
 	while (it != meshes.end())
 	{
 		delete (*it);
+		(*it) = nullptr;
 		it++;
 	}
 	meshes.clear();
-
+	texture = nullptr;
 
 }
 

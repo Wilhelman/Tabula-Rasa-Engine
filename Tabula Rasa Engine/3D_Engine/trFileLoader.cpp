@@ -63,6 +63,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		App->texture->CleanUp(); // Just to remove the last texture when a new mesh is dropped
 		App->render->ClearScene();
 		for (uint i = 0; i < scene->mNumMeshes; i++)
 		{
@@ -109,7 +110,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			if (!path.empty()) { // Let's search the texture in our path assets/textures
 				std::string posible_path = "assets/textures/";
 				posible_path = posible_path + path;
-				TR_LOG("trFileLoader: Search in - %s", posible_path);
+				TR_LOG("trFileLoader: Search in - %s", posible_path.c_str());
 				App->texture->LoadImageFromPath(posible_path.c_str());
 			}
 			else

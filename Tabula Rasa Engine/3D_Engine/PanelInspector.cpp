@@ -23,6 +23,12 @@ void PanelInspector::SetDataFrom(Texture * texture)
 	this->texture = texture;
 }
 
+void PanelInspector::Clear()
+{
+	meshes.clear();
+	texture = nullptr;
+}
+
 void PanelInspector::Draw()
 {
 	ImGui::Begin("Inspector", &active);

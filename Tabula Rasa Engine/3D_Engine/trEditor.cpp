@@ -248,6 +248,11 @@ void trEditor::SetupInspectorWith(Texture * texture)
 	inspector->SetDataFrom(texture);
 }
 
+void trEditor::CleanInspectorData()
+{
+	inspector->Clear();
+}
+
 
 void trEditor::InfoFPSMS(float current_fps, float current_ms)
 {

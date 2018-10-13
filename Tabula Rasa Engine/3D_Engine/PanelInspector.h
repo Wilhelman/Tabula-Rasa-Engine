@@ -20,6 +20,7 @@ public:
 
 	void SetDataFrom(Mesh* mesh);
 	void SetDataFrom(Texture* texture);
+	void Clear();
 
 private:
 	std::vector<Mesh*> meshes;
