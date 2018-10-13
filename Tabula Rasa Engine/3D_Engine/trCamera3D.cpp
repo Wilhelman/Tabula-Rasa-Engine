@@ -48,29 +48,31 @@ bool trCamera3D::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 		speed = CAM_BOOST_SPEED * dt;
 
-	// ----- Camera movement with with keyboard -----
-
-	ProcessKeyboardInput(new_pos, speed);
-
 	// ----- Camera zoom-in / zoom-out with mouse wheel -----
 
 	ProcessMouseWheelInput(new_pos, speed);
 
-	pos += new_pos;
-	ref += new_pos;
+	// ----- Camera focus on geometry -----
+
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) CenterOnScene();
 
 	// ----- Camera FPS-like rotation with mouse -----
 
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
+		ProcessKeyboardInput(new_pos, speed);
+
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
 
 		ProcessMouseMotion(dx, dy, ORBIT_SENSITIVITY);
 	}
 
+	pos += new_pos;
+	ref += new_pos;
+
 	// ----- Camera orbit around target with mouse and panning -----
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT
 		     && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
 		if (b_box != nullptr)
@@ -125,8 +127,6 @@ void trCamera3D::ProcessKeyboardInput(vec3 &new_pos, float speed)
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) new_pos -= X * speed;
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) new_pos += X * speed;
-
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) CenterOnScene();
 }
 
 void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)

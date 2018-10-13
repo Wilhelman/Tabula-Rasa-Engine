@@ -16,7 +16,7 @@
 #define ORBIT_SENSITIVITY 0.25f
 #define PAN_SENSITVITY 0.01f
 #define CAM_SPEED 7.f
-#define CAM_BOOST_SPEED 10.f
+#define CAM_BOOST_SPEED 14.f
 
 class trCamera3D : public trModule
 {
