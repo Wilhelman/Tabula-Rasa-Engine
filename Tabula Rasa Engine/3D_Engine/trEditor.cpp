@@ -132,6 +132,13 @@ bool trEditor::Update(float dt)
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
 
+	// Show/hide imgui
+	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
+		show_imgui = !show_imgui;
+
+	if (!show_imgui)
+		return true;
+	
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
@@ -156,6 +163,9 @@ bool trEditor::Update(float dt)
 
 			if (ImGui::MenuItem("Inspector", "I"))
 				inspector->TurnActive();
+
+			if (ImGui::MenuItem("ImGui", "Alt+G"))
+				show_imgui = !show_imgui;
 
 			ImGui::EndMenu();
 		}
@@ -224,10 +234,6 @@ bool trEditor::CleanUp()
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
-
-	SDL_GL_DeleteContext(App->render->context);
-	SDL_DestroyWindow(App->window->window);
-	SDL_Quit();
 
 	return true;
 }

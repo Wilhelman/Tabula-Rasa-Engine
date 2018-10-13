@@ -118,7 +118,7 @@ void trCamera3D::ProcessMouseWheelInput(vec3 &new_pos, float speed)
 void trCamera3D::ProcessKeyboardInput(vec3 &new_pos, float speed)
 {
 	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_REPEAT) new_pos.y += speed;
-	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) new_pos.y -= speed;
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) != KEY_REPEAT) new_pos.y -= speed;
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) new_pos -= Z * speed;
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) new_pos += Z * speed;

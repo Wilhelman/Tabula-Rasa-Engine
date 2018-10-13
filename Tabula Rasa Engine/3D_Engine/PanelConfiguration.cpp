@@ -13,7 +13,7 @@
 
 using namespace std;
 
-PanelConfiguration::PanelConfiguration() : Panel("Configuration", SDL_SCANCODE_4),
+PanelConfiguration::PanelConfiguration() : Panel("Configuration", SDL_SCANCODE_2),
 chart_fps(CHART_FPS_CAP), chart_ms(CHART_FPS_CAP)
 {
 	width = 330;

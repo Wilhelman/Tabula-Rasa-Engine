@@ -59,4 +59,6 @@ private:
 
 	bool have_to_quit = false;
 
+	bool show_imgui = true;
+
 };

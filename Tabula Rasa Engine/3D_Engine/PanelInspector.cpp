@@ -34,10 +34,10 @@ void PanelInspector::Draw()
 	ImGui::Begin("Inspector", &active);
 
 	if (!meshes.empty()) {
-		ImGui::Text("Model name: %s", meshes.at(0)->name.c_str());
+		ImGui::Text("Model name: %s", meshes.front()->name.c_str());
 		//ImGui::SameLine();
 		//ImGui::Checkbox("Enabled"); todo enable or disable
-		ImGui::Text("Source: %s", meshes.at(0)->path.c_str());
+		ImGui::Text("Source: %s", meshes.front()->path.c_str());
 
 		if (ImGui::CollapsingHeader("Transformation")) {
 			ImGui::Text("GameObject read-only values");
@@ -79,6 +79,7 @@ void PanelInspector::Draw()
 					}
 				}
 			}
+			ImGui::Separator();
 			ImGui::Text("Total triangles: %i", total_faces);
 			ImGui::Text("Total vertices: %i", total_vertices);
 			ImGui::Text("Total indices: %i", total_indices);
