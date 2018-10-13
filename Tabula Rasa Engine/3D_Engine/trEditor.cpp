@@ -183,6 +183,11 @@ void trEditor::SetupInspectorWith(Mesh* mesh)
 	inspector->SetDataFrom(mesh);
 }
 
+void trEditor::SetupInspectorWith(Texture * texture)
+{
+	inspector->SetDataFrom(texture);
+}
+
 
 void trEditor::InfoFPSMS(float current_fps, float current_ms)
 {

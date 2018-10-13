@@ -8,6 +8,7 @@
 #include <vector>
 
 class Mesh;
+class Texture;
 
 class PanelInspector : public Panel
 {
@@ -17,11 +18,12 @@ public:
 
 	void Draw() override;
 
-	void PanelInspector::SetDataFrom(Mesh* mesh);
+	void SetDataFrom(Mesh* mesh);
+	void SetDataFrom(Texture* texture);
 
 private:
 	std::vector<Mesh*> meshes;
-
+	Texture* texture = nullptr; //for now only one tex
 };
 
 #endif// __PANEL_CONSOLE_H__

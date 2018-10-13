@@ -818,8 +818,8 @@ void ImGui::Image(ImTextureID user_texture_id, const ImVec2& size, const ImVec2&
         window->DrawList->AddImage(user_texture_id, bb.Min + ImVec2(1, 1), bb.Max - ImVec2(1, 1), uv0, uv1, GetColorU32(tint_col));
     }
     else
-    {
-        window->DrawList->AddImage(user_texture_id, bb.Min, bb.Max, uv0, uv1, GetColorU32(tint_col));
+    { // imgui image gone wrong? REMEMBER WHAT U DID TO FLIP THE IMG
+		window->DrawList->AddImage(user_texture_id, bb.Min, bb.Max, {uv0.x,uv1.y} /*uv0*/, { uv1.x,uv0.y } /*uv1*/, GetColorU32(tint_col));
     }
 }
 

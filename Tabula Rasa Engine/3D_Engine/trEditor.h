@@ -12,6 +12,7 @@ class PanelConsole;
 class PanelInspector;
 
 class Mesh;
+class Texture;
 
 class trEditor : public trModule
 {
@@ -29,6 +30,7 @@ public:
 	void Draw();
 
 	void SetupInspectorWith(Mesh* mesh);
+	void SetupInspectorWith(Texture* texture);
 
 	void InfoFPSMS(float current_fps, float current_ms);
 

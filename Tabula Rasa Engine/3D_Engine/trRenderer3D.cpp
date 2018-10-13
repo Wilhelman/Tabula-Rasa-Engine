@@ -303,6 +303,7 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 void trRenderer3D::SetTexture(Texture* texture)
 {
 	this->texture = texture;
+	App->editor->SetupInspectorWith(texture);
 }
 
 const uint trRenderer3D::GetTextureID() const

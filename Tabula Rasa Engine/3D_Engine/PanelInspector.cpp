@@ -18,6 +18,11 @@ void PanelInspector::SetDataFrom(Mesh* mesh)
 	meshes.push_back(mesh);
 }
 
+void PanelInspector::SetDataFrom(Texture * texture)
+{
+	this->texture = texture;
+}
+
 void PanelInspector::Draw()
 {
 	ImGui::Begin("Inspector", &active);
@@ -72,9 +77,15 @@ void PanelInspector::Draw()
 			ImGui::Text("Total UVS: %i", total_uvs);
 		}
 
-		if (ImGui::CollapsingHeader("Texture")) {
-
+		if (texture != nullptr) {
+			if (ImGui::CollapsingHeader("Texture")) {
+				ImGui::Text("Source: %s", texture->path.c_str());
+				ImGui::Text("Width: %i", texture->width);
+				ImGui::Text("Height: %i", texture->height);
+				ImGui::Image((ImTextureID)texture->id, ImVec2(200, 200));
+			}
 		}
+		
 	}
 
 	ImGui::End();
