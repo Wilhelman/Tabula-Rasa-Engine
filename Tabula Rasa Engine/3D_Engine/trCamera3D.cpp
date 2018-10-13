@@ -90,13 +90,11 @@ bool trCamera3D::Update(float dt)
 	}
 	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
 	{
-		float pan_sensitivity = 0.01f;
-
 		int dx = -App->input->GetMouseXMotion();
 		int dy = App->input->GetMouseYMotion();
 
-		new_pos += X * dx * pan_sensitivity;
-		new_pos += Y * dy * pan_sensitivity;
+		new_pos += X * dx * PAN_SENSITVITY;
+		new_pos += Y * dy * PAN_SENSITVITY;
 
 		pos += new_pos;
 		ref += new_pos;

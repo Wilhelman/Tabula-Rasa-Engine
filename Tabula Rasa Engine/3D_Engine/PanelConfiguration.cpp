@@ -234,6 +234,24 @@ void PanelConfiguration::ShowHardware(trHardware * module)
 		info.has_sse42 ? "SSE42," : "",
 		info.has_avx ? "AVX," : "",
 		info.has_avx2 ? "AVX2" : "");
+
+	ImGui::Separator();
+
+	info_str = "%s%s%s";
+	ImGui::Text("Brand: ");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, info_str.c_str(), (char*)glGetString(GL_VENDOR), ": ", (char*)glGetString(GL_RENDERER));
+
+	info_str = "%s";
+	ImGui::Text("OpenGL version supported: ");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, info_str.c_str(), (char*)glGetString(GL_VERSION));
+
+	info_str = "%s";
+	ImGui::Text("GLSL: ");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, info_str.c_str(), (char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
+
 }
 
 void PanelConfiguration::ShowAudio(trAudio * module)
