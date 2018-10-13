@@ -3,6 +3,13 @@
 #include "Glew\include\GL\glew.h"
 #include "trDefs.h"
 
+PArrow::PArrow()
+{
+	origin = vec(0.f, 0.f, 0.f);
+	destination = vec(0.f, 0.f, 0.f);
+	color = float4(0.f, 0.f, 0.f, 0.f);
+}
+
 PArrow::PArrow(math::vec origin, math::vec direction, math::float4 color) : trPrimitive(), origin(origin), destination(direction), color(color)
 {
 	type = PrimitiveTypes::Primitive_Arrow;
@@ -33,7 +40,7 @@ void PArrow::InnerRender() const
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
 
-	glLineWidth(1.0f);
+	glLineWidth(3.5f);
 	glColor4f(color.x, color.y, color.z, color.w);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
@@ -48,5 +55,4 @@ void PArrow::InnerRender() const
 	glColor4f(1.f, 1.f, 1.f, 1.f);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
-
 }

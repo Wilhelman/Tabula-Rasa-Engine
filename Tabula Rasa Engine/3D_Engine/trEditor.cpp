@@ -164,7 +164,7 @@ bool trEditor::Update(float dt)
 			if (ImGui::MenuItem("Inspector", "I"))
 				inspector->TurnActive();
 
-			if (ImGui::MenuItem("ImGui", "Alt+G"))
+			if (ImGui::MenuItem("Show/Hide UI", "Alt+G"))
 				show_imgui = !show_imgui;
 
 			ImGui::EndMenu();

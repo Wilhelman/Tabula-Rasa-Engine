@@ -9,7 +9,6 @@
 #include "trFileLoader.h"
 
 #include "trPrimitives.h"
-
 #include "PGrid.h"
 
 trMainScene::trMainScene() : trModule()
@@ -34,7 +33,6 @@ bool trMainScene::Awake(JSON_Object* config)
 // Called before the first frame
 bool trMainScene::Start()
 {
-
 	App->camera->Move(vec3(1.f, 1.f, 1.f));
 	App->camera->LookAt(vec3(0.f, 0.f, 0.f));
 
@@ -69,7 +67,7 @@ bool trMainScene::PostUpdate(float dt)
 // Called before quitting
 bool trMainScene::CleanUp()
 {
-	delete grid;//todo check
+	delete grid; //todo check
 	return true;
 }
 

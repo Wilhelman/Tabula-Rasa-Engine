@@ -294,6 +294,9 @@
     <ClCompile Include="PanelInspector.cpp">
       <Filter>Core\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="PGizmo.cpp">
+      <Filter>Utilities\Primitives</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MemLeaks.h">
@@ -775,6 +778,9 @@
     </ClInclude>
     <ClInclude Include="PanelInspector.h">
       <Filter>Core\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="PGizmo.h">
+      <Filter>Utilities\Primitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,8 @@ enum PrimitiveTypes
 	Primitive_Cylinder,
 	Primitive_Ray,
 	Primitive_Frustum,
-	Primitive_Grid
+	Primitive_Grid,
+	Primitive_Gizmo
 };
 
 class trPrimitive
@@ -50,7 +51,7 @@ protected:
 	uint num_index = 0u;
 	uint num_vertices = 0u;
 
-	// TODO implement this
+	// TODO: implement this
 	float* indices = nullptr;
 	float* vertices = nullptr;
 	float* normals = nullptr;

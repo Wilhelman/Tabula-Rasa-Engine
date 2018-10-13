@@ -7,8 +7,9 @@
 
 PGrid::PGrid() : trPrimitive()
 {
-
 	type = PrimitiveTypes::Primitive_Grid;
+	gizmo = new PGizmo(vec(0.f, 0.f, 0.f));
+
 	//todo do it nicer
 	float vertices_arr[72] = { //TODO : DO IT WITH GLFLOATS!
 		//X
@@ -60,8 +61,16 @@ PGrid::PGrid() : trPrimitive()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
+PGrid::~PGrid()
+{
+	delete gizmo;
+}
+
 void PGrid::InnerRender() const
 {
+	if (axis)
+		gizmo->Render();
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glColor3f(1.f, 1.f, 1.f);
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
