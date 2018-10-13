@@ -5,6 +5,7 @@
 #include "trApp.h"
 #include "trRenderer3D.h"
 #include "trTextures.h"
+#include "trCamera3D.h"
 
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
@@ -49,6 +50,7 @@ bool trFileLoader::CleanUp()
 {
 	TR_LOG("Cleaning File Loader");
 
+	if (model_bouncing_box != nullptr) {delete model_bouncing_box; model_bouncing_box = nullptr;}
 	// Clean all log streams
 	aiDetachAllLogStreams();
 
@@ -64,7 +66,11 @@ bool trFileLoader::Import3DFile(const char* file_path)
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		App->texture->CleanUp(); // Just to remove the last texture when a new mesh is dropped
-		App->render->ClearScene();
+		App->render->ClearScene(); // Cleaning the last meshes/buffers/etc
+		// Removing and cleaning the last AABB
+		if (model_bouncing_box != nullptr) { delete model_bouncing_box; model_bouncing_box = nullptr; } /// Should be deleted in preup?
+		scene_num_vertex = 0u;
+		scene_vertices.clear();
 		for (uint i = 0; i < scene->mNumMeshes; i++)
 		{
 			mesh_data = new Mesh(); // our mesh
@@ -121,9 +127,10 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			mesh_data->vertices = new float[mesh_data->vertex_size * 3];
 			memcpy(mesh_data->vertices, new_mesh->mVertices, sizeof(float) * mesh_data->vertex_size * 3);
 
-			for (uint i = 0; i < mesh_data->vertex_size; i++)
-				scene_vertices.push_back(&mesh_data->vertices[i]);
-
+			// Data for the bounding box of all the meshes
+			for (uint i = 0; i < mesh_data->vertex_size; i++) {
+				scene_vertices.push_back(vec(mesh_data->vertices[i], mesh_data->vertices[i + 1], mesh_data->vertices[i + 2]));
+			}
 			scene_num_vertex += mesh_data->vertex_size;
 
 			// Textures copy
@@ -135,11 +142,6 @@ bool trFileLoader::Import3DFile(const char* file_path)
 					mesh_data->uvs[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
 				}
 			}
-
-			// Vertices' colors copy
-			aiColor4D* mesh_colors = *new_mesh->mColors;
-
-			TR_LOG("trFileLoader: Importing new mesh with %d vertices", mesh_data->vertex_size);
 
 			// Index copy
 			if (new_mesh->HasFaces())
@@ -163,6 +165,15 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			App->render->GenerateBufferForMesh(mesh_data);
 		}
 
+		if (scene->mNumMeshes == 1)
+			App->camera->CenterOnScene(mesh_data->bounding_box);
+		else {
+			model_bouncing_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
+			model_bouncing_box->Enclose((vec*)&scene_vertices.front(), scene_num_vertex);
+			App->camera->CenterOnScene(model_bouncing_box);
+		}
+		
+		
 		aiReleaseImport(scene);
 
 		return true;

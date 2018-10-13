@@ -21,7 +21,7 @@
 
 trRenderer3D::trRenderer3D() : trModule()
 {
-	name = "renderer3D";
+	name = "Renderer3D";
 }
 
 // Destructor
@@ -295,8 +295,7 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	meshes.push_back(mesh);
-
-	App->camera->CenterOnScene(mesh->bounding_box);
+	
 	App->editor->SetupInspectorWith(mesh);
 }
 

@@ -30,8 +30,9 @@ private:
 
 	Mesh* mesh_data = nullptr;
 	
-	std::vector<float*> scene_vertices;
+	std::vector<vec> scene_vertices;
 	uint scene_num_vertex = 0;
+	AABB* model_bouncing_box = nullptr;
 
 
 };

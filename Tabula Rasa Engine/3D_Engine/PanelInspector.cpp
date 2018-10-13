@@ -58,23 +58,25 @@ void PanelInspector::Draw()
 			int total_vertices = 0, total_indices = 0, total_uvs = 0, total_faces = 0;
 			for (uint i = 0; i < meshes.size(); i++)
 			{
-				total_vertices += meshes.at(i)->vertex_size / 3 ;///bc vertices are store in x/y/z format!
+				total_vertices += meshes.at(i)->vertex_size / 3 ;///bc vertices are stored in x/y/z format!
 				total_indices += meshes.at(i)->index_size;
 				total_uvs += meshes.at(i)->size_uv;
 				total_faces += meshes.at(i)->face_size;
 			}
 
 			ImGui::Text("Number of meshes: %i", meshes.size());
-			for (uint i = 0; i < meshes.size(); i++)
-			{
-				std::string tmp = "Info Mesh ";
-				tmp = tmp + std::to_string(i + 1);
-				if (ImGui::CollapsingHeader(tmp.c_str()))
+			if (meshes.size() > 1) {
+				for (uint i = 0; i < meshes.size(); i++)
 				{
-					ImGui::Text("Triangles: %i", meshes.at(i)->face_size);
-					ImGui::Text("Vertices: %i", meshes.at(i)->vertex_size);
-					ImGui::Text("Indices: %i", meshes.at(i)->index_size);
-					ImGui::Text("UVS: %i", meshes.at(i)->size_uv);
+					std::string tmp = "Info Mesh ";
+					tmp = tmp + std::to_string(i + 1);
+					if (ImGui::CollapsingHeader(tmp.c_str()))
+					{
+						ImGui::Text("Triangles: %i", meshes.at(i)->face_size);
+						ImGui::Text("Vertices: %i", meshes.at(i)->vertex_size / 3);///bc vertices are stored in x/y/z format!
+						ImGui::Text("Indices: %i", meshes.at(i)->index_size);
+						ImGui::Text("UVS: %i", meshes.at(i)->size_uv);
+					}
 				}
 			}
 			ImGui::Text("Total triangles: %i", total_faces);
