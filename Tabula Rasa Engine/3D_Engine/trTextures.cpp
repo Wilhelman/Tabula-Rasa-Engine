@@ -53,6 +53,12 @@ bool trTextures::CleanUp()
 
 void trTextures::LoadImageFromPath(const char * path)
 {
+	// First let's check if there's any mesh in the scene
+	if (App->render->GetMeshesSize() == 0) {
+		TR_LOG("trTextures: Cannot load texture - There is no mesh in scene");
+		return;
+	}
+
 	uint tmp_id = App->render->GetTextureID();
 
 	if (tmp_id != 0)  // Delete the last texture

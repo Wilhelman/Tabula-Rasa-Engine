@@ -73,9 +73,10 @@ public:
 	void SwitchTexture2D(bool toggle);
 
 	void GenerateBufferForMesh(Mesh* mesh);
-
 	void SetTexture(Texture* texture);
-	const uint GetTextureID()const;
+
+	const uint GetTextureID() const;
+	const uint GetMeshesSize() const;
 
 	// Cleans all the meshes in the scene (not the primitives);
 	void ClearScene();

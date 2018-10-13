@@ -313,6 +313,11 @@ const uint trRenderer3D::GetTextureID() const
 	return ret;
 }
 
+const uint trRenderer3D::GetMeshesSize() const
+{
+	return meshes.size();
+}
+
 void trRenderer3D::ClearScene()
 {
 	App->editor->CleanInspectorData();

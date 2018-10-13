@@ -58,7 +58,7 @@ void PanelInspector::Draw()
 			int total_vertices = 0, total_indices = 0, total_uvs = 0, total_faces = 0;
 			for (uint i = 0; i < meshes.size(); i++)
 			{
-				total_vertices += meshes.at(i)->vertex_size;
+				total_vertices += meshes.at(i)->vertex_size / 3 ;///bc vertices are store in x/y/z format!
 				total_indices += meshes.at(i)->index_size;
 				total_uvs += meshes.at(i)->size_uv;
 				total_faces += meshes.at(i)->face_size;
