@@ -66,7 +66,7 @@ bool trCamera3D::Update(float dt)
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
 
-		ProcessMouseMotiont(dx, dy, ORBIT_SENSITIVITY);
+		ProcessMouseMotion(dx, dy, ORBIT_SENSITIVITY);
 	}
 
 	// ----- Camera orbit around target with mouse and panning -----
@@ -84,7 +84,7 @@ bool trCamera3D::Update(float dt)
 
 		pos -= ref;
 
-		ProcessMouseMotiont(dx, dy, ROTATION_SENSITIVITY);
+		ProcessMouseMotion(dx, dy, ROTATION_SENSITIVITY);
 
 		pos = ref + Z * length(pos);
 	}
@@ -102,7 +102,7 @@ bool trCamera3D::Update(float dt)
 		ref += new_pos;
 	}
 	
-	// ----- Recalculate matrix -----
+	// ----- Recalculate view matrix -----
 
 	CalculateViewMatrix();
 
@@ -112,10 +112,10 @@ bool trCamera3D::Update(float dt)
 void trCamera3D::ProcessMouseWheelInput(vec3 &new_pos, float speed)
 {
 	if (App->input->GetMouseZ() > 0)
-		new_pos -= Z * speed * 2.f;
+		new_pos -= Z * speed;
 
 	if (App->input->GetMouseZ() < 0)
-		new_pos += Z * speed * 2.f;
+		new_pos += Z * speed;
 }
 
 void trCamera3D::ProcessKeyboardInput(vec3 &new_pos, float speed)
@@ -132,23 +132,23 @@ void trCamera3D::ProcessKeyboardInput(vec3 &new_pos, float speed)
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) CenterOnScene();
 }
 
-void trCamera3D::ProcessMouseMotiont(int dx, int dy, float sensitivity)
+void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 {
 	if (dx != 0)
 	{
-		float DeltaX = (float)dx * sensitivity;
+		float delta_x = (float)dx * sensitivity;
 
-		X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-		Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-		Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+		X = rotate(X, delta_x, vec3(0.0f, 1.0f, 0.0f));
+		Y = rotate(Y, delta_x, vec3(0.0f, 1.0f, 0.0f));
+		Z = rotate(Z, delta_x, vec3(0.0f, 1.0f, 0.0f));
 	}
 
 	if (dy != 0)
 	{
-		float DeltaY = (float)dy * sensitivity;
-
-		Y = rotate(Y, DeltaY, X);
-		Z = rotate(Z, DeltaY, X);
+		float delta_y = (float)dy * sensitivity;
+		
+		Y = rotate(Y, delta_y, X);
+		Z = rotate(Z, delta_y, X);
 
 		if (Y.y < 0.0f)
 		{
