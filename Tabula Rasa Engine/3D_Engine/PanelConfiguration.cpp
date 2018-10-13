@@ -237,10 +237,31 @@ void PanelConfiguration::ShowHardware(trHardware * module)
 
 	ImGui::Separator();
 
-	info_str = "%s%s%s";
+	ImGui::Text("GPU: ");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, "%s", (char*)glGetString(GL_VENDOR));
+
 	ImGui::Text("Brand: ");
 	ImGui::SameLine();
-	ImGui::TextColored(IMGUI_YELLOW, info_str.c_str(), (char*)glGetString(GL_VENDOR), ": ", (char*)glGetString(GL_RENDERER));
+	ImGui::TextColored(IMGUI_YELLOW, "%s", (char*)glGetString(GL_RENDERER));
+
+	ImGui::Text("VRAM Budget: ");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, "%i%s", info.vram_budget, " Mb");
+
+	ImGui::Text("VRAM Usage: ");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, "%i%s", info.vram_usage, " Mb");
+
+	ImGui::Text("VRAM Available: ");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, "%i%s", info.vram_available, " Mb");
+
+	ImGui::Text("VRAM Reserved: ");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, "%i%s", info.vram_reserved, " Mb");
+
+	ImGui::Separator();
 
 	info_str = "%s";
 	ImGui::Text("OpenGL version supported: ");
