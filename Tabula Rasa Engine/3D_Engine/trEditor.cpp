@@ -52,7 +52,7 @@ bool trEditor::Start()
 
 	style.ChildRounding = 3.f;
 	style.GrabRounding = 0.f;
-	style.WindowRounding = 0.f;
+	style.WindowRounding = 4.f;
 	style.ScrollbarRounding = 3.f;
 	style.FrameRounding = 3.f;
 	style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
