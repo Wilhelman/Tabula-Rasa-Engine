@@ -8,6 +8,7 @@ A 3d game engine developed with OpenGL in c ++. This project has been done by tw
 ## Installation instructions
 
 Download the zip file and unzip it. Open the folder, execute the .exe and enjoy!
+You can find the models and textures in the _assets_ folder. All models have a _DDS_ texture associated.
 
 _IMPORTANT: do not modify, change or add any folder or file as you might not be able to execute the game engine._
 
@@ -32,7 +33,8 @@ _Click again on Window->(any option) to close that window_
 
 ## Innovations / Redesign
 
-* Draw the z-buffer in grayscale option determined by the distance (Option in Config window -> Renderer3D options).
+Warning: If this option is activated the overall performance might decrease significantly.
+* Draw the z-buffer in grayscale option determined by the distance (Option in Config window -> Renderer3D options). 
 
 ## Team members
 
@@ -60,3 +62,7 @@ _Masó Garcia, Victor's responsability and Github account_
 * Memory manager: mmgr
 * Code repository: GitHub
 * Others: Adobe Photoshop CS6 / MS Paint / Aseprite
+
+## Credits for models and textures:
+* Tank gladiator - Autor: kotbfg | Link: https://sketchfab.com/models/bc67044a11a64a8c8814014c4b87cc48
+* Forest house - Autor: Wesai | Link: https://sketchfab.com/models/5646e6a3c8834022a0e289465f0bbc5d

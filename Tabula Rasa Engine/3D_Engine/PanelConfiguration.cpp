@@ -297,7 +297,7 @@ void PanelConfiguration::ShowRenderer(trRenderer3D * module)
 
 	ImGui::Separator();
 
-	ImGui::Text("Switch Z-Buffer");
+	ImGui::Text("Switch Z-Buffer Visualization");
 	ImGui::SameLine();
 	ImGui::Checkbox("##ZBUFFER", &App->render->z_buffer);
 

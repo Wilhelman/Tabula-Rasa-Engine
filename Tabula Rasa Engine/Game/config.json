@@ -10,6 +10,7 @@
 		"vsync": true,
 		"wireframe": false,
 		"depth_test": true,
+		"z_buffer": false,
 		"cull_face": true,
 		"lighting": true,
 		"color_material": true,

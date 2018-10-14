@@ -43,6 +43,7 @@ bool trRenderer3D::Awake(JSON_Object* config)
 		depth_test = json_object_get_boolean(config, "depth_test");
 		cull_face = json_object_get_boolean(config, "cull_face");
 		lighting = json_object_get_boolean(config, "lighting");
+		z_buffer = json_object_get_boolean(config, "z_buffer");
 		color_material = json_object_get_boolean(config, "color_material");
 		texture_2D = json_object_get_boolean(config, "texture_2D");
 
