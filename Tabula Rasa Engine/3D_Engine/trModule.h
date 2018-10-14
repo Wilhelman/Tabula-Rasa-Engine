@@ -12,10 +12,6 @@ struct PhysBody3D;
 #include "ParsonJson/parson.h"
 
 class trApp;
-struct Collider;
-class UIElement;
-enum UI_State;
-enum ComboType;
 
 class trModule
 {
@@ -74,12 +70,6 @@ public:
 	{
 		return true;
 	}
-
-	// Callbacks ---
-	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
-	{}
-
-	virtual void OnUITrigger(UIElement* elementTriggered, UI_State ui_state) {}
 
 	virtual void TurnActive() {
 		active = !active;

@@ -4,9 +4,9 @@
 #include "trApp.h"
 #include "trHardware.h"
 #include "trEditor.h"
-#include "Glew\include\GL\glew.h"
-#include "Assimp\include\version.h"
-#include "DevIL\include\il.h"
+#include "Glew/include/GL/glew.h"
+#include "Assimp/include/version.h"
+#include "DevIL/include/il.h"
 #include "imgui_defs.h"
 
 PanelAbout::PanelAbout() : Panel("About")
@@ -20,7 +20,10 @@ void PanelAbout::Draw()
 {
 	ImGui::Begin("About Tabula Rasa Engine", &active, ImGuiWindowFlags_AlwaysAutoResize);
 	
-	ImGui::Text("Version %s", App->GetVersion());
+	ImGui::Text("Version %s", App->GetVersion()); 
+	ImGui::SameLine();
+	if (ImGui::Button("Github##TABULARASA"))
+		App->RequestBrowser("https://github.com/Wilhelman/Tabula-Rasa-Engine/");
 	ImGui::Separator();
 	ImGui::Text("By Guillermo Garcia Subirana and Victor Maso Garcia.");
 	

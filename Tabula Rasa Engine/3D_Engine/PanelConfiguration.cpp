@@ -54,10 +54,13 @@ bool PanelConfiguration::SetUpCollapsingHeader(trModule* module)
 	{
 		(module->active) ? ImGui::Text("Module Actived") : ImGui::Text("Module Disabled");
 		ImGui::SameLine();
-		bool is_active = module->active;
-		if (ImGui::Checkbox("Active", &is_active)) {
-			module->TurnActive();
-			module->CleanUp();
+
+		if (module->name != "Renderer3D") { /// Renderer cant be disabled
+			bool is_active = module->active;
+			if (ImGui::Checkbox("Active", &is_active)) {
+				module->TurnActive();
+				module->CleanUp();
+			}
 		}
 
 		ret = true;

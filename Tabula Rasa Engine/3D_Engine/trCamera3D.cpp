@@ -223,8 +223,7 @@ void trCamera3D::CalculateViewMatrix()
 
 void trCamera3D::CenterOnScene(AABB* bounding_box)
 {
-	if (bounding_box != nullptr)
-		b_box = bounding_box;
+	b_box = bounding_box;
 
 	if (b_box != nullptr)
 	{
