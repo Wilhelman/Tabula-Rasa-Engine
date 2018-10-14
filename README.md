@@ -1,7 +1,5 @@
 ﻿# Tabula Rasa Engine
-A 3d game engine developed with opengl in c ++
-
-This project has been done by two students of CITM - UPC (Terrasa, Spain).  
+A 3d game engine developed with OpenGL in c ++. This project has been done by two students of CITM - UPC (Terrasa, Spain) for the subject Game Engines, 
 
 * [Github repository](https://github.com/Wilhelman/Tabula-Rasa-Engine)
 * [Website] NOT YET
@@ -62,5 +60,3 @@ _Masó Garcia, Victor's responsability and Github account_
 * Memory manager: mmgr
 * Code repository: GitHub
 * Others: Adobe Photoshop CS6 / MS Paint / Aseprite
-
-## Credits for artwork, music/sound fx and fonts
