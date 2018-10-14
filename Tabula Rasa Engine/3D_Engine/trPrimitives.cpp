@@ -1,6 +1,6 @@
 #include "trDefs.h"
 #include "trPrimitives.h"
-#include "Glew\include\GL\glew.h"
+#include "Glew/include/GL/glew.h"
 
 // ------------------------------------------------------------
 trPrimitive::trPrimitive() : transform(math::float4x4::identity), color(White), axis(false), type(PrimitiveTypes::Primitive_Point)
