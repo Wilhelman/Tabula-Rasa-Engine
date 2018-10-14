@@ -96,6 +96,7 @@ public:
 	bool show_mesh_faces_normals = false;
 
 	// Config settings
+	bool wireframe = false;
 	bool depth_test = true;
 	bool cull_face = true;
 	bool lighting = true;

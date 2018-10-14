@@ -43,6 +43,13 @@ bool trRenderer3D::Awake(JSON_Object* config)
 	}
 
 	if (config != nullptr) {
+		wireframe = json_object_get_boolean(config, "wireframe");
+		depth_test = json_object_get_boolean(config, "depth_test");
+		cull_face = json_object_get_boolean(config, "cull_face");
+		lighting = json_object_get_boolean(config, "lighting");
+		color_material = json_object_get_boolean(config, "color_material");
+		texture_2D = json_object_get_boolean(config, "texture_2D");
+
 		if (json_object_get_boolean(config, "vsync")) {
 			if (SDL_GL_SetSwapInterval(1) < 0)
 				TR_LOG("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
@@ -131,12 +138,15 @@ bool trRenderer3D::Awake(JSON_Object* config)
 		GLfloat MaterialDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
 		lights[0].Active(true);
-		glEnable(GL_LIGHTING);
-		glEnable(GL_COLOR_MATERIAL);
-		glEnable(GL_TEXTURE_2D);
+		
+		SwitchWireframeMode(wireframe);
+		SwitchDepthMode(depth_test);
+		SwitchFaceCulling(cull_face);
+		SwitchLighting(lighting);
+		SwitchColorMaterial(color_material);
+		SwitchTexture2D(texture_2D);
+		
 	}
 
 	// Projection matrix for

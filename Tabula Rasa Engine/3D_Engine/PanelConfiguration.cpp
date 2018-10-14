@@ -266,16 +266,15 @@ void PanelConfiguration::ShowRenderer(trRenderer3D * module)
 
 	ImGui::Text("Switch wireframe");
 	ImGui::SameLine();
-	bool is_active = App->render->IsWireframeModeEnabled();
-	if (ImGui::Checkbox("##WIREFRAME", &is_active))
-		App->render->SwitchWireframeMode(is_active);
+	if (ImGui::Checkbox("##WIREFRAME", &App->render->wireframe))
+		App->render->SwitchWireframeMode(App->render->wireframe);
 
 	ImGui::Separator();
 
 	ImGui::Text("Switch Depth Test");
 	ImGui::SameLine();
 	if (ImGui::Checkbox("##DEPTH", &App->render->depth_test))
-		App->render->SwitchDepthMode(&App->render->depth_test);
+		App->render->SwitchDepthMode(App->render->depth_test);
 
 	ImGui::Separator();
 

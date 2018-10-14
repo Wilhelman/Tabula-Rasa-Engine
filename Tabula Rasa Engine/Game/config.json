@@ -7,7 +7,13 @@
 		"version": "v0.3.0-development"
 	},
 	"Renderer3D": {
-		"vsync": true
+		"vsync": true,
+		"wireframe": false,
+		"depth_test": true,
+		"cull_face": true,
+		"lighting": true,
+		"color_material": true,
+		"texture_2D": true
 	},
 	"main_scene":{
 		"default_mesh": "assets/models/BakerHouse.fbx"
