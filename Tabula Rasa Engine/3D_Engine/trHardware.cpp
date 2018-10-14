@@ -41,15 +41,8 @@ bool trHardware::Start()
 	hw_info.gpu_model = (char*)glGetString(GL_RENDERER);
 
 	glGetIntegerv(GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &hw_info.vram_budget);
-
-	return true;
-}
-
-bool trHardware::Update(float dt)
-{
 	glGetIntegerv(GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &hw_info.vram_available);
 	glGetIntegerv(GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX, &hw_info.vram_reserved);
-
 	hw_info.vram_usage = hw_info.vram_budget - hw_info.vram_available;
 
 	return true;
@@ -58,4 +51,11 @@ bool trHardware::Update(float dt)
 trHardware::HWInfo trHardware::GetHardwareInfo() const
 {
 	return hw_info;
+}
+
+void trHardware::UpdateVRAMInfo()
+{
+	glGetIntegerv(GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &hw_info.vram_available);
+	glGetIntegerv(GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX, &hw_info.vram_reserved);
+	hw_info.vram_usage = hw_info.vram_budget - hw_info.vram_available;
 }

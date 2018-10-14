@@ -58,8 +58,9 @@ public:
 	// Destructor
 	~trHardware();
 	bool Start();
-	bool Update(float dt);
+
 	HWInfo GetHardwareInfo() const;
+	void UpdateVRAMInfo();
 
 
 private:

@@ -97,6 +97,7 @@ void PanelConfiguration::ShowApplication()
 
 		ImGui::Separator();
 
+		
 		sMStats mem_stats = m_getMemoryStatistics();
 
 		if (mem_timer.Read() > 0.05f)
@@ -114,11 +115,9 @@ void PanelConfiguration::ShowApplication()
 			
 		}
 
-	
-
 		ImGui::PlotHistogram("##memory", &mem_list[0], mem_list.size(), 0, "Memory Consumption", 0.0f, (float)mem_stats.peakReportedMemory * 1.2f, ImVec2(310, 100));
 
-
+	
 		ImGui::Text("Total Reported Mem: %u", mem_stats.totalReportedMemory);
 		ImGui::Text("Total Actual Mem: %u", mem_stats.totalActualMemory);
 		ImGui::Text("Peak Reported Mem: %u", mem_stats.peakReportedMemory);
@@ -134,6 +133,8 @@ void PanelConfiguration::ShowApplication()
 void PanelConfiguration::ShowHardware(trHardware * module)
 {
 	trHardware::HWInfo info = module->GetHardwareInfo();
+	App->hardware->UpdateVRAMInfo();
+
 	std::string info_str;
 	info_str = "v%u.%u.%u";
 	ImGui::Text("SDL Version:");
