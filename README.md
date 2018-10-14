@@ -1,14 +1,10 @@
 ﻿# Tabula Rasa Engine
-Description of the game engine...
+A 3d game engine developed with opengl in c ++
 
 This project has been done by two students of CITM - UPC (Terrasa, Spain).  
 
-* [Github repository](https://github.com/Wilhelman/GameEngine)
+* [Github repository](https://github.com/Wilhelman/Tabula-Rasa-Engine)
 * [Website] NOT YET
-
-## About this game engine
-
-Description of the engine... 
 * [Wiki] NOT YET
 
 ## Installation instructions
@@ -32,12 +28,13 @@ _IMPORTANT: do not modify, change or add any folder or file as you might not be 
 * **Open config window**: 4
 * **Open console**: 1 
 * **Open Inspector**: I key
-* **Show/Hide UI:** ALT + G key
+* **Show/Hide UI:** LALT + G key
 
 _Click again on Window->(any option) to close that window_
 
 ## Innovations / Redesign
-TODO: ALL INNOVATIONS WE HAVE
+
+* Draw the z-buffer in grayscale option determined by the distance.
 
 ## Team members
 
@@ -53,8 +50,16 @@ _Masó Garcia, Victor's responsability and Github account_
 * IDE: Microsoft Visual Studio 2017
 * Language: C++
 * Containers: STL
-* Graphics and audio: SDL 2.0
-* Data: pugixml 1.8
+* Input and audio: SDL 2.0.8
+* Graphics: OpenGL
+* Math: MathGeoLib 1.5
+* Random Number Generator: PCG (C Implementantion) 0.94
+* GUI: Deat ImGui 1.65
+* 3D Model importer: Assimp 3.3.0
+* Image loader: Developer's Image Library (DevIL) 1.8.0
+* Data persistance: JSON parser - Parson 2017
+* Profiler: Brofiler 1.1.2
+* Memory manager: mmgr
 * Code repository: GitHub
 * Others: Adobe Photoshop CS6 / MS Paint / Aseprite
 
