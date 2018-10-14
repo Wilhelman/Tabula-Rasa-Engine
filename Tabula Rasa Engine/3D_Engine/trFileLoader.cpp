@@ -62,7 +62,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 	TR_LOG("trFileLoader: Start importing a file with path: %s", file_path);
 	
 	const aiScene* scene = aiImportFile(file_path, aiProcessPreset_TargetRealtime_MaxQuality);
-
+	std::string texture_path;
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		App->texture->CleanUp(); // Just to remove the last texture when a new mesh is dropped
@@ -109,18 +109,12 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			mesh_data->ambient_color = new float4(tmp_color.r, tmp_color.g, tmp_color.b, tmp_color.a);
 
 			// Getting the texture path
-			TR_LOG("trFileLoader: Trying to find the embeded texture ...");
-			aiString tmp_path;
-			material->GetTexture(aiTextureType_DIFFUSE, 0, &tmp_path);
-			std::string path = tmp_path.data;
-			if (!path.empty()) { // Let's search the texture in our path assets/textures
-				std::string posible_path = "assets/textures/";
-				posible_path = posible_path + path;
-				TR_LOG("trFileLoader: Search in - %s", posible_path.c_str());
-				App->texture->LoadImageFromPath(posible_path.c_str());
+			if (texture_path.empty()) {
+				TR_LOG("trFileLoader: Trying to find the embeded texture ...");
+				aiString tmp_path;
+				material->GetTexture(aiTextureType_DIFFUSE, 0, &tmp_path);
+				texture_path = tmp_path.data;
 			}
-			else
-				TR_LOG("trFileLoader: Didn't find any embeded texture");
 
 			// Vertex copy
 			mesh_data->vertex_size = new_mesh->mNumVertices;
@@ -164,6 +158,15 @@ bool trFileLoader::Import3DFile(const char* file_path)
 
 			App->render->GenerateBufferForMesh(mesh_data);
 		}
+
+		if (!texture_path.empty()) { // Let's search the texture in our path assets/textures
+			std::string posible_path = "assets/textures/";
+			posible_path = posible_path + texture_path;
+			TR_LOG("trFileLoader: Search in - %s", posible_path.c_str());
+			App->texture->LoadImageFromPath(posible_path.c_str());
+		}
+		else
+			TR_LOG("trFileLoader: Didn't find any embeded texture");
 
 		if (scene->mNumMeshes == 1)
 			App->camera->CenterOnScene(mesh_data->bounding_box);
