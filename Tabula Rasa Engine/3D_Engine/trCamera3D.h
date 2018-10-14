@@ -32,6 +32,7 @@ public:
 	float* GetViewMatrix();
 
 	void CenterOnScene(AABB* bounding_box = nullptr);
+	void ClearLastBoundingBox();
 
 private:
 

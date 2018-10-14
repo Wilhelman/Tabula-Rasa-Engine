@@ -226,7 +226,10 @@ void trCamera3D::CenterOnScene(AABB* bounding_box)
 	if (bounding_box != nullptr)
 		b_box = bounding_box;
 
-	if (b_box != nullptr)
+	if (bounding_box == nullptr && b_box == nullptr) {
+		pos.Set(3.f, 3.f, 3.f);
+		LookAt(vec3(0.f, 0.f, 0.f));
+	}else if (b_box != nullptr)
 	{
 		vec center_bbox(b_box->Centroid());
 		vec move_dir = (vec(pos.x, pos.y, pos.z) - center_bbox).Normalized();
@@ -243,8 +246,10 @@ void trCamera3D::CenterOnScene(AABB* bounding_box)
 
 		LookAt(vec3(center_bbox.x, center_bbox.y, center_bbox.z));
 	}
-	else if(bounding_box == nullptr){
-		pos.Set(3.f, 3.f, 3.f);
-		LookAt(vec3(0.f, 0.f, 0.f));
-	}
+}
+
+void trCamera3D::ClearLastBoundingBox()
+{
+	if (b_box != nullptr)
+		b_box = nullptr;
 }

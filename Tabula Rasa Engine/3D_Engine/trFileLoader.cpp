@@ -174,6 +174,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		}
 
 		if (!success) {
+			App->camera->ClearLastBoundingBox();
 			App->camera->CenterOnScene();
 			TR_LOG("trFileLoader: Error loading file: %s", file_path);
 			return false;
