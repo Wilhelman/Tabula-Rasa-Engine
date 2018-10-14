@@ -42,9 +42,6 @@ private:
 	trTimer mem_timer;
 	std::vector<float> mem_list;
 
-	// TODO: do this nicer, asking opengl
-	
-
 };
 
 #endif// __PANELCONFIGURATION_H__

@@ -128,8 +128,7 @@ bool trEditor::PreUpdate(float dt)
 bool trEditor::Update(float dt)
 {
 	ImGui_ImplOpenGL2_NewFrame();
-	//todo: do a getter for the window
-	ImGui_ImplSDL2_NewFrame(App->window->window);
+	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();
 
 	// Show/hide imgui
@@ -226,7 +225,7 @@ bool trEditor::CleanUp()
 	std::vector<Panel*>::iterator it = panels.begin();
 
 	while (it != panels.end()) {
-		delete(*it);//is this legal? todo go to each panel
+		delete(*it);
 		it++;
 	}
 	panels.clear();

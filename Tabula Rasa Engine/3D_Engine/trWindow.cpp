@@ -145,6 +145,11 @@ uint trWindow::GetMonitorRefreshRate() const
 	return ret;
 }
 
+SDL_Window * trWindow::GetWindow() const
+{
+	return window;
+}
+
 void trWindow::SetFullscreen(bool set)
 {
 	if (set != fullscreen)

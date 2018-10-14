@@ -35,6 +35,7 @@ public:
 	uint GetScale() const;
 	float GetBrightness() const;
 	uint GetMonitorRefreshRate() const;
+	SDL_Window* GetWindow() const;
 
 public:
 	//The window we'll be rendering to

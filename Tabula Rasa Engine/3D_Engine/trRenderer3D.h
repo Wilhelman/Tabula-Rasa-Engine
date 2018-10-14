@@ -91,10 +91,6 @@ public:
 	SDL_GLContext context;
 	float4x4 ProjectionMatrix;
 
-	bool show_mesh_vertices = false; // todo ...
-	bool show_mesh_vertices_normals = false;
-	bool show_mesh_faces_normals = false;
-
 	// Config settings
 	bool wireframe = false;
 	bool depth_test = true;
