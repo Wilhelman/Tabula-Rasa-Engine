@@ -11,7 +11,7 @@
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
 
-#pragma comment (lib, "Assimp/libx86/assimp.lib")
+#pragma comment (lib, "Assimp/libx86/assimp-vc140-mt.lib")
 
 void StreamCallback(const char* msg, char* user_msg) {
 	TR_LOG("trFileLoader: %s",msg);

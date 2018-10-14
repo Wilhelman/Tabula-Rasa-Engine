@@ -30,6 +30,7 @@ bool trCamera3D::Awake(JSON_Object* config)
 		cam_speed = json_object_get_number(config, "cam_speed");
 		cam_boost_speed = json_object_get_number(config, "cam_boost_speed");
 	}
+	return true;
 }
 
 // -----------------------------------------------------------------

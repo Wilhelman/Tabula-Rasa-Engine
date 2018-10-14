@@ -53,7 +53,7 @@ _Masó Garcia, Victor's responsability and Github account_
 * Math: MathGeoLib 1.5
 * Random Number Generator: PCG (C Implementantion) 0.94
 * GUI: Deat ImGui 1.65
-* 3D Model importer: Assimp 3.3.0
+* 3D Model importer: Assimp 1.4.0
 * Image loader: Developer's Image Library (DevIL) 1.8.0
 * Data persistance: JSON parser - Parson 2017
 * Profiler: Brofiler 1.1.2
