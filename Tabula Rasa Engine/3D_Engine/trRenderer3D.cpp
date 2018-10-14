@@ -370,20 +370,29 @@ void trRenderer3D::DrawZBuffer()
 	int width = App->window->GetWidth();
 	int height = App->window->GetHeight();
 	float* data = new float[width * height];
+
+	// First, we read the Z-Buffer and store its values in data
 	glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, data);
+
+	// Once we have the values we need to make the data non-linear. We want a lot of precission 
+	// for small z values (closer to the camera) and much less precision for high z values (further
+	// from the camera) as we care more about what it's in our near vision than what's far away.
 
 	for (uint i = 0; i < width * height; i++)
 	{
 		(*data) = (*data) * 2.f - 1.f;
 		data++;
 	}
+
 	for (uint i = 0; i < width * height; i++)
 		data--;
+
 	for (uint i = 0; i < width * height; i++)
 	{
 		(*data) = (2.0 * 0.009125f * 512.0f) / (512.0f + 0.009125f - (*data) * (512.0f - 0.009125f));
 		data++;
 	}
+
 	for (uint i = 0; i < width * height; i++)
 		data--;
 
