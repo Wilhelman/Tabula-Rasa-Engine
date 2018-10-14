@@ -15,7 +15,7 @@ PanelConsole::PanelConsole(std::vector<std::string> init_logs) : Panel("Console"
 
 PanelConsole::~PanelConsole()
 {
-
+	text_buffer.clear();
 }
 
 void PanelConsole::Draw()

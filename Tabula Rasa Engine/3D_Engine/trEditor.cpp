@@ -226,10 +226,12 @@ bool trEditor::CleanUp()
 	}
 	panels.clear();
 
+	init_logs.clear();
+
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
-
+	this->active = false;
 	return true;
 }
 

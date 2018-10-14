@@ -76,7 +76,7 @@ void PanelAbout::Draw()
 		ImGui::Text("JSON parser: Parson v2017");
 		ImGui::SameLine();
 		if (ImGui::Button("Github##Third"))
-			App->RequestBrowser("https://github.com/ocornut/imgui");
+			App->RequestBrowser("https://github.com/kgabis/parson");
 
 		ImGui::Text("Profiler: Brofiler v1.1.2");
 		ImGui::SameLine();

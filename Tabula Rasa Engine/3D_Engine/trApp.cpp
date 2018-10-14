@@ -37,11 +37,10 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 
-	AddModule(editor); // Editor should be the last in clean up!
-
 	AddModule(input);
 	AddModule(window);
 	AddModule(camera);
+	AddModule(editor);
 	AddModule(main_scene);
 	AddModule(hardware);
 	AddModule(file_loader);
