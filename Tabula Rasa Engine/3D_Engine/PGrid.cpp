@@ -64,6 +64,8 @@ PGrid::PGrid() : trPrimitive()
 PGrid::~PGrid()
 {
 	delete gizmo;
+	glDeleteBuffers(1, (GLuint*)&vertices_index);
+	glDeleteBuffers(1, (GLuint*)&indices_index);
 }
 
 void PGrid::InnerRender() const

@@ -113,6 +113,11 @@ bool trFileLoader::Import3DFile(const char* file_path)
 				aiString tmp_path;
 				material->GetTexture(aiTextureType_DIFFUSE, 0, &tmp_path);
 				texture_path = tmp_path.data;
+
+				// Let's get ONLY the file name:
+				const size_t last_slash = texture_path.find_last_of("\\/");
+				if (std::string::npos != last_slash)
+					texture_path.erase(0, last_slash + 1);
 			}
 
 			// Vertex copy

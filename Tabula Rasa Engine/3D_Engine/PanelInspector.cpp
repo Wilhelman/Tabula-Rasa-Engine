@@ -52,15 +52,22 @@ void PanelInspector::Draw()
 		}
 
 		if (ImGui::CollapsingHeader("Mesh info")) {
+
 			// todo: remove this total calculator when we have the gameobject class
 			int total_vertices = 0, total_indices = 0, total_uvs = 0, total_faces = 0;
 			for (uint i = 0; i < meshes.size(); i++)
 			{
-				total_vertices += meshes.at(i)->vertex_size / 3 ;///bc vertices are stored in x/y/z format!
+				total_vertices += meshes.at(i)->vertex_size / 3;///bc vertices are stored in x/y/z format!
 				total_indices += meshes.at(i)->index_size;
 				total_uvs += meshes.at(i)->size_uv;
 				total_faces += meshes.at(i)->face_size;
 			}
+
+			ImGui::Text("Total triangles: %i", total_faces);
+			ImGui::Text("Total vertices: %i", total_vertices);
+			ImGui::Text("Total indices: %i", total_indices);
+			ImGui::Text("Total UVS: %i", total_uvs);
+			ImGui::Separator();
 
 			ImGui::Text("Number of meshes: %i", meshes.size());
 			if (meshes.size() > 1) {
@@ -77,11 +84,8 @@ void PanelInspector::Draw()
 					}
 				}
 			}
-			ImGui::Separator();
-			ImGui::Text("Total triangles: %i", total_faces);
-			ImGui::Text("Total vertices: %i", total_vertices);
-			ImGui::Text("Total indices: %i", total_indices);
-			ImGui::Text("Total UVS: %i", total_uvs);
+			
+			
 		}
 
 		if (texture != nullptr) {

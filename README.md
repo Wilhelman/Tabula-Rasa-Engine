@@ -32,7 +32,7 @@ _Click again on Window->(any option) to close that window_
 
 ## Innovations / Redesign
 
-* Draw the z-buffer in grayscale option determined by the distance.
+* Draw the z-buffer in grayscale option determined by the distance (Option in Config window -> Renderer3D options).
 
 ## Team members
 
