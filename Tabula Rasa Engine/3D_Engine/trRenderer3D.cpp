@@ -316,7 +316,8 @@ const uint trRenderer3D::GetMeshesSize() const
 
 void trRenderer3D::ClearScene()
 {
-	App->editor->CleanInspectorData();
+	if(App->editor != nullptr)
+		App->editor->CleanInspectorData();
 
 	std::vector<Mesh*>::iterator it = meshes.begin();
 	while (it != meshes.end())
@@ -427,6 +428,7 @@ Mesh::~Mesh()
 	if (ambient_color != nullptr) { delete ambient_color; ambient_color = nullptr; }
 
 	name.clear();
+	path.clear();
 
 	glDeleteBuffers(1, (GLuint*)&index_buffer);
 	glDeleteBuffers(1, (GLuint*)&vertex_buffer);

@@ -164,11 +164,17 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			mesh_data->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
 			mesh_data->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
 
-			(success) ? App->render->GenerateBufferForMesh(mesh_data) : App->render->ClearScene();
+			if (success) {
+				App->render->GenerateBufferForMesh(mesh_data);
+			}
+			else {
+				App->render->ClearScene();
+				break;
+			}
 		}
 
 		if (!success) {
-			App->camera->CenterOnScene(nullptr);
+			App->camera->CenterOnScene();
 			TR_LOG("trFileLoader: Error loading file: %s", file_path);
 			return false;
 		}

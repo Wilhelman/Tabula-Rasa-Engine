@@ -223,7 +223,8 @@ void trCamera3D::CalculateViewMatrix()
 
 void trCamera3D::CenterOnScene(AABB* bounding_box)
 {
-	b_box = bounding_box;
+	if (bounding_box != nullptr)
+		b_box = bounding_box;
 
 	if (b_box != nullptr)
 	{
@@ -242,7 +243,7 @@ void trCamera3D::CenterOnScene(AABB* bounding_box)
 
 		LookAt(vec3(center_bbox.x, center_bbox.y, center_bbox.z));
 	}
-	else {
+	else if(bounding_box == nullptr){
 		pos.Set(3.f, 3.f, 3.f);
 		LookAt(vec3(0.f, 0.f, 0.f));
 	}
