@@ -3,6 +3,7 @@
 
 #include "Panel.h"
 #include "imgui.h"
+#include "imgui_defs.h"
 #include <vector>
 
 #include "trTimer.h"
@@ -31,16 +32,17 @@ public:
 	void ShowWindow(trWindow * module);
 	void ShowRenderer(trRenderer3D * module);
 
-	void FillChartFpsInfo(float fps, float ms);
+	void FillChartFpsInfo(float fps, float ms, int frames);
 
 private:
 	std::vector<float> chart_fps, chart_ms;
 
-	char app_name[TITLE_ORG_MAX_LENGTH];
-	char org_name[TITLE_ORG_MAX_LENGTH];
+	char app_name[TITLE_MAX_LENGTH];
+	char org_name[TITLE_MAX_LENGTH];
 
 	trTimer mem_timer;
 	std::vector<float> mem_list;
+	uint index = 0;
 
 };
 

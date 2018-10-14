@@ -196,7 +196,7 @@ void trApp::FinishUpdate()
 			SDL_Delay(capped_ms - last_frame_ms);
 	}
 
-	editor->InfoFPSMS((float)last_fps, (float)last_frame_ms);
+	editor->InfoFPSMS((float)last_fps, (float)last_frame_ms, frames);
 
 	if (!all_modules_loaded)
 		all_modules_loaded = true;

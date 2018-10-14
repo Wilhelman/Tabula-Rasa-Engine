@@ -80,8 +80,4 @@ inline const char* const PATH(const char* folder, const char* file)
 #define DEGTORAD 0.0174532925199432957f
 #define RADTODEG 57.295779513082320876f
 
-// For imGui text edit
-#define TITLE_ORG_MAX_LENGTH 77
-
-
 #endif

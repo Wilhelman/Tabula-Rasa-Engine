@@ -33,7 +33,7 @@ public:
 	void SetupInspectorWith(Texture* texture);
 	void CleanInspectorData();
 
-	void InfoFPSMS(float current_fps, float current_ms);
+	void InfoFPSMS(float current_fps, float current_ms, int frames);
 
 	void Log(const char* new_log);
 

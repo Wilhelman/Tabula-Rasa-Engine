@@ -7,7 +7,6 @@
 #include "trRenderer3D.h"
 #include "trCamera3D.h"
 #include "trEditor.h"
-#include "imgui_defs.h"
 #include "mmgr/mmgr.h"
 #include "trTimer.h"
 
@@ -74,12 +73,13 @@ void PanelConfiguration::ShowApplication()
 {
 	if (ImGui::CollapsingHeader("Application"))
 	{
-		strcpy_s(app_name, TITLE_ORG_MAX_LENGTH, App->GetTitle());
-		if (ImGui::InputText("App Name", app_name, TITLE_ORG_MAX_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+		string app_label("App Name");
+		strcpy_s(app_name, TITLE_MAX_LENGTH, App->GetTitle());
+		if (ImGui::InputText(app_label.c_str(), app_name, TITLE_MAX_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
 			App->window->SetTitle(app_name);
 
-		strcpy_s(org_name, TITLE_ORG_MAX_LENGTH, App->GetOrganization());
-		if (ImGui::InputText("Organization", org_name, TITLE_ORG_MAX_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+		strcpy_s(org_name, TITLE_MAX_LENGTH, App->GetOrganization());
+		if (ImGui::InputText("Organization", org_name, TITLE_MAX_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
 			App->SetOrganization(org_name);
 
 		int fps_cap = App->GetFpsCap();
@@ -88,17 +88,16 @@ void PanelConfiguration::ShowApplication()
 
 		ImGui::Text("Current FPS cap:");
 		ImGui::SameLine();
-							//or IMGUI_YELLOW!
-		ImGui::TextColored(ImVec4(0.f,1.f,1.f,1.f), "%i", App->GetFpsCap());
+		
+		ImGui::TextColored(IMGUI_YELLOW, "%i", App->GetFpsCap());
 
 		char title[25];
-		sprintf_s(title, 25, "Framerate %.1f", chart_fps[chart_fps.size() - 1]);
-		ImGui::PlotHistogram("##framerate", &chart_fps[0], chart_fps.size(), 0, title, 0.0f, 100.0f, ImVec2(400, 90));
-		sprintf_s(title, 25, "Milliseconds %0.1f", chart_ms[chart_ms.size() - 1]);
-		ImGui::PlotHistogram("##milliseconds", &chart_ms[0], chart_ms.size(), 0, title, 0.0f, 40.0f, ImVec2(400, 90));
+		sprintf_s(title, 25, "Framerate %.1f", chart_fps.back());
+		ImGui::PlotHistogram("##framerate", &chart_fps.front(), chart_fps.size(), 0, title, 0.0f, 100.0f, ImVec2(400, 90));
+		sprintf_s(title, 25, "Milliseconds %0.1f", chart_ms.back());
+		ImGui::PlotHistogram("##milliseconds", &chart_ms.front(), chart_ms.size(), 0, title, 0.0f, 40.0f, ImVec2(400, 90));
 
 		ImGui::Separator();
-
 		
 		sMStats mem_stats = m_getMemoryStatistics();
 
@@ -119,7 +118,6 @@ void PanelConfiguration::ShowApplication()
 
 		ImGui::PlotHistogram("##memory", &mem_list[0], mem_list.size(), 0, "Memory Consumption", 0.0f, (float)mem_stats.peakReportedMemory * 1.2f, ImVec2(310, 100));
 
-	
 		ImGui::Text("Total Reported Mem: %u", mem_stats.totalReportedMemory);
 		ImGui::Text("Total Actual Mem: %u", mem_stats.totalActualMemory);
 		ImGui::Text("Peak Reported Mem: %u", mem_stats.peakReportedMemory);
@@ -308,21 +306,19 @@ void PanelConfiguration::ShowRenderer(trRenderer3D * module)
 		App->render->SwitchTexture2D(App->render->texture_2D);
 }
 
-void PanelConfiguration::FillChartFpsInfo(float fps, float ms)
+void PanelConfiguration::FillChartFpsInfo(float fps, float ms, int frames)
 {
-	static uint chart_iterator = 0u;
-
-	if (chart_iterator == CHART_FPS_CAP)
+	if (frames % (CHART_FPS_CAP + 1) == 0 || frames > CHART_FPS_CAP + 1)
 	{
 		for (uint i = 0; i < CHART_FPS_CAP - 1; i++)
 		{
-			chart_fps[i] = chart_fps[i + 1];
 			chart_ms[i] = chart_ms[i + 1];
+			chart_fps[i] = chart_fps[i + 1];
 		}
 	}
 	else
-		chart_iterator++;
-
-	chart_fps[chart_iterator - 1] = fps;
-	chart_ms[chart_iterator - 1] = ms;
+		index++;
+	
+	chart_ms[index - 1] = ms;
+	chart_fps[index - 1] = fps;
 }
