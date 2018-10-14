@@ -73,9 +73,8 @@ void PanelConfiguration::ShowApplication()
 {
 	if (ImGui::CollapsingHeader("Application"))
 	{
-		string app_label("App Name");
 		strcpy_s(app_name, TITLE_MAX_LENGTH, App->GetTitle());
-		if (ImGui::InputText(app_label.c_str(), app_name, TITLE_MAX_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+		if (ImGui::InputText("App Name", app_name, TITLE_MAX_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
 			App->window->SetTitle(app_name);
 
 		strcpy_s(org_name, TITLE_MAX_LENGTH, App->GetOrganization());
