@@ -39,6 +39,7 @@ private:
 
 	char app_name[TITLE_MAX_LENGTH];
 	char org_name[TITLE_MAX_LENGTH];
+	char title[TITLE_MAX_LENGTH];
 
 	trTimer mem_timer;
 	std::vector<float> mem_list;

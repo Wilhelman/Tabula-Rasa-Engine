@@ -91,7 +91,6 @@ void PanelConfiguration::ShowApplication()
 		
 		ImGui::TextColored(IMGUI_YELLOW, "%i", App->GetFpsCap());
 
-		char title[25];
 		sprintf_s(title, 25, "Framerate %.1f", chart_fps.back());
 		ImGui::PlotHistogram("##framerate", &chart_fps.front(), chart_fps.size(), 0, title, 0.0f, 100.0f, ImVec2(400, 90));
 		sprintf_s(title, 25, "Milliseconds %0.1f", chart_ms.back());
@@ -113,10 +112,9 @@ void PanelConfiguration::ShowApplication()
 			}
 			else
 				mem_list.push_back((float)mem_stats.totalReportedMemory);
-			
 		}
 
-		ImGui::PlotHistogram("##memory", &mem_list[0], mem_list.size(), 0, "Memory Consumption", 0.0f, (float)mem_stats.peakReportedMemory * 1.2f, ImVec2(310, 100));
+		ImGui::PlotHistogram("##memory", &mem_list.front(), mem_list.size(), 0, "Memory Consumption", 0.0f, (float)mem_stats.peakReportedMemory * 1.2f, ImVec2(310, 100));
 
 		ImGui::Text("Total Reported Mem: %u", mem_stats.totalReportedMemory);
 		ImGui::Text("Total Actual Mem: %u", mem_stats.totalActualMemory);
@@ -221,9 +219,14 @@ void PanelConfiguration::ShowInput(trInput * module)
 	ImGui::Text("Mouse Position:");
 	ImGui::SameLine();
 	ImGui::TextColored(IMGUI_YELLOW, "%i,%i", module->GetMouseX(), module->GetMouseY());
+	
 	ImGui::Text("Mouse Motion:");
 	ImGui::SameLine();
 	ImGui::TextColored(IMGUI_YELLOW, "%i,%i", module->GetMouseXMotion(), module->GetMouseYMotion());
+	
+	ImGui::Text("Mouse Wheel:");
+	ImGui::SameLine();
+	ImGui::TextColored(IMGUI_YELLOW, "%i", module->GetMouseZ());
 }
 
 void PanelConfiguration::ShowWindow(trWindow * module)
