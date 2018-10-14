@@ -45,6 +45,8 @@ bool trWindow::Awake(JSON_Object* config)
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
+		flags |= SDL_WINDOW_MAXIMIZED;
+
 		if (fullscreen)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
@@ -157,6 +159,10 @@ void trWindow::SetFullscreen(bool fullscreen)
 		if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) != 0)
 			TR_LOG("trWindow: Error switching to fullscreen: %s\n", SDL_GetError());
 	}
+	else {
+		if (SDL_SetWindowFullscreen(window, SDL_WINDOW_MAXIMIZED) != 0)
+			TR_LOG("trWindow: Error switching to fullscreen: %s\n", SDL_GetError());
+	}
 }
 
 void trWindow::SetResizable(bool resizable)
@@ -178,6 +184,10 @@ void trWindow::SetFullscreenWindowed(bool fullscreen_desktop)
 	{
 		if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
 			TR_LOG("trWindow: Error switching to fullscreen desktop: %s\n", SDL_GetError());
+	}
+	else {
+		if (SDL_SetWindowFullscreen(window, SDL_WINDOW_MAXIMIZED) != 0)
+			TR_LOG("trWindow: Error switching to fullscreen: %s\n", SDL_GetError());
 	}
 }
 
