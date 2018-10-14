@@ -1,6 +1,7 @@
 #include "trDefs.h"
 #include "trApp.h"
 #include "trWindow.h"
+#include "SDL/include/SDL.h"
 
 trWindow::trWindow() : trModule()
 {
@@ -134,15 +135,13 @@ void trWindow::SetScale(uint scale)
 
 uint trWindow::GetMonitorRefreshRate() const
 {
-	uint ret = 0;
-
-	SDL_DisplayMode dm;
-	if (SDL_GetDesktopDisplayMode(0, &dm) != 0)
-		TR_LOG("trWindow: SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
+	SDL_DisplayMode display_mode;
+	if (SDL_GetDesktopDisplayMode(0, &display_mode) != 0)
+		TR_LOG("trWindow: Error - SDL_GetDesktopDisplayMode %s", SDL_GetError());
 	else
-		ret = dm.refresh_rate;
+		return display_mode.refresh_rate;
 
-	return ret;
+	return 0;
 }
 
 SDL_Window * trWindow::GetWindow() const
@@ -150,56 +149,35 @@ SDL_Window * trWindow::GetWindow() const
 	return window;
 }
 
-void trWindow::SetFullscreen(bool set)
+void trWindow::SetFullscreen(bool fullscreen)
 {
-	if (set != fullscreen)
+	this->fullscreen = fullscreen;
+	if (fullscreen)
 	{
-		fullscreen = set;
-		if (fullscreen == true)
-		{
-			if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) != 0)
-				TR_LOG("trWindow: Could not switch to fullscreen: %s\n", SDL_GetError());
-			fullscreen_desktop = false;
-		}
-		else
-		{
-			if (SDL_SetWindowFullscreen(window, 0) != 0)
-				TR_LOG("trWindow: Could not switch to windowed: %s\n", SDL_GetError());
-		}
+		if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) != 0)
+			TR_LOG("trWindow: Error switching to fullscreen: %s\n", SDL_GetError());
 	}
 }
 
-void trWindow::SetResizable(bool set)
+void trWindow::SetResizable(bool resizable)
 {
-	// cannot be changed while the program is running, but we can save the change
-	resizable = set;
+	this->resizable= resizable;
 }
 
-void trWindow::SetBorderless(bool set)
+void trWindow::SetBorderless(bool borderless)
 {
-	//if (set != borderless && fullscreen == false && fullscreen_desktop == false)
-	//{
-		borderless = set;
-		SDL_SetWindowBordered(window, (SDL_bool)!borderless);
-	//}
+	this->borderless = borderless;
+
+	SDL_SetWindowBordered(window, (SDL_bool)!borderless);
 }
 
-void trWindow::SetFullscreenWindowed(bool set)
+void trWindow::SetFullscreenWindowed(bool fullscreen_desktop)
 {
-	if (set != fullscreen_desktop)
+	this->fullscreen_desktop = fullscreen_desktop;
+	if (fullscreen_desktop)
 	{
-		fullscreen_desktop = set;
-		if (fullscreen_desktop == true)
-		{
-			if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
-				TR_LOG("trWindow: Could not switch to fullscreen desktop: %s\n", SDL_GetError());
-			fullscreen = false;
-		}
-		else
-		{
-			if (SDL_SetWindowFullscreen(window, 0) != 0)
-				TR_LOG("trWindow:Could not switch to windowed: %s\n", SDL_GetError());
-		}
+		if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
+			TR_LOG("trWindow: Error switching to fullscreen desktop: %s\n", SDL_GetError());
 	}
 }
 

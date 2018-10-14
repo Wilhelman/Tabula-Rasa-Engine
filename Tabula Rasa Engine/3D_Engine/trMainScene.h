@@ -1,7 +1,6 @@
 #ifndef __trMAINSCENE_H__
 #define __trMAINSCENE_H__
 
-#include "SDL/include/SDL.h"
 #include "trModule.h"
 
 class PGrid;

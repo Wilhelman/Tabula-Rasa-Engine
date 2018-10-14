@@ -2,9 +2,10 @@
 #define __trWindow_H__
 
 #include "trModule.h"
-#include "SDL/include/SDL.h"
 
 class trApp;
+class SDL_Window;
+class SDL_Surface;
 
 class trWindow : public trModule
 {
@@ -22,13 +23,13 @@ public:
 
 	//Setters/Getters
 	void SetBrightness(float);
-	void SetWidth(uint);
-	void SetHeight(uint);
-	void SetScale(uint);
-	void SetFullscreen(bool);
-	void SetResizable(bool);
-	void SetBorderless(bool);
-	void SetFullscreenWindowed(bool);
+	void SetWidth(uint width);
+	void SetHeight(uint height);
+	void SetScale(uint scale);
+	void SetFullscreen(bool fullscreen);
+	void SetResizable(bool resizable);
+	void SetBorderless(bool borderless);
+	void SetFullscreenWindowed(bool fullscreen_windowed);
 
 	uint GetWidth() const;
 	uint GetHeight() const;
@@ -44,10 +45,10 @@ public:
 	//The surface contained by the window
 	SDL_Surface* screen_surface = nullptr;
 
-	uint width = 500;
-	uint height = 500;
-	uint scale = 1;
-
+	// Config settings
+	uint width = 500u;
+	uint height = 500u;
+	uint scale = 1u;
 	bool fullscreen = false;
 	bool resizable = false;
 	bool borderless = false;

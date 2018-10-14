@@ -142,13 +142,13 @@ bool trApp::Update()
 	bool ret = true;
 	PrepareUpdate();
 
-	if (ret == true)
+	if (ret)
 		ret = PreUpdate();
 
-	if (ret == true)
+	if (ret)
 		ret = DoUpdate();
 
-	if (ret == true)
+	if (ret)
 		ret = PostUpdate();
 
 	FinishUpdate();
@@ -158,7 +158,7 @@ bool trApp::Update()
 // ---------------------------------------------
 void trApp::PrepareUpdate()
 {
-	dt = (float)ms_timer.Read() / 1000.0f;
+	dt = (float)ms_timer.Read() / 1000.f;
 	ms_timer.Start();
 
 }
@@ -181,7 +181,7 @@ void trApp::FinishUpdate()
 	++frames;
 	++fps_counter;
 
-	if (fps_timer.Read() >= 1000)
+	if (fps_timer.Read() >= 1000.f)
 	{
 		last_fps = fps_counter;
 		fps_counter = 0;
@@ -191,9 +191,8 @@ void trApp::FinishUpdate()
 	last_frame_ms = ms_timer.Read();
 
 	// Cap fps
-	if (cap_fps) 
+	if (cap_fps && capped_ms > 0 && (last_frame_ms < capped_ms))
 	{
-		if (capped_ms > 0 && (last_frame_ms < capped_ms))
 			SDL_Delay(capped_ms - last_frame_ms);
 	}
 
