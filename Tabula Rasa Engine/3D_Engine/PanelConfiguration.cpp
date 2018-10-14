@@ -17,10 +17,7 @@ using namespace std;
 PanelConfiguration::PanelConfiguration() : Panel("Configuration", SDL_SCANCODE_2),
 chart_fps(CHART_FPS_CAP), chart_ms(CHART_FPS_CAP)
 {
-	width = 330;
-	height = 420;
-	x_pos = 960;
-	y_pos = 610;
+	active = false;
 
 	mem_timer.Start();
 }

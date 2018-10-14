@@ -5,7 +5,7 @@
 
 PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
 {
-	active = true;
+	active = false;
 }
 
 PanelInspector::~PanelInspector()

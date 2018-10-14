@@ -3,7 +3,7 @@
 
 PanelConsole::PanelConsole(std::vector<std::string> init_logs) : Panel("Console", SDL_SCANCODE_1)
 {
-	active = true;
+	active = false;
 
 	std::vector<std::string>::iterator it = init_logs.begin();
 	while (it != init_logs.end())

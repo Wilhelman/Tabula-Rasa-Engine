@@ -13,6 +13,10 @@
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 #pragma comment (lib, "Glew/libx86/glew32.lib")
 
+#define N_PLANE 0.125f
+#define F_PLANE 512.0f
+#define FOV 60.0f
+
 
 trRenderer3D::trRenderer3D() : trModule()
 {
@@ -213,7 +217,7 @@ void trRenderer3D::OnResize(int width, int height)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	ProjectionMatrix = this->Perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
+	ProjectionMatrix = this->Perspective(FOV, (float)width / (float)height, N_PLANE, F_PLANE);
 	glLoadMatrixf((GLfloat*)ProjectionMatrix.ptr());
 	
 	glMatrixMode(GL_MODELVIEW);
@@ -382,18 +386,9 @@ void trRenderer3D::DrawZBuffer()
 	for (uint i = 0; i < width * height; i++)
 	{
 		(*data) = (*data) * 2.f - 1.f;
+		(*data) = (2.0 * (N_PLANE / 16) * F_PLANE) / (F_PLANE + (N_PLANE / 16) - (*data) * (F_PLANE - (N_PLANE / 16)));
 		data++;
 	}
-
-	for (uint i = 0; i < width * height; i++)
-		data--;
-
-	for (uint i = 0; i < width * height; i++)
-	{
-		(*data) = (2.0 * 0.009125f * 512.0f) / (512.0f + 0.009125f - (*data) * (512.0f - 0.009125f));
-		data++;
-	}
-
 	for (uint i = 0; i < width * height; i++)
 		data--;
 
