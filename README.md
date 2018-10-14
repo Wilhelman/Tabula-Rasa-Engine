@@ -28,6 +28,7 @@ _IMPORTANT: do not modify, change or add any folder or file as you might not be 
 * **Open console**: 1 
 * **Open Inspector**: I key
 * **Show/Hide UI:** LALT + G key
+* **Quit application:** ESC / Alt+F4
 
 _Click again on Window->(any option) to close that window_
 
