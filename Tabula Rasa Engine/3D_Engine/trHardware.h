@@ -3,7 +3,6 @@
 
 #include "trModule.h"
 #include "trDefs.h"
-#include "Glew/include/GL/glew.h"
 
 // Memory conversions
 #define MEM_CONV_FACTOR 1024.0f
@@ -44,10 +43,10 @@ public:
 		char* gpu_vendor = nullptr;
 		char* gpu_model = nullptr;
 
-		GLint vram_budget = 0;
-		GLint vram_usage = 0;
-		GLint vram_available = 0;
-		GLint vram_reserved = 0;
+		int vram_budget = 0;
+		int vram_usage = 0;
+		int vram_available = 0;
+		int vram_reserved = 0;
 	};
 	
 

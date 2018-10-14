@@ -2,7 +2,6 @@
 #include "trModule.h"
 #include "trDefs.h"
 
-#include "SDL/include/SDL.h"
 
 #define MAX_MOUSE_BUTTONS 5
 

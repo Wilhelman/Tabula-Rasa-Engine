@@ -6,8 +6,6 @@
 
 #include "Light.h"
 
-#include "Glew\include\GL\glew.h"
-
 #include "MathGeoLib/MathBuildConfig.h"
 #include "MathGeoLib/MathGeoLib.h"
 #include "MathGeoLib/MathGeoLibFwd.h"

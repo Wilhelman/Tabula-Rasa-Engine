@@ -11,6 +11,8 @@
 #include "mmgr/mmgr.h"
 #include "trTimer.h"
 
+#include "Glew/include/GL/glew.h"
+
 using namespace std;
 
 PanelConfiguration::PanelConfiguration() : Panel("Configuration", SDL_SCANCODE_2),

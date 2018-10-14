@@ -4,11 +4,7 @@
 #include "trRenderer3D.h"
 #include "trCamera3D.h"
 #include "trMainScene.h"
-#include "PArrow.h"
-#include "PPoint.h"
 #include "trEditor.h"
-#include "trTextures.h"
-#include "trInput.h"
 
 #include "Glew\include\GL\glew.h"
 #include "SDL\include\SDL_opengl.h"
