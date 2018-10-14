@@ -33,8 +33,13 @@ _Click again on Window->(any option) to close that window_
 
 ## Innovations / Redesign
 
-Warning: If this option is activated the overall performance might decrease significantly.
-* Draw the z-buffer in grayscale option determined by the distance (Option in Config window -> Renderer3D options). 
+* Draw the z-buffer in grayscale option determined by the distance (Option in Config window -> Renderer3D options -> Switch Z- Buffer Visualization).
+
+**_Warning: If this option is activated the overall performance might decrease significantly._**
+
+Example for comparison:
+![image](https://user-images.githubusercontent.com/25589509/46920311-ccccb780-cfec-11e8-9afa-fcbf64616042.png)
+
 
 ## Team members
 
@@ -64,5 +69,5 @@ _Masó Garcia, Victor's responsability and Github account_
 * Others: Adobe Photoshop CS6 / MS Paint / Aseprite
 
 ## Credits for models and textures:
-* Tank gladiator - Autor: kotbfg | Link: https://sketchfab.com/models/bc67044a11a64a8c8814014c4b87cc48
-* Forest house - Autor: Wesai | Link: https://sketchfab.com/models/5646e6a3c8834022a0e289465f0bbc5d
+* Tank gladiator - Autor: kotbfg | (Link)[https://sketchfab.com/models/bc67044a11a64a8c8814014c4b87cc48]
+* Forest house - Autor: Wesai | (Link)[https://sketchfab.com/models/5646e6a3c8834022a0e289465f0bbc5d]
