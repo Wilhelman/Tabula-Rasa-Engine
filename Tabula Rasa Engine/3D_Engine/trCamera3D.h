@@ -12,18 +12,13 @@
 //TODO -> DELETE: using it temporaly for camera rotation
 #include "glmath.h"
 
-#define ROTATION_SENSITIVITY 0.25f
-#define ORBIT_SENSITIVITY 0.25f
-#define PAN_SENSITVITY 0.01f
-#define CAM_SPEED 7.f
-#define CAM_BOOST_SPEED 14.f
-
 class trCamera3D : public trModule
 {
 public:
 	trCamera3D();
 	~trCamera3D();
 
+	bool Awake(JSON_Object* config = nullptr);
 	bool Start();
 	bool Update(float dt);
 	void ProcessMouseWheelInput(vec3 &new_pos, float speed);
@@ -50,6 +45,9 @@ private:
 
 	mat4x4 view_matrix, view_inv_matrix;
 	AABB* b_box = nullptr;
+
+	float rotation_sensitivity = 0.25f, orbit_sensitivity = 0.25f, 
+		pan_sensitivity = 0.01f, cam_speed = 7.f, cam_boost_speed = 14.f;
 };
 
 #endif

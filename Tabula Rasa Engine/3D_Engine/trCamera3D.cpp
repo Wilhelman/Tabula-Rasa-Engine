@@ -7,7 +7,7 @@
 
 trCamera3D::trCamera3D() : trModule()
 {
-	this->name = "Camera 3D";
+	this->name = "Camera3D";
 	CalculateViewMatrix();
 
 	X = vec3(1.0f, 0.0f, 0.0f);
@@ -20,6 +20,17 @@ trCamera3D::trCamera3D() : trModule()
 
 trCamera3D::~trCamera3D()
 {}
+
+bool trCamera3D::Awake(JSON_Object* config)
+{
+	if (config != nullptr) {
+		rotation_sensitivity = json_object_get_number(config,"rotation_sensitivity"); 
+		orbit_sensitivity = json_object_get_number(config, "orbit_sensitivity");
+		pan_sensitivity = json_object_get_number(config, "pan_sensitivity");
+		cam_speed = json_object_get_number(config, "cam_speed");
+		cam_boost_speed = json_object_get_number(config, "cam_boost_speed");
+	}
+}
 
 // -----------------------------------------------------------------
 bool trCamera3D::Start()
@@ -43,10 +54,10 @@ bool trCamera3D::Update(float dt)
 {	
 	vec3 new_pos(0.0f, 0.0f, 0.0f);
 
-	float speed = CAM_SPEED * dt;
+	float speed = cam_speed * dt;
 
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-		speed = CAM_BOOST_SPEED * dt;
+		speed = cam_boost_speed * dt;
 
 	// ----- Camera zoom-in / zoom-out with mouse wheel -----
 
@@ -65,7 +76,7 @@ bool trCamera3D::Update(float dt)
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
 
-		ProcessMouseMotion(dx, dy, ORBIT_SENSITIVITY);
+		ProcessMouseMotion(dx, dy, orbit_sensitivity);
 	}
 
 	pos += new_pos;
@@ -85,7 +96,7 @@ bool trCamera3D::Update(float dt)
 
 		pos -= ref;
 
-		ProcessMouseMotion(dx, dy, ROTATION_SENSITIVITY);
+		ProcessMouseMotion(dx, dy, rotation_sensitivity);
 
 		pos = ref + Z * length(pos);
 	}
@@ -94,8 +105,8 @@ bool trCamera3D::Update(float dt)
 		int dx = -App->input->GetMouseXMotion();
 		int dy = App->input->GetMouseYMotion();
 
-		new_pos += X * dx * PAN_SENSITVITY;
-		new_pos += Y * dy * PAN_SENSITVITY;
+		new_pos += X * dx * pan_sensitivity;
+		new_pos += Y * dy * pan_sensitivity;
 
 		pos += new_pos;
 		ref += new_pos;

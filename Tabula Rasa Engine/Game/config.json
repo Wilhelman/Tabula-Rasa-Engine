@@ -18,6 +18,13 @@
 	"main_scene":{
 		"default_mesh": "assets/models/BakerHouse.fbx"
 	},
+	"Camera3D": {
+		"rotation_sensitivity": 0.25,
+		"orbit_sensitivity": 0.25,
+		"pan_sensitivity": 0.01,
+		"cam_speed": 7.0,
+		"cam_boost_speed": 14.0
+	},
 	"Window": {
 		"width": 1024,
 		"height": 768,
