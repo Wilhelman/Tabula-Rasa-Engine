@@ -279,6 +279,12 @@ void PanelConfiguration::ShowRenderer(trRenderer3D * module)
 
 	ImGui::Separator();
 
+	ImGui::Text("Switch Z-Buffer");
+	ImGui::SameLine();
+	ImGui::Checkbox("##ZBUFFER", &App->render->z_buffer);
+
+	ImGui::Separator();
+
 	ImGui::Text("Switch Cull Face");
 	ImGui::SameLine();
 	if (ImGui::Checkbox("##CULL_FACE", &App->render->cull_face))

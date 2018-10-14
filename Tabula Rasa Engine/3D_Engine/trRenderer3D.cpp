@@ -178,30 +178,17 @@ bool trRenderer3D::PostUpdate(float dt)
 	/// not yet
 
 	//RENDER IMPORTED MESH
-	if (!meshes.empty())
+	if (!meshes.empty()) {
 		this->Draw();
-
-	/*if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_REPEAT)
-	{
-		int width = App->window->GetWidth();
-		int height = App->window->GetWidth();
-		float* data = new float[width * height];
-		glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, data);
-
-		//depthSample = 2.0 * depthSample - 1.0;
-		//float zLinear = 2.0 * zNear * zFar / (zFar + zNear - depthSample * (zFar - zNear));
-		
-		glDrawPixels(width, height, GL_LUMINANCE, GL_FLOAT, data);
-		delete[] data;
-	}*/
-
+		if(z_buffer)
+			this->DrawZBuffer();
+	}
 	//RENDER GUI
 	App->editor->Draw();
 
-
-
 	//SWAP BUFFERS
 	SDL_GL_SwapWindow(App->window->window);
+
 	return true;
 }
 
@@ -376,6 +363,32 @@ void trRenderer3D::Draw()
 	}
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void trRenderer3D::DrawZBuffer()
+{
+	int width = App->window->GetWidth();
+	int height = App->window->GetHeight();
+	float* data = new float[width * height];
+	glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, data);
+
+	for (uint i = 0; i < width * height; i++)
+	{
+		(*data) = (*data) * 2.f - 1.f;
+		data++;
+	}
+	for (uint i = 0; i < width * height; i++)
+		data--;
+	for (uint i = 0; i < width * height; i++)
+	{
+		(*data) = (2.0 * 0.009125f * 512.0f) / (512.0f + 0.009125f - (*data) * (512.0f - 0.009125f));
+		data++;
+	}
+	for (uint i = 0; i < width * height; i++)
+		data--;
+
+	glDrawPixels(width, height, GL_LUMINANCE, GL_FLOAT, data);
+	delete[] data;
 }
 
 

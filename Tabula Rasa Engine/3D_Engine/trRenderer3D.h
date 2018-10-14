@@ -81,6 +81,8 @@ public:
 
 	void Draw();
 
+	void DrawZBuffer();
+
 	math::float4x4 Perspective(float fovy, float aspect, float n, float f) const;
 
 public:
@@ -96,6 +98,7 @@ public:
 	bool lighting = true;
 	bool color_material = true;
 	bool texture_2D = true;
+	bool z_buffer = false;
 
 private:
 
