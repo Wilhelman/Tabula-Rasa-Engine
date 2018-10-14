@@ -99,6 +99,12 @@ PCube::PCube(math::vec position, math::vec size) :size(size), position(position)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
+PCube::~PCube()
+{
+	glDeleteBuffers(1, (GLuint*)&vertices_index);
+	glDeleteBuffers(1, (GLuint*)&indices_index);
+}
+
 void PCube::InnerRender() const
 {
 	glEnableClientState(GL_VERTEX_ARRAY);

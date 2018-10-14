@@ -62,6 +62,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 	
 	const aiScene* scene = aiImportFile(file_path, aiProcessPreset_TargetRealtime_MaxQuality);
 	std::string texture_path;
+	bool success = true;
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		App->texture->CleanUp(); // Just to remove the last texture when a new mesh is dropped
@@ -73,8 +74,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		for (uint i = 0; i < scene->mNumMeshes; i++)
 		{
 			mesh_data = new Mesh(); // our mesh
-			aiTexture** tex = scene->mTextures;
-			//(**tex).
+
 			std::string tmp = file_path;
 			// Let's get the file name to print it in inspector:
 			const size_t last_slash = tmp.find_last_of("\\/");
@@ -90,16 +90,19 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			aiMesh* new_mesh = scene->mMeshes[i];
 
 			// Calculate the position, scale and rotation
-			aiVector3D translation;
-			aiVector3D scaling;
-			aiQuaternion rotation;
-			aiNode* node = scene->mRootNode;
-			node->mTransformation.Decompose(scaling, rotation, translation);
-			Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
-			float3 quat_to_euler = rot.ToEulerXYZ(); // transforming it to euler to show it in inspector
-			mesh_data->position.Set(translation.x, translation.y, translation.z);
-			mesh_data->scale.Set(scaling.x, scaling.y, scaling.z);
-			mesh_data->rotation.Set(quat_to_euler.x, quat_to_euler.y, quat_to_euler.z);
+			if (scene->mRootNode != nullptr)
+			{
+				aiVector3D translation;
+				aiVector3D scaling;
+				aiQuaternion rotation;
+				aiNode* node = scene->mRootNode;
+				node->mTransformation.Decompose(scaling, rotation, translation);
+				Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
+				float3 quat_to_euler = rot.ToEulerXYZ(); // transforming it to euler to show it in inspector
+				mesh_data->position.Set(translation.x, translation.y, translation.z);
+				mesh_data->scale.Set(scaling.x, scaling.y, scaling.z);
+				mesh_data->rotation.Set(quat_to_euler.x, quat_to_euler.y, quat_to_euler.z);
+			}
 			
 			// Material color of the mesh
 			aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
@@ -109,7 +112,6 @@ bool trFileLoader::Import3DFile(const char* file_path)
 
 			// Getting the texture path
 			if (texture_path.empty()) {
-				TR_LOG("trFileLoader: Trying to find the embeded texture ...");
 				aiString tmp_path;
 				material->GetTexture(aiTextureType_DIFFUSE, 0, &tmp_path);
 				texture_path = tmp_path.data;
@@ -131,7 +133,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			}
 			scene_num_vertex += mesh_data->vertex_size;
 
-			// Textures copy
+			// UVs copy
 			if (new_mesh->HasTextureCoords(0)) {//i?
 				mesh_data->size_uv = new_mesh->mNumVertices;
 				mesh_data->uvs = new float[mesh_data->size_uv * 2];
@@ -151,6 +153,8 @@ bool trFileLoader::Import3DFile(const char* file_path)
 				{
 					if (new_mesh->mFaces[i].mNumIndices != 3) {
 						TR_LOG("WARNING, geometry face with != 3 indices!");
+						success = false;
+						break;
 					}
 					else
 						memcpy(&mesh_data->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
@@ -160,7 +164,12 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			mesh_data->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
 			mesh_data->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
 
-			App->render->GenerateBufferForMesh(mesh_data);
+			(success) ? App->render->GenerateBufferForMesh(mesh_data) : App->render->ClearScene();
+		}
+
+		if (!success) {
+			TR_LOG("trFileLoader: Error loading file: %s", file_path);
+			return false;
 		}
 
 		if (!texture_path.empty()) { // Let's search the texture in our path assets/textures

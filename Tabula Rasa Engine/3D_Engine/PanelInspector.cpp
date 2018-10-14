@@ -1,11 +1,11 @@
-#include "SDL\include\SDL.h"
+#include "SDL/include/SDL.h"
 
 #include "PanelInspector.h"
 #include "trRenderer3D.h"
 
 PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
 {
-	active = false;
+	active = true;
 }
 
 PanelInspector::~PanelInspector()

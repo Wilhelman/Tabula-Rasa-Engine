@@ -10,6 +10,11 @@ PArrow::PArrow()
 	color = float4(0.f, 0.f, 0.f, 0.f);
 }
 
+PArrow::~PArrow() {
+	glDeleteBuffers(1, (GLuint*)&vertices_index);
+	glDeleteBuffers(1, (GLuint*)&indices_index);
+}
+
 PArrow::PArrow(math::vec origin, math::vec direction, math::float4 color) : trPrimitive(), origin(origin), destination(direction), color(color)
 {
 	type = PrimitiveTypes::Primitive_Arrow;
