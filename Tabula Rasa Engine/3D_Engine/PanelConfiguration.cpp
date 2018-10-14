@@ -98,34 +98,49 @@ void PanelConfiguration::ShowApplication()
 
 		ImGui::Separator();
 		
-		sMStats mem_stats = m_getMemoryStatistics();
-
-		if (mem_timer.Read() > 0.05f)
-		{
-			mem_timer.Start();
-			if (mem_list.size() == CHART_MEM)
-			{
-				for (uint i = 0; i < CHART_MEM - 1; i++)
-					mem_list[i] = mem_list[i + 1];
-
-				mem_list[CHART_MEM - 1] = (float)mem_stats.totalReportedMemory;
-			}
-			else
-				mem_list.push_back((float)mem_stats.totalReportedMemory);
-		}
-
-		ImGui::PlotHistogram("##memory", &mem_list.front(), mem_list.size(), 0, "Memory Consumption", 0.0f, (float)mem_stats.peakReportedMemory * 1.2f, ImVec2(310, 100));
-
-		ImGui::Text("Total Reported Mem: %u", mem_stats.totalReportedMemory);
-		ImGui::Text("Total Actual Mem: %u", mem_stats.totalActualMemory);
-		ImGui::Text("Peak Reported Mem: %u", mem_stats.peakReportedMemory);
-		ImGui::Text("Peak Actual Mem: %u", mem_stats.peakActualMemory);
-		ImGui::Text("Accumulated Reported Mem: %u", mem_stats.accumulatedReportedMemory);
-		ImGui::Text("Accumulated Actual Mem: %u", mem_stats.accumulatedActualMemory);
-		ImGui::Text("Accumulated Alloc Unit Count: %u", mem_stats.accumulatedAllocUnitCount);
-		ImGui::Text("Total Alloc Unit Count: %u", mem_stats.totalAllocUnitCount);
-		ImGui::Text("Peak Alloc Unit Count: %u", mem_stats.peakAllocUnitCount);
+		CalculateReportedMemory();
 	}
+}
+
+void PanelConfiguration::CalculateReportedMemory()
+{
+	sMStats mem_stats = m_getMemoryStatistics();
+	float total_mem = 0.f;
+
+	if (mem_timer.Read() > 16.0f)
+	{
+		mem_timer.Start();
+		if (first_mem_pass)
+		{
+			for (uint i = 0; i < CHART_MEM - 1; i++)
+				mem_list[i] = mem_list[i + 1];
+
+			total_mem = (float)mem_stats.totalReportedMemory;
+			mem_list.back() = total_mem;
+		}
+		else
+		{
+			if (mem_list.size() == CHART_MEM)
+				first_mem_pass = true;
+			else
+			{
+				total_mem = (float)mem_stats.totalReportedMemory;
+				mem_list.push_back(total_mem);
+			}
+		}
+	}
+
+	ImGui::PlotHistogram("##memory", &mem_list.front(), mem_list.size(), 0, "Memory Consumption", 0.0f, (float)mem_stats.peakReportedMemory * 1.2f, ImVec2(310, 100));
+
+	ImGui::Text("Total Reported Mem: %u", mem_stats.totalReportedMemory);
+	ImGui::Text("Total Actual Mem: %u", mem_stats.totalActualMemory);
+	ImGui::Text("Peak Reported Mem: %u", mem_stats.peakReportedMemory);
+	ImGui::Text("Peak Actual Mem: %u", mem_stats.peakActualMemory);
+	ImGui::Text("Accumulated Reported Mem: %u", mem_stats.accumulatedReportedMemory);
+	ImGui::Text("Accumulated Actual Mem: %u", mem_stats.accumulatedActualMemory);
+	ImGui::Text("Accumulated Alloc Unit Count: %u", mem_stats.accumulatedAllocUnitCount);
+	ImGui::Text("Total Alloc Unit Count: %u", mem_stats.totalAllocUnitCount);
+	ImGui::Text("Peak Alloc Unit Count: %u", mem_stats.peakAllocUnitCount);
 }
 
 void PanelConfiguration::ShowHardware(trHardware * module)

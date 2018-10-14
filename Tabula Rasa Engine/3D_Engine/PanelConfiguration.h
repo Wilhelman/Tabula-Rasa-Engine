@@ -27,6 +27,7 @@ public:
 	bool SetUpCollapsingHeader(trModule* module);
 
 	void ShowApplication();
+	void CalculateReportedMemory();
 	void ShowHardware(trHardware * module);
 	void ShowInput(trInput * module);
 	void ShowWindow(trWindow * module);
@@ -43,7 +44,8 @@ private:
 
 	trTimer mem_timer;
 	std::vector<float> mem_list;
-	uint index = 0;
+	uint index = 0u;
+	bool first_mem_pass = false;
 
 };
 
