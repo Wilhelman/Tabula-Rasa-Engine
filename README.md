@@ -19,6 +19,23 @@ _IMPORTANT: do not modify, change or add any folder or file as you might not be 
 
 ## Controls
 
+### Camera
+
+* **Free look around:** Right Click Mouse Button
+* **Orbit around object:** LALT + Left Click Mouse Button
+* **Zoom in/out** Mouse wheel
+* **Pan**: Middle mouse button
+* **Duplicate movement speeed**: Hold Shift key
+* **Focus camera on object**: F key
+
+### UI 
+* **Open config window**: 4
+* **Open console**: 1 
+* **Open Inspector**: I key
+* **Show/Hide UI:** ALT + G key
+
+_Click again on Window->(any option) to close that window_
+
 ## Innovations / Redesign
 TODO: ALL INNOVATIONS WE HAVE
 
