@@ -69,5 +69,5 @@ _Masó Garcia, Victor's responsability and Github account_
 * Others: Adobe Photoshop CS6 / MS Paint / Aseprite
 
 ## Credits for models and textures:
-* Tank gladiator - Autor: kotbfg | (Link)[https://sketchfab.com/models/bc67044a11a64a8c8814014c4b87cc48]
-* Forest house - Autor: Wesai | (Link)[https://sketchfab.com/models/5646e6a3c8834022a0e289465f0bbc5d]
+* Tank gladiator - Autor: kotbfg | [Link](https://sketchfab.com/models/bc67044a11a64a8c8814014c4b87cc48)
+* Forest house - Autor: Wesai | [Link](https://sketchfab.com/models/5646e6a3c8834022a0e289465f0bbc5d)
