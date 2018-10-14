@@ -149,8 +149,9 @@ bool trFileLoader::Import3DFile(const char* file_path)
 				mesh_data->indices = new uint[mesh_data->index_size]; // assume each face is a triangle
 				for (uint i = 0; i < new_mesh->mNumFaces; ++i)
 				{
-					if (new_mesh->mFaces[i].mNumIndices != 3)
+					if (new_mesh->mFaces[i].mNumIndices != 3) {
 						TR_LOG("WARNING, geometry face with != 3 indices!");
+					}
 					else
 						memcpy(&mesh_data->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 				}

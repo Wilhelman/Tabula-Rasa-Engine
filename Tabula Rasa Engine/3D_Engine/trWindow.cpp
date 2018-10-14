@@ -68,6 +68,11 @@ bool trWindow::Awake(JSON_Object* config)
 		}
 
 		window = SDL_CreateWindow(App->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		int w = 0, h = 0;
+		SDL_GetWindowSize(window, &w, &h);
+		width = w;
+		height = h;
+		SDL_SetWindowSize(window, width, height);
 
 		if (window == NULL)
 		{
