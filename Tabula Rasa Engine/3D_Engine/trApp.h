@@ -4,12 +4,10 @@
 #include <list>
 #include <string>
 #include "trModule.h"
-#include "trPerfTimer.h"
 #include "trTimer.h"
-#include "ParsonJson\parson.h"
+#include "ParsonJson/parson.h"
 #include "trLog.h"
-#include <string>
-#include "SDL\include\SDL.h"
+#include "SDL/include/SDL.h"
 
 // Modules
 class trWindow;

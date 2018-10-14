@@ -6,8 +6,6 @@
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl2.h"
-#include "SDL\include\SDL.h"
-#include "SDL\include\SDL_opengl.h"
 
 #include "trFileLoader.h"
 #include "trTextures.h"

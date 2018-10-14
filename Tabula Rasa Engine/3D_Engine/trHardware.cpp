@@ -1,7 +1,7 @@
 #include "trHardware.h"
 #include "trApp.h"
-#include "SDL/include/SDL.h"
-#include "Glew\include\GL\glew.h"
+
+#include "Glew/include/GL/glew.h"
 
 
 trHardware::trHardware()

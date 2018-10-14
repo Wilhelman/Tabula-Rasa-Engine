@@ -51,9 +51,6 @@ private:
 
 	std::vector<Panel*> panels;
 
-	bool user_using_mouse = false;
-	bool user_using_keyboard = false;
-
 	//default imgui demo window
 	bool show_demo_window = false;
 

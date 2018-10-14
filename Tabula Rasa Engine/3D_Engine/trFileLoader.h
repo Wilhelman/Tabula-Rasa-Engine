@@ -3,10 +3,7 @@
 
 #include "trModule.h"
 #include "trDefs.h"
-#include <list>
 #include "MathGeoLib\MathGeoLib.h"
-
-#include "Assimp/include/cimport.h"
 
 class Mesh;
 
