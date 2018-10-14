@@ -65,7 +65,7 @@ public:
 	void OnResize(int width, int height);
 
 	bool IsWireframeModeEnabled();
-	void SwitchWireframeMode(bool toggle); // todo this is bad
+	void SwitchWireframeMode(bool toggle);
 	void SwitchDepthMode(bool toggle);
 	void SwitchFaceCulling(bool toggle);
 	void SwitchLighting(bool toggle);
@@ -94,6 +94,13 @@ public:
 	bool show_mesh_vertices = false; // todo ...
 	bool show_mesh_vertices_normals = false;
 	bool show_mesh_faces_normals = false;
+
+	// Config settings
+	bool depth_test = true;
+	bool cull_face = true;
+	bool lighting = true;
+	bool color_material = true;
+	bool texture_2D = true;
 
 private:
 

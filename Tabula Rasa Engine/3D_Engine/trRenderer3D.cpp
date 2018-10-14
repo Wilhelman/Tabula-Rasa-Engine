@@ -345,7 +345,7 @@ void trRenderer3D::Draw()
 		if(texture != nullptr)
 			glBindTexture(GL_TEXTURE_2D, texture->id);
 
-		if (texture == nullptr) // If the texture is missing, we set the ambient color of the mesh
+		if (texture == nullptr || !texture_2D) // If the texture is missing, we set the ambient color of the mesh
 			glColor4f(mesh->ambient_color->w, mesh->ambient_color->x, mesh->ambient_color->y, mesh->ambient_color->z);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);

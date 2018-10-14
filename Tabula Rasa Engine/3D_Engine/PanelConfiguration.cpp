@@ -274,36 +274,36 @@ void PanelConfiguration::ShowRenderer(trRenderer3D * module)
 
 	ImGui::Text("Switch Depth Test");
 	ImGui::SameLine();
-	if (ImGui::Checkbox("##DEPTH", &depth_test))
-		App->render->SwitchDepthMode(depth_test);
+	if (ImGui::Checkbox("##DEPTH", &App->render->depth_test))
+		App->render->SwitchDepthMode(&App->render->depth_test);
 
 	ImGui::Separator();
 
 	ImGui::Text("Switch Cull Face");
 	ImGui::SameLine();
-	if (ImGui::Checkbox("##CULL_FACE", &cull_face))
-		App->render->SwitchFaceCulling(cull_face);
+	if (ImGui::Checkbox("##CULL_FACE", &App->render->cull_face))
+		App->render->SwitchFaceCulling(App->render->cull_face);
 
 	ImGui::Separator();
 
 	ImGui::Text("Switch Lighting");
 	ImGui::SameLine();
-	if (ImGui::Checkbox("##LIGHTING", &lighting))
-		App->render->SwitchLighting(lighting);
+	if (ImGui::Checkbox("##LIGHTING", &App->render->lighting))
+		App->render->SwitchLighting(App->render->lighting);
 
 	ImGui::Separator();
 
 	ImGui::Text("Switch Color Material");
 	ImGui::SameLine();
-	if (ImGui::Checkbox("##COLOR_MATERIAL", &color_material))
-		App->render->SwitchColorMaterial(color_material);
+	if (ImGui::Checkbox("##COLOR_MATERIAL", &App->render->color_material))
+		App->render->SwitchColorMaterial(App->render->color_material);
 
 	ImGui::Separator();
 
 	ImGui::Text("Switch Texture 2D");
 	ImGui::SameLine();
-	if (ImGui::Checkbox("##TEXTURE2D", &texture_2D))
-		App->render->SwitchTexture2D(texture_2D);
+	if (ImGui::Checkbox("##TEXTURE2D", &App->render->texture_2D))
+		App->render->SwitchTexture2D(App->render->texture_2D);
 }
 
 void PanelConfiguration::FillChartFpsInfo(float fps, float ms)

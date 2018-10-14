@@ -43,11 +43,7 @@ private:
 	std::vector<float> mem_list;
 
 	// TODO: do this nicer, asking opengl
-	bool depth_test = true;
-	bool cull_face = true;
-	bool lighting = true;
-	bool color_material = true;
-	bool texture_2D = true;
+	
 
 };
 

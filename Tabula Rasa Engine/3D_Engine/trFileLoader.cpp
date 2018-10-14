@@ -150,7 +150,6 @@ bool trFileLoader::Import3DFile(const char* file_path)
 					else
 						memcpy(&mesh_data->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 				}
-
 			}
 
 			mesh_data->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
