@@ -383,6 +383,7 @@ void trRenderer3D::DrawZBuffer()
 	// Once we have the values we need to make the data non-linear. We want a lot of precission 
 	// for small z values (closer to the camera) and much less precision for high z values (further
 	// from the camera) as we care more about what it's in our near vision than what's far away.
+	float* first_data = data;
 
 	for (uint i = 0; i < width * height; i++)
 	{
@@ -390,11 +391,9 @@ void trRenderer3D::DrawZBuffer()
 		(*data) = (2.0 * (N_PLANE / 16) * F_PLANE) / (F_PLANE + (N_PLANE / 16) - (*data) * (F_PLANE - (N_PLANE / 16)));
 		data++;
 	}
-	for (uint i = 0; i < width * height; i++)
-		data--;
 
-	glDrawPixels(width, height, GL_LUMINANCE, GL_FLOAT, data);
-	delete[] data;
+	glDrawPixels(width, height, GL_LUMINANCE, GL_FLOAT, first_data);
+	delete[] first_data;
 }
 
 
