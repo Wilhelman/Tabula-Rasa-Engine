@@ -5,7 +5,7 @@
 #include "trDefs.h"
 #include "MathGeoLib\MathGeoLib.h"
 
-class Mesh;
+struct Mesh;
 
 class trFileLoader : public trModule
 {

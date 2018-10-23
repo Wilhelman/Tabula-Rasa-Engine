@@ -278,9 +278,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MemLeaks.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="trWindow.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
