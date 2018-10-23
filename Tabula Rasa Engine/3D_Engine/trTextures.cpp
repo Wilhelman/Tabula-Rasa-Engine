@@ -64,10 +64,11 @@ void trTextures::LoadImageFromPath(const char * path)
 
 	uint tmp_id = App->render->GetTextureID();
 
-	if (tmp_id != 0)  // Delete the last texture
+	if (tmp_id != 0) {  // Delete the last texture
+		delete tmp_tex;
 		ilDeleteImages(1, &tmp_id);
-
-	Texture* tmp_tex = new Texture();
+	}
+	tmp_tex = new Texture();
 	
 	uint img_id = 0u;
 	tmp_tex->id = 0u;

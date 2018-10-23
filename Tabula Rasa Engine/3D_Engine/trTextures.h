@@ -4,6 +4,7 @@
 #include "trModule.h"
 #include "trDefs.h"
 
+class Texture;
 
 class trTextures : public trModule
 {
@@ -20,6 +21,9 @@ public:
 	bool CleanUp();
 
 	void LoadImageFromPath(const char* path);
+
+private:
+	Texture* tmp_tex = nullptr;
 };
 
 #endif // __TEXTURES_H__
