@@ -28,9 +28,12 @@ bool trTextures::Awake(JSON_Object* config)
 		return false;
 	}
 
+	ilutRenderer(ILUT_OPENGL);
 	ilInit();
 	iluInit();
 	ilutInit();
+	ilutRenderer(ILUT_OPENGL);
+
 	TR_LOG("trTexture: Initializating DevIL ...");
 
 	return true;
@@ -121,6 +124,3 @@ void trTextures::LoadImageFromPath(const char * path)
 	 }
 		
 }
-
-
-

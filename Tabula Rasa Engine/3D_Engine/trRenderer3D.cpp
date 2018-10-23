@@ -337,6 +337,8 @@ void trRenderer3D::ClearScene()
 		it++;
 	}
 	meshes.clear();
+
+	delete texture;
 	texture = nullptr;
 
 }
