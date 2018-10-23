@@ -55,7 +55,11 @@ bool trRenderer3D::Awake(JSON_Object* config)
 			if (SDL_GL_SetSwapInterval(1) < 0)
 				TR_LOG("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
 			else
+			{
+				vsync_toogle = true;
 				TR_LOG("Renderer3D: vSync ENABLED");
+			}
+				
 		}
 		else {
 			if (SDL_GL_SetSwapInterval(0) < 0)
@@ -175,7 +179,6 @@ bool trRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 bool trRenderer3D::PostUpdate(float dt)
 {
-	
 	//RENDER GEOMETRY
 	if(App->main_scene != nullptr)
 		App->main_scene->Draw();
@@ -209,7 +212,6 @@ bool trRenderer3D::CleanUp()
 
 	return true;
 }
-
 
 void trRenderer3D::OnResize(int width, int height)
 {
@@ -273,6 +275,11 @@ void trRenderer3D::SwitchTexture2D(bool toggle)
 {
 	(toggle) ?
 		glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
+}
+
+void trRenderer3D::SwitchVsync(bool toggle)
+{
+	SDL_GL_SetSwapInterval(toggle);
 }
 
 void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
@@ -400,7 +407,6 @@ void trRenderer3D::DrawZBuffer()
 	glDrawPixels(width, height, GL_LUMINANCE, GL_FLOAT, first_data);
 	delete[] first_data;
 }
-
 
 math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, float f) const
 {

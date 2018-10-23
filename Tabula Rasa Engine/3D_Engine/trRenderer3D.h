@@ -62,6 +62,7 @@ public:
 
 	void OnResize(int width, int height);
 
+
 	bool IsWireframeModeEnabled();
 	void SwitchWireframeMode(bool toggle);
 	void SwitchDepthMode(bool toggle);
@@ -69,6 +70,7 @@ public:
 	void SwitchLighting(bool toggle);
 	void SwitchColorMaterial(bool toggle);
 	void SwitchTexture2D(bool toggle);
+	void SwitchVsync(bool toggle);
 
 	void GenerateBufferForMesh(Mesh* mesh);
 	void SetTexture(Texture* texture);
@@ -99,6 +101,7 @@ public:
 	bool color_material = true;
 	bool texture_2D = true;
 	bool z_buffer = false;
+	bool vsync_toogle = false;
 
 private:
 

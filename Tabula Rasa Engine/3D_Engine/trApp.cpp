@@ -180,7 +180,7 @@ void trApp::FinishUpdate()
 	++frames;
 	++fps_counter;
 
-	if (fps_timer.Read() >= 1000.f)
+	if (fps_timer.Read() > 1000.f)
 	{
 		last_fps = fps_counter;
 		fps_counter = 0;
@@ -189,13 +189,11 @@ void trApp::FinishUpdate()
 
 	last_frame_ms = ms_timer.Read();
 
+	editor->InfoFPSMS((float)last_fps, (float)ms_timer.Read(), frames);
+
 	// Cap fps
 	if (cap_fps && capped_ms > 0 && (last_frame_ms < capped_ms))
-	{
-			SDL_Delay(capped_ms - last_frame_ms);
-	}
-
-	editor->InfoFPSMS((float)last_fps, (float)last_frame_ms, frames);
+		SDL_Delay(capped_ms - last_frame_ms);
 
 	if (!all_modules_loaded)
 		all_modules_loaded = true;

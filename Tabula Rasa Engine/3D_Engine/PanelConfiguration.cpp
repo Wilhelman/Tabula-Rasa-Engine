@@ -282,6 +282,13 @@ void PanelConfiguration::ShowRenderer(trRenderer3D * module)
 {
 	ImGui::Separator();
 
+	ImGui::Text("Vsync");
+	ImGui::SameLine();
+	if (ImGui::Checkbox("##VSYNC", &App->render->vsync_toogle))
+		App->render->SwitchVsync(App->render->vsync_toogle);
+
+	ImGui::Separator();
+
 	ImGui::Text("Switch wireframe");
 	ImGui::SameLine();
 	if (ImGui::Checkbox("##WIREFRAME", &App->render->wireframe))
