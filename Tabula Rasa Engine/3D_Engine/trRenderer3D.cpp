@@ -281,10 +281,12 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->vertex_size, mesh->vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glGenBuffers(1, (GLuint*) &(mesh->uv_buffer));
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
-	glBufferData(GL_ARRAY_BUFFER, 2 * mesh->size_uv * sizeof(GLfloat), mesh->uvs, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	if (mesh->uvs != nullptr) {
+		glGenBuffers(1, (GLuint*) &(mesh->uv_buffer));
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
+		glBufferData(GL_ARRAY_BUFFER, 2 * mesh->size_uv * sizeof(GLfloat), mesh->uvs, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
 
 	glGenBuffers(1, (GLuint*) &(mesh->index_buffer));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->index_buffer);
@@ -352,9 +354,11 @@ void trRenderer3D::Draw()
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		//texture
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
-		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		if (mesh->uvs != nullptr) {
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
+			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->index_buffer);
 		glDrawElements(GL_TRIANGLES, mesh->index_size, GL_UNSIGNED_INT, NULL);

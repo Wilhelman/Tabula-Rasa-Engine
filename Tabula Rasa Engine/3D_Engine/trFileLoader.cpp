@@ -62,7 +62,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 	
 	const aiScene* scene = aiImportFile(file_path, aiProcessPreset_TargetRealtime_MaxQuality);
 	std::string texture_path;
-	bool success = true;
+
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		App->texture->CleanUp(); // Just to remove the last texture when a new mesh is dropped
@@ -142,6 +142,10 @@ bool trFileLoader::Import3DFile(const char* file_path)
 					mesh_data->uvs[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
 				}
 			}
+			else {
+				mesh_data->size_uv = 0;
+				mesh_data->uvs = nullptr;
+			}
 
 			// Index copy
 			if (new_mesh->HasFaces())
@@ -153,8 +157,6 @@ bool trFileLoader::Import3DFile(const char* file_path)
 				{
 					if (new_mesh->mFaces[i].mNumIndices != 3) {
 						TR_LOG("WARNING, geometry face with != 3 indices!");
-						success = false;
-						break;
 					}
 					else
 						memcpy(&mesh_data->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
@@ -164,20 +166,8 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			mesh_data->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
 			mesh_data->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
 
-			if (success) {
-				App->render->GenerateBufferForMesh(mesh_data);
-			}
-			else {
-				App->render->ClearScene();
-				break;
-			}
-		}
-
-		if (!success) {
-			App->camera->ClearLastBoundingBox();
-			App->camera->CenterOnScene();
-			TR_LOG("trFileLoader: Error loading file: %s", file_path);
-			return false;
+			App->render->GenerateBufferForMesh(mesh_data);
+		
 		}
 
 		if (!texture_path.empty()) { // Let's search the texture in our path assets/textures
