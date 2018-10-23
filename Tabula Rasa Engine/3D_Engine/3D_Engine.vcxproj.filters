@@ -287,9 +287,6 @@
     <ClInclude Include="trInput.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="trAnimation.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="trDefs.h">
       <Filter>Utilities</Filter>
     </ClInclude>

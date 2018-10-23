@@ -220,7 +220,6 @@
     <ClInclude Include="pcg\pcg_spinlock.h" />
     <ClInclude Include="pcg\pcg_variants.h" />
     <ClInclude Include="PGrid.h" />
-    <ClInclude Include="trAnimation.h" />
     <ClInclude Include="trApp.h" />
     <ClInclude Include="trCamera3D.h" />
     <ClInclude Include="trDefs.h" />
