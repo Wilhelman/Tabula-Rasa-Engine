@@ -177,7 +177,8 @@ bool trRenderer3D::PostUpdate(float dt)
 {
 	
 	//RENDER GEOMETRY
-	App->main_scene->Draw();
+	if(App->main_scene != nullptr)
+		App->main_scene->Draw();
 
 	//RENDER DEBUG
 	/// not yet

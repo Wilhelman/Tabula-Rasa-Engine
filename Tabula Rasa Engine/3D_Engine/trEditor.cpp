@@ -266,7 +266,7 @@ void trEditor::Log(const char * new_log)
 {
 	if (console != nullptr)
 		console->AddLogToConsole(new_log);
-	else {
+	else 
 		init_logs.push_back(new_log);
-	}
+	
 }

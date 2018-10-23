@@ -19,7 +19,7 @@ bool trMainScene::Awake(JSON_Object* config)
 {
 	bool ret = true;
 
-	default_mesh = json_object_get_string(config, "default_mesh");
+	default_mesh = new std::string(json_object_get_string(config, "default_mesh"));
 
 	return ret;
 }
@@ -33,8 +33,8 @@ bool trMainScene::Start()
 	grid = new PGrid();
 	grid->axis = true;
 
-	App->file_loader->Import3DFile(default_mesh.c_str());
-
+	App->file_loader->Import3DFile(default_mesh->c_str());
+	
 	return true;
 }
 
@@ -61,7 +61,13 @@ bool trMainScene::PostUpdate(float dt)
 // Called before quitting
 bool trMainScene::CleanUp()
 {
-	delete grid; //todo check
+	//delete default_mesh.data();
+	if(default_mesh != nullptr)
+		delete default_mesh;
+
+	if(grid != nullptr)
+		delete grid; //todo check
+
 	return true;
 }
 
