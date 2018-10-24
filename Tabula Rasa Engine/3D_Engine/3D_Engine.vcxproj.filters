@@ -285,9 +285,6 @@
     <ClCompile Include="PGizmo.cpp">
       <Filter>Utilities\Primitives</Filter>
     </ClCompile>
-    <ClCompile Include="MeshImporter.cpp">
-      <Filter>Core\Importers</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Core\GameObject</Filter>
     </ClCompile>
@@ -302,6 +299,9 @@
     </ClCompile>
     <ClCompile Include="ComponentTransform.cpp">
       <Filter>Core\GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="trMeshImporter.cpp">
+      <Filter>Core\Importers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -758,12 +758,6 @@
     <ClInclude Include="PGizmo.h">
       <Filter>Utilities\Primitives</Filter>
     </ClInclude>
-    <ClInclude Include="MeshImporter.h">
-      <Filter>Core\Importers</Filter>
-    </ClInclude>
-    <ClInclude Include="trImporter.h">
-      <Filter>Core\Importers</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Core\GameObject</Filter>
     </ClInclude>
@@ -778,6 +772,12 @@
     </ClInclude>
     <ClInclude Include="ComponentTransform.h">
       <Filter>Core\GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="trMeshImporter.h">
+      <Filter>Core\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Importer.h">
+      <Filter>Core\Importers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

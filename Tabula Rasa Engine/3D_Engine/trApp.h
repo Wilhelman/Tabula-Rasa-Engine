@@ -19,6 +19,7 @@ class trMainScene;
 class trEditor;
 class trHardware;
 class trFileLoader;
+class trMeshImporter;
 
 class trApp
 {
@@ -97,6 +98,7 @@ public:
 	trEditor*			editor = nullptr;
 	trHardware*			hardware = nullptr;
 	trFileLoader*		file_loader = nullptr;
+	trMeshImporter*		mesh_importer = nullptr;
 	
 	
 private:

@@ -1,27 +1,24 @@
-#ifndef __MESH_IMPORTER_H__
-#define __MESH_IMPORTER_H__
+#ifndef __TR_MESH_IMPORTER_H__
+#define __TR_MESH_IMPORTER_H__
 
-#include "trImporter.h"
+#include "Importer.h"
+#include "trModule.h"
 #include "trDefs.h"
 #include "MathGeoLib\MathGeoLib.h"
 
 struct Mesh;
 
-class MeshImporter : public trImporter
+class trMeshImporter : public Importer, public trModule
 {
 public:
-
-	MeshImporter();
-	~MeshImporter();
-
 	// Called before render is available
-	bool Awake(JSON_Object* config = nullptr);
+	bool Awake();
 
 	// Called before the first frame
 	bool Start();
 	bool CleanUp();
 
-	bool Import3DFile(const char* file_path);
+	//bool Save(const char* path);
 
 private:
 

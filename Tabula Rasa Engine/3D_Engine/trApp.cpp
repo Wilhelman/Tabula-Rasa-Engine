@@ -11,6 +11,7 @@
 #include "trEditor.h"
 #include "trHardware.h"
 #include "trFileLoader.h"
+#include "trMeshImporter.h"
 
 #include "trMainScene.h"
 
@@ -32,6 +33,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	main_scene = new trMainScene();
 	hardware = new trHardware();
 	file_loader = new trFileLoader();
+	mesh_importer = new trMeshImporter();
 	editor = new trEditor();
 	
 	// Ordered for awake / Start / Update
