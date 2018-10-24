@@ -10,6 +10,7 @@ class PanelAbout;
 class PanelConfiguration;
 class PanelConsole;
 class PanelInspector;
+class PanelHierarchy;
 
 class Mesh;
 class Texture;
@@ -44,6 +45,7 @@ public:
 	PanelConfiguration* config = nullptr;
 	PanelConsole* console = nullptr;
 	PanelInspector* inspector = nullptr;
+	PanelHierarchy* hierarchy = nullptr;
 
 private:
 

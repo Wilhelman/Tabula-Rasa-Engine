@@ -6,13 +6,14 @@
 #include "Component.h"
 
 #include <string>
-#include <vector>
+#include <list>
 
 
 class GameObject
 {
 public:
 	GameObject();
+	GameObject(const char* name);
 	~GameObject();
 
 	bool Update(float dt);
@@ -32,8 +33,8 @@ private:
 
 public:
 
-	std::vector<GameObject*> children;
-	std::vector<Component*> components;
+	std::list<GameObject*> childs;
+	std::list<Component*> components;
 
 };
 

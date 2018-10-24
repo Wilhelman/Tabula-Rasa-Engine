@@ -87,3 +87,8 @@ bool trMainScene::Save(JSON_Object* config) const
 {
 	return true;
 }
+
+GameObject * trMainScene::GetRoot() const
+{
+	return root;
+}

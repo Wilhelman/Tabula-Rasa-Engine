@@ -4,6 +4,10 @@
 GameObject::GameObject()
 {}
 
+GameObject::GameObject(const char * name) : name(name)
+{
+}
+
 // ---------------------------------------------------------
 GameObject::~GameObject()
 {}

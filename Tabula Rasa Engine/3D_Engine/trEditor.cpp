@@ -10,6 +10,7 @@
 #include "PanelConfiguration.h"
 #include "PanelConsole.h"
 #include "PanelInspector.h"
+#include "PanelHierarchy.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -105,10 +106,12 @@ bool trEditor::Start()
 	config = new PanelConfiguration();
 	console = new PanelConsole(init_logs);
 	inspector = new PanelInspector();
+	hierarchy = new PanelHierarchy();
 	panels.push_back(about);
 	panels.push_back(config);
 	panels.push_back(console);
 	panels.push_back(inspector);
+	panels.push_back(hierarchy);
 
 	return true;
 }
@@ -155,6 +158,9 @@ bool trEditor::Update(float dt)
 
 			if (ImGui::MenuItem("Configuration", "2"))
 				config->TurnActive();
+
+			if (ImGui::MenuItem("Game Objects Hierarchy", "3"))
+				hierarchy->TurnActive();
 
 			if (ImGui::MenuItem("Inspector", "I"))
 				inspector->TurnActive();

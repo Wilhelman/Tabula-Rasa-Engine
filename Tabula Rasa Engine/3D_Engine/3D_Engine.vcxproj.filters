@@ -303,6 +303,9 @@
     <ClCompile Include="trMeshImporter.cpp">
       <Filter>Core\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="PanelHierarchy.cpp">
+      <Filter>Core\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -778,6 +781,9 @@
     </ClInclude>
     <ClInclude Include="Importer.h">
       <Filter>Core\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelHierarchy.h">
+      <Filter>Core\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

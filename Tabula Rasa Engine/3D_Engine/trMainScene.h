@@ -3,6 +3,8 @@
 
 #include "trModule.h"
 
+
+class GameObject;
 class PGrid;
 
 class trMainScene : public trModule
@@ -34,11 +36,15 @@ public:
 	bool Load(JSON_Object* config = nullptr);
 	bool Save(JSON_Object* config = nullptr) const;
 
+	GameObject* GetRoot()const;
+
 private:
 
 	PGrid* grid = nullptr;
 	std::string* default_mesh = nullptr;
-	//std::string asd;
+
+	GameObject* root = nullptr;
+
 };
 
 #endif // __trRENDER_H__
