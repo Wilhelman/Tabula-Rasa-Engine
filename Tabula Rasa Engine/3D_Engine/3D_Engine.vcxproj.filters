@@ -61,6 +61,12 @@
     <Filter Include="Core\Importers">
       <UniqueIdentifier>{a812b45e-66aa-4387-a9ad-1a507ba81526}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\GameObject">
+      <UniqueIdentifier>{e16891a5-35de-4878-9a71-482f67d7e286}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\GameObject\Component">
+      <UniqueIdentifier>{dca1fdf0-a340-4ad9-b4b9-7472d868b7f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="trWindow.cpp">
@@ -281,6 +287,21 @@
     </ClCompile>
     <ClCompile Include="MeshImporter.cpp">
       <Filter>Core\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Core\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Core\GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMaterial.cpp">
+      <Filter>Core\GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMesh.cpp">
+      <Filter>Core\GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTransform.cpp">
+      <Filter>Core\GameObject\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -742,6 +763,21 @@
     </ClInclude>
     <ClInclude Include="trImporter.h">
       <Filter>Core\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Core\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Core\GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMaterial.h">
+      <Filter>Core\GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMesh.h">
+      <Filter>Core\GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentTransform.h">
+      <Filter>Core\GameObject\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
