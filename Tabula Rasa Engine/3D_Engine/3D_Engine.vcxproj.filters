@@ -58,6 +58,9 @@
     <Filter Include="Utilities\3rd Party\DevIL">
       <UniqueIdentifier>{5a4e4e97-8a43-4d33-b72b-598f9f3f00c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Importers">
+      <UniqueIdentifier>{a812b45e-66aa-4387-a9ad-1a507ba81526}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="trWindow.cpp">
@@ -275,6 +278,9 @@
     </ClCompile>
     <ClCompile Include="PGizmo.cpp">
       <Filter>Utilities\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshImporter.cpp">
+      <Filter>Core\Importers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -730,6 +736,12 @@
     </ClInclude>
     <ClInclude Include="PGizmo.h">
       <Filter>Utilities\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshImporter.h">
+      <Filter>Core\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="trImporter.h">
+      <Filter>Core\Importers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

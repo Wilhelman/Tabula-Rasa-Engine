@@ -6,8 +6,6 @@
 #ifndef __trMODULE_H__
 #define __trMODULE_H__
 
-struct PhysBody3D;
-
 #include <string>
 #include "ParsonJson/parson.h"
 
