@@ -15,7 +15,7 @@ public:
 
 private:
 
-	void DrawGameObject(const GameObject* game_object);
+	void DrawGameObject(GameObject* game_object);
 
 };
 

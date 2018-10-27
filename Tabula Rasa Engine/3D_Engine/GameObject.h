@@ -36,6 +36,7 @@ public:
 
 	std::list<GameObject*> childs;
 	std::list<Component*> components;
+	bool to_destroy = false;
 
 };
 

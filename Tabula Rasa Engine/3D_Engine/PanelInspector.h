@@ -10,6 +10,8 @@
 class Mesh;
 class Texture;
 
+class GameObject;
+
 class PanelInspector : public Panel
 {
 public:
@@ -22,7 +24,10 @@ public:
 	void SetDataFrom(Texture* texture);
 	void Clear();
 
+	GameObject* selected = nullptr;
+
 private:
+	
 	std::vector<Mesh*> meshes;
 	Texture* texture = nullptr; //for now only one texture
 };

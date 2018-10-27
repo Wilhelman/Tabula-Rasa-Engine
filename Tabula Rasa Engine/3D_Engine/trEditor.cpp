@@ -276,3 +276,14 @@ void trEditor::Log(const char * new_log)
 		init_logs.push_back(new_log);
 	
 }
+
+GameObject * trEditor::GetSelected() const
+{
+	return selected;
+}
+
+void trEditor::SetSelected(GameObject * selected)
+{
+	this->inspector->selected = selected;
+	this->selected = selected;
+}

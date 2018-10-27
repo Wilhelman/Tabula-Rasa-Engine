@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include <list>
 
 // ---------------------------------------------------------
 GameObject::GameObject()
@@ -14,7 +15,13 @@ GameObject::GameObject(const char * name, GameObject * parent)
 }
 // ---------------------------------------------------------
 GameObject::~GameObject()
-{}
+{
+	for (std::list<Component*>::iterator it = components.begin(); it != components.end(); ++it)
+		RELEASE(*it);
+
+	for (std::list<GameObject*>::iterator it = childs.begin(); it != childs.end(); ++it)
+		RELEASE(*it);
+}
 
 // ---------------------------------------------------------
 bool GameObject::Update(float dt)

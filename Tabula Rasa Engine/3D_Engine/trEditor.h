@@ -40,6 +40,9 @@ public:
 
 	void Log(const char* new_log);
 
+	GameObject* GetSelected()const;
+	void SetSelected(GameObject* selected);
+
 public:
 
 	//panels
@@ -49,13 +52,13 @@ public:
 	PanelInspector* inspector = nullptr;
 	PanelHierarchy* hierarchy = nullptr;
 
-	GameObject* selected = nullptr;
-
 private:
 
 	std::vector<std::string> init_logs;
 
 	std::vector<Panel*> panels;
+
+	GameObject* selected = nullptr;
 
 	//default imgui demo window
 	bool show_demo_window = false;

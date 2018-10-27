@@ -3,6 +3,8 @@
 #include "PanelInspector.h"
 #include "trRenderer3D.h"
 
+#include "GameObject.h"
+
 PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
 {
 	active = false;
@@ -33,7 +35,11 @@ void PanelInspector::Draw()
 {
 	ImGui::Begin("Inspector", &active);
 
-	if (!meshes.empty()) {
+	if (selected != nullptr) {
+		ImGui::Text("Name: %s", selected->GetName());
+	}
+
+	/*if (!meshes.empty()) {
 		ImGui::Text("Model name: %s", meshes.front()->name.c_str());
 		ImGui::Text("Source: %s", meshes.front()->path.c_str());
 
@@ -97,7 +103,7 @@ void PanelInspector::Draw()
 			}
 		}
 		
-	}
+	}*/
 
 	ImGui::End();
 }
