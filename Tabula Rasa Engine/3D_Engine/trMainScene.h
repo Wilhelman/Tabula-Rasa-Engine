@@ -39,7 +39,7 @@ public:
 	GameObject* GetRoot()const;
 
 	GameObject* CreateGameObject(GameObject* parent);
-	GameObject* CreateGameObject(const char* name, GameObject* parent);
+	GameObject* CreateGameObject(const char* name, GameObject* parent = nullptr);
 
 private:
 

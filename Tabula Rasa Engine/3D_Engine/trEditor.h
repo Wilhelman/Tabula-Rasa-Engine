@@ -15,6 +15,8 @@ class PanelHierarchy;
 class Mesh;
 class Texture;
 
+class GameObject;
+
 class trEditor : public trModule
 {
 public:
@@ -46,6 +48,8 @@ public:
 	PanelConsole* console = nullptr;
 	PanelInspector* inspector = nullptr;
 	PanelHierarchy* hierarchy = nullptr;
+
+	GameObject* selected = nullptr;
 
 private:
 

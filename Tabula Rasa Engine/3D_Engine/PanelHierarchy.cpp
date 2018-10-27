@@ -26,6 +26,7 @@ void PanelHierarchy::Draw()
 	if (ImGui::BeginMenu("Options"))
 	{
 		ImGui::Text("POTATOE");
+
 		ImGui::EndMenu();
 	}
 
@@ -39,8 +40,16 @@ void PanelHierarchy::Draw()
 
 void PanelHierarchy::DrawGameObject(const GameObject * game_object)
 {
-	ImGui::Text(game_object->GetName());
-	
-	for (std::list<GameObject*>::const_iterator it = game_object->childs.begin(); it != game_object->childs.end(); it++)
-		DrawGameObject(*it);
+	uint tree_node_flags = 0u;
+
+	if(game_object->childs.size() == 0)
+		tree_node_flags |= ImGuiTreeNodeFlags_Leaf;
+
+	if (ImGui::TreeNodeEx(game_object->GetName(), tree_node_flags))
+	{
+		for (std::list<GameObject*>::const_iterator it = game_object->childs.begin(); it != game_object->childs.end(); it++)
+			DrawGameObject(*it);
+
+		ImGui::TreePop();
+	}
 }
