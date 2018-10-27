@@ -165,6 +165,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 				}
 			}
 
+			// saving file in our own format
 			SaveFBX(mesh_data->name.c_str());
 
 			mesh_data->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
@@ -207,11 +208,12 @@ void trFileLoader::SaveFBX(const char* file_name)
 {
 	uint size_indices = sizeof(uint) * mesh_data->index_size;
 	uint size_vertices = sizeof(float) * mesh_data->vertex_size * 3;
+	uint size_uvs = sizeof(float) * mesh_data->size_uv * 3;
+	uint size_ambient_color = sizeof(float4);
 
 	// amount of indices / vertices / colors / normals / texture_coords / AABB
-	uint ranges[2] = { mesh_data->index_size, mesh_data->vertex_size };
-
-	uint size = sizeof(ranges) + size_indices + size_vertices;
+	uint ranges[4] = { mesh_data->index_size, mesh_data->vertex_size, mesh_data->size_uv, 1 };
+	uint size = sizeof(ranges) + size_indices + size_vertices + size_uvs + size_ambient_color;
 
 	char* data = new char[size]; // Allocate
 	char* cursor = data;
@@ -219,6 +221,10 @@ void trFileLoader::SaveFBX(const char* file_name)
 	uint bytes = sizeof(ranges); // First store ranges
 	memcpy(cursor, ranges, bytes);
 
+	//StoreData(cursor, &bytes, mesh_data->indices, size_indices);
+	//StoreData(cursor, &bytes, mesh_data->vertices, size_vertices);
+	//StoreData(cursor, &bytes, mesh_data->uvs, size_uvs);
+	
 	cursor += bytes; // Store indices
 	bytes = size_indices;
 	memcpy(cursor, mesh_data->indices, bytes);
@@ -226,6 +232,14 @@ void trFileLoader::SaveFBX(const char* file_name)
 	cursor += bytes; // Store vertices
 	bytes = size_vertices;
 	memcpy(cursor, mesh_data->vertices, bytes);
+
+	cursor += bytes; // Store uvs
+	bytes = size_uvs;
+	memcpy(cursor, mesh_data->uvs, bytes);
+
+	cursor += bytes; // Store ambient color
+	bytes = size_ambient_color;
+	memcpy(cursor, mesh_data->ambient_color, bytes);
 
 	// Saving file
 	std::string tmp_str(file_name);
@@ -235,4 +249,11 @@ void trFileLoader::SaveFBX(const char* file_name)
 
 	// deleting useless data
 	RELEASE_ARRAY(data);
+}
+
+void trFileLoader::StoreData(char * cursor, uint* bytes, void* data, uint size_data)
+{
+	*cursor += *bytes;
+	*bytes = size_data;
+	memcpy(cursor, data, *bytes);
 }
