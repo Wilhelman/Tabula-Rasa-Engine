@@ -13,7 +13,7 @@ class GameObject
 {
 public:
 	GameObject();
-	GameObject(const char* name);
+	GameObject(const char* name, GameObject* parent);
 	~GameObject();
 
 	bool Update(float dt);
@@ -21,6 +21,7 @@ public:
 	Component* CreateComponent(Component::component_type type);
 
 	GameObject* GetParent() const;
+	const char* GetName() const;
 
 	bool IsActive()const;
 

@@ -5,6 +5,8 @@
 #include "trFileLoader.h"
 #include "PGrid.h"
 
+#include "GameObject.h"
+
 trMainScene::trMainScene() : trModule()
 {
 	name = "main_scene";
@@ -20,6 +22,12 @@ bool trMainScene::Awake(JSON_Object* config)
 	bool ret = true;
 
 	default_mesh = new std::string(json_object_get_string(config, "default_mesh"));
+
+	root = new GameObject("root", nullptr);
+
+	GameObject* test = this->CreateGameObject("pablo", nullptr);
+	this->CreateGameObject(test);
+	this->CreateGameObject(nullptr);
 
 	return ret;
 }
@@ -48,6 +56,7 @@ bool trMainScene::PreUpdate(float dt)
 bool trMainScene::Update(float dt)
 {
 		
+
 
 	return true;
 }
@@ -91,4 +100,20 @@ bool trMainScene::Save(JSON_Object* config) const
 GameObject * trMainScene::GetRoot() const
 {
 	return root;
+}
+
+GameObject * trMainScene::CreateGameObject(GameObject * parent)
+{
+	if (parent == nullptr)
+		parent = root;
+
+	return new GameObject("unnamed", parent);
+}
+
+GameObject * trMainScene::CreateGameObject(const char * name, GameObject * parent)
+{
+	if (parent == nullptr)
+		parent = root;
+
+	return new GameObject(name, parent);
 }

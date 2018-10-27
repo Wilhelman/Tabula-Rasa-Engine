@@ -38,6 +38,9 @@ public:
 
 	GameObject* GetRoot()const;
 
+	GameObject* CreateGameObject(GameObject* parent);
+	GameObject* CreateGameObject(const char* name, GameObject* parent);
+
 private:
 
 	PGrid* grid = nullptr;

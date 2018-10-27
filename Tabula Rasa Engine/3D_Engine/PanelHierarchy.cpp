@@ -31,9 +31,16 @@ void PanelHierarchy::Draw()
 
 	GameObject* root = App->main_scene->GetRoot();
 
-	//std::list<GameObject*>::const_iterator it = root->childs.begin();
-
-	//todo iterate and draw
+	for (std::list<GameObject*>::const_iterator it = root->childs.begin(); it != root->childs.end(); it++)
+		DrawGameObject(*it);
 	
 	ImGui::End();
+}
+
+void PanelHierarchy::DrawGameObject(const GameObject * game_object)
+{
+	ImGui::Text(game_object->GetName());
+	
+	for (std::list<GameObject*>::const_iterator it = game_object->childs.begin(); it != game_object->childs.end(); it++)
+		DrawGameObject(*it);
 }

@@ -3,6 +3,8 @@
 
 #include "Panel.h"
 
+class GameObject;
+
 class PanelHierarchy : public Panel
 {
 public:
@@ -12,6 +14,8 @@ public:
 	void Draw() override;
 
 private:
+
+	void DrawGameObject(const GameObject* game_object);
 
 };
 
