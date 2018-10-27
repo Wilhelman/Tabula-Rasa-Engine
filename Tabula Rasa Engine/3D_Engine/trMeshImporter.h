@@ -18,11 +18,11 @@ public:
 	bool Start();
 	bool CleanUp();
 
-	//bool Save(const char* path);
+	bool Save(const char* path);
 
 private:
 
-	Mesh * mesh_data = nullptr;
+	Mesh* mesh_data = nullptr;
 
 	std::vector<vec> scene_vertices;
 	uint scene_num_vertex = 0;

@@ -6,6 +6,8 @@
 #include "trTextures.h"
 #include "trCamera3D.h"
 
+#include <fstream>
+
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
@@ -163,6 +165,8 @@ bool trFileLoader::Import3DFile(const char* file_path)
 				}
 			}
 
+			SaveFBX(mesh_data->name.c_str());
+
 			mesh_data->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
 			mesh_data->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
 
@@ -187,7 +191,6 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			App->camera->CenterOnScene(model_bouncing_box);
 		}
 		
-		
 		aiReleaseImport(scene);
 
 		return true;
@@ -198,4 +201,38 @@ bool trFileLoader::Import3DFile(const char* file_path)
 	aiReleaseImport(scene);
 
 	return false;
+}
+
+void trFileLoader::SaveFBX(const char* file_name)
+{
+	uint size_indices = sizeof(uint) * mesh_data->index_size;
+	uint size_vertices = sizeof(float) * mesh_data->vertex_size * 3;
+
+	// amount of indices / vertices / colors / normals / texture_coords / AABB
+	uint ranges[2] = { mesh_data->index_size, mesh_data->vertex_size };
+
+	uint size = sizeof(ranges) + size_indices + size_vertices;
+
+	char* data = new char[size]; // Allocate
+	char* cursor = data;
+
+	uint bytes = sizeof(ranges); // First store ranges
+	memcpy(cursor, ranges, bytes);
+
+	cursor += bytes; // Store indices
+	bytes = size_indices;
+	memcpy(cursor, mesh_data->indices, bytes);
+
+	cursor += bytes; // Store vertices
+	bytes = size_vertices;
+	memcpy(cursor, mesh_data->vertices, bytes);
+
+	// Saving file
+	std::string tmp_str(file_name);
+	tmp_str.append(".tr", 4); // adding our own format extension
+	std::ofstream ofile(tmp_str.c_str(), std::ios::out);
+	ofile.write(cursor, size);
+
+	// deleting useless data
+	RELEASE_ARRAY(data);
 }

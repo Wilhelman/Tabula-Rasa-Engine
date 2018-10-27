@@ -23,6 +23,8 @@ public:
 
 	bool Import3DFile(const char* file_path);
 
+	void SaveFBX(const char* file_name);
+
 private:
 
 	Mesh* mesh_data = nullptr;
