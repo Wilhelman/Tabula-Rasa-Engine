@@ -10,6 +10,7 @@
 #include "GameObject.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentTransform.h"
 
 #include <fstream>
 
@@ -122,6 +123,10 @@ bool trFileLoader::Import3DFile(const char* file_path)
 				node->mTransformation.Decompose(scaling, rotation, translation);
 				Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
 				float3 quat_to_euler = rot.ToEulerXYZ(); // transforming it to euler to show it in inspector
+
+				ComponentTransform* transform_comp = (ComponentTransform*)go->CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
+				transform_comp->Setup(float3(translation.x, translation.y, translation.z), float3(scaling.x, scaling.y, scaling.z), rot);
+
 				mesh_data->position.Set(translation.x, translation.y, translation.z);
 				mesh_data->scale.Set(scaling.x, scaling.y, scaling.z);
 				mesh_data->rotation.Set(quat_to_euler.x, quat_to_euler.y, quat_to_euler.z);

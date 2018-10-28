@@ -12,6 +12,11 @@ public:
 	ComponentTransform(GameObject* embedded_game_object, const float3& translation, const float3& scale, const Quat& rotation);
 	~ComponentTransform();
 
+	void Setup(const float3& translation, const float3& scale, const Quat& rotation);
+	const float3& GetTranslation()const;
+	const float3& GetScale()const;
+	const Quat& GetRotation()const;
+
 private:
 
 	float3 translation = float3::zero;
