@@ -208,7 +208,7 @@ void trFileLoader::SaveFBX(const char* file_name)
 {
 	uint size_indices = sizeof(uint) * mesh_data->index_size;
 	uint size_vertices = sizeof(float) * mesh_data->vertex_size * 3;
-	uint size_uvs = sizeof(float) * mesh_data->size_uv * 3;
+	uint size_uvs = sizeof(float) * mesh_data->size_uv * 2;
 	uint size_ambient_color = sizeof(float4);
 
 	// amount of indices / vertices / colors / normals / texture_coords / AABB
@@ -220,10 +220,6 @@ void trFileLoader::SaveFBX(const char* file_name)
 
 	uint bytes = sizeof(ranges); // First store ranges
 	memcpy(cursor, ranges, bytes);
-
-	//StoreData(cursor, &bytes, mesh_data->indices, size_indices);
-	//StoreData(cursor, &bytes, mesh_data->vertices, size_vertices);
-	//StoreData(cursor, &bytes, mesh_data->uvs, size_uvs);
 	
 	cursor += bytes; // Store indices
 	bytes = size_indices;
@@ -246,14 +242,9 @@ void trFileLoader::SaveFBX(const char* file_name)
 	tmp_str.append(".tr", 4); // adding our own format extension
 	std::ofstream ofile(tmp_str.c_str(), std::ios::out);
 	ofile.write(cursor, size);
+	ofile.close();
 
 	// deleting useless data
 	RELEASE_ARRAY(data);
 }
 
-void trFileLoader::StoreData(char * cursor, uint* bytes, void* data, uint size_data)
-{
-	*cursor += *bytes;
-	*bytes = size_data;
-	memcpy(cursor, data, *bytes);
-}

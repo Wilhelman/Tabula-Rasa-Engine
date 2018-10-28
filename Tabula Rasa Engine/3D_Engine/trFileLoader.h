@@ -24,7 +24,6 @@ public:
 	bool Import3DFile(const char* file_path);
 
 	void SaveFBX(const char* file_name);
-	void StoreData(char * cursor, uint* bytes, void* data, uint size_data);
 
 private:
 
