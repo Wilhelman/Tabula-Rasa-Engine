@@ -25,9 +25,9 @@ bool trMainScene::Awake(JSON_Object* config)
 
 	root = new GameObject("root", nullptr);
 
-	GameObject* pablo = this->CreateGameObject("Pablo", nullptr);
-	this->CreateGameObject("Pablo's son", pablo);
-	this->CreateGameObject("Eriberto");
+	//GameObject* pablo = this->CreateGameObject("Pablo", nullptr);
+	//this->CreateGameObject("Pablo's son", pablo);
+	//this->CreateGameObject("Eriberto");
 
 	return ret;
 }

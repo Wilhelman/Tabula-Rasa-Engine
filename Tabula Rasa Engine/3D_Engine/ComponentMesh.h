@@ -2,7 +2,6 @@
 #define __COMPONENT_MESH_H__
 
 #include "Component.h"
-#include <vector>
 
 struct Mesh;
 
@@ -11,11 +10,14 @@ class ComponentMesh : public Component
 public:
 
 	ComponentMesh(GameObject* embedded_game_object);
-	ComponentMesh(GameObject* embedded_game_object, std::vector<Mesh*> meshes);
+	ComponentMesh(GameObject* embedded_game_object, Mesh* mesh);
+
+	void SetMesh(Mesh* mesh);
+	const Mesh* GetMesh() const;
 
 private:
 
-	std::vector<Mesh*> meshes;
+	Mesh* mesh;
 
 };
 

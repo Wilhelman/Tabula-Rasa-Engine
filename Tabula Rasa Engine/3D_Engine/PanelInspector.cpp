@@ -7,6 +7,7 @@
 #include "trEditor.h"
 
 #include "GameObject.h"
+#include "ComponentMesh.h"
 
 PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
 {
@@ -15,12 +16,10 @@ PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
 
 PanelInspector::~PanelInspector()
 {
-	meshes.clear();
 }
 
 void PanelInspector::SetDataFrom(Mesh* mesh)
 {
-	meshes.push_back(mesh);
 }
 
 void PanelInspector::SetDataFrom(Texture * texture)
@@ -30,7 +29,6 @@ void PanelInspector::SetDataFrom(Texture * texture)
 
 void PanelInspector::Clear()
 {
-	meshes.clear();
 	texture = nullptr;
 }
 
@@ -41,7 +39,37 @@ void PanelInspector::Draw()
 	GameObject* selected = App->editor->GetSelected();
 
 	if (selected != nullptr) {
-		ImGui::Text("Name: %s", selected->GetName());
+		ImGui::Text("GameObject name: %s", selected->GetName());
+		ImGui::Separator();
+		for (std::list<Component*>::iterator it = selected->components.begin(); it != selected->components.end(); it++) {
+			switch ((*it)->GetType())
+			{
+			case Component::component_type::COMPONENT_TRANSFORM:
+				break;
+			case Component::component_type::COMPONENT_MESH: {
+				
+				ComponentMesh* mesh_co = (ComponentMesh*)(*it);
+				const Mesh* mesh = mesh_co->GetMesh();
+				ImGui::Text("MESH COMPONENT");
+				ImGui::Text("Triangles: %i", mesh->face_size);
+				ImGui::Text("Vertices: %i", mesh->vertex_size / 3);///bc vertices are stored in x/y/z format!
+				ImGui::Text("Indices: %i", mesh->index_size);
+				ImGui::Text("UVS: %i", mesh->size_uv);
+				ImGui::Text("Source: %s", mesh->path.c_str());
+				ImGui::Separator();
+				break;
+			}
+			case Component::component_type::COMPONENT_MATERIAL:
+				break;
+			case Component::component_type::COMPONENT_UNKNOWN:
+				TR_LOG("Rly?");
+				break;
+			default:
+				break;
+			}
+
+		}
+
 	}
 
 	/*if (!meshes.empty()) {

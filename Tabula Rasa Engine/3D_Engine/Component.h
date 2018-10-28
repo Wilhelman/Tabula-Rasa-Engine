@@ -29,6 +29,8 @@ public:
 	GameObject* GetEmbeddedObject() const;
 	bool IsActive()const;
 
+	const component_type GetType()const;
+
 protected:
 
 	bool active = false;

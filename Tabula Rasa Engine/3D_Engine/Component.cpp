@@ -36,11 +36,8 @@ bool Component::IsActive() const
 	return false;
 }
 
-// ---------------------------------------------------------
-
-// ---------------------------------------------------------
-
-
-
-// ---------------------------------------------------------
+const Component::component_type Component::GetType() const
+{
+	return type;
+}
 

@@ -5,6 +5,10 @@
 #include "trRenderer3D.h"
 #include "trTextures.h"
 #include "trCamera3D.h"
+#include "trMainScene.h"
+
+#include "GameObject.h"
+#include "ComponentMesh.h"
 
 #include <fstream>
 
@@ -67,27 +71,34 @@ bool trFileLoader::Import3DFile(const char* file_path)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		std::string tmp = file_path;
+		// Let's get the file name to print it in inspector:
+		const size_t last_slash = tmp.find_last_of("\\/");
+		if (std::string::npos != last_slash)
+			tmp.erase(0, last_slash + 1);
+		const size_t extension = tmp.rfind('.');
+		if (std::string::npos != extension)
+			tmp.erase(extension);
+
+		GameObject* father = App->main_scene->CreateGameObject(tmp.c_str());
+
 		App->texture->CleanUp(); // Just to remove the last texture when a new mesh is dropped
 		App->render->ClearScene(); // Cleaning the last meshes/buffers/etc
 		// Removing and cleaning the last AABB
 		if (model_bouncing_box != nullptr) { delete model_bouncing_box; model_bouncing_box = nullptr; } /// Should be deleted in preup?
 		scene_num_vertex = 0u;
 		scene_vertices.clear();
+
 		for (uint i = 0; i < scene->mNumMeshes; i++)
 		{
+			
 			mesh_data = new Mesh(); // our mesh
-
-			std::string tmp = file_path;
-			// Let's get the file name to print it in inspector:
-			const size_t last_slash = tmp.find_last_of("\\/");
-			if (std::string::npos != last_slash)
-				tmp.erase(0, last_slash + 1);
-			const size_t extension = tmp.rfind('.');
-			if (std::string::npos != extension)
-				tmp.erase(extension);
 
 			mesh_data->name = tmp;
 			mesh_data->path = file_path;
+			std::string tmp_go_name = father->GetName();
+			tmp_go_name.append("("); tmp_go_name.append(std::to_string(i+1)); tmp_go_name.append(")");
+			GameObject* go = App->main_scene->CreateGameObject(tmp_go_name.c_str(),father);
 
 			aiMesh* new_mesh = scene->mMeshes[i];
 
@@ -171,11 +182,15 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			mesh_data->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
 			mesh_data->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
 
+			ComponentMesh* comp = (ComponentMesh*)go->CreateComponent(Component::component_type::COMPONENT_MESH);
+			comp->SetMesh(mesh_data);
+
 			App->render->GenerateBufferForMesh(mesh_data);
 		
 		}
 
-		if (!texture_path.empty()) { // Let's search the texture in our path assets/textures
+		// Let's search the texture in our path assets/textures
+		if (!texture_path.empty()) { 
 			std::string posible_path = "assets/textures/";
 			posible_path = posible_path + texture_path;
 			TR_LOG("trFileLoader: Search in - %s", posible_path.c_str());
@@ -184,9 +199,10 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		else
 			TR_LOG("trFileLoader: Didn't find any embeded texture");
 
-		if (scene->mNumMeshes == 1)
+		// Camera AABB stuff
+		if (scene->mNumMeshes == 1) // if only one mesh, get the bounding_box of the last mesh
 			App->camera->CenterOnScene(mesh_data->bounding_box);
-		else {
+		else { // get the bouncing of all the meshes
 			model_bouncing_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
 			model_bouncing_box->Enclose((vec*)&scene_vertices.front(), scene_num_vertex);
 			App->camera->CenterOnScene(model_bouncing_box);

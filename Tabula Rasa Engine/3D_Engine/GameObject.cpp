@@ -3,6 +3,10 @@
 
 #include "trApp.h"
 
+#include "ComponentTransform.h"
+#include "ComponentMesh.h"
+#include "ComponentMaterial.h"
+
 #include "Event.h"
 
 // ---------------------------------------------------------
@@ -20,10 +24,10 @@ GameObject::GameObject(const char * name, GameObject * parent)
 // ---------------------------------------------------------
 GameObject::~GameObject()
 {
-	for (std::list<Component*>::iterator it = components.begin(); it != components.end(); ++it)
+	for (std::list<Component*>::iterator it = components.begin(); it != components.end(); it++)
 		RELEASE(*it);
 
-	for (std::list<GameObject*>::iterator it = childs.begin(); it != childs.end(); ++it)
+	for (std::list<GameObject*>::iterator it = childs.begin(); it != childs.end(); it++)
 		RELEASE(*it);
 }
 
@@ -36,7 +40,26 @@ bool GameObject::Update(float dt)
 // ---------------------------------------------------------
 Component * GameObject::CreateComponent(Component::component_type type)
 {
-	return nullptr;
+	Component* tmp_component = nullptr;
+	switch (type)
+	{
+	case Component::component_type::COMPONENT_TRANSFORM:
+		break;
+	case Component::component_type::COMPONENT_MESH:
+		tmp_component = new ComponentMesh(this);
+		break;
+	case Component::component_type::COMPONENT_MATERIAL:
+		break;
+	case Component::component_type::COMPONENT_UNKNOWN:
+		TR_LOG("Rly?");
+		break;
+	default:
+		break;
+	}
+
+	this->components.push_back(tmp_component);
+
+	return tmp_component;
 }
 
 GameObject * GameObject::GetParent() const

@@ -26,7 +26,7 @@ public:
 
 private:
 	
-	std::vector<Mesh*> meshes;
+	//std::vector<Mesh*> meshes;
 	Texture* texture = nullptr; //for now only one texture
 };
 

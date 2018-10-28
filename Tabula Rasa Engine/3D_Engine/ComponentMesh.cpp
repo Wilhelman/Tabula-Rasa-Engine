@@ -5,8 +5,18 @@ ComponentMesh::ComponentMesh(GameObject * embedded_game_object) :
 {
 }
 
-ComponentMesh::ComponentMesh(GameObject * embedded_game_object, std::vector<Mesh*> meshes) : 
+ComponentMesh::ComponentMesh(GameObject * embedded_game_object, Mesh* mesh) : 
 	Component(embedded_game_object, Component::component_type::COMPONENT_MESH), 
-	meshes(meshes)
+	mesh(mesh)
 {
+}
+
+void ComponentMesh::SetMesh(Mesh * mesh)
+{
+	this->mesh = mesh;
+}
+
+const Mesh * ComponentMesh::GetMesh() const
+{
+	return mesh;
 }
