@@ -92,6 +92,16 @@ Component * GameObject::CreateComponent(Component::component_type type,  Compone
 	return tmp_component;
 }
 
+Component * GameObject::FindComponentWithType(Component::component_type type)
+{
+	for (std::list<Component*>::iterator co_it = components.begin(); co_it != components.end(); co_it++) {
+		if ((*co_it)->GetType() == type)
+			return (*co_it);
+	}
+	TR_LOG("Didn't find any component with type number: %i", type);
+	return nullptr;
+}
+
 GameObject * GameObject::GetParent() const
 {
 	return this->parent;

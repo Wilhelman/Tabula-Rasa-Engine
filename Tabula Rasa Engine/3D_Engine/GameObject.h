@@ -21,6 +21,9 @@ public:
 	Component* CreateComponent(Component::component_type type);
 	Component* CreateComponent(Component::component_type type, Component* component);
 
+	// finds and returns the first component of the type sended
+	Component* FindComponentWithType(Component::component_type type);
+
 	GameObject* GetParent() const;
 	const char* GetName() const;
 

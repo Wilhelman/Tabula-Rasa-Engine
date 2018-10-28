@@ -6,6 +6,11 @@
 #include "trMainScene.h"
 #include "trEditor.h"
 
+#include "GameObject.h"
+#include "Component.h"
+#include "ComponentMaterial.h"
+#include "ComponentMesh.h"
+
 #include "Glew\include\GL\glew.h"
 #include "SDL\include\SDL_opengl.h"
 
@@ -348,6 +353,43 @@ void trRenderer3D::Draw()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
+	/*GameObject* root = App->main_scene->GetRoot();
+
+	for (std::list<GameObject*>::iterator go_it = root->childs.begin(); go_it != root->childs.end(); go_it++) {
+
+		// get texture stuff from component material (search for it)
+		ComponentMaterial* go_mat = (ComponentMaterial*)(*go_it)->FindComponentWithType(Component::component_type::COMPONENT_MATERIAL);
+		ComponentMesh* go_mesh = (ComponentMesh*)(*go_it)->FindComponentWithType(Component::component_type::COMPONENT_MESH);
+
+		const Mesh* mesh = go_mesh->GetMesh();
+
+		if (texture != nullptr)
+			glBindTexture(GL_TEXTURE_2D, texture->id);
+
+		//if (texture == nullptr || !texture_2D) // If the texture is missing, we set the ambient color of the mesh
+		//glColor4f(mesh->ambient_color->w, mesh->ambient_color->x, mesh->ambient_color->y, mesh->ambient_color->z);
+
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		//texture
+		if (mesh->uvs != nullptr) {
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
+			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->index_buffer);
+		glDrawElements(GL_TRIANGLES, mesh->index_size, GL_UNSIGNED_INT, NULL);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		glColor4f(1.f, 1.f, 1.f, 1.f);
+
+		if (texture != nullptr)
+			glBindTexture(GL_TEXTURE_2D, 0);
+
+	}*/
 	std::vector<Mesh*>::iterator it = meshes.begin();
 	while (it != meshes.end())
 	{

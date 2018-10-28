@@ -67,8 +67,8 @@ void PanelHierarchy::DrawGameObject(GameObject * game_object)
 
 		if (ImGui::BeginPopup("Options"))
 		{
-			if (ImGui::MenuItem("Clone"))
-				TR_LOG("TODO CLONE");
+			//if (ImGui::MenuItem("Clone"))
+				//TR_LOG("TODO CLONE");
 
 			if (ImGui::MenuItem("Remove"))
 				game_object->to_destroy = true;
