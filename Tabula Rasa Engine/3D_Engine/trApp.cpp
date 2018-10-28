@@ -318,6 +318,12 @@ void trApp::RequestBrowser(const char * url) const
 	ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 }
 
+void trApp::SendTheCarrierPigeon(const Event & event)
+{
+	for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end(); it++)
+		(*it)->OnEventReceived(event);
+}
+
 void trApp::SetOrganization(const char * organization)
 {
 	this->organization = organization;

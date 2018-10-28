@@ -1,6 +1,10 @@
 #include "GameObject.h"
 #include <list>
 
+#include "trApp.h"
+
+#include "Event.h"
+
 // ---------------------------------------------------------
 GameObject::GameObject()
 {}
@@ -58,6 +62,9 @@ void GameObject::DestroyGameObjectsIfNeeded()
 		{
 			RELEASE(*it);
 			it = childs.erase(it);
+			// TODO notify to all modules
+			Event tmp_event(Event::event_type::GAMEOBJECT_DESTROYED);
+			App->SendTheCarrierPigeon(tmp_event);
 		}
 		else // Keep iterating childs
 		{

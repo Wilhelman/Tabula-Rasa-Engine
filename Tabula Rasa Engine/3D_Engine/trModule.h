@@ -8,11 +8,13 @@
 
 #include <string>
 #include "ParsonJson/parson.h"
+#include "Event.h"
 
 class trApp;
 
 class trModule
 {
+
 public:
 
 	trModule() : active(false)
@@ -72,6 +74,8 @@ public:
 	virtual void TurnActive() {
 		active = !active;
 	}
+
+	virtual void OnEventReceived(const Event& event) {}
 
 public:
 

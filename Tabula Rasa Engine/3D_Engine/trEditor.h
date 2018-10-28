@@ -30,6 +30,8 @@ public:
 	bool PostUpdate(float dt);
 	bool CleanUp();
 
+	void OnEventReceived(const Event& event);
+
 	void Draw();
 
 	void SetupInspectorWith(Mesh* mesh);

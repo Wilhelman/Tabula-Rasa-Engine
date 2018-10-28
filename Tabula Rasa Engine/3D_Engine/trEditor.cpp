@@ -18,6 +18,8 @@
 #include "SDL/include/SDL.h"
 #include "SDL/include/SDL_opengl.h"
 
+#include "Event.h"
+
 #include <vector>
 
 trEditor::trEditor() : trModule()
@@ -241,6 +243,13 @@ bool trEditor::CleanUp()
 	return true;
 }
 
+void trEditor::OnEventReceived(const Event & event)
+{
+	if (event.GetType() == Event::event_type::GAMEOBJECT_DESTROYED) {
+		this->selected = nullptr; // for now
+	}
+}
+
 void trEditor::Draw()
 {
 	ImGui::Render();
@@ -284,6 +293,5 @@ GameObject * trEditor::GetSelected() const
 
 void trEditor::SetSelected(GameObject * selected)
 {
-	this->inspector->selected = selected;
 	this->selected = selected;
 }

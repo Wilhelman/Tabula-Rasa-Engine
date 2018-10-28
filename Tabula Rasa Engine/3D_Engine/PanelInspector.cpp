@@ -3,6 +3,9 @@
 #include "PanelInspector.h"
 #include "trRenderer3D.h"
 
+#include "trApp.h"
+#include "trEditor.h"
+
 #include "GameObject.h"
 
 PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
@@ -34,6 +37,8 @@ void PanelInspector::Clear()
 void PanelInspector::Draw()
 {
 	ImGui::Begin("Inspector", &active);
+
+	GameObject* selected = App->editor->GetSelected();
 
 	if (selected != nullptr) {
 		ImGui::Text("Name: %s", selected->GetName());

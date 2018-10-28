@@ -54,7 +54,9 @@ public:
 	uint GetFpsCap() const;
 	const char* GetVersion()const;
 
+	// Usefull requests
 	void RequestBrowser(const char* url)const;
+	void SendTheCarrierPigeon(const Event& event);
 
 	// Setters
 	void SetTitle(const char* title);

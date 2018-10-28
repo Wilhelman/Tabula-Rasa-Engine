@@ -24,8 +24,6 @@ public:
 	void SetDataFrom(Texture* texture);
 	void Clear();
 
-	GameObject* selected = nullptr;
-
 private:
 	
 	std::vector<Mesh*> meshes;

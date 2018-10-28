@@ -166,7 +166,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			}
 
 			// saving file in our own format
-			SaveFBX(mesh_data->name.c_str());
+			//SaveFBX(mesh_data->name.c_str());
 
 			mesh_data->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
 			mesh_data->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
