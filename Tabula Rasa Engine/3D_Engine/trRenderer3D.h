@@ -12,7 +12,7 @@
 
 #define MAX_LIGHTS 8
 
-struct Mesh
+struct Mesh //todo take this to component
 {
 	math::vec position;
 	math::vec scale;

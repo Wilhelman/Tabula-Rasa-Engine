@@ -12,6 +12,8 @@ public:
 	ComponentMesh(GameObject* embedded_game_object);
 	ComponentMesh(GameObject* embedded_game_object, Mesh* mesh);
 
+	// todo clean here the mesh
+
 	void SetMesh(Mesh* mesh);
 	const Mesh* GetMesh() const;
 

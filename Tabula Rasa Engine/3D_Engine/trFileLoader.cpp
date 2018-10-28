@@ -9,6 +9,7 @@
 
 #include "GameObject.h"
 #include "ComponentMesh.h"
+#include "ComponentMaterial.h"
 
 #include <fstream>
 
@@ -67,7 +68,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 	TR_LOG("trFileLoader: Start importing a file with path: %s", file_path);
 	
 	const aiScene* scene = aiImportFile(file_path, aiProcessPreset_TargetRealtime_MaxQuality);
-	std::string texture_path;
+	
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
@@ -89,6 +90,8 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		scene_num_vertex = 0u;
 		scene_vertices.clear();
 
+		ComponentMaterial* material_comp = nullptr;
+
 		for (uint i = 0; i < scene->mNumMeshes; i++)
 		{
 			
@@ -98,9 +101,16 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			mesh_data->path = file_path;
 			std::string tmp_go_name = father->GetName();
 			tmp_go_name.append("("); tmp_go_name.append(std::to_string(i+1)); tmp_go_name.append(")");
+
 			GameObject* go = App->main_scene->CreateGameObject(tmp_go_name.c_str(),father);
 
 			aiMesh* new_mesh = scene->mMeshes[i];
+
+			if (i == 0) 
+				material_comp = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], go);
+			else 
+				material_comp = (ComponentMaterial*)go->CreateComponent(Component::component_type::COMPONENT_MATERIAL,material_comp);
+			
 
 			// Calculate the position, scale and rotation
 			if (scene->mRootNode != nullptr)
@@ -115,24 +125,6 @@ bool trFileLoader::Import3DFile(const char* file_path)
 				mesh_data->position.Set(translation.x, translation.y, translation.z);
 				mesh_data->scale.Set(scaling.x, scaling.y, scaling.z);
 				mesh_data->rotation.Set(quat_to_euler.x, quat_to_euler.y, quat_to_euler.z);
-			}
-			
-			// Material color of the mesh
-			aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
-			aiColor4D tmp_color;
-			aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &tmp_color);
-			mesh_data->ambient_color = new float4(tmp_color.r, tmp_color.g, tmp_color.b, tmp_color.a);
-
-			// Getting the texture path
-			if (texture_path.empty()) {
-				aiString tmp_path;
-				material->GetTexture(aiTextureType_DIFFUSE, 0, &tmp_path);
-				texture_path = tmp_path.data;
-
-				// Let's get ONLY the file name:
-				const size_t last_slash = texture_path.find_last_of("\\/");
-				if (std::string::npos != last_slash)
-					texture_path.erase(0, last_slash + 1);
 			}
 
 			// Vertex copy
@@ -175,29 +167,19 @@ bool trFileLoader::Import3DFile(const char* file_path)
 						memcpy(&mesh_data->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 				}
 			}
-
+			
 			// saving file in our own format
 			//SaveMeshFile(mesh_data->name.c_str());
 
 			mesh_data->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
 			mesh_data->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
 
-			ComponentMesh* comp = (ComponentMesh*)go->CreateComponent(Component::component_type::COMPONENT_MESH);
-			comp->SetMesh(mesh_data);
+			ComponentMesh* mesh_comp = (ComponentMesh*)go->CreateComponent(Component::component_type::COMPONENT_MESH);
+			mesh_comp->SetMesh(mesh_data);
 
 			App->render->GenerateBufferForMesh(mesh_data);
 		
 		}
-
-		// Let's search the texture in our path assets/textures
-		if (!texture_path.empty()) { 
-			std::string posible_path = "assets/textures/";
-			posible_path = posible_path + texture_path;
-			TR_LOG("trFileLoader: Search in - %s", posible_path.c_str());
-			App->texture->LoadImageFromPath(posible_path.c_str());
-		}
-		else
-			TR_LOG("trFileLoader: Didn't find any embeded texture");
 
 		// Camera AABB stuff
 		if (scene->mNumMeshes == 1) // if only one mesh, get the bounding_box of the last mesh
@@ -218,6 +200,42 @@ bool trFileLoader::Import3DFile(const char* file_path)
 	aiReleaseImport(scene);
 
 	return false;
+}
+
+ComponentMaterial * trFileLoader::LoadTexture(aiMaterial* material, GameObject* go)
+{
+
+	// Material color of the mesh
+	aiColor4D tmp_color;
+	aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &tmp_color);
+	mesh_data->ambient_color = new float4(tmp_color.r, tmp_color.g, tmp_color.b, tmp_color.a);
+
+	// Getting the texture path
+	aiString tmp_path;
+	std::string texture_path;
+	material->GetTexture(aiTextureType_DIFFUSE, 0, &tmp_path);
+	texture_path = tmp_path.data;
+
+	// Let's get ONLY the file name:
+	const size_t last_slash = texture_path.find_last_of("\\/");
+	if (std::string::npos != last_slash)
+		texture_path.erase(0, last_slash + 1);
+	
+
+	// Let's search the texture in our path assets/textures
+	if (!texture_path.empty()) {
+		std::string posible_path = "assets/textures/";
+		posible_path = posible_path + texture_path;
+		TR_LOG("trFileLoader: Search in - %s", posible_path.c_str());
+		ComponentMaterial* material_comp = (ComponentMaterial*)go->CreateComponent(Component::component_type::COMPONENT_MATERIAL);
+		material_comp->SetTexture(App->texture->LoadImageFromPath(posible_path.c_str()));
+		return material_comp;
+	}
+	else {
+		TR_LOG("trFileLoader: Didn't find any embeded texture");
+		return nullptr;
+	}
+	
 }
 
 bool trFileLoader::SaveMeshFile(const char* file_name)

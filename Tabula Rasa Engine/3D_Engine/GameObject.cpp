@@ -44,14 +44,46 @@ Component * GameObject::CreateComponent(Component::component_type type)
 	switch (type)
 	{
 	case Component::component_type::COMPONENT_TRANSFORM:
+		tmp_component = new ComponentTransform(this);
 		break;
 	case Component::component_type::COMPONENT_MESH:
 		tmp_component = new ComponentMesh(this);
 		break;
 	case Component::component_type::COMPONENT_MATERIAL:
+		tmp_component = new ComponentMaterial(this);
 		break;
 	case Component::component_type::COMPONENT_UNKNOWN:
-		TR_LOG("Rly?");
+		TR_LOG("Just how?");
+		break;
+	default:
+		break;
+	}
+
+	this->components.push_back(tmp_component);
+
+	return tmp_component;
+}
+
+Component * GameObject::CreateComponent(Component::component_type type,  Component* component)
+{
+	Component* tmp_component = nullptr;
+	switch (type)
+	{
+	case Component::component_type::COMPONENT_TRANSFORM:
+		tmp_component = new ComponentTransform(this);
+		break;
+	case Component::component_type::COMPONENT_MESH:
+		tmp_component = new ComponentMesh(this);
+		break;
+	case Component::component_type::COMPONENT_MATERIAL: {
+		tmp_component = new ComponentMaterial(this);
+		ComponentMaterial* tmp = (ComponentMaterial*)component;
+		Texture* tmp_texture = (Texture*)/*hehehehe*/((ComponentMaterial*)component)->GetTexture();
+		((ComponentMaterial*)tmp_component)->SetTexture((Texture*)((ComponentMaterial*)component)->GetTexture());
+		break;
+	}
+	case Component::component_type::COMPONENT_UNKNOWN:
+		TR_LOG("Just how?");
 		break;
 	default:
 		break;

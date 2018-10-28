@@ -10,7 +10,10 @@ class ComponentMaterial : public Component
 public:
 
 	ComponentMaterial(GameObject* embedded_game_object);
-	~ComponentMaterial();
+	~ComponentMaterial(); //todo clean the texture here
+
+	const Texture* GetTexture()const;
+	void SetTexture(Texture* texture);
 
 public:
 

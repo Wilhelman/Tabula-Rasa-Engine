@@ -8,6 +8,7 @@
 
 #include "GameObject.h"
 #include "ComponentMesh.h"
+#include "ComponentMaterial.h"
 
 PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
 {
@@ -47,20 +48,35 @@ void PanelInspector::Draw()
 			case Component::component_type::COMPONENT_TRANSFORM:
 				break;
 			case Component::component_type::COMPONENT_MESH: {
-				
 				ComponentMesh* mesh_co = (ComponentMesh*)(*it);
 				const Mesh* mesh = mesh_co->GetMesh();
 				ImGui::Text("MESH COMPONENT");
-				ImGui::Text("Triangles: %i", mesh->face_size);
-				ImGui::Text("Vertices: %i", mesh->vertex_size / 3);///bc vertices are stored in x/y/z format!
-				ImGui::Text("Indices: %i", mesh->index_size);
-				ImGui::Text("UVS: %i", mesh->size_uv);
-				ImGui::Text("Source: %s", mesh->path.c_str());
-				ImGui::Separator();
+				if (mesh != nullptr) {
+					ImGui::Text("Triangles: %i", mesh->face_size);
+					ImGui::Text("Vertices: %i", mesh->vertex_size / 3);///bc vertices are stored in x/y/z format!
+					ImGui::Text("Indices: %i", mesh->index_size);
+					ImGui::Text("UVS: %i", mesh->size_uv);
+					ImGui::Text("Source: %s", mesh->path.c_str());
+					ImGui::Separator();
+				}
 				break;
 			}
 			case Component::component_type::COMPONENT_MATERIAL:
+			{
+				ComponentMaterial* mat_co = (ComponentMaterial*)(*it);
+				const Texture* texture = mat_co->GetTexture();
+				ImGui::Text("MATERIAL COMPONENT");
+				if (texture != nullptr) {
+					if (ImGui::CollapsingHeader("Texture")) {
+						ImGui::Text("Source: %s", texture->path.c_str());
+						ImGui::Text("Width: %i", texture->width);
+						ImGui::Text("Height: %i", texture->height);
+						ImGui::Image((ImTextureID)texture->id, ImVec2(200, 200));
+					}
+				}
+				ImGui::Separator();
 				break;
+			}
 			case Component::component_type::COMPONENT_UNKNOWN:
 				TR_LOG("Rly?");
 				break;

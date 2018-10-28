@@ -54,13 +54,13 @@ bool trTextures::CleanUp()
 	return true;
 }
 
-void trTextures::LoadImageFromPath(const char * path)
+Texture* trTextures::LoadImageFromPath(const char * path)
 {
 	// First let's check if there's any mesh in the scene
-	if (App->render->GetMeshesSize() == 0) {
+	/*if (App->render->GetMeshesSize() == 0) {
 		TR_LOG("trTextures: Cannot load texture - There is no mesh in scene");
-		return;
-	}
+		return nullptr;
+	}*/
 
 	uint tmp_id = App->render->GetTextureID();
 
@@ -122,6 +122,10 @@ void trTextures::LoadImageFromPath(const char * path)
 	if (tmp_tex->id != 0) {
 		TR_LOG("trTexture: Texture created correctly");
 		App->render->SetTexture(tmp_tex);
-	 }
+		return tmp_tex;
+	}
+	else {
+		return nullptr;
+	}
 		
 }

@@ -19,6 +19,7 @@ public:
 	bool Update(float dt);
 
 	Component* CreateComponent(Component::component_type type);
+	Component* CreateComponent(Component::component_type type, Component* component);
 
 	GameObject* GetParent() const;
 	const char* GetName() const;

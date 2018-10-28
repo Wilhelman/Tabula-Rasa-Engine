@@ -20,7 +20,7 @@ public:
 	bool Start();
 	bool CleanUp();
 
-	void LoadImageFromPath(const char* path);
+	Texture* LoadImageFromPath(const char* path);
 
 private:
 	Texture* tmp_tex = nullptr;

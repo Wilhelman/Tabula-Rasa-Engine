@@ -7,6 +7,10 @@
 
 struct Mesh;
 
+class ComponentMaterial;
+class aiMaterial;
+class GameObject;
+
 class trFileLoader : public trModule
 {
 public:
@@ -22,6 +26,8 @@ public:
 	bool CleanUp();
 
 	bool Import3DFile(const char* file_path);
+	ComponentMaterial* LoadTexture(aiMaterial* material, GameObject* go);
+
 
 	bool SaveMeshFile(const char* file_name);
 	bool LoadMeshFile(const char* file_path);
