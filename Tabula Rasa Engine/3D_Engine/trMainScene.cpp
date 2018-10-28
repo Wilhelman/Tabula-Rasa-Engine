@@ -49,7 +49,7 @@ bool trMainScene::Start()
 // Called each loop iteration
 bool trMainScene::PreUpdate(float dt)
 {
-	DestroyGameObjectsIfNeeded(root);
+	root->DestroyGameObjectsIfNeeded();
 	return true;
 }
 
@@ -76,6 +76,9 @@ bool trMainScene::CleanUp()
 
 	if(grid != nullptr)
 		delete grid; //todo check
+
+	if (root != nullptr)
+		delete root;
 
 	return true;
 }
@@ -116,21 +119,4 @@ GameObject * trMainScene::CreateGameObject(const char * name, GameObject * paren
 		parent = root;
 
 	return new GameObject(name, parent);
-}
-
-void trMainScene::DestroyGameObjectsIfNeeded(GameObject * game_object)
-{
-	if (game_object->to_destroy) {
-		GameObject* parent = game_object->GetParent();
-		if(parent != nullptr)
-			parent->childs.remove(game_object);
-		RELEASE(game_object);
-	}
-	if (game_object != NULL) { // Keep iterating
-		std::list<GameObject*>::const_iterator it = game_object->childs.begin();
-		while (it != game_object->childs.end()) {
-			DestroyGameObjectsIfNeeded(*it);
-			it++;
-		}
-	}
 }

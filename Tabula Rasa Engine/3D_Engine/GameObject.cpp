@@ -50,6 +50,23 @@ bool GameObject::IsActive() const
 	return this->active;
 }
 
+void GameObject::DestroyGameObjectsIfNeeded()
+{
+	for (std::list<GameObject*>::iterator it = childs.begin(); it != childs.end();)
+	{
+		if ((*it)->to_destroy)
+		{
+			RELEASE(*it);
+			it = childs.erase(it);
+		}
+		else // Keep iterating childs
+		{
+			(*it)->DestroyGameObjectsIfNeeded();
+			it++;
+		}
+	}
+}
+
 
 
 // ---------------------------------------------------------

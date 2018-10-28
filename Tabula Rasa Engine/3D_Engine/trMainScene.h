@@ -41,8 +41,6 @@ public:
 	GameObject* CreateGameObject(GameObject* parent);
 	GameObject* CreateGameObject(const char* name, GameObject* parent = nullptr);
 
-	void DestroyGameObjectsIfNeeded(GameObject * game_object);
-
 private:
 
 	PGrid* grid = nullptr;

@@ -25,6 +25,8 @@ public:
 
 	bool IsActive()const;
 
+	void DestroyGameObjectsIfNeeded();
+
 private:
 
 	bool active = false;

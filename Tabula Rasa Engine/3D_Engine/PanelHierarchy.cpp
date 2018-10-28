@@ -34,12 +34,13 @@ void PanelHierarchy::Draw()
 
 	GameObject* root = App->main_scene->GetRoot();
 
-	std::list<GameObject*>::const_iterator it = root->childs.begin();
-	while (it != root->childs.end()) {
-		DrawGameObject(*it);
-		it++;
+	if (root != nullptr) {
+		std::list<GameObject*>::const_iterator it = root->childs.begin();
+		while (it != root->childs.end()) {
+			DrawGameObject(*it);
+			it++;
+		}
 	}
-		
 	
 	ImGui::End();
 }
