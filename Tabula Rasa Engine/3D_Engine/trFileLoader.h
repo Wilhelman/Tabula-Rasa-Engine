@@ -23,7 +23,8 @@ public:
 
 	bool Import3DFile(const char* file_path);
 
-	void SaveFBX(const char* file_name);
+	bool SaveMeshFile(const char* file_name);
+	bool LoadMeshFile(const char* file_path);
 
 private:
 
