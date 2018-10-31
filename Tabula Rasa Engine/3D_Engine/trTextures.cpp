@@ -1,6 +1,7 @@
 #include "trTextures.h"
 #include "trApp.h"
 #include "trRenderer3D.h"
+#include "ComponentMaterial.h"
 
 #include "DevIL\include\ilut.h"
 #include "DevIL\include\il.h"
@@ -46,10 +47,8 @@ bool trTextures::Start()
 
 bool trTextures::CleanUp()
 {
-	uint tmp_id = App->render->GetTextureID();
-
-	if (tmp_id != 0)  // Delete the last texture
-		ilDeleteImages(1, &tmp_id);
+	if (last_texture_id != 0)  // Delete the last texture
+		ilDeleteImages(1, &last_texture_id);
 
 	return true;
 }
@@ -62,12 +61,13 @@ Texture* trTextures::LoadImageFromPath(const char * path)
 		return nullptr;
 	}*/
 
-	uint tmp_id = App->render->GetTextureID();
+	/*uint tmp_id = App->render->GetTextureID();
 
 	if (tmp_id != 0) {  // Delete the last texture
 		delete tmp_tex;
 		ilDeleteImages(1, &tmp_id);
-	}
+	}*/
+
 	tmp_tex = new Texture();
 	
 	uint img_id = 0u;
@@ -121,7 +121,6 @@ Texture* trTextures::LoadImageFromPath(const char * path)
 
 	if (tmp_tex->id != 0) {
 		TR_LOG("trTexture: Texture created correctly");
-		App->render->SetTexture(tmp_tex);
 		return tmp_tex;
 	}
 	else {

@@ -11,6 +11,8 @@
 #include "trTextures.h"
 #include "trWindow.h"
 
+#include "ComponentMaterial.h" // TODO delete when we can
+
 #define MAX_KEYS 300
 
 trInput::trInput() : trModule()

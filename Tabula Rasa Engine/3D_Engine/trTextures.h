@@ -24,6 +24,7 @@ public:
 
 private:
 	Texture* tmp_tex = nullptr;
+	uint last_texture_id = 0u;
 };
 
 #endif // __TEXTURES_H__

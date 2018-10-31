@@ -45,12 +45,7 @@ struct Mesh //todo take this to component
 	~Mesh();
 };
 
-struct Texture {
-	uint id = 0u;
-	uint width = 0u;
-	uint height = 0u;
-	std::string path;
-};
+
 
 class trRenderer3D : public trModule
 {
@@ -76,9 +71,7 @@ public:
 	void SwitchVsync(bool toggle);
 
 	void GenerateBufferForMesh(Mesh* mesh);
-	void SetTexture(Texture* texture);
 
-	const uint GetTextureID() const;
 	const uint GetMeshesSize() const;
 
 	void CollectGameObjectWithMesh(GameObject* game_object);

@@ -7,9 +7,6 @@
 #include <string>
 #include <vector>
 
-class Mesh;
-class Texture;
-
 class GameObject;
 
 class PanelInspector : public Panel
@@ -20,14 +17,6 @@ public:
 
 	void Draw() override;
 
-	void SetDataFrom(Mesh* mesh);
-	void SetDataFrom(Texture* texture);
-	void Clear();
-
-private:
-	
-	//std::vector<Mesh*> meshes;
-	Texture* texture = nullptr; //for now only one texture
 };
 
 #endif// __PANEL_CONSOLE_H__

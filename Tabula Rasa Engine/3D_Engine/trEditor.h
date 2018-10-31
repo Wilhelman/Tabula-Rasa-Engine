@@ -34,10 +34,6 @@ public:
 
 	void Draw();
 
-	void SetupInspectorWith(Mesh* mesh);
-	void SetupInspectorWith(Texture* texture);
-	void CleanInspectorData();
-
 	void InfoFPSMS(float current_fps, float current_ms, int frames);
 
 	void Log(const char* new_log);

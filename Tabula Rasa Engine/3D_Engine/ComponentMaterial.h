@@ -4,10 +4,16 @@
 #include "Component.h"
 #include "MathGeoLib/MathGeoLib.h"
 
-struct Texture;
+struct Texture {
+	uint id = 0u;
+	uint width = 0u;
+	uint height = 0u;
+	std::string path;
+};
 
 class ComponentMaterial : public Component
 {
+
 public:
 
 	ComponentMaterial(GameObject* embedded_game_object);

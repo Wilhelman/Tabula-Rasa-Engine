@@ -256,22 +256,6 @@ void trEditor::Draw()
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 }
 
-void trEditor::SetupInspectorWith(Mesh* mesh)
-{
-	inspector->SetDataFrom(mesh);
-}
-
-void trEditor::SetupInspectorWith(Texture * texture)
-{
-	inspector->SetDataFrom(texture);
-}
-
-void trEditor::CleanInspectorData()
-{
-	inspector->Clear();
-}
-
-
 void trEditor::InfoFPSMS(float current_fps, float current_ms, int frames)
 {
 	(config != nullptr) ? config->FillChartFpsInfo(current_fps, current_ms, frames) : TR_LOG("trEditor error: configuration == nullptr");

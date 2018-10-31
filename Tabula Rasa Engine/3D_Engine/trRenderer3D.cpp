@@ -316,19 +316,6 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 	App->editor->SetupInspectorWith(mesh);*/
 }
 
-void trRenderer3D::SetTexture(Texture* texture)
-{
-	//this->texture = texture;
-	//App->editor->SetupInspectorWith(texture);
-}
-
-const uint trRenderer3D::GetTextureID() const
-{
-	uint ret = 0u;
-	//(this->texture != nullptr) ? ret = texture->id : ret = 0u;
-	return ret;
-}
-
 const uint trRenderer3D::GetMeshesSize() const
 {
 	return drawable_go.size();
@@ -336,9 +323,6 @@ const uint trRenderer3D::GetMeshesSize() const
 
 void trRenderer3D::ClearScene()
 {
-	if(App->editor != nullptr)
-		App->editor->CleanInspectorData();
-
 }
 
 void trRenderer3D::Draw()
