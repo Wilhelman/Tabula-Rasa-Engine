@@ -342,19 +342,21 @@ void PanelConfiguration::ShowEngineClocks()
 {
 	if (ImGui::CollapsingHeader("Engine clocks"))
 	{
-		ImGui::Text("Real time clock: %.2f sec", App->GetRealTimeClock().ReadSec());
+		ImGui::Text("Real time clock: %.2f sec", App->real_time_clock.ReadSec());
 
 		ImGui::Separator();
 
-		ImGui::Text("Game clock: %.2f sec", App->GetGameClock().ReadSec());
+		ImGui::Text("Game clock: %.2f sec", App->game_clock.ReadSec());
 
 		if (ImGui::Button("PLAY"))
-			App->GetGameClock().Start();
+			App->game_clock.ReStart();
 
 		ImGui::SameLine();
 
-		if (ImGui::Button("STOP"))
-			App->GetGameClock().Stop();
+		if (ImGui::Button("PAUSE"))
+			App->game_clock.Pause();
+
+
 
 		ImGui::SliderFloat("Time scale", &time_scale, 0.0f, 3.0f, "%.2f");
 	}

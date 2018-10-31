@@ -368,15 +368,6 @@ void trApp::Load()
 	want_to_load = true;
 }
 
-trPerfTimer trApp::GetRealTimeClock() const
-{
-	return real_time_clock;
-}
-
-trPerfTimer trApp::GetGameClock() const
-{
-	return game_clock;
-}
 
 bool trApp::LoadNow()
 {

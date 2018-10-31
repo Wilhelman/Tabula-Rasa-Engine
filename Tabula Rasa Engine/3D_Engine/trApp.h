@@ -5,7 +5,6 @@
 #include <string>
 #include "trModule.h"
 #include "trTimer.h"
-#include "trPerfTimer.h"
 #include "ParsonJson/parson.h"
 #include "trLog.h"
 #include "SDL/include/SDL.h"
@@ -69,10 +68,6 @@ public:
 	void Save();
 	void Load();
 
-	// Clocks
-	trPerfTimer GetRealTimeClock() const;
-	trPerfTimer GetGameClock() const;
-
 private:
 
 	// Call modules before each loop iteration
@@ -106,6 +101,10 @@ public:
 	trHardware*			hardware = nullptr;
 	trFileLoader*		file_loader = nullptr;
 	trMeshImporter*		mesh_importer = nullptr;
+
+	//clocks
+	trTimer real_time_clock;
+	trTimer game_clock;
 	
 	
 private:
@@ -132,9 +131,7 @@ private:
 	int					capped_ms = 0;
 	bool				cap_fps = true;
 
-	//clocks
-	trPerfTimer real_time_clock;
-	trPerfTimer game_clock;
+
 
 };
 
