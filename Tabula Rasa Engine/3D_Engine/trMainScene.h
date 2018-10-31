@@ -30,6 +30,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void ClearScene();
+
 	void Draw();
 
 	// Load / Save

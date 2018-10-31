@@ -20,7 +20,7 @@ public:
 public:
 
 	Component(GameObject* embedded_go, component_type type);
-	~Component();
+	virtual ~Component() {}
 
 	virtual bool Enable();
 	virtual bool Update(float dt);

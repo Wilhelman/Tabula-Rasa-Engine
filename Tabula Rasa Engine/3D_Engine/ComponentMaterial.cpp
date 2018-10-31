@@ -1,8 +1,15 @@
 #include "ComponentMaterial.h"
+#include "trApp.h"
+#include "trTextures.h"
 
 ComponentMaterial::ComponentMaterial(GameObject * embedded_game_object) :
 Component(embedded_game_object, Component::component_type::COMPONENT_MATERIAL)
 {
+}
+
+ComponentMaterial::~ComponentMaterial()
+{
+	App->texture->DeleteTexture(this->texture);
 }
 
 void ComponentMaterial::SetAmbientColor(float4 ambient_color)

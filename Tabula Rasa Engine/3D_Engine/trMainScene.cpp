@@ -25,10 +25,6 @@ bool trMainScene::Awake(JSON_Object* config)
 
 	root = new GameObject("root", nullptr);
 
-	//GameObject* pablo = this->CreateGameObject("Pablo", nullptr);
-	//this->CreateGameObject("Pablo's son", pablo);
-	//this->CreateGameObject("Eriberto");
-
 	return ret;
 }
 
@@ -55,15 +51,11 @@ bool trMainScene::PreUpdate(float dt)
 
 bool trMainScene::Update(float dt)
 {
-		
-
-
 	return true;
 }
 
 bool trMainScene::PostUpdate(float dt)
 {
-
 	return true;
 }
 
@@ -81,6 +73,12 @@ bool trMainScene::CleanUp()
 		delete root;
 
 	return true;
+}
+
+void trMainScene::ClearScene()
+{
+	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); ++it)
+		(*it)->to_destroy = true;
 }
 
 void trMainScene::Draw()

@@ -217,9 +217,6 @@ bool trRenderer3D::CleanUp()
 	TR_LOG("Renderer3D: CleanUp");
 
 	SDL_GL_DeleteContext(context);
-
-	this->ClearScene();
-
 	return true;
 }
 
@@ -292,37 +289,9 @@ void trRenderer3D::SwitchVsync(bool toggle)
 	SDL_GL_SetSwapInterval(toggle);
 }
 
-void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
-{
-	/*glGenBuffers(1, (GLuint*) &(mesh->vertex_buffer));
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
-	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->vertex_size, mesh->vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	if (mesh->uvs != nullptr) {
-		glGenBuffers(1, (GLuint*) &(mesh->uv_buffer));
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
-		glBufferData(GL_ARRAY_BUFFER, 2 * mesh->size_uv * sizeof(GLfloat), mesh->uvs, GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
-	glGenBuffers(1, (GLuint*) &(mesh->index_buffer));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->index_buffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->index_size, mesh->indices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	meshes.push_back(mesh);
-	
-	App->editor->SetupInspectorWith(mesh);*/
-}
-
 const uint trRenderer3D::GetMeshesSize() const
 {
 	return drawable_go.size();
-}
-
-void trRenderer3D::ClearScene()
-{
 }
 
 void trRenderer3D::Draw()

@@ -128,3 +128,9 @@ Texture* trTextures::LoadImageFromPath(const char * path)
 	}
 		
 }
+
+void trTextures::DeleteTexture(Texture * tex)
+{
+	if (tex->id != 0) 
+		ilDeleteImages(1, &tex->id);
+}

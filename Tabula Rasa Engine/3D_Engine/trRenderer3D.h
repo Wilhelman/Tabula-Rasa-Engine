@@ -39,14 +39,9 @@ public:
 	void SwitchTexture2D(bool toggle);
 	void SwitchVsync(bool toggle);
 
-	void GenerateBufferForMesh(Mesh* mesh);
-
 	const uint GetMeshesSize() const;
 
 	void CollectGameObjectWithMesh(GameObject* game_object);
-
-	// Cleans all the meshes in the scene (not the primitives);
-	void ClearScene();
 
 	void Draw();
 
@@ -73,8 +68,6 @@ public:
 private:
 
 	std::vector<GameObject*> drawable_go;
-
-	math::AABB* last_mesh_bounding_box = nullptr;
 
 };
 #endif

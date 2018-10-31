@@ -22,6 +22,8 @@ public:
 
 	Texture* LoadImageFromPath(const char* path);
 
+	void DeleteTexture(Texture* tex);
+
 private:
 	Texture* tmp_tex = nullptr;
 	uint last_texture_id = 0u;

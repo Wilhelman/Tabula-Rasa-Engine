@@ -20,6 +20,11 @@ ComponentMesh::ComponentMesh(GameObject * embedded_game_object, Mesh* mesh) :
 {
 }
 
+ComponentMesh::~ComponentMesh()
+{
+	delete this->mesh;
+}
+
 void ComponentMesh::GenerateAndBindMesh(Mesh * mesh)
 {
 	glGenBuffers(1, (GLuint*) &(mesh->vertex_buffer));

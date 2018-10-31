@@ -98,7 +98,6 @@ Component * GameObject::FindComponentWithType(Component::component_type type)
 		if ((*co_it)->GetType() == type)
 			return (*co_it);
 	}
-	TR_LOG("Didn't find any component with type number: %i", type);
 	return nullptr;
 }
 

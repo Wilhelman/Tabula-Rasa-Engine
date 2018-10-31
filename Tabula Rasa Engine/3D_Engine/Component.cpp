@@ -8,8 +8,6 @@ Component::Component(GameObject * embedded_go, component_type type)
 }
 
 // ---------------------------------------------------------
-Component::~Component()
-{}
 
 bool Component::Enable()
 {

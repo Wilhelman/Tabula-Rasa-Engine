@@ -38,8 +38,8 @@ public:
 
 	ComponentMesh(GameObject* embedded_game_object);
 	ComponentMesh(GameObject* embedded_game_object, Mesh* mesh);
+	~ComponentMesh();
 
-	// todo clean here the mesh
 	void GenerateAndBindMesh(Mesh* mesh);
 
 	void SetMesh(Mesh* mesh);

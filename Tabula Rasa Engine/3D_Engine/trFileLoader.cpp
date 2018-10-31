@@ -73,6 +73,14 @@ bool trFileLoader::Import3DFile(const char* file_path)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		App->texture->CleanUp(); // Just to remove the last texture when a new mesh is dropped
+		//App->render->ClearScene(); // Cleaning the last meshes/buffers/etc TODOOOOOOOOOOOOOOOOOOO
+		App->main_scene->ClearScene();
+		// Removing and cleaning the last AABB
+		if (model_bouncing_box != nullptr) { delete model_bouncing_box; model_bouncing_box = nullptr; } /// Should be deleted in preup?
+		scene_num_vertex = 0u;
+		scene_vertices.clear();
+
 		std::string tmp = file_path;
 		// Let's get the file name to print it in inspector:
 		const size_t last_slash = tmp.find_last_of("\\/");
@@ -83,13 +91,6 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			tmp.erase(extension);
 
 		GameObject* father = App->main_scene->CreateGameObject(tmp.c_str());
-
-		App->texture->CleanUp(); // Just to remove the last texture when a new mesh is dropped
-		App->render->ClearScene(); // Cleaning the last meshes/buffers/etc
-		// Removing and cleaning the last AABB
-		if (model_bouncing_box != nullptr) { delete model_bouncing_box; model_bouncing_box = nullptr; } /// Should be deleted in preup?
-		scene_num_vertex = 0u;
-		scene_vertices.clear();
 
 		ComponentMaterial* material_comp = nullptr;
 
@@ -181,8 +182,6 @@ bool trFileLoader::Import3DFile(const char* file_path)
 
 			ComponentMesh* mesh_comp = (ComponentMesh*)go->CreateComponent(Component::component_type::COMPONENT_MESH);
 			mesh_comp->SetMesh(mesh_data);
-
-			App->render->GenerateBufferForMesh(mesh_data);
 		
 		}
 
@@ -341,8 +340,6 @@ bool trFileLoader::LoadMeshFile(const char* file_path)
 	bytes = sizeof(uint) * mesh_data->vertex_size;
 	mesh_data->vertices = new float[mesh_data->vertex_size];
 	memcpy(mesh_data->vertices, cursor, bytes);
-
-	App->render->GenerateBufferForMesh(mesh_data);
 
 	RELEASE_ARRAY(data);
 
