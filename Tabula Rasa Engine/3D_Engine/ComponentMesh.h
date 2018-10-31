@@ -2,8 +2,35 @@
 #define __COMPONENT_MESH_H__
 
 #include "Component.h"
+#include "MathGeoLib/MathGeoLib.h"
 
-struct Mesh;
+struct Mesh
+{
+	math::vec position;
+	math::vec scale;
+	math::vec rotation;
+
+	std::string name;
+	std::string path;
+
+	uint index_buffer = 0u;
+	uint index_size = 0u;
+	uint* indices = nullptr;
+
+	uint face_size = 0u;
+
+	uint vertex_buffer = 0u;
+	uint vertex_size = 0u;
+	float* vertices = nullptr;
+
+	uint uv_buffer = 0u;
+	uint size_uv = 0u;
+	float* uvs = nullptr;
+
+	math::AABB* bounding_box = nullptr;
+
+	~Mesh();
+};
 
 class ComponentMesh : public Component
 {

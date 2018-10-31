@@ -425,20 +425,3 @@ void trRenderer3D::CollectGameObjectWithMesh(GameObject* game_object)
 	for (std::list<GameObject*>::const_iterator it = game_object->childs.begin(), end = game_object->childs.end(); it != end; it++)
 		CollectGameObjectWithMesh(*it);
 }
-
-Mesh::~Mesh()
-{
-	if (indices != nullptr) { delete[] indices; indices = nullptr; }
-	if (vertices != nullptr) { delete[] vertices; vertices = nullptr; }
-	if (uvs != nullptr) { delete[] uvs; uvs = nullptr; }
-
-	if (bounding_box != nullptr) { delete bounding_box; bounding_box = nullptr; }
-	if (ambient_color != nullptr) { delete ambient_color; ambient_color = nullptr; }
-
-	name.clear();
-	path.clear();
-
-	glDeleteBuffers(1, (GLuint*)&index_buffer);
-	glDeleteBuffers(1, (GLuint*)&vertex_buffer);
-	glDeleteBuffers(1, (GLuint*)&uv_buffer);
-}

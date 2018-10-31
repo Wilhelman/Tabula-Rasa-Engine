@@ -50,3 +50,19 @@ const Mesh * ComponentMesh::GetMesh() const
 {
 	return mesh;
 }
+
+Mesh::~Mesh()
+{
+	if (indices != nullptr) { delete[] indices; indices = nullptr; }
+	if (vertices != nullptr) { delete[] vertices; vertices = nullptr; }
+	if (uvs != nullptr) { delete[] uvs; uvs = nullptr; }
+
+	if (bounding_box != nullptr) { delete bounding_box; bounding_box = nullptr; }
+
+	name.clear();
+	path.clear();
+
+	glDeleteBuffers(1, (GLuint*)&index_buffer);
+	glDeleteBuffers(1, (GLuint*)&vertex_buffer);
+	glDeleteBuffers(1, (GLuint*)&uv_buffer);
+}

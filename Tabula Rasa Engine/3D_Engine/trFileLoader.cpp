@@ -272,9 +272,9 @@ bool trFileLoader::SaveMeshFile(const char* file_name)
 	bytes = size_uvs;
 	memcpy(cursor, mesh_data->uvs, bytes);
 
-	cursor += bytes; // Store ambient color
+	/*cursor += bytes; // Store ambient color
 	bytes = size_ambient_color;
-	memcpy(cursor, mesh_data->ambient_color, bytes);
+	memcpy(cursor, mesh_data->ambient_color, bytes);*/ //now this is stored in component material
 
 	// Saving file
 	std::string tmp_str(file_name);
