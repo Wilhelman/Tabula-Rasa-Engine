@@ -1,6 +1,7 @@
 #ifndef __trRENDERER3D_H__
 #define __trRENDERER3D_H__
 
+#include "trApp.h"
 #include "trModule.h"
 #include "trDefs.h"
 
@@ -11,6 +12,8 @@
 #include "MathGeoLib/MathGeoLibFwd.h"
 
 #define MAX_LIGHTS 8
+
+class GameObject;
 
 struct Mesh //todo take this to component
 {
@@ -42,7 +45,7 @@ struct Mesh //todo take this to component
 	~Mesh();
 };
 
-struct Texture { // just to send info to inspector easily: to remove when gameobject enter
+struct Texture {
 	uint id = 0u;
 	uint width = 0u;
 	uint height = 0u;
@@ -78,6 +81,8 @@ public:
 	const uint GetTextureID() const;
 	const uint GetMeshesSize() const;
 
+	void CollectGameObjectWithMesh(GameObject* game_object);
+
 	// Cleans all the meshes in the scene (not the primitives);
 	void ClearScene();
 
@@ -105,8 +110,7 @@ public:
 
 private:
 
-	std::vector<Mesh*> meshes;
-	Texture* texture = nullptr;
+	std::vector<GameObject*> drawable_go;
 
 	math::AABB* last_mesh_bounding_box = nullptr;
 

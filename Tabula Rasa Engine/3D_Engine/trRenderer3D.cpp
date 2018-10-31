@@ -185,18 +185,23 @@ bool trRenderer3D::PreUpdate(float dt)
 bool trRenderer3D::PostUpdate(float dt)
 {
 	//RENDER GEOMETRY
-	if(App->main_scene != nullptr)
+	if (App->main_scene != nullptr) {
 		App->main_scene->Draw();
+	}
 
 	//RENDER DEBUG
 	/// not yet
 
 	//RENDER IMPORTED MESH
-	if (!meshes.empty()) {
+	drawable_go.clear();
+	CollectGameObjectWithMesh(App->main_scene->GetRoot());
+
+	if (!drawable_go.empty()) {
 		this->Draw();
 		if(z_buffer)
 			this->DrawZBuffer();
 	}
+
 	//RENDER GUI
 	App->editor->Draw();
 
@@ -289,7 +294,7 @@ void trRenderer3D::SwitchVsync(bool toggle)
 
 void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 {
-	glGenBuffers(1, (GLuint*) &(mesh->vertex_buffer));
+	/*glGenBuffers(1, (GLuint*) &(mesh->vertex_buffer));
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
 	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->vertex_size, mesh->vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -308,43 +313,31 @@ void trRenderer3D::GenerateBufferForMesh(Mesh* mesh)
 
 	meshes.push_back(mesh);
 	
-	App->editor->SetupInspectorWith(mesh);
+	App->editor->SetupInspectorWith(mesh);*/
 }
 
 void trRenderer3D::SetTexture(Texture* texture)
 {
-	this->texture = texture;
-	App->editor->SetupInspectorWith(texture);
+	//this->texture = texture;
+	//App->editor->SetupInspectorWith(texture);
 }
 
 const uint trRenderer3D::GetTextureID() const
 {
-	uint ret;
-	(this->texture != nullptr) ? ret = texture->id : ret = 0u;
+	uint ret = 0u;
+	//(this->texture != nullptr) ? ret = texture->id : ret = 0u;
 	return ret;
 }
 
 const uint trRenderer3D::GetMeshesSize() const
 {
-	return meshes.size();
+	return drawable_go.size();
 }
 
 void trRenderer3D::ClearScene()
 {
 	if(App->editor != nullptr)
 		App->editor->CleanInspectorData();
-
-	std::vector<Mesh*>::iterator it = meshes.begin();
-	while (it != meshes.end())
-	{
-		delete (*it);
-		(*it) = nullptr;
-		it++;
-	}
-	meshes.clear();
-
-	delete texture;
-	texture = nullptr;
 
 }
 
@@ -353,53 +346,21 @@ void trRenderer3D::Draw()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	/*GameObject* root = App->main_scene->GetRoot();
-
-	for (std::list<GameObject*>::iterator go_it = root->childs.begin(); go_it != root->childs.end(); go_it++) {
-
-		// get texture stuff from component material (search for it)
-		ComponentMaterial* go_mat = (ComponentMaterial*)(*go_it)->FindComponentWithType(Component::component_type::COMPONENT_MATERIAL);
-		ComponentMesh* go_mesh = (ComponentMesh*)(*go_it)->FindComponentWithType(Component::component_type::COMPONENT_MESH);
-
-		const Mesh* mesh = go_mesh->GetMesh();
-
-		if (texture != nullptr)
-			glBindTexture(GL_TEXTURE_2D, texture->id);
-
-		//if (texture == nullptr || !texture_2D) // If the texture is missing, we set the ambient color of the mesh
-		//glColor4f(mesh->ambient_color->w, mesh->ambient_color->x, mesh->ambient_color->y, mesh->ambient_color->z);
-
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
-		glVertexPointer(3, GL_FLOAT, 0, NULL);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		//texture
-		if (mesh->uvs != nullptr) {
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
-			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-		}
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->index_buffer);
-		glDrawElements(GL_TRIANGLES, mesh->index_size, GL_UNSIGNED_INT, NULL);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-		glColor4f(1.f, 1.f, 1.f, 1.f);
-
-		if (texture != nullptr)
-			glBindTexture(GL_TEXTURE_2D, 0);
-
-	}*/
-	std::vector<Mesh*>::iterator it = meshes.begin();
-	while (it != meshes.end())
+	std::vector<GameObject*>::iterator it = drawable_go.begin();
+	while (it != drawable_go.end())
 	{
-		Mesh* mesh = (*it);
+		ComponentMesh* mesh_co = (ComponentMesh*)(*it)->FindComponentWithType(Component::component_type::COMPONENT_MESH);
+		const Mesh* mesh = mesh_co->GetMesh();
+
+		ComponentMaterial* material_co = (ComponentMaterial*)(*it)->FindComponentWithType(Component::component_type::COMPONENT_MATERIAL);
+		const Texture* texture = material_co->GetTexture();
+		const float4 ambient_color = material_co->GetAmbientColor();
 
 		if(texture != nullptr)
 			glBindTexture(GL_TEXTURE_2D, texture->id);
 
-		//if (texture == nullptr || !texture_2D) // If the texture is missing, we set the ambient color of the mesh
-			//glColor4f(mesh->ambient_color->w, mesh->ambient_color->x, mesh->ambient_color->y, mesh->ambient_color->z);
+		if (texture == nullptr || !texture_2D) // If the texture is missing, we set the ambient color of the mesh
+			glColor4f(ambient_color.w, ambient_color.x, ambient_color.y, ambient_color.z);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
@@ -470,6 +431,15 @@ math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, floa
 	Perspective[3][2] = 2.0f * n * f / (n - f);
 
 	return Perspective;
+}
+
+void trRenderer3D::CollectGameObjectWithMesh(GameObject* game_object)
+{
+	if (game_object->FindComponentWithType(Component::component_type::COMPONENT_MESH))
+		drawable_go.push_back(game_object);
+
+	for (std::list<GameObject*>::const_iterator it = game_object->childs.begin(), end = game_object->childs.end(); it != end; it++)
+		CollectGameObjectWithMesh(*it);
 }
 
 Mesh::~Mesh()

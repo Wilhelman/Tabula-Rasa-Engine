@@ -209,12 +209,6 @@ bool trFileLoader::Import3DFile(const char* file_path)
 
 ComponentMaterial * trFileLoader::LoadTexture(aiMaterial* material, GameObject* go)
 {
-
-	// Material color of the mesh
-	aiColor4D tmp_color;
-	aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &tmp_color);
-	mesh_data->ambient_color = new float4(tmp_color.r, tmp_color.g, tmp_color.b, tmp_color.a);
-
 	// Getting the texture path
 	aiString tmp_path;
 	std::string texture_path;
@@ -234,6 +228,12 @@ ComponentMaterial * trFileLoader::LoadTexture(aiMaterial* material, GameObject* 
 		TR_LOG("trFileLoader: Search in - %s", posible_path.c_str());
 		ComponentMaterial* material_comp = (ComponentMaterial*)go->CreateComponent(Component::component_type::COMPONENT_MATERIAL);
 		material_comp->SetTexture(App->texture->LoadImageFromPath(posible_path.c_str()));
+
+		// Material color of the mesh
+		aiColor4D tmp_color;
+		aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &tmp_color);
+		material_comp->SetAmbientColor(float4(tmp_color.r, tmp_color.g, tmp_color.b, tmp_color.a));
+
 		return material_comp;
 	}
 	else {
