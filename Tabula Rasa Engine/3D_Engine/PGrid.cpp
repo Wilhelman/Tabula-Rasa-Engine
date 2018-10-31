@@ -53,6 +53,7 @@ PGrid::PGrid() : trPrimitive()
 
 	uint count_index = 0;
 	uint helper_count = 0;
+	uint indices_array[36];
 
 	while (count_index < 36)
 	{
