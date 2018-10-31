@@ -9,7 +9,8 @@ Component(embedded_game_object, Component::component_type::COMPONENT_MATERIAL)
 
 ComponentMaterial::~ComponentMaterial()
 {
-	App->texture->DeleteTexture(this->texture);
+	App->texture->DeleteTextureBuffer(this->texture);
+	RELEASE(texture);
 }
 
 void ComponentMaterial::SetAmbientColor(float4 ambient_color)

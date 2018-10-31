@@ -77,7 +77,12 @@ Component * GameObject::CreateComponent(Component::component_type type,  Compone
 		break;
 	case Component::component_type::COMPONENT_MATERIAL: {
 		tmp_component = new ComponentMaterial(this);
-		((ComponentMaterial*)tmp_component)->SetTexture((Texture*)/*hehehehe*/((ComponentMaterial*)component)->GetTexture());
+		Texture* tmp_tex = new Texture();
+		tmp_tex->height = ((ComponentMaterial*)component)->GetTexture()->height;
+		tmp_tex->width = ((ComponentMaterial*)component)->GetTexture()->width;
+		tmp_tex->id = ((ComponentMaterial*)component)->GetTexture()->id;
+		tmp_tex->path = ((ComponentMaterial*)component)->GetTexture()->path;
+		((ComponentMaterial*)tmp_component)->SetTexture(tmp_tex);
 		break;
 	}
 	case Component::component_type::COMPONENT_UNKNOWN:

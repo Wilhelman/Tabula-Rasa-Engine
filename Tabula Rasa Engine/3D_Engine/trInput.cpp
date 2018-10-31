@@ -11,7 +11,6 @@
 #include "trTextures.h"
 #include "trWindow.h"
 
-#include "ComponentMaterial.h" // TODO delete when we can
 
 #define MAX_KEYS 300
 
@@ -142,8 +141,8 @@ bool trInput::PreUpdate(float dt)
 
 					if (file_format.compare(".fbx") == 0 || file_format.compare(".FBX") == 0)
 						App->file_loader->Import3DFile(dropped_filedir);
-					else			
-						App->texture->LoadImageFromPath(dropped_filedir);
+					//else																		// TODO when mouse picking or smth
+						//App->texture->LoadImageFromPath(dropped_filedir);
 				}
 				else
 					TR_LOG("Cannot get file dropped path");

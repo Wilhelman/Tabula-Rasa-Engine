@@ -47,31 +47,15 @@ bool trTextures::Start()
 
 bool trTextures::CleanUp()
 {
-	if (last_texture_id != 0)  // Delete the last texture
-		ilDeleteImages(1, &last_texture_id);
-
 	return true;
 }
 
 Texture* trTextures::LoadImageFromPath(const char * path)
 {
-	// First let's check if there's any mesh in the scene
-	/*if (App->render->GetMeshesSize() == 0) {
-		TR_LOG("trTextures: Cannot load texture - There is no mesh in scene");
-		return nullptr;
-	}*/
-
-	/*uint tmp_id = App->render->GetTextureID();
-
-	if (tmp_id != 0) {  // Delete the last texture
-		delete tmp_tex;
-		ilDeleteImages(1, &tmp_id);
-	}*/
-
-	tmp_tex = new Texture();
+	Texture* texture = new Texture();
 	
 	uint img_id = 0u;
-	tmp_tex->id = 0u;
+	texture->id = 0u;
 
 	ILenum error_num;
 
@@ -93,8 +77,8 @@ Texture* trTextures::LoadImageFromPath(const char * path)
 			TR_LOG("trTexture: Error converting the image - %i - %s", error_num, iluErrorString(error_num));
 		}
 
-		glGenTextures(1, &tmp_tex->id);
-		glBindTexture(GL_TEXTURE_2D, tmp_tex->id);
+		glGenTextures(1, &texture->id);
+		glBindTexture(GL_TEXTURE_2D, texture->id);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
@@ -106,9 +90,9 @@ Texture* trTextures::LoadImageFromPath(const char * path)
 			ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
 	
 		//fill the rest of the texture info
-		tmp_tex->path = path;
-		tmp_tex->width = ilGetInteger(IL_IMAGE_WIDTH);
-		tmp_tex->height = ilGetInteger(IL_IMAGE_HEIGHT);
+		texture->path = path;
+		texture->width = ilGetInteger(IL_IMAGE_WIDTH);
+		texture->height = ilGetInteger(IL_IMAGE_HEIGHT);
 		
 	}
 	else
@@ -119,9 +103,9 @@ Texture* trTextures::LoadImageFromPath(const char * path)
 
 	ilDeleteImages(1, &img_id);
 
-	if (tmp_tex->id != 0) {
+	if (texture->id != 0) {
 		TR_LOG("trTexture: Texture created correctly");
-		return tmp_tex;
+		return texture;
 	}
 	else {
 		return nullptr;
@@ -129,8 +113,7 @@ Texture* trTextures::LoadImageFromPath(const char * path)
 		
 }
 
-void trTextures::DeleteTexture(Texture * tex)
+void trTextures::DeleteTextureBuffer(Texture * tex)
 {
-	if (tex->id != 0) 
-		ilDeleteImages(1, &tex->id);
+	ilDeleteImages(1, &tex->id);
 }
