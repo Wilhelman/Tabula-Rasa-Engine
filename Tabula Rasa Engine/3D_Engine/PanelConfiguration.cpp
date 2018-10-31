@@ -43,6 +43,8 @@ void PanelConfiguration::Draw()
 	if (SetUpCollapsingHeader(App->hardware))
 		ShowHardware(App->hardware);
 
+	ShowEngineClocks();
+
 	ImGui::End();
 }
 
@@ -334,6 +336,28 @@ void PanelConfiguration::ShowRenderer(trRenderer3D * module)
 	ImGui::SameLine();
 	if (ImGui::Checkbox("##TEXTURE2D", &App->render->texture_2D))
 		App->render->SwitchTexture2D(App->render->texture_2D);
+}
+
+void PanelConfiguration::ShowEngineClocks()
+{
+	if (ImGui::CollapsingHeader("Engine clocks"))
+	{
+		ImGui::Text("Real time clock: %.2f sec", App->GetRealTimeClock().ReadSec());
+
+		ImGui::Separator();
+
+		ImGui::Text("Game clock: %.2f sec", App->GetGameClock().ReadSec());
+
+		if (ImGui::Button("PLAY"))
+			App->GetGameClock().Start();
+
+		ImGui::SameLine();
+
+		if (ImGui::Button("STOP"))
+			App->GetGameClock().Stop();
+
+		ImGui::SliderFloat("Time scale", &time_scale, 0.0f, 3.0f, "%.2f");
+	}
 }
 
 void PanelConfiguration::FillChartFpsInfo(float fps, float ms, int frames)

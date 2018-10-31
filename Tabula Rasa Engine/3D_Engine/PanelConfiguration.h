@@ -32,6 +32,7 @@ public:
 	void ShowInput(trInput * module);
 	void ShowWindow(trWindow * module);
 	void ShowRenderer(trRenderer3D * module);
+	void ShowEngineClocks();
 
 	void FillChartFpsInfo(float fps, float ms, int frames);
 
@@ -46,6 +47,8 @@ private:
 	std::vector<float> mem_list;
 	uint index = 0u;
 	bool first_mem_pass = false;
+
+	float time_scale = 0.0f;
 
 };
 

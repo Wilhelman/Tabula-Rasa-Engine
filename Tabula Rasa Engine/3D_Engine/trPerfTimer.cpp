@@ -20,6 +20,7 @@ trPerfTimer::trPerfTimer()
 // ---------------------------------------------
 void trPerfTimer::Start()
 {
+	stopped = false;
 	started_at = SDL_GetPerformanceCounter();
 }
 
@@ -30,7 +31,22 @@ double trPerfTimer::ReadMs() const
 }
 
 // ---------------------------------------------
+double trPerfTimer::ReadSec() const
+{
+	if (stopped)
+		return stopped_time;
+	else
+		return (double(SDL_GetPerformanceCounter() - started_at) / double(frequency));
+}
+
+// ---------------------------------------------
 uint64 trPerfTimer::ReadTicks() const
 {
 	return SDL_GetPerformanceCounter() - started_at;
+}
+
+void trPerfTimer::Stop()
+{
+	stopped_time = ReadSec();
+	stopped = true;
 }

@@ -76,6 +76,9 @@ void trApp::AddModule(trModule* module)
 // Called before render is available
 bool trApp::Awake()
 {
+	real_time_clock.Start();
+	game_clock.Start();
+
 	bool ret = true;
 
 	JSON_Value* root_value = nullptr;
@@ -161,7 +164,6 @@ void trApp::PrepareUpdate()
 {
 	dt = (float)ms_timer.Read() / 1000.f;
 	ms_timer.Start();
-
 }
 
 // ---------------------------------------------
@@ -364,6 +366,16 @@ void trApp::Save()
 void trApp::Load()
 {
 	want_to_load = true;
+}
+
+trPerfTimer trApp::GetRealTimeClock() const
+{
+	return real_time_clock;
+}
+
+trPerfTimer trApp::GetGameClock() const
+{
+	return game_clock;
 }
 
 bool trApp::LoadNow()
