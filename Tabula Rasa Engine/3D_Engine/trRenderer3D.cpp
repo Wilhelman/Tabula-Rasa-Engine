@@ -22,6 +22,8 @@
 #define F_PLANE 512.0f
 #define FOV 60.0f
 
+#define DEFAULT_AMBIENT_COLOR {0.f,0.f,255.f,255.f}
+
 
 trRenderer3D::trRenderer3D() : trModule()
 {
@@ -306,8 +308,12 @@ void trRenderer3D::Draw()
 		const Mesh* mesh = mesh_co->GetMesh();
 
 		ComponentMaterial* material_co = (ComponentMaterial*)(*it)->FindComponentWithType(Component::component_type::COMPONENT_MATERIAL);
-		const Texture* texture = material_co->GetTexture();
-		const float4 ambient_color = material_co->GetAmbientColor();
+		const Texture* texture = nullptr;
+		float4 ambient_color = DEFAULT_AMBIENT_COLOR;
+		if (material_co != nullptr) {
+			texture = material_co->GetTexture();
+			ambient_color = material_co->GetAmbientColor();
+		}
 
 		if(texture != nullptr)
 			glBindTexture(GL_TEXTURE_2D, texture->id);
