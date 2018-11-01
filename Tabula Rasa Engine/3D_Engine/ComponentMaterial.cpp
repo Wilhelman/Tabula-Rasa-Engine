@@ -25,7 +25,10 @@ const float4 ComponentMaterial::GetAmbientColor() const
 
 const Texture * ComponentMaterial::GetTexture() const
 {
-	return texture;
+	if (texture != nullptr)
+		return texture;
+	else
+		return nullptr;
 }
 
 void ComponentMaterial::SetTexture(Texture * texture)

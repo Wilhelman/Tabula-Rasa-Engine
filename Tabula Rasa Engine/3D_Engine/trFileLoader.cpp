@@ -258,22 +258,17 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 	ComponentMaterial* material_comp = nullptr;
 
-	for (uint i = 0; i < node->mNumMeshes; i++)
+	if (node->mNumMeshes > 0)
 	{
 
 		mesh_data = new Mesh(); // our mesh
 
-		std::string tmp_go_name = game_object->GetName();
-		tmp_go_name.append("("); tmp_go_name.append(std::to_string(i + 1)); tmp_go_name.append(")");
+		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
 
-		GameObject* go = App->main_scene->CreateGameObject(tmp_go_name.c_str(), game_object);
-
-		aiMesh* new_mesh = scene->mMeshes[i];
-
-		if (i == 0)
-			material_comp = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], go);
-		else
-			material_comp = (ComponentMaterial*)go->CreateComponent(Component::component_type::COMPONENT_MATERIAL, material_comp);
+		//if (i == 0)
+			material_comp = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], game_object);
+	//	else
+			//material_comp = (ComponentMaterial*)game_object->CreateComponent(Component::component_type::COMPONENT_MATERIAL, material_comp);
 
 
 		// Vertex copy
@@ -318,13 +313,13 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		}
 
 		// Generating bounding box
-		go->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
-		go->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
+		game_object->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
+		game_object->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
 
-		ComponentMesh* mesh_comp = (ComponentMesh*)go->CreateComponent(Component::component_type::COMPONENT_MESH);
+		ComponentMesh* mesh_comp = (ComponentMesh*)game_object->CreateComponent(Component::component_type::COMPONENT_MESH);
 		mesh_comp->SetMesh(mesh_data);
-
 	}
+	
 
 	for (uint i = 0; i < node->mNumChildren; i++)
 		ImportNodesRecursively(node->mChildren[i], scene, game_object);
