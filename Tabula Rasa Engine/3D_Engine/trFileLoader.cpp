@@ -80,6 +80,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		scene_num_vertex = 0u;
 		scene_vertices.clear();
 
+		ComponentMaterial* material_comp = nullptr;
 		ImportNodesRecursively(scene->mRootNode, scene, App->main_scene->GetRoot());
 
 		// Camera AABB stuff
@@ -107,7 +108,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * scene, GameObject * parent_go)
 {
 
-	GameObject* game_object = App->main_scene->CreateGameObject((const char*)node->mName.data, parent_go);
+	GameObject* new_go = App->main_scene->CreateGameObject((const char*)node->mName.data, parent_go);
 
 	// Calculate the position, scale and rotation
 	aiVector3D translation;
@@ -117,10 +118,10 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
 	float3 quat_to_euler = rot.ToEulerXYZ(); // transforming it to euler to show it in inspector
 
-	ComponentTransform* transform_comp = (ComponentTransform*)game_object->CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
+	ComponentTransform* transform_comp = (ComponentTransform*)new_go->CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
 	transform_comp->Setup(float3(translation.x, translation.y, translation.z), float3(scaling.x, scaling.y, scaling.z), rot);
 
-	ComponentMaterial* material_comp = nullptr;
+	static ComponentMaterial* material_comp = nullptr;
 
 	if (node->mNumMeshes > 0) //if this node have a mesh
 	{
@@ -129,11 +130,13 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
 
-		//if (i == 0)
-		//if(scene->mMaterials[new_mesh->mMaterialIndex] != nullptr)
-			material_comp = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], game_object);
-	//	else
-			//material_comp = (ComponentMaterial*)game_object->CreateComponent(Component::component_type::COMPONENT_MATERIAL, material_comp);
+		// Getting texture material if needed	
+		if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr) {
+			if(material_comp == nullptr)
+				material_comp = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go);
+			else
+				material_comp = (ComponentMaterial*)new_go->CreateComponent(Component::component_type::COMPONENT_MATERIAL, material_comp);
+		}
 
 
 		// Vertex copy
@@ -178,16 +181,16 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		}
 
 		// Generating bounding box
-		game_object->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
-		game_object->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
+		new_go->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
+		new_go->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
 
-		ComponentMesh* mesh_comp = (ComponentMesh*)game_object->CreateComponent(Component::component_type::COMPONENT_MESH);
+		ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
 		mesh_comp->SetMesh(mesh_data);
 	}
 	
 
 	for (uint i = 0; i < node->mNumChildren; i++)
-		ImportNodesRecursively(node->mChildren[i], scene, game_object);
+		ImportNodesRecursively(node->mChildren[i], scene, new_go);
 }
 
 

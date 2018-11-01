@@ -24,6 +24,8 @@ GameObject::GameObject(const char * name, GameObject * parent)
 // ---------------------------------------------------------
 GameObject::~GameObject()
 {
+	RELEASE(bounding_box);
+
 	for (std::list<Component*>::iterator it = components.begin(); it != components.end(); it++)
 		RELEASE(*it);
 
