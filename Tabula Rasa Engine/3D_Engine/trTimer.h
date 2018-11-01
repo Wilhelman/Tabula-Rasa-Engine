@@ -3,8 +3,20 @@
 
 #include "trDefs.h"
 
+
+struct FormatHour;
+
 class trTimer
 {
+public:
+	struct FormatHour
+	{
+		uint hours = 0;
+		uint min = 0;
+		uint sec = 0;
+	};
+
+
 public:
 
 	// Constructor
@@ -21,6 +33,7 @@ public:
 	bool IsPaused() const;
 	void SetScaleTime(float scale_time);
 	void UpdateClock();
+	FormatHour ReadFormatTime() const;
 
 private:
 
@@ -31,6 +44,8 @@ private:
 
 	bool is_paused = false;
 	bool has_started = false;
+
+
 };
 
 #endif //__ctTIMER_H__

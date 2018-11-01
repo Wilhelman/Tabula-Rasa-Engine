@@ -347,6 +347,10 @@ void PanelConfiguration::ShowEngineClocks()
 		ImGui::Separator();
 
 		ImGui::Text("Game clock: %.2f sec", App->game_clock.ReadSec());
+		ImGui::Text("Game clock 2: %i : %i : %i", 
+				   App->game_clock.ReadFormatTime().hours, 
+				   App->game_clock.ReadFormatTime().min, 
+				   App->game_clock.ReadFormatTime().sec);
 
 		if (ImGui::Button("PLAY"))
 			App->game_clock.ReStart();
@@ -357,7 +361,7 @@ void PanelConfiguration::ShowEngineClocks()
 			App->game_clock.Pause();
 
 		ImGui::SliderFloat("Time scale", &time_scale, 0.0f, 3.0f, "%.2f");
-		App->game_clock.SetScaleTime();
+		App->game_clock.SetScaleTime(time_scale);
 	}
 }
 

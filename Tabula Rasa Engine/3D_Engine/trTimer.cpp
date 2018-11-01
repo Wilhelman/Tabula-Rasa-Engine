@@ -55,6 +55,32 @@ float trTimer::ReadSec() const
 	return time;
 }
 
+trTimer::FormatHour trTimer::ReadFormatTime() const
+{
+	float time = 0.0f;
+
+	if (has_started)
+	{
+		if (is_paused)
+			time = paused_ticks / 1000.0f;
+		else
+		{
+			time = SDL_GetTicks() - started_at;
+			time = current_time + (time - current_time) * scale_time;
+			time /= 1000.0f;
+		}
+	}
+
+	FormatHour ret_format;
+	ret_format.hours = time / 3600;
+	time = (uint)time % 3600;
+	ret_format.min = time / 60.0f;
+	time = (uint)time % 60;
+	ret_format.sec = time;
+
+	return ret_format;
+}
+
 void trTimer::Stop()
 {
 	has_started = false;
