@@ -25,7 +25,7 @@ public:
 	void Start();
 	void SetStartTime(uint32 time);
 	uint32 Read() const;
-	float ReadSec() const;
+	float ReadSec();
 	void Stop();
 	void Pause();
 	void ReStart();
@@ -39,7 +39,7 @@ private:
 
 	uint32	started_at = 0;
 	uint32 paused_ticks = 0;
-	uint32 current_time = 0;
+	float last_frame_time = 0;
 	float scale_time = 0.0f;
 
 	bool is_paused = false;

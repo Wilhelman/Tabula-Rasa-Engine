@@ -346,6 +346,12 @@ void PanelConfiguration::ShowEngineClocks()
 
 		ImGui::Separator();
 
+		if (advanced)
+		{
+			App->game_clock.Pause();
+			advanced = false;
+		}
+
 		ImGui::Text("Game clock: %.2f sec", App->game_clock.ReadSec());
 		
 		ImGui::Text("Game clock 2: %02d : %02d : %02d", 
@@ -360,6 +366,16 @@ void PanelConfiguration::ShowEngineClocks()
 
 		if (ImGui::Button("PAUSE"))
 			App->game_clock.Pause();
+
+		ImGui::SameLine();
+
+		if (ImGui::Button("ADVANCE"))
+		{
+			App->game_clock.Pause();
+			App->game_clock.ReStart();
+			advanced = true;
+		}
+			
 
 		ImGui::SliderFloat("Time scale", &time_scale, 0.0f, 3.0f, "%.2f");
 		App->game_clock.SetScaleTime(time_scale);

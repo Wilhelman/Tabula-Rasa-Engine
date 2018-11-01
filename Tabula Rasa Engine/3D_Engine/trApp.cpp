@@ -143,8 +143,6 @@ bool trApp::Start()
 // Called each loop iteration
 bool trApp::Update()
 {
-	game_clock.UpdateClock();
-
 	bool ret = true;
 	PrepareUpdate();
 
@@ -266,6 +264,7 @@ bool trApp::PostUpdate()
 		ret = (*it)->PostUpdate(dt);
 	}
 
+	//game_clock.UpdateClock();
 	//PERF_PEEK(ptimer);
 	return ret;
 }

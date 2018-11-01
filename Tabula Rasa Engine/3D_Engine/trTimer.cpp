@@ -6,6 +6,10 @@
 #include "trTimer.h"
 #include "SDL\include\SDL_timer.h"
 
+//#include "MathGeoLib/MathBuildConfig.h"
+#include "MathGeoLib/MathGeoLib.h"
+//#include "MathGeoLib/MathGeoLibFwd.h"
+
 // ---------------------------------------------
 trTimer::trTimer()
 {
@@ -15,6 +19,7 @@ trTimer::trTimer()
 void trTimer::Start()
 {
 	started_at = SDL_GetTicks();
+	last_frame_time = 0;
 
 	has_started = true;
 	is_paused = false;
@@ -36,9 +41,12 @@ uint32 trTimer::Read() const
 }
 
 // ---------------------------------------------
-float trTimer::ReadSec() const
+float trTimer::ReadSec()
 {
 	float time = 0.0f;
+
+	if (scale_time != 1)
+		int r = 0;
 
 	if (has_started)
 	{
@@ -46,11 +54,16 @@ float trTimer::ReadSec() const
 			time = paused_ticks / 1000.0f;
 		else
 		{
-			time = SDL_GetTicks() - started_at;
-			time = current_time + (time - current_time) * scale_time;
-			time /= 1000.0f;
+			time = (SDL_GetTicks() - started_at) / 1000.0f;
+			time = last_frame_time + (time - last_frame_time) * scale_time;
+			//time /= 1000.0f;
 		}
 	}
+
+	if (scale_time != 1)
+		int o = 0;
+
+	last_frame_time = time;
 
 	return time;
 }
@@ -66,7 +79,7 @@ trTimer::FormatHour trTimer::ReadFormatTime() const
 		else
 		{
 			time = SDL_GetTicks() - started_at;
-			time = current_time + (time - current_time) * scale_time;
+			time = last_frame_time + (time - last_frame_time) * scale_time;
 			time /= 1000.0f;
 		}
 	}
@@ -126,10 +139,16 @@ void trTimer::SetScaleTime(float scale_time)
 	else if (scale_time > 3.0f)
 		this->scale_time = 3.0f;
 	else
+	{
 		this->scale_time = scale_time;
+
+		if (scale_time == 0.0f)
+			Pause();
+	}
 }
 
 void trTimer::UpdateClock()
 {
-	current_time = SDL_GetTicks() - started_at;
+	if (!is_paused && scale_time > 0.0f)
+		last_frame_time = SDL_GetTicks() - started_at;
 }
