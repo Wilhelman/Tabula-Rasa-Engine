@@ -5,9 +5,10 @@
 
 #include "Component.h"
 
+#include "MathGeoLib/MathGeoLib.h"
+
 #include <string>
 #include <list>
-
 
 class GameObject
 {
@@ -39,6 +40,8 @@ private:
 	GameObject* parent = nullptr;
 
 public:
+
+	AABB* bounding_box = nullptr;
 
 	std::list<GameObject*> childs;
 	std::list<Component*> components;

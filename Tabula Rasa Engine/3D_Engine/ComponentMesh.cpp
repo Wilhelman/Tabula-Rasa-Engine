@@ -62,8 +62,6 @@ Mesh::~Mesh()
 	if (vertices != nullptr) { delete[] vertices; vertices = nullptr; }
 	if (uvs != nullptr) { delete[] uvs; uvs = nullptr; }
 
-	if (bounding_box != nullptr) { delete bounding_box; bounding_box = nullptr; }
-
 	name.clear();
 	path.clear();
 

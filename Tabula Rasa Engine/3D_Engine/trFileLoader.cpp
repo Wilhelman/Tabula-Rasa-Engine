@@ -12,6 +12,8 @@
 #include "ComponentMaterial.h"
 #include "ComponentTransform.h"
 
+#include "MathGeoLib/MathGeoLib.h"
+
 #include <fstream>
 
 #include "Assimp/include/cimport.h"
@@ -71,15 +73,40 @@ bool trFileLoader::Import3DFile(const char* file_path)
 	const aiScene* scene = aiImportFile(file_path, aiProcessPreset_TargetRealtime_MaxQuality);
 	
 
-	if (scene != nullptr && scene->HasMeshes())
-	{
-		App->texture->CleanUp(); // Just to remove the last texture when a new mesh is dropped
-		//App->render->ClearScene(); // Cleaning the last meshes/buffers/etc TODOOOOOOOOOOOOOOOOOOO
+	if (scene != nullptr) {
 		App->main_scene->ClearScene();
 		// Removing and cleaning the last AABB
 		if (model_bouncing_box != nullptr) { delete model_bouncing_box; model_bouncing_box = nullptr; } /// Should be deleted in preup?
 		scene_num_vertex = 0u;
 		scene_vertices.clear();
+
+		ImportNodesRecursively(scene->mRootNode, scene, App->main_scene->GetRoot());
+
+		// Camera AABB stuff
+		/*if (scene->mNumMeshes == 1) // if only one mesh, get the bounding_box of the last mesh
+			App->camera->CenterOnScene(App->main_scene->GetRoot()->bounding_box);
+		else { // get the bouncing of all the meshes
+			model_bouncing_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
+			model_bouncing_box->Enclose((vec*)&scene_vertices.front(), scene_num_vertex);
+			App->camera->CenterOnScene(model_bouncing_box);
+		}*/
+
+		aiReleaseImport(scene);
+
+		return true;
+
+	}
+
+	/*if (scene != nullptr && scene->HasMeshes())
+	{
+		App->main_scene->ClearScene();
+		// Removing and cleaning the last AABB
+		if (model_bouncing_box != nullptr) { delete model_bouncing_box; model_bouncing_box = nullptr; } /// Should be deleted in preup?
+
+		scene_num_vertex = 0u;
+		scene_vertices.clear();
+
+
 
 		std::string tmp = file_path;
 		// Let's get the file name to print it in inspector:
@@ -176,9 +203,11 @@ bool trFileLoader::Import3DFile(const char* file_path)
 			
 			// saving file in our own format
 			//SaveMeshFile(mesh_data->name.c_str());
+			
 
-			mesh_data->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
-			mesh_data->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
+			// Generating bounding box
+			go->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
+			go->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
 
 			ComponentMesh* mesh_comp = (ComponentMesh*)go->CreateComponent(Component::component_type::COMPONENT_MESH);
 			mesh_comp->SetMesh(mesh_data);
@@ -187,7 +216,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 
 		// Camera AABB stuff
 		if (scene->mNumMeshes == 1) // if only one mesh, get the bounding_box of the last mesh
-			App->camera->CenterOnScene(mesh_data->bounding_box);
+			App->camera->CenterOnScene(App->main_scene->GetRoot()->bounding_box);
 		else { // get the bouncing of all the meshes
 			model_bouncing_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
 			model_bouncing_box->Enclose((vec*)&scene_vertices.front(), scene_num_vertex);
@@ -197,7 +226,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		aiReleaseImport(scene);
 
 		return true;
-	}
+	}*/
 	
 	TR_LOG("trFileLoader: Error importing a file: %s", file_path);
 
@@ -205,6 +234,102 @@ bool trFileLoader::Import3DFile(const char* file_path)
 
 	return false;
 }
+
+void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * scene, GameObject * parent_go)
+{
+
+	GameObject* game_object = App->main_scene->CreateGameObject((const char*)node->mName.data, parent_go);
+
+	// Calculate the position, scale and rotation
+	aiVector3D translation;
+	aiVector3D scaling;
+	aiQuaternion rotation;
+	node->mTransformation.Decompose(scaling, rotation, translation);
+	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
+	float3 quat_to_euler = rot.ToEulerXYZ(); // transforming it to euler to show it in inspector
+
+	ComponentTransform* transform_comp = (ComponentTransform*)game_object->CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
+	transform_comp->Setup(float3(translation.x, translation.y, translation.z), float3(scaling.x, scaling.y, scaling.z), rot);
+
+	/*mesh_data->position.Set(translation.x, translation.y, translation.z);
+	mesh_data->scale.Set(scaling.x, scaling.y, scaling.z);
+	mesh_data->rotation.Set(quat_to_euler.x, quat_to_euler.y, quat_to_euler.z);*/
+	
+
+	ComponentMaterial* material_comp = nullptr;
+
+	for (uint i = 0; i < node->mNumMeshes; i++)
+	{
+
+		mesh_data = new Mesh(); // our mesh
+
+		std::string tmp_go_name = game_object->GetName();
+		tmp_go_name.append("("); tmp_go_name.append(std::to_string(i + 1)); tmp_go_name.append(")");
+
+		GameObject* go = App->main_scene->CreateGameObject(tmp_go_name.c_str(), game_object);
+
+		aiMesh* new_mesh = scene->mMeshes[i];
+
+		if (i == 0)
+			material_comp = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], go);
+		else
+			material_comp = (ComponentMaterial*)go->CreateComponent(Component::component_type::COMPONENT_MATERIAL, material_comp);
+
+
+		// Vertex copy
+		mesh_data->vertex_size = new_mesh->mNumVertices;
+		mesh_data->vertices = new float[mesh_data->vertex_size * 3];
+		memcpy(mesh_data->vertices, new_mesh->mVertices, sizeof(float) * mesh_data->vertex_size * 3);
+
+		// Data for the bounding box of all the meshes
+		for (uint i = 0; i < mesh_data->vertex_size; i++) {
+			scene_vertices.push_back(vec(mesh_data->vertices[i], mesh_data->vertices[i + 1], mesh_data->vertices[i + 2]));
+		}
+		scene_num_vertex += mesh_data->vertex_size;
+
+		// UVs copy
+		if (new_mesh->HasTextureCoords(0)) {//i?
+			mesh_data->size_uv = new_mesh->mNumVertices;
+			mesh_data->uvs = new float[mesh_data->size_uv * 2];
+			for (int i = 0; i < mesh_data->size_uv; i++) {
+				mesh_data->uvs[i * 2] = new_mesh->mTextureCoords[0][i].x;
+				mesh_data->uvs[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
+			}
+		}
+		else {
+			mesh_data->size_uv = 0;
+			mesh_data->uvs = nullptr;
+		}
+
+		// Index copy
+		if (new_mesh->HasFaces())
+		{
+			mesh_data->face_size = new_mesh->mNumFaces;
+			mesh_data->index_size = new_mesh->mNumFaces * 3;
+			mesh_data->indices = new uint[mesh_data->index_size]; // assume each face is a triangle
+			for (uint i = 0; i < new_mesh->mNumFaces; ++i)
+			{
+				if (new_mesh->mFaces[i].mNumIndices != 3) {
+					TR_LOG("WARNING, geometry face with != 3 indices!");
+				}
+				else
+					memcpy(&mesh_data->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+			}
+		}
+
+		// Generating bounding box
+		go->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
+		go->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
+
+		ComponentMesh* mesh_comp = (ComponentMesh*)go->CreateComponent(Component::component_type::COMPONENT_MESH);
+		mesh_comp->SetMesh(mesh_data);
+
+	}
+
+	for (uint i = 0; i < node->mNumChildren; i++)
+		ImportNodesRecursively(node->mChildren[i], scene, game_object);
+}
+
 
 ComponentMaterial * trFileLoader::LoadTexture(aiMaterial* material, GameObject* go)
 {

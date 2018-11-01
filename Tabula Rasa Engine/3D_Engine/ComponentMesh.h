@@ -27,8 +27,6 @@ struct Mesh
 	uint size_uv = 0u;
 	float* uvs = nullptr;
 
-	math::AABB* bounding_box = nullptr;
-
 	~Mesh();
 };
 

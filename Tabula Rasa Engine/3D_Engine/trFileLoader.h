@@ -7,7 +7,10 @@
 
 struct Mesh;
 
+class GameObkject;
 class ComponentMaterial;
+class aiScene;
+class aiNode;
 class aiMaterial;
 class GameObject;
 
@@ -26,6 +29,8 @@ public:
 	bool CleanUp();
 
 	bool Import3DFile(const char* file_path);
+	void ImportNodesRecursively(const aiNode* node, const aiScene* scene, GameObject* parent_go);
+
 	ComponentMaterial* LoadTexture(aiMaterial* material, GameObject* go);
 
 

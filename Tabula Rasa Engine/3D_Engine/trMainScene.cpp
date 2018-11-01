@@ -111,7 +111,7 @@ GameObject * trMainScene::CreateGameObject(GameObject * parent)
 	return new GameObject("unnamed", parent);
 }
 
-GameObject * trMainScene::CreateGameObject(const char * name, GameObject * parent)
+GameObject * trMainScene::CreateGameObject(const char * name,GameObject * parent)
 {
 	if (parent == nullptr)
 		parent = root;
