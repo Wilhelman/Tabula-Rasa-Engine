@@ -138,7 +138,6 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 				material_comp = (ComponentMaterial*)new_go->CreateComponent(Component::component_type::COMPONENT_MATERIAL, material_comp);
 		}
 
-
 		// Vertex copy
 		mesh_data->vertex_size = new_mesh->mNumVertices;
 		mesh_data->vertices = new float[mesh_data->vertex_size * 3];
@@ -191,6 +190,8 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 	for (uint i = 0; i < node->mNumChildren; i++)
 		ImportNodesRecursively(node->mChildren[i], scene, new_go);
+
+	material_comp = nullptr;
 }
 
 
