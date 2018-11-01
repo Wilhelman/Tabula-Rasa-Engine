@@ -18,7 +18,7 @@ PanelConfiguration::PanelConfiguration() : Panel("Configuration", SDL_SCANCODE_2
 chart_fps(CHART_FPS_CAP), chart_ms(CHART_FPS_CAP)
 {
 	active = false;
-
+	time_scale = 1.0f;
 	mem_timer.Start();
 }
 
@@ -356,9 +356,8 @@ void PanelConfiguration::ShowEngineClocks()
 		if (ImGui::Button("PAUSE"))
 			App->game_clock.Pause();
 
-
-
 		ImGui::SliderFloat("Time scale", &time_scale, 0.0f, 3.0f, "%.2f");
+		App->game_clock.SetScaleTime();
 	}
 }
 

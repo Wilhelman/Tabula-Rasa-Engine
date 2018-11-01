@@ -19,6 +19,7 @@ void trTimer::Start()
 	has_started = true;
 	is_paused = false;
 	paused_ticks = 0;
+	scale_time = 1.0f;
 }
 
 // ---------------------------------------------
@@ -37,14 +38,18 @@ uint32 trTimer::Read() const
 // ---------------------------------------------
 float trTimer::ReadSec() const
 {
-	double time = 0;
+	float time = 0.0f;
 
 	if (has_started)
 	{
 		if (is_paused)
 			time = paused_ticks / 1000.0f;
 		else
-			time = (SDL_GetTicks() - started_at) / 1000.0f;
+		{
+			time = SDL_GetTicks() - started_at;
+			time = current_time + (time - current_time) * scale_time;
+			time /= 1000.0f;
+		}
 	}
 
 	return time;
@@ -86,4 +91,19 @@ bool trTimer::HasStarted() const
 bool trTimer::IsPaused() const
 {
 	return is_paused;
+}
+
+void trTimer::SetScaleTime(float scale_time)
+{
+	if (scale_time < 0.0f)
+		this->scale_time = 0.0f;
+	else if (scale_time > 3.0f)
+		this->scale_time = 3.0f;
+	else
+		this->scale_time = scale_time;
+}
+
+void trTimer::UpdateClock()
+{
+	current_time = SDL_GetTicks() - started_at;
 }

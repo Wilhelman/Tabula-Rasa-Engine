@@ -143,6 +143,8 @@ bool trApp::Start()
 // Called each loop iteration
 bool trApp::Update()
 {
+	game_clock.UpdateClock();
+
 	bool ret = true;
 	PrepareUpdate();
 
@@ -227,6 +229,7 @@ bool trApp::PreUpdate()
 // Call modules on each loop iteration
 bool trApp::DoUpdate()
 {
+
 	bool ret = true;
 
 	trModule* pModule = NULL;

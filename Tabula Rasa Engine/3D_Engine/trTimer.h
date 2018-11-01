@@ -19,12 +19,16 @@ public:
 	void ReStart();
 	bool HasStarted() const;
 	bool IsPaused() const;
-
+	void SetScaleTime(float scale_time);
+	void UpdateClock();
 
 private:
 
 	uint32	started_at = 0;
 	uint32 paused_ticks = 0;
+	uint32 current_time = 0;
+	float scale_time = 0.0f;
+
 	bool is_paused = false;
 	bool has_started = false;
 };
