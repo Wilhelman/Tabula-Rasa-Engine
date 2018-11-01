@@ -347,7 +347,8 @@ void PanelConfiguration::ShowEngineClocks()
 		ImGui::Separator();
 
 		ImGui::Text("Game clock: %.2f sec", App->game_clock.ReadSec());
-		ImGui::Text("Game clock 2: %i : %i : %i", 
+		
+		ImGui::Text("Game clock 2: %02d : %02d : %02d", 
 				   App->game_clock.ReadFormatTime().hours, 
 				   App->game_clock.ReadFormatTime().min, 
 				   App->game_clock.ReadFormatTime().sec);
