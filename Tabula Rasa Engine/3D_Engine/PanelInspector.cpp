@@ -43,10 +43,13 @@ void PanelInspector::Draw()
 		trans_co->GetGlobalPosition(&position, &scale, &rotation);
 
 		if (ImGui::CollapsingHeader("TRANSFORM COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
+
 			ImGui::Text("Position:");
 			float pos[3] = { position.x, position.y, position.z };
 			ImGui::InputFloat3("##POS", pos, 2);
-			
+			position.Set(pos[0], pos[1], pos[2]);
+			trans_co->SetPosition(position);
+
 			ImGui::Text("Rotation:");
 			float rot[3] = { rotation.x, rotation.y, rotation.z };
 			ImGui::InputFloat3("##ROT", rot, 2);

@@ -298,12 +298,17 @@ const uint trRenderer3D::GetMeshesSize() const
 
 void trRenderer3D::Draw()
 {
+	
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	std::vector<GameObject*>::iterator it = drawable_go.begin();
 	while (it != drawable_go.end())
 	{
+		glPushMatrix();
+		glMultMatrixf((GLfloat*)(*it)->GetTransform()->GetMatrix());
+
 		ComponentMesh* mesh_co = (ComponentMesh*)(*it)->FindComponentWithType(Component::component_type::COMPONENT_MESH);
 		const Mesh* mesh = mesh_co->GetMesh();
 
@@ -340,6 +345,9 @@ void trRenderer3D::Draw()
 
 		if (texture != nullptr)
 			glBindTexture(GL_TEXTURE_2D, 0);
+
+
+		glPopMatrix();
 
 		it++;
 	}

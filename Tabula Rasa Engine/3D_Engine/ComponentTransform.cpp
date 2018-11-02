@@ -7,7 +7,7 @@ ComponentTransform::ComponentTransform(GameObject* embedded_game_object): Compon
 
 ComponentTransform::ComponentTransform(GameObject* embedded_game_object, const float3 & translation, const float3 & scale, const Quat & rotation) :
 	Component(embedded_game_object, Component::component_type::COMPONENT_TRANSFORM),
-	translation(translation), scale(scale), rotation(rotation)
+	position(translation), scale(scale), rotation(rotation)
 {
 }
 
@@ -17,14 +17,16 @@ ComponentTransform::~ComponentTransform()
 
 void ComponentTransform::Setup(const float3 & translation, const float3 & scale, const Quat & rotation)
 {
-	this->translation = translation;
+	this->position = translation;
 	this->scale = scale;
 	this->rotation = rotation;
+
+	this->transform_global = float4x4::FromTRS(this->position, this->rotation, this->scale);
 }
 
 const float3 & ComponentTransform::GetTranslation() const
 {
-	return translation;
+	return position;
 }
 
 const float3 & ComponentTransform::GetScale() const
@@ -56,4 +58,19 @@ void ComponentTransform::GetGlobalPosition(float3 * position, float3 * scale, Qu
 		else
 			tmp_embedded_go = tmp_embedded_go->GetParent();
 	}
+}
+
+float* ComponentTransform::GetMatrix() const
+{
+	return transform_global.Transposed().ptr();
+}
+
+void ComponentTransform::SetPosition(const float3 position)
+{
+	this->position = position;
+
+	for (std::list<GameObject*>::iterator it = embedded_go->childs.begin(); it != embedded_go->childs.end(); it++)
+		(*it)->GetTransform()->SetPosition(position);
+
+	this->transform_global = float4x4::FromTRS(this->position, this->rotation, this->scale);
 }

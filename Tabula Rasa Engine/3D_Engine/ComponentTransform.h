@@ -20,13 +20,17 @@ public:
 	void GetLocalPosition(float3* position, float3* scale, Quat* rot) const;
 	void GetGlobalPosition(float3* position, float3* scale, Quat* rot)const;
 
+	float* GetMatrix()const;
 
+	void SetPosition(const float3 position);
 
 private:
 
-	float3 translation = float3::zero;
+	float3 position = float3::zero;
 	float3 scale = float3::zero;
 	Quat rotation = Quat::identity;
+
+	float4x4 transform_global;
 
 };
 
