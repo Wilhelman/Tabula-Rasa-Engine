@@ -45,27 +45,27 @@ void PanelInspector::Draw()
 		trans_co->GetLocalPosition(&position, &scale, &rotation);
 
 		if (ImGui::CollapsingHeader("TRANSFORM COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
+			bool have_to_update = false;
 
 			ImGui::Text("Position:");
-			float pos[3] = { position.x, position.y, position.z };
-			ImGui::InputFloat3("##POS", pos, 2);
-			position.Set(pos[0], pos[1], pos[2]);
+			if (ImGui::DragFloat3("##POSITION", (float*)&position, 0.2f))
+				have_to_update = true;
 
 			ImGui::Text("Rotation:");
 			float3 euler_rot = rotation.ToEulerXYZ();
 			float3 deg_euler_rot = float3(math::RadToDeg(euler_rot.x), math::RadToDeg(euler_rot.y), math::RadToDeg(euler_rot.z));
-			float rot[3] = { deg_euler_rot.x , deg_euler_rot.y, deg_euler_rot.z };
-			ImGui::InputFloat3("##ROT", rot, 2);
-			deg_euler_rot.Set(rot[0], rot[1], rot[2]);
-			euler_rot.Set(math::DegToRad(deg_euler_rot.x), math::DegToRad(deg_euler_rot.y), math::DegToRad(deg_euler_rot.z));
-			rotation =  math::Quat::FromEulerXYZ(euler_rot.x, euler_rot.y, euler_rot.z);
+			if (ImGui::DragFloat3("##ROTATION", (float*)&deg_euler_rot), 0.2f, -180, 180) {
+				have_to_update = true;
+				euler_rot.Set(math::DegToRad(deg_euler_rot.x), math::DegToRad(deg_euler_rot.y), math::DegToRad(deg_euler_rot.z));
+				rotation = math::Quat::FromEulerXYZ(euler_rot.x, euler_rot.y, euler_rot.z);
+			}
 
 			ImGui::Text("Scale:");
-			float sca[3] = { scale.x, scale.y, scale.z };
-			ImGui::InputFloat3("##SCA", sca, 2);
-			scale.Set(sca[0], sca[1], sca[2]);
+			if (ImGui::DragFloat3("##SCALE", (float*)&scale, 0.02f))
+				have_to_update = true;
 
-			trans_co->Setup(position, scale, rotation);
+			if(have_to_update)
+				trans_co->Setup(position, scale, rotation);
 		}
 			
 		ImGui::Separator();
@@ -73,7 +73,7 @@ void PanelInspector::Draw()
 			switch ((*it)->GetType())
 			{
 			case Component::component_type::COMPONENT_TRANSFORM:
-			
+				continue;
 			break;
 			case Component::component_type::COMPONENT_MESH: 
 			{

@@ -80,6 +80,6 @@ inline const char* const PATH(const char* folder, const char* file)
 
 // Names
 #define TITLE_MAX_LENGTH 77
-#define GAMEOBJECT_MAX_LENGTH 30
+#define GAMEOBJECT_MAX_LENGTH 100
 
 #endif
