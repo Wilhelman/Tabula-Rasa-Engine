@@ -7,6 +7,7 @@
 #include "trRenderer3D.h"
 #include "trCamera3D.h"
 #include "trEditor.h"
+#include "trTimeManager.h"
 #include "mmgr/mmgr.h"
 #include "trTimer.h"
 
@@ -342,43 +343,43 @@ void PanelConfiguration::ShowEngineClocks()
 {
 	if (ImGui::CollapsingHeader("Engine clocks"))
 	{
-		ImGui::Text("Real time clock: %.2f sec", App->real_time_clock.ReadSec());
+		ImGui::Text("Real time clock: %.2f sec", App->time_manager->ReadRealTimeClockSec());
 
 		ImGui::Separator();
 
 		if (advanced)
 		{
-			App->game_clock.Pause();
+			App->time_manager->PauseGameClock();
 			advanced = false;
 		}
 
-		ImGui::Text("Game clock: %.2f sec", App->game_clock.ReadSec());
+		ImGui::Text("Game clock: %.2f sec", App->time_manager->ReadGameClockSec());
 		
-		ImGui::Text("Game clock 2: %02d : %02d : %02d", 
+		/*ImGui::Text("Game clock 2: %02d : %02d : %02d", 
 				   App->game_clock.ReadFormatTime().hours, 
 				   App->game_clock.ReadFormatTime().min, 
-				   App->game_clock.ReadFormatTime().sec);
+				   App->game_clock.ReadFormatTime().sec);*/
 
 		if (ImGui::Button("PLAY"))
-			App->game_clock.ReStart();
+			App->time_manager->ReStartGameClock();
 
 		ImGui::SameLine();
 
 		if (ImGui::Button("PAUSE"))
-			App->game_clock.Pause();
+			App->time_manager->PauseGameClock();
 
 		ImGui::SameLine();
 
 		if (ImGui::Button("ADVANCE"))
 		{
-			App->game_clock.Pause();
-			App->game_clock.ReStart();
+			App->time_manager->PauseGameClock();
+			App->time_manager->ReStartGameClock();
 			advanced = true;
 		}
 			
 
 		ImGui::SliderFloat("Time scale", &time_scale, 0.0f, 3.0f, "%.2f");
-		App->game_clock.SetScaleTime(time_scale);
+		App->time_manager->SetGameClockTimeScale(time_scale);
 	}
 }
 

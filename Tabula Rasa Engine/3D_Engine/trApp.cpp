@@ -12,6 +12,7 @@
 #include "trHardware.h"
 #include "trFileLoader.h"
 #include "trMeshImporter.h"
+#include "trTimeManager.h"
 
 #include "trMainScene.h"
 
@@ -35,6 +36,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	file_loader = new trFileLoader();
 	mesh_importer = new trMeshImporter();
 	editor = new trEditor();
+	time_manager = new trTimeManager();
 	
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -46,6 +48,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(main_scene);
 	AddModule(hardware);
 	AddModule(file_loader);
+	AddModule(time_manager);
 	AddModule(texture);
 
 	// render last to swap buffer
@@ -76,9 +79,6 @@ void trApp::AddModule(trModule* module)
 // Called before render is available
 bool trApp::Awake()
 {
-	real_time_clock.Start();
-	game_clock.Start();
-
 	bool ret = true;
 
 	JSON_Value* root_value = nullptr;
@@ -264,7 +264,6 @@ bool trApp::PostUpdate()
 		ret = (*it)->PostUpdate(dt);
 	}
 
-	//game_clock.UpdateClock();
 	//PERF_PEEK(ptimer);
 	return ret;
 }

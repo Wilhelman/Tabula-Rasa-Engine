@@ -20,6 +20,7 @@ class trEditor;
 class trHardware;
 class trFileLoader;
 class trMeshImporter;
+class trTimeManager;
 
 class trApp
 {
@@ -101,10 +102,7 @@ public:
 	trHardware*			hardware = nullptr;
 	trFileLoader*		file_loader = nullptr;
 	trMeshImporter*		mesh_importer = nullptr;
-
-	//clocks
-	trTimer real_time_clock;
-	trTimer game_clock;
+	trTimeManager*		time_manager = nullptr;
 	
 	
 private:
