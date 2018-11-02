@@ -6,6 +6,8 @@
 #include "trApp.h"
 #include "trEditor.h"
 
+#include "MathGeoLib/MathGeoLib.h"
+
 #include "GameObject.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
@@ -48,14 +50,22 @@ void PanelInspector::Draw()
 			float pos[3] = { position.x, position.y, position.z };
 			ImGui::InputFloat3("##POS", pos, 2);
 			position.Set(pos[0], pos[1], pos[2]);
-			trans_co->SetPosition(position);
 
 			ImGui::Text("Rotation:");
-			float rot[3] = { rotation.x, rotation.y, rotation.z };
+			float3 euler_rot = rotation.ToEulerXYZ();
+			float3 deg_euler_rot = float3(math::RadToDeg(euler_rot.x), math::RadToDeg(euler_rot.y), math::RadToDeg(euler_rot.z));
+			float rot[3] = { deg_euler_rot.x , deg_euler_rot.y, deg_euler_rot.z };
 			ImGui::InputFloat3("##ROT", rot, 2);
+			deg_euler_rot.Set(rot[0], rot[1], rot[2]);
+			euler_rot.Set(math::DegToRad(deg_euler_rot.x), math::DegToRad(deg_euler_rot.y), math::DegToRad(deg_euler_rot.z));
+			rotation =  math::Quat::FromEulerXYZ(euler_rot.x, euler_rot.y, euler_rot.z);
+
 			ImGui::Text("Scale:");
 			float sca[3] = { scale.x, scale.y, scale.z };
 			ImGui::InputFloat3("##SCA", sca, 2);
+			scale.Set(sca[0], sca[1], sca[2]);
+
+			trans_co->Setup(position, scale, rotation);
 		}
 			
 		ImGui::Separator();

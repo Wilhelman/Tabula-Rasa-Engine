@@ -79,3 +79,17 @@ void ComponentTransform::SetPosition(const float3 position)
 
 	this->transform_global = float4x4::FromTRS(this->position, this->rotation, this->scale);
 }
+
+void ComponentTransform::SetScale(const float3 scale)
+{
+	this->scale = scale;
+
+	this->transform_global = float4x4::FromTRS(this->position, this->rotation, this->scale);
+}
+
+void ComponentTransform::SetRotation(const Quat rot)
+{
+	this->rotation = rot;
+
+	this->transform_global = float4x4::FromTRS(this->position, this->rotation, this->scale);
+}

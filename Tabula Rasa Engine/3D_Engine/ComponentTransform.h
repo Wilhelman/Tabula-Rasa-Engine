@@ -23,6 +23,8 @@ public:
 	float* GetMatrix()const;
 
 	void SetPosition(const float3 position);
+	void SetScale(const float3 scale);
+	void SetRotation(const Quat rot);
 
 private:
 
