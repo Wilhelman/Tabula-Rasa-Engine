@@ -41,7 +41,9 @@ const Quat & ComponentTransform::GetRotation() const
 
 void ComponentTransform::GetLocalPosition(float3 * position, float3 * scale, Quat * rot) const
 {
-	scale->Set(4.f, 4.f, 4.f);
+	*position = this->position;
+	*scale = this->scale;
+	*rot = this->rotation;
 }
 
 void ComponentTransform::GetGlobalPosition(float3 * position, float3 * scale, Quat * rot)const
@@ -62,15 +64,18 @@ void ComponentTransform::GetGlobalPosition(float3 * position, float3 * scale, Qu
 
 float* ComponentTransform::GetMatrix() const
 {
-	return transform_global.Transposed().ptr();
+	float3 tmp_pos = float3::zero;
+	float3 tmp_scale = float3::zero;
+	Quat tmp_rot = Quat::identity;
+
+	this->GetGlobalPosition(&tmp_pos, &tmp_scale, &tmp_rot);
+
+	return float4x4::FromTRS(tmp_pos, tmp_rot, tmp_scale).Transposed().ptr();
 }
 
 void ComponentTransform::SetPosition(const float3 position)
 {
 	this->position = position;
-
-	for (std::list<GameObject*>::iterator it = embedded_go->childs.begin(); it != embedded_go->childs.end(); it++)
-		(*it)->GetTransform()->SetPosition(position);
 
 	this->transform_global = float4x4::FromTRS(this->position, this->rotation, this->scale);
 }

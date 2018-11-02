@@ -40,7 +40,7 @@ void PanelInspector::Draw()
 		float3 scale = float3::zero;
 		Quat rotation = Quat::identity;
 
-		trans_co->GetGlobalPosition(&position, &scale, &rotation);
+		trans_co->GetLocalPosition(&position, &scale, &rotation);
 
 		if (ImGui::CollapsingHeader("TRANSFORM COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
 
