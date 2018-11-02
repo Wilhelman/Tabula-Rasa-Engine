@@ -7,11 +7,6 @@
 
 class trTimeManager : public trModule
 {
-
-public:
-
-
-
 public:
 
 	trTimeManager();
@@ -21,8 +16,8 @@ public:
 	bool CleanUp();
 
 	// Read only
-	float ReadGameClockSec() const;
-	float ReadRealTimeClockSec() const;
+	double ReadGameClockSec() const;
+	double ReadRealTimeClockSec() const;
 	float GetGameClockTimeScale() const;
 	uint GetFrameCount() const;
 	float GetGameDt() const;
@@ -30,24 +25,27 @@ public:
 
 	// Set
 	void SetGameClockTimeScale(float time_scale);
+	void UpdateGameClock(float dt);
+	void UpdateRealTimeClock(float dt);
 
 	void PauseGameClock();
-	void PauseRealTimeClock();
 	void ReStartGameClock();
 
 private:
 
 	// attributes
 	uint frame_count = 0;
-	float game_sec_time = 0.0f;
-	float time_scale = 0.0f;
-	float dt = 0.0f;
-	float real_sec_time = 0.0f;
-	float real_time_dt = 0.0f;
 
-	//clocks 
-	trTimer* game_clock = nullptr;
-	trTimer* real_time_clock = nullptr;
+	double real_sec_time = 0.0f;
+	double game_sec_time = 0.0f;
+
+	float time_scale = 1.0f;
+
+	float real_time_dt = 0.0f;
+	float dt = 0;
+
+	bool is_game_clock_paused = false;
+	bool is_real_time_clock_paused = false;
 };
 
 #endif // __trTIME_MANAGER_H__

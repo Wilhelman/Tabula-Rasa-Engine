@@ -39,11 +39,14 @@ private:
 
 	uint32	started_at = 0;
 	uint32 paused_ticks = 0;
+	
 	float last_frame_time = 0;
-	float scale_time = 0.0f;
+	float time_scale = 0.0f;
+	float time_scale_diff = 0.0f;
 
 	bool is_paused = false;
 	bool has_started = false;
+	bool has_time_scale_changed = false;
 
 
 };

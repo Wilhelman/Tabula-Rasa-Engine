@@ -24,7 +24,7 @@ void trTimer::Start()
 	has_started = true;
 	is_paused = false;
 	paused_ticks = 0;
-	scale_time = 1.0f;
+	time_scale = 1.0f;
 }
 
 // ---------------------------------------------
@@ -45,7 +45,7 @@ float trTimer::ReadSec()
 {
 	float time = 0.0f;
 
-	if (scale_time != 1)
+	if (time_scale != 1)
 		int r = 0;
 
 	if (has_started)
@@ -55,12 +55,22 @@ float trTimer::ReadSec()
 		else
 		{
 			time = (SDL_GetTicks() - started_at) / 1000.0f;
-			time = last_frame_time + (time - last_frame_time) * scale_time;
+			
+			if (has_time_scale_changed)
+			{
+				has_time_scale_changed = false;
+				time_scale_diff = time - last_frame_time;
+			}
+		
+			if (last_frame_time == 0.0f)
+				time = time + time_scale_diff * time_scale;
+			else
+				time = last_frame_time + time_scale_diff * time_scale;
 			//time /= 1000.0f;
 		}
 	}
 
-	if (scale_time != 1)
+	if (time_scale != 1)
 		int o = 0;
 
 	last_frame_time = time;
@@ -79,7 +89,7 @@ trTimer::FormatHour trTimer::ReadFormatTime() const
 		else
 		{
 			time = SDL_GetTicks() - started_at;
-			time = last_frame_time + (time - last_frame_time) * scale_time;
+			time = last_frame_time + (time - last_frame_time) * time_scale;
 			time /= 1000.0f;
 		}
 	}
@@ -134,13 +144,16 @@ bool trTimer::IsPaused() const
 
 void trTimer::SetScaleTime(float scale_time)
 {
+	if (this->time_scale != scale_time)
+		has_time_scale_changed = true;
+
 	if (scale_time < 0.0f)
-		this->scale_time = 0.0f;
+		this->time_scale = 0.0f;
 	else if (scale_time > 3.0f)
-		this->scale_time = 3.0f;
+		this->time_scale = 3.0f;
 	else
 	{
-		this->scale_time = scale_time;
+		this->time_scale = scale_time;
 
 		if (scale_time == 0.0f)
 			Pause();
@@ -149,6 +162,6 @@ void trTimer::SetScaleTime(float scale_time)
 
 void trTimer::UpdateClock()
 {
-	if (!is_paused && scale_time > 0.0f)
+	if (!is_paused && time_scale > 0.0f)
 		last_frame_time = SDL_GetTicks() - started_at;
 }

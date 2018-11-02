@@ -1,37 +1,23 @@
 #include "trTimeManager.h"
 
-trTimeManager::trTimeManager()
-{
-	game_clock = new trTimer();
-	real_time_clock = new trTimer();
-}
+
+trTimeManager::trTimeManager() { }
 
 trTimeManager::~trTimeManager() { }
 
-bool trTimeManager::Start()
-{
-	game_clock->Start();
-	real_time_clock->Start();
+bool trTimeManager::Start() { return true; }
 
-	return true;
+
+// ---------- Getters ----------
+
+double trTimeManager::ReadGameClockSec() const
+{
+	return game_sec_time;
 }
 
-bool trTimeManager::CleanUp()
+double trTimeManager::ReadRealTimeClockSec() const
 {
-	RELEASE(real_time_clock);
-	RELEASE(game_clock);
-
-	return true;
-}
-
-float trTimeManager::ReadGameClockSec() const
-{
-	return game_clock->ReadSec();
-}
-
-float trTimeManager::ReadRealTimeClockSec() const
-{
-	return real_time_clock->ReadSec();
+	return real_sec_time;
 }
 
 float trTimeManager::GetGameClockTimeScale() const
@@ -54,22 +40,39 @@ float trTimeManager::GetRealTimeDt() const
 	return real_time_dt;
 }
 
+// ---------- Setters ----------
+
 void trTimeManager::SetGameClockTimeScale(float time_scale)
 {
 	this->time_scale = time_scale;
 }
 
-void trTimeManager::PauseGameClock()
+void trTimeManager::UpdateGameClock(float dt)
 {
-	game_clock->Pause();
+	if (is_game_clock_paused)
+		this->dt = 0.0f;
+	else
+		this->dt = dt;
+
+	game_sec_time += (double)(this->dt * time_scale);
+
+	frame_count++;
 }
 
-void trTimeManager::PauseRealTimeClock()
+void trTimeManager::UpdateRealTimeClock(float dt)
 {
-	real_time_clock->Pause();
+	real_time_dt = dt;
+	real_sec_time += (double)(real_time_dt);
+}
+
+// ---------- Time management ----------
+
+void trTimeManager::PauseGameClock()
+{
+	is_game_clock_paused = true;
 }
 
 void trTimeManager::ReStartGameClock()
 {
-	game_clock->ReStart();
+	is_game_clock_paused = false;
 }
