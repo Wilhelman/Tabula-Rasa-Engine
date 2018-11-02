@@ -20,10 +20,7 @@ trPerfTimer::trPerfTimer()
 // ---------------------------------------------
 void trPerfTimer::Start()
 {
-	is_paused = false;
-	has_started = true;
 	started_at = SDL_GetPerformanceCounter();
-	paused_time = 0;
 }
 
 // ---------------------------------------------
@@ -33,51 +30,7 @@ double trPerfTimer::ReadMs() const
 }
 
 // ---------------------------------------------
-double trPerfTimer::ReadSec() const
-{
-	double time = 0;
-
-	if (has_started)
-	{
-		if (is_paused)
-			time = paused_time;
-		else
-			time = (double(SDL_GetPerformanceCounter() - started_at) / double(frequency));
-	}
-
-	return time;
-}
-
-// ---------------------------------------------
 uint64 trPerfTimer::ReadTicks() const
 {
 	return SDL_GetPerformanceCounter() - started_at;
-}
-
-void trPerfTimer::Pause()
-{
-	if (has_started && !is_paused)
-	{
-		is_paused = true;
-		paused_time = ReadSec() - started_at;
-		started_at = 0;
-	}
-}
-
-void trPerfTimer::ReStart()
-{
-	if (has_started && is_paused)
-	{
-		is_paused = false;
-		started_at = ReadSec() - paused_time;
-		paused_time = 0;
-	}
-}
-
-void trPerfTimer::Stop()
-{
-	has_started = false;
-	is_paused = false;
-	started_at = 0;
-	paused_time = 0;
 }

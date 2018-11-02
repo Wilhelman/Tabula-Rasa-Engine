@@ -47,8 +47,6 @@ public:
 	void ReStartGameClock();
 	void StepGameClock();
 
-
-
 private:
 
 	uint frame_count = 0;
