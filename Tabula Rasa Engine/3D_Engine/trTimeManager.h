@@ -5,8 +5,20 @@
 #include "trDefs.h"
 #include "trTimer.h"
 
+
+struct FormatHour;
+
 class trTimeManager : public trModule
 {
+
+public:
+	struct FormatHour
+	{
+		uint hours = 0;
+		uint min = 0;
+		uint sec = 0;
+	};
+
 public:
 
 	trTimeManager();
@@ -17,6 +29,9 @@ public:
 	// Getters
 	double ReadGameClockSec() const;
 	double ReadRealTimeClockSec() const;
+	FormatHour ReadGameHourFormat() const;
+	FormatHour ReadRealTimeHourFormat() const;
+	
 	float GetGameClockTimeScale() const;
 	uint GetFrameCount() const;
 	float GetGameDt() const;
@@ -32,6 +47,8 @@ public:
 	void ReStartGameClock();
 	void StepGameClock();
 
+
+
 private:
 
 	uint frame_count = 0;
@@ -45,7 +62,7 @@ private:
 	float dt = 0;
 
 	bool is_game_clock_paused = false;
-	bool toggle_step_game_mode = false;
+	bool time_step = false;
 };
 
 #endif // __trTIME_MANAGER_H__

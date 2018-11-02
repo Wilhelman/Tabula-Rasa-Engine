@@ -344,21 +344,18 @@ void PanelConfiguration::ShowEngineClocks()
 	if (ImGui::CollapsingHeader("Engine clocks"))
 	{
 		ImGui::Text("Real time clock: %.2f sec", App->time_manager->ReadRealTimeClockSec());
+		ImGui::Text("Real time clock (hour format): %02d : %02d : %02d",
+			App->time_manager->ReadRealTimeHourFormat().hours,
+			App->time_manager->ReadRealTimeHourFormat().min,
+			App->time_manager->ReadRealTimeHourFormat().sec);
 
 		ImGui::Separator();
 
-		if (advanced)
-		{
-			App->time_manager->PauseGameClock();
-			advanced = false;
-		}
-
-		ImGui::Text("Game clock: %.2f sec", App->time_manager->ReadGameClockSec());
-		
-		/*ImGui::Text("Game clock 2: %02d : %02d : %02d", 
-				   App->game_clock.ReadFormatTime().hours, 
-				   App->game_clock.ReadFormatTime().min, 
-				   App->game_clock.ReadFormatTime().sec);*/
+		ImGui::Text("Game clock: %.2f sec", App->time_manager->ReadGameClockSec());		
+		ImGui::Text("Game clock (hour format): %02d : %02d : %02d", 
+				   App->time_manager->ReadGameHourFormat().hours, 
+				   App->time_manager->ReadGameHourFormat().min,
+				   App->time_manager->ReadGameHourFormat().sec);
 
 		if (ImGui::Button("PLAY"))
 			App->time_manager->ReStartGameClock();
@@ -372,7 +369,6 @@ void PanelConfiguration::ShowEngineClocks()
 
 		if (ImGui::Button("ADVANCE"))
 			App->time_manager->StepGameClock();
-			
 
 		ImGui::SliderFloat("Time scale", &time_scale, 0.0f, 3.0f, "%.2f");
 		App->time_manager->SetGameClockTimeScale(time_scale);

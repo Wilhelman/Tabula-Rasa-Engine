@@ -20,6 +20,34 @@ double trTimeManager::ReadRealTimeClockSec() const
 	return real_sec_time;
 }
 
+trTimeManager::FormatHour trTimeManager::ReadGameHourFormat() const
+{
+	double tmp_time = game_sec_time;
+
+	FormatHour ret_format;
+	ret_format.hours = tmp_time / 3600;
+	tmp_time = (uint)tmp_time % 3600;
+	ret_format.min = tmp_time / 60.0f;
+	tmp_time = (uint)tmp_time % 60;
+	ret_format.sec = tmp_time;
+
+	return ret_format;
+}
+
+trTimeManager::FormatHour trTimeManager::ReadRealTimeHourFormat() const
+{
+	double tmp_time = real_sec_time;
+
+	FormatHour ret_format;
+	ret_format.hours = tmp_time / 3600;
+	tmp_time = (uint)tmp_time % 3600;
+	ret_format.min = tmp_time / 60.0f;
+	tmp_time = (uint)tmp_time % 60;
+	ret_format.sec = tmp_time;
+
+	return ret_format;
+}
+
 float trTimeManager::GetGameClockTimeScale() const
 {
 	return time_scale;
@@ -52,7 +80,7 @@ void trTimeManager::UpdateGameClock(float dt)
 	if (is_game_clock_paused)
 	{
 		this->dt = 0.0f;
-		toggle_step_game_mode = false;
+		time_step = false;
 	}
 	else
 		this->dt = dt;
@@ -60,7 +88,7 @@ void trTimeManager::UpdateGameClock(float dt)
 	game_sec_time += (double)(this->dt * time_scale);
 	frame_count++;
 
-	if (toggle_step_game_mode)
+	if (time_step)
 		is_game_clock_paused = true;
 }
 
@@ -85,5 +113,5 @@ void trTimeManager::ReStartGameClock()
 void trTimeManager::StepGameClock()
 {
 	is_game_clock_paused = false;
-	toggle_step_game_mode = true;
+	time_step = true;
 }
