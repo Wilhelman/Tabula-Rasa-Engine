@@ -9,7 +9,9 @@ Component(embedded_game_object, Component::component_type::COMPONENT_MATERIAL)
 
 ComponentMaterial::~ComponentMaterial()
 {
-	App->texture->DeleteTextureBuffer(this->texture);
+	if (this->texture != nullptr)
+		App->texture->DeleteTextureBuffer(this->texture);
+
 	RELEASE(texture);
 }
 

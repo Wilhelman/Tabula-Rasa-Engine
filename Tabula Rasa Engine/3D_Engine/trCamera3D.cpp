@@ -162,12 +162,8 @@ void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 		float3x3 rotate_mat;
 		rotate_mat = rotate_mat.RotateAxisAngle(X, delta_y);
 
-		//X = X * rotate_mat;
 		Y = Y * rotate_mat;
 		Z = Z * rotate_mat;
-		
-		//Y = rotate(Y, delta_y, X);
-		//Z = rotate(Z, delta_y, X);
 
 		if (Y.y < -1.0f) // todo minimal issue orbiting obj
 		{

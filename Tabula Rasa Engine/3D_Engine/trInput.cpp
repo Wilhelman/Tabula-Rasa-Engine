@@ -131,7 +131,7 @@ bool trInput::PreUpdate(float dt)
 				dropped_filedir = e.drop.file;
 
 				if (dropped_filedir != nullptr) {
-					TR_LOG("File path dropped on window: ", dropped_filedir);
+					TR_LOG("File path dropped on window: %s", dropped_filedir);
 
 					std::string file_format(".xyz");
 					file_format[3] = dropped_filedir[strlen(dropped_filedir) - 1];

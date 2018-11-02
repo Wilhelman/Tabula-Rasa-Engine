@@ -19,7 +19,7 @@
 #pragma comment (lib, "Glew/libx86/glew32.lib")
 
 #define N_PLANE 0.125f
-#define F_PLANE 512.0f
+#define F_PLANE 1024.0f
 #define FOV 60.0f
 
 #define DEFAULT_AMBIENT_COLOR {0.f,0.f,255.f,255.f}
