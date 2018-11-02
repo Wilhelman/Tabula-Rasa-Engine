@@ -7,7 +7,7 @@
 class ComponentTransform : public Component
 {
 public:
-
+	ComponentTransform(){}
 	ComponentTransform(GameObject* embedded_game_object);
 	ComponentTransform(GameObject* embedded_game_object, const float3& translation, const float3& scale, const Quat& rotation);
 	~ComponentTransform();
@@ -18,9 +18,9 @@ public:
 	const Quat& GetRotation()const;
 
 	void GetLocalPosition(float3* position, float3* scale, Quat* rot) const;
-	void GetGlobalPosition(float3* position, float3* scale, Quat* rot)const;
+	void GetGlobalPosition(float3* position, float3* scale, Quat* rot);
 
-	float* GetMatrix()const;
+	float* GetMatrix();
 
 	void SetPosition(const float3 position);
 	void SetScale(const float3 scale);
@@ -32,7 +32,7 @@ private:
 	float3 scale = float3::zero;
 	Quat rotation = Quat::identity;
 
-	float4x4 transform_global;
+	float4x4 local_matrix;
 
 };
 

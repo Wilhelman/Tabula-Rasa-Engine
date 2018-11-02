@@ -1,7 +1,8 @@
 #include "ComponentTransform.h"
 #include "GameObject.h"
 
-ComponentTransform::ComponentTransform(GameObject* embedded_game_object): Component(embedded_game_object, Component::component_type::COMPONENT_TRANSFORM)
+ComponentTransform::ComponentTransform(GameObject* embedded_game_object): Component(embedded_game_object, Component::component_type::COMPONENT_TRANSFORM),
+position(float3::zero), scale(float3(1.f, 1.f, 1.f)), rotation(Quat::identity)
 {
 }
 
@@ -21,7 +22,7 @@ void ComponentTransform::Setup(const float3 & translation, const float3 & scale,
 	this->scale = scale;
 	this->rotation = rotation;
 
-	this->transform_global = float4x4::FromTRS(this->position, this->rotation, this->scale);
+	this->local_matrix = float4x4::FromTRS(this->position, this->rotation, this->scale);
 }
 
 const float3 & ComponentTransform::GetTranslation() const
@@ -46,29 +47,26 @@ void ComponentTransform::GetLocalPosition(float3 * position, float3 * scale, Qua
 	*rot = this->rotation;
 }
 
-void ComponentTransform::GetGlobalPosition(float3 * position, float3 * scale, Quat * rot)const
+void ComponentTransform::GetGlobalPosition(float3 * position, float3 * scale, Quat * rot)
 {
-	GameObject* tmp_embedded_go = this->embedded_go;
+	GameObject* tmp_embedded_go = embedded_go->GetParent();
 	while (tmp_embedded_go != nullptr)
 	{
-		*position += tmp_embedded_go->GetTransform()->GetTranslation();
-		*scale = this->GetScale().Mul(tmp_embedded_go->GetTransform()->GetScale());
-		*rot = this->GetRotation().Mul(tmp_embedded_go->GetTransform()->GetRotation());
-
-		if (tmp_embedded_go->GetParent()->GetTransform() == nullptr)// if root no need to iterate
-			tmp_embedded_go = nullptr;
-		else
-			tmp_embedded_go = tmp_embedded_go->GetParent();
+		*position += tmp_embedded_go->GetTransform()->position;
+		*scale = this->scale.Mul(tmp_embedded_go->GetTransform()->scale);
+		*rot = this->rotation.Mul(tmp_embedded_go->GetTransform()->rotation);
+		
+		tmp_embedded_go = tmp_embedded_go->GetParent();
 	}
 }
 
-float* ComponentTransform::GetMatrix() const
+float* ComponentTransform::GetMatrix()
 {
-	float3 tmp_pos = float3::zero;
-	float3 tmp_scale = float3::zero;
-	Quat tmp_rot = Quat::identity;
-
-	this->GetGlobalPosition(&tmp_pos, &tmp_scale, &tmp_rot);
+	float3 tmp_pos = position;
+	float3 tmp_scale = scale;
+	Quat tmp_rot = rotation;
+	GetGlobalPosition(&tmp_pos, &tmp_scale, &tmp_rot);
+	
 
 	return float4x4::FromTRS(tmp_pos, tmp_rot, tmp_scale).Transposed().ptr();
 }
@@ -77,19 +75,19 @@ void ComponentTransform::SetPosition(const float3 position)
 {
 	this->position = position;
 
-	this->transform_global = float4x4::FromTRS(this->position, this->rotation, this->scale);
+	this->local_matrix = float4x4::FromTRS(this->position, this->rotation, this->scale);
 }
 
 void ComponentTransform::SetScale(const float3 scale)
 {
 	this->scale = scale;
 
-	this->transform_global = float4x4::FromTRS(this->position, this->rotation, this->scale);
+	this->local_matrix = float4x4::FromTRS(this->position, this->rotation, this->scale);
 }
 
 void ComponentTransform::SetRotation(const Quat rot)
 {
 	this->rotation = rot;
 
-	this->transform_global = float4x4::FromTRS(this->position, this->rotation, this->scale);
+	this->local_matrix = float4x4::FromTRS(this->position, this->rotation, this->scale);
 }

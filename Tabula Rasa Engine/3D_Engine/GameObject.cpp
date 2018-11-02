@@ -20,6 +20,8 @@ GameObject::GameObject(const char * name, GameObject * parent)
 
 	if(parent != nullptr)// if is not root
 		parent->childs.push_back(this);
+	else
+		CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
 }
 // ---------------------------------------------------------
 GameObject::~GameObject()

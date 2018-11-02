@@ -298,8 +298,6 @@ const uint trRenderer3D::GetMeshesSize() const
 
 void trRenderer3D::Draw()
 {
-	
-
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 

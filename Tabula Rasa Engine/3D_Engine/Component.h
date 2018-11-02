@@ -18,7 +18,7 @@ public:
 	};
 
 public:
-
+	Component(){}
 	Component(GameObject* embedded_go, component_type type);
 	virtual ~Component() {}
 
