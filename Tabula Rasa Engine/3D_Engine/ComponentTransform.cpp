@@ -47,28 +47,17 @@ void ComponentTransform::GetLocalPosition(float3 * position, float3 * scale, Qua
 	*rot = this->rotation;
 }
 
-void ComponentTransform::GetGlobalPosition(float3 * position, float3 * scale, Quat * rot)
+float4x4 ComponentTransform::GetMatrix()
 {
-	GameObject* tmp_embedded_go = embedded_go->GetParent();
-	while (tmp_embedded_go != nullptr)
-	{
-		*position += tmp_embedded_go->GetTransform()->position;
-		*scale = this->scale.Mul(tmp_embedded_go->GetTransform()->scale);
-		*rot = this->rotation.Mul(tmp_embedded_go->GetTransform()->rotation);
-		
-		tmp_embedded_go = tmp_embedded_go->GetParent();
+	local_matrix = math::float4x4::FromTRS(position, rotation, scale);
+
+	if (embedded_go->GetParent() != nullptr) {
+			math::float4x4 parent_matrix = embedded_go->GetParent()->GetTransform()->GetMatrix();
+			global_matrix = parent_matrix * local_matrix;
+			return global_matrix;
 	}
-}
-
-float* ComponentTransform::GetMatrix()
-{
-	float3 tmp_pos = position;
-	float3 tmp_scale = scale;
-	Quat tmp_rot = rotation;
-	GetGlobalPosition(&tmp_pos, &tmp_scale, &tmp_rot);
-	
-
-	return float4x4::FromTRS(tmp_pos, tmp_rot, tmp_scale).Transposed().ptr();
+	else
+		return local_matrix;
 }
 
 void ComponentTransform::SetPosition(const float3 position)

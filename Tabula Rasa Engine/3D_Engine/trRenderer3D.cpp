@@ -305,7 +305,7 @@ void trRenderer3D::Draw()
 	while (it != drawable_go.end())
 	{
 		glPushMatrix();
-		glMultMatrixf((GLfloat*)(*it)->GetTransform()->GetMatrix());
+		glMultMatrixf((GLfloat*)(*it)->GetTransform()->GetMatrix().Transposed().ptr());
 
 		ComponentMesh* mesh_co = (ComponentMesh*)(*it)->FindComponentWithType(Component::component_type::COMPONENT_MESH);
 		const Mesh* mesh = mesh_co->GetMesh();

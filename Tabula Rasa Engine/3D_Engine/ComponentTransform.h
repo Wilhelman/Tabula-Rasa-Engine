@@ -18,9 +18,8 @@ public:
 	const Quat& GetRotation()const;
 
 	void GetLocalPosition(float3* position, float3* scale, Quat* rot) const;
-	void GetGlobalPosition(float3* position, float3* scale, Quat* rot);
 
-	float* GetMatrix();
+	float4x4 GetMatrix();
 
 	void SetPosition(const float3 position);
 	void SetScale(const float3 scale);
@@ -33,6 +32,7 @@ private:
 	Quat rotation = Quat::identity;
 
 	float4x4 local_matrix;
+	float4x4 global_matrix;
 
 };
 
