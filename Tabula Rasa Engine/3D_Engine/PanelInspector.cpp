@@ -28,31 +28,40 @@ void PanelInspector::Draw()
 	GameObject* selected = App->editor->GetSelected();
 
 	if (selected != nullptr) {
-		ImGui::Text("GameObject name: %s", selected->GetName());
+		
+		strcpy_s(go_name, GAMEOBJECT_MAX_LENGTH, selected->GetName());
+		if (ImGui::InputText("##GO_NAME", go_name, GAMEOBJECT_MAX_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+			selected->SetName(go_name);
+
+		ImGui::Separator();
+
+		ComponentTransform* trans_co = selected->GetTransform();
+		float3 position = float3::zero;
+		float3 scale = float3::zero;
+		Quat rotation = Quat::identity;
+
+		trans_co->GetGlobalPosition(&position, &scale, &rotation);
+
+		if (ImGui::CollapsingHeader("TRANSFORM COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
+			ImGui::Text("Position:");
+			float pos[3] = { position.x, position.y, position.z };
+			ImGui::InputFloat3("##POS", pos, 2);
+			
+			ImGui::Text("Rotation:");
+			float rot[3] = { rotation.x, rotation.y, rotation.z };
+			ImGui::InputFloat3("##ROT", rot, 2);
+			ImGui::Text("Scale:");
+			float sca[3] = { scale.x, scale.y, scale.z };
+			ImGui::InputFloat3("##SCA", sca, 2);
+		}
+			
 		ImGui::Separator();
 		for (std::list<Component*>::iterator it = selected->components.begin(); it != selected->components.end(); it++) {
 			switch ((*it)->GetType())
 			{
 			case Component::component_type::COMPONENT_TRANSFORM:
-			{
-				ComponentTransform* trans_co = (ComponentTransform*)(*it);
-				float3 position = trans_co->GetTranslation();
-				float3 scale = trans_co->GetScale();
-				Quat rotation = trans_co->GetRotation();
-				if (ImGui::CollapsingHeader("TRANSFORM COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
-					ImGui::Text("Position:");
-					float pos[3] = { position.x, position.y, position.z };
-					ImGui::InputFloat3("##POS", pos, 2);
-					ImGui::Text("Rotation:");
-					float rot[3] = { rotation.x, rotation.y, rotation.z };
-					ImGui::InputFloat3("##ROT", rot, 2);
-					ImGui::Text("Scale:");
-					float sca[3] = { scale.x, scale.y, scale.z };
-					ImGui::InputFloat3("##SCA", sca, 2);
-				}
-				ImGui::Separator();
-				break;
-			}
+			
+			break;
 			case Component::component_type::COMPONENT_MESH: 
 			{
 				ComponentMesh* mesh_co = (ComponentMesh*)(*it);

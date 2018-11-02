@@ -3,6 +3,7 @@
 
 #include "Panel.h"
 #include "imgui.h"
+#include "trDefs.h"
 
 #include <string>
 #include <vector>
@@ -17,6 +18,8 @@ public:
 
 	void Draw() override;
 
+private:
+	char go_name[GAMEOBJECT_MAX_LENGTH];
 };
 
 #endif// __PANEL_CONSOLE_H__

@@ -47,6 +47,7 @@ Component * GameObject::CreateComponent(Component::component_type type)
 	{
 	case Component::component_type::COMPONENT_TRANSFORM:
 		tmp_component = new ComponentTransform(this);
+		transform = (ComponentTransform*)tmp_component;
 		break;
 	case Component::component_type::COMPONENT_MESH:
 		tmp_component = new ComponentMesh(this);
@@ -73,13 +74,14 @@ Component * GameObject::CreateComponent(Component::component_type type,  Compone
 	{
 	case Component::component_type::COMPONENT_TRANSFORM:
 		tmp_component = new ComponentTransform(this);
+		transform = (ComponentTransform*)tmp_component;
 		break;
 	case Component::component_type::COMPONENT_MESH:
 		tmp_component = new ComponentMesh(this);
 		break;
 	case Component::component_type::COMPONENT_MATERIAL: {
 		tmp_component = new ComponentMaterial(this);
-		Texture* tmp_tex = new Texture();
+		Texture* tmp_tex = new Texture(); // todo pass it to the constr.
 		tmp_tex->height = ((ComponentMaterial*)component)->GetTexture()->height;
 		tmp_tex->width = ((ComponentMaterial*)component)->GetTexture()->width;
 		tmp_tex->id = ((ComponentMaterial*)component)->GetTexture()->id;
@@ -116,6 +118,16 @@ GameObject * GameObject::GetParent() const
 const char * GameObject::GetName() const
 {
 	return this->name.c_str();
+}
+
+void GameObject::SetName(const char * name)
+{
+	this->name = name;
+}
+
+ComponentTransform * GameObject::GetTransform() const
+{
+	return transform;
 }
 
 bool GameObject::IsActive() const

@@ -17,6 +17,11 @@ public:
 	const float3& GetScale()const;
 	const Quat& GetRotation()const;
 
+	void GetLocalPosition(float3* position, float3* scale, Quat* rot) const;
+	void GetGlobalPosition(float3* position, float3* scale, Quat* rot)const;
+
+
+
 private:
 
 	float3 translation = float3::zero;

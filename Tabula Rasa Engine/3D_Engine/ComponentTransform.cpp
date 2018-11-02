@@ -1,4 +1,5 @@
 #include "ComponentTransform.h"
+#include "GameObject.h"
 
 ComponentTransform::ComponentTransform(GameObject* embedded_game_object): Component(embedded_game_object, Component::component_type::COMPONENT_TRANSFORM)
 {
@@ -34,4 +35,25 @@ const float3 & ComponentTransform::GetScale() const
 const Quat & ComponentTransform::GetRotation() const
 {
 	return rotation;
+}
+
+void ComponentTransform::GetLocalPosition(float3 * position, float3 * scale, Quat * rot) const
+{
+	scale->Set(4.f, 4.f, 4.f);
+}
+
+void ComponentTransform::GetGlobalPosition(float3 * position, float3 * scale, Quat * rot)const
+{
+	GameObject* tmp_embedded_go = this->embedded_go;
+	while (tmp_embedded_go != nullptr)
+	{
+		*position += tmp_embedded_go->GetTransform()->GetTranslation();
+		*scale = this->GetScale().Mul(tmp_embedded_go->GetTransform()->GetScale());
+		*rot = this->GetRotation().Mul(tmp_embedded_go->GetTransform()->GetRotation());
+
+		if (tmp_embedded_go->GetParent()->GetTransform() == nullptr)// if root no need to iterate
+			tmp_embedded_go = nullptr;
+		else
+			tmp_embedded_go = tmp_embedded_go->GetParent();
+	}
 }

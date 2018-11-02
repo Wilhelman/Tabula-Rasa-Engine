@@ -74,10 +74,12 @@ inline const char* const PATH(const char* folder, const char* file)
 #define PI 3.14159265359f
 #define DEG_TO_RAD(a) a * PI / 180.0f
 #define RAD_TO_DEG(a) a * 180.0f / PI
-
 #define CAP(n) ((n <= 0.0f) ? n=0.0f : (n >= 1.0f) ? n=1.0f : n=n)
-
 #define DEGTORAD 0.0174532925199432957f
 #define RADTODEG 57.295779513082320876f
+
+// Names
+#define TITLE_MAX_LENGTH 77
+#define GAMEOBJECT_MAX_LENGTH 30
 
 #endif

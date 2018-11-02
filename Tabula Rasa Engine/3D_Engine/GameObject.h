@@ -4,6 +4,7 @@
 #include "trDefs.h"
 
 #include "Component.h"
+#include "ComponentTransform.h"
 
 #include "MathGeoLib/MathGeoLib.h"
 
@@ -27,6 +28,8 @@ public:
 
 	GameObject* GetParent() const;
 	const char* GetName() const;
+	void SetName(const char* name);
+	ComponentTransform* GetTransform()const;
 
 	bool IsActive()const;
 
@@ -36,8 +39,8 @@ private:
 
 	bool active = false;
 	std::string name;
-
 	GameObject* parent = nullptr;
+	ComponentTransform* transform = nullptr; //Always should have one
 
 public:
 
