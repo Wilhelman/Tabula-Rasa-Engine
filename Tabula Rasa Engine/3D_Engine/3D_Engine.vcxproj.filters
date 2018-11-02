@@ -52,9 +52,6 @@
     <Filter Include="Utilities\3rd Party\Assimp">
       <UniqueIdentifier>{22d4c68c-4e76-47e4-95ce-68b505fb452f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utilities\3rd Party\TO_DELETE_GLMATH">
-      <UniqueIdentifier>{9fdf4ef1-a7c5-409f-a785-5ee67e0a0d53}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utilities\3rd Party\DevIL">
       <UniqueIdentifier>{5a4e4e97-8a43-4d33-b72b-598f9f3f00c1}</UniqueIdentifier>
     </Filter>
@@ -269,9 +266,6 @@
     </ClCompile>
     <ClCompile Include="trFileLoader.cpp">
       <Filter>Core\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="glmath.cpp">
-      <Filter>Utilities\3rd Party\TO_DELETE_GLMATH</Filter>
     </ClCompile>
     <ClCompile Include="trTextures.cpp">
       <Filter>Core\Modules</Filter>
@@ -724,9 +718,6 @@
     </ClInclude>
     <ClInclude Include="trFileLoader.h">
       <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="glmath.h">
-      <Filter>Utilities\3rd Party\TO_DELETE_GLMATH</Filter>
     </ClInclude>
     <ClInclude Include="DevIL\include\il_wrap.h">
       <Filter>Utilities\3rd Party\DevIL</Filter>
