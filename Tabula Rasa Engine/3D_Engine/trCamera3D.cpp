@@ -10,12 +10,12 @@ trCamera3D::trCamera3D() : trModule()
 	this->name = "Camera3D";
 	CalculateViewMatrix();
 
-	X = vec3(1.0f, 0.0f, 0.0f);
-	Y = vec3(0.0f, 1.0f, 0.0f);
-	Z = vec3(0.0f, 0.0f, 1.0f);
+	X = vec(1.0f, 0.0f, 0.0f);
+	Y = vec(0.0f, 1.0f, 0.0f);
+	Z = vec(0.0f, 0.0f, 1.0f);
 
-	pos = vec3(0.0f, 0.0f, 5.0f);
-	ref = vec3(0.0f, 0.0f, 0.0f);
+	pos = vec(0.0f, 0.0f, 5.0f);
+	ref = vec(0.0f, 0.0f, 0.0f);
 }
 
 trCamera3D::~trCamera3D()
@@ -53,7 +53,7 @@ bool trCamera3D::CleanUp()
 // -----------------------------------------------------------------
 bool trCamera3D::Update(float dt)
 {	
-	vec3 new_pos(0.0f, 0.0f, 0.0f);
+	vec new_pos(0.0f, 0.0f, 0.0f);
 
 	float speed = cam_speed * dt;
 
@@ -77,7 +77,7 @@ bool trCamera3D::Update(float dt)
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
 
-		ProcessMouseMotion(dx, dy, orbit_sensitivity);
+		ProcessMouseMotion(dx, dy, rotation_sensitivity);
 	}
 
 	pos += new_pos;
@@ -88,18 +88,18 @@ bool trCamera3D::Update(float dt)
 		     && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
 		if (b_box != nullptr)
-			LookAt(vec3(b_box->Centroid().x, b_box->Centroid().y, b_box->Centroid().z));
+			LookAt(vec(b_box->Centroid().x, b_box->Centroid().y, b_box->Centroid().z));
 		else
-			LookAt(vec3(0.f, 0.f, 0.f));
+			LookAt(vec(0.f, 0.f, 0.f));
 
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
 
 		pos -= ref;
 
-		ProcessMouseMotion(dx, dy, rotation_sensitivity);
+		ProcessMouseMotion(dx, dy, orbit_sensitivity);
 
-		pos = ref + Z * length(pos);
+		pos = ref + Z * pos.Length();
 	}
 	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
 	{
@@ -120,7 +120,7 @@ bool trCamera3D::Update(float dt)
 	return true;
 }
 
-void trCamera3D::ProcessMouseWheelInput(vec3 &new_pos, float speed)
+void trCamera3D::ProcessMouseWheelInput(vec &new_pos, float speed)
 {
 	if (App->input->GetMouseZ() > 0)
 		new_pos -= Z * speed;
@@ -129,7 +129,7 @@ void trCamera3D::ProcessMouseWheelInput(vec3 &new_pos, float speed)
 		new_pos += Z * speed;
 }
 
-void trCamera3D::ProcessKeyboardInput(vec3 &new_pos, float speed)
+void trCamera3D::ProcessKeyboardInput(vec &new_pos, float speed)
 {
 	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_REPEAT) new_pos.y += speed;
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) != KEY_REPEAT) new_pos.y -= speed;
@@ -145,37 +145,47 @@ void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 {
 	if (dx != 0)
 	{
-		float delta_x = (float)dx * sensitivity;
+		float delta_x = -(float)dx * sensitivity;
 
-		X = rotate(X, delta_x, vec3(0.0f, 1.0f, 0.0f));
-		Y = rotate(Y, delta_x, vec3(0.0f, 1.0f, 0.0f));
-		Z = rotate(Z, delta_x, vec3(0.0f, 1.0f, 0.0f));
+		float3x3 rotate_mat;
+		rotate_mat = rotate_mat.RotateY(delta_x);
+		
+		X = X * rotate_mat;
+		Y = Y * rotate_mat;
+		Z = Z * rotate_mat;
 	}
 
 	if (dy != 0)
 	{
-		float delta_y = (float)dy * sensitivity;
+		float delta_y = -(float)dy * sensitivity;
+
+		float3x3 rotate_mat;
+		rotate_mat = rotate_mat.RotateAxisAngle(X, delta_y);
+
+		//X = X * rotate_mat;
+		Y = Y * rotate_mat;
+		Z = Z * rotate_mat;
 		
-		Y = rotate(Y, delta_y, X);
-		Z = rotate(Z, delta_y, X);
+		//Y = rotate(Y, delta_y, X);
+		//Z = rotate(Z, delta_y, X);
 
 		if (Y.y < -1.0f) // todo minimal issue orbiting obj
 		{
-			Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-			Y = cross(Z, X);
+			Z = vec(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+			Y = Cross(Z, X);
 		}
 	}
 }
 
 // -----------------------------------------------------------------
-void trCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference)
+void trCamera3D::Look(const vec &Position, const vec &Reference, bool RotateAroundReference)
 {
 	this->pos = Position;
 	this->ref = Reference;
 
-	Z = normalize(Position - Reference);
-	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
-	Y = cross(Z, X);
+	Z = (Position - Reference).Normalized();
+	X = (Cross(vec(0.0f, 1.0f, 0.0f), Z)).Normalized();;
+	Y = Cross(Z, X);
 
 	if (!RotateAroundReference)
 	{
@@ -187,20 +197,20 @@ void trCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool RotateAr
 }
 
 // -----------------------------------------------------------------
-void trCamera3D::LookAt(const vec3 &Spot)
+void trCamera3D::LookAt(const vec &Spot)
 {
 	ref = Spot;
 
-	Z = normalize(pos - ref);
-	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
-	Y = cross(Z, X);
+	Z = (pos - ref).Normalized();
+	X = (Cross(vec(0.0f, 1.0f, 0.0f), Z)).Normalized();
+	Y = Cross(Z, X);
 
 	CalculateViewMatrix();
 }
 
 
 // -----------------------------------------------------------------
-void trCamera3D::Move(const vec3 &Movement)
+void trCamera3D::Move(const vec &Movement)
 {
 	pos += Movement;
 	ref += Movement;
@@ -211,14 +221,14 @@ void trCamera3D::Move(const vec3 &Movement)
 // -----------------------------------------------------------------
 float* trCamera3D::GetViewMatrix()
 {
-	return &view_matrix;
+	return view_matrix.ptr();
 }
 
 // -----------------------------------------------------------------
 void trCamera3D::CalculateViewMatrix()
 {
-	view_matrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, pos), -dot(Y, pos), -dot(Z, pos), 1.0f);
-	view_inv_matrix = inverse(view_matrix);
+	view_matrix = float4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -Dot(X, pos), -Dot(Y, pos), -Dot(Z, pos), 1.0f);
+	view_inv_matrix = view_matrix.Inverted();
 }
 
 void trCamera3D::CenterOnScene(AABB* bounding_box)
@@ -228,7 +238,7 @@ void trCamera3D::CenterOnScene(AABB* bounding_box)
 
 	if (bounding_box == nullptr && b_box == nullptr) {
 		pos.Set(3.f, 3.f, 3.f);
-		LookAt(vec3(0.f, 0.f, 0.f));
+		LookAt(vec(0.f, 0.f, 0.f));
 	}else if (b_box != nullptr)
 	{
 		vec center_bbox(b_box->Centroid());
@@ -239,12 +249,12 @@ void trCamera3D::CenterOnScene(AABB* bounding_box)
 		double cam_distance = Abs(App->window->GetWidth() / App->window->GetHeight() * radius / Sin(fov / 2.f));
 
 		vec final_pos = center_bbox + move_dir * cam_distance;
-		pos = vec3(final_pos.x, final_pos.y, final_pos.z);
+		pos = vec(final_pos.x, final_pos.y, final_pos.z);
 
 		if (pos.y < 0.f)
 			pos.y *= -1.f;
 
-		LookAt(vec3(center_bbox.x, center_bbox.y, center_bbox.z));
+		LookAt(vec(center_bbox.x, center_bbox.y, center_bbox.z));
 	}
 }
 
