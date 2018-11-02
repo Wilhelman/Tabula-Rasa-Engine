@@ -13,9 +13,8 @@ public:
 	~trTimeManager();
 
 	bool Start();
-	bool CleanUp();
 
-	// Read only
+	// Getters
 	double ReadGameClockSec() const;
 	double ReadRealTimeClockSec() const;
 	float GetGameClockTimeScale() const;
@@ -23,17 +22,18 @@ public:
 	float GetGameDt() const;
 	float GetRealTimeDt() const;
 
-	// Set
+	// Setters
 	void SetGameClockTimeScale(float time_scale);
 	void UpdateGameClock(float dt);
 	void UpdateRealTimeClock(float dt);
 
+	// Time manegment
 	void PauseGameClock();
 	void ReStartGameClock();
+	void StepGameClock();
 
 private:
 
-	// attributes
 	uint frame_count = 0;
 
 	double real_sec_time = 0.0f;
@@ -45,7 +45,7 @@ private:
 	float dt = 0;
 
 	bool is_game_clock_paused = false;
-	bool is_real_time_clock_paused = false;
+	bool toggle_step_game_mode = false;
 };
 
 #endif // __trTIME_MANAGER_H__

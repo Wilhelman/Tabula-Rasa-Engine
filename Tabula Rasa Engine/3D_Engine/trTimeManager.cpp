@@ -50,13 +50,18 @@ void trTimeManager::SetGameClockTimeScale(float time_scale)
 void trTimeManager::UpdateGameClock(float dt)
 {
 	if (is_game_clock_paused)
+	{
 		this->dt = 0.0f;
+		toggle_step_game_mode = false;
+	}
 	else
 		this->dt = dt;
 
 	game_sec_time += (double)(this->dt * time_scale);
-
 	frame_count++;
+
+	if (toggle_step_game_mode)
+		is_game_clock_paused = true;
 }
 
 void trTimeManager::UpdateRealTimeClock(float dt)
@@ -75,4 +80,10 @@ void trTimeManager::PauseGameClock()
 void trTimeManager::ReStartGameClock()
 {
 	is_game_clock_paused = false;
+}
+
+void trTimeManager::StepGameClock()
+{
+	is_game_clock_paused = false;
+	toggle_step_game_mode = true;
 }

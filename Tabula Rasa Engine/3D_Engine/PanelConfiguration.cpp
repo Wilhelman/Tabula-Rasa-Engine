@@ -371,11 +371,7 @@ void PanelConfiguration::ShowEngineClocks()
 		ImGui::SameLine();
 
 		if (ImGui::Button("ADVANCE"))
-		{
-			App->time_manager->PauseGameClock();
-			App->time_manager->ReStartGameClock();
-			advanced = true;
-		}
+			App->time_manager->StepGameClock();
 			
 
 		ImGui::SliderFloat("Time scale", &time_scale, 0.0f, 3.0f, "%.2f");
