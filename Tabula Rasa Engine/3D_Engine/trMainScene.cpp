@@ -37,7 +37,7 @@ bool trMainScene::Start()
 	grid = new PGrid();
 	grid->axis = true;
 
-	App->file_loader->Import3DFile(default_mesh->c_str());
+	App->file_loader->Import(default_mesh->c_str());
 	
 	return true;
 }

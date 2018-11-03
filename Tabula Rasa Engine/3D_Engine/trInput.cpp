@@ -140,7 +140,7 @@ bool trInput::PreUpdate(float dt)
 					file_format[0] = dropped_filedir[strlen(dropped_filedir) - 4];
 
 					if (file_format.compare(".fbx") == 0 || file_format.compare(".FBX") == 0)
-						App->file_loader->Import3DFile(dropped_filedir);
+						App->file_loader->Import(dropped_filedir);
 					//else																		// TODO when mouse picking or smth
 						//App->texture->LoadImageFromPath(dropped_filedir);
 				}

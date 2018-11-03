@@ -28,7 +28,8 @@ public:
 	bool Start();
 	bool CleanUp();
 
-	bool Import3DFile(const char* file_path);
+	bool Import(const void* buffer, uint size, const char* file_path);
+	bool Import(const char* file_path);
 	void ImportNodesRecursively(const aiNode* node, const aiScene* scene, GameObject* parent_go, char* file_path);
 
 	ComponentMaterial* LoadTexture(aiMaterial* material, GameObject* go);

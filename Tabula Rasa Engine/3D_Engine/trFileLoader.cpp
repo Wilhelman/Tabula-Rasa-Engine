@@ -66,7 +66,54 @@ bool trFileLoader::CleanUp()
 	return true;
 }
 
-bool trFileLoader::Import3DFile(const char* file_path)
+bool trFileLoader::Import(const void * buffer, uint size, const char* file_path)
+{
+	TR_LOG("trFileLoader: Start importing a file with path: %s", file_path);
+
+	if (size <= 0 || buffer != nullptr) {
+		TR_LOG("trFileLoader: Error importing in our format file");
+		return false;
+	}
+
+	const aiScene* scene = aiImportFileFromMemory((const char*)buffer, size, aiProcessPreset_TargetRealtime_MaxQuality, nullptr);
+
+	if (scene != nullptr) {
+		App->main_scene->ClearScene();
+		// Removing and cleaning the last AABB
+		scene_num_vertex = 0u;
+		scene_vertices.clear();
+
+		material_data = nullptr;
+		ImportNodesRecursively(scene->mRootNode, scene, App->main_scene->GetRoot(), (char*)file_path);
+		material_data = nullptr;
+
+		// Camera AABB stuff
+		if (scene->mNumMeshes == 1) { // if only one mesh, get the bounding_box of the last mesh
+			App->editor->SetSelected(model_root);
+			App->camera->FocusOnSelectedGO();
+		}
+		else { // get the bouncing of all the meshes
+			model_bouncing_box = AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
+			model_bouncing_box.Enclose((vec*)&scene_vertices.front(), scene_num_vertex);
+			model_root->bounding_box = model_bouncing_box;
+			App->editor->SetSelected(model_root);
+			App->camera->FocusOnSelectedGO();
+		}
+
+		aiReleaseImport(scene);
+
+		return true;
+
+	}
+
+	TR_LOG("trFileLoader: Error importing a file: %s", file_path);
+
+	aiReleaseImport(scene);
+
+	return false;
+}
+
+bool trFileLoader::Import(const char* file_path)
 {
 	TR_LOG("trFileLoader: Start importing a file with path: %s", file_path);
 	
