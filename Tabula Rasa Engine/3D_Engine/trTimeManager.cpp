@@ -83,9 +83,9 @@ void trTimeManager::UpdateGameClock(float dt)
 		time_step = false;
 	}
 	else
-		this->dt = dt;
+		this->dt = dt * time_scale;
 
-	game_sec_time += (double)(this->dt * time_scale);
+	game_sec_time += (double)(this->dt);
 	frame_count++;
 
 	if (time_step)
