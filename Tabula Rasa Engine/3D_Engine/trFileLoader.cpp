@@ -6,6 +6,7 @@
 #include "trTextures.h"
 #include "trCamera3D.h"
 #include "trMainScene.h"
+#include "trEditor.h"
 
 #include "GameObject.h"
 #include "ComponentMesh.h"
@@ -59,7 +60,6 @@ bool trFileLoader::CleanUp()
 {
 	TR_LOG("Cleaning File Loader");
 
-	if (model_bouncing_box != nullptr) {delete model_bouncing_box; model_bouncing_box = nullptr;}
 	// Clean all log streams
 	aiDetachAllLogStreams();
 
@@ -76,19 +76,22 @@ bool trFileLoader::Import3DFile(const char* file_path)
 	if (scene != nullptr) {
 		App->main_scene->ClearScene();
 		// Removing and cleaning the last AABB
-		if (model_bouncing_box != nullptr) { delete model_bouncing_box; model_bouncing_box = nullptr; } /// Should be deleted in preup?
 		scene_num_vertex = 0u;
 		scene_vertices.clear();
 
 		ImportNodesRecursively(scene->mRootNode, scene, App->main_scene->GetRoot(), (char*)file_path);
 
 		// Camera AABB stuff
-		if (scene->mNumMeshes == 1) // if only one mesh, get the bounding_box of the last mesh
-			App->camera->FocusOnSelectedGO(/*App->main_scene->GetRoot()->bounding_box*/);
+		if (scene->mNumMeshes == 1) { // if only one mesh, get the bounding_box of the last mesh
+			App->editor->SetSelected(model_root);
+			App->camera->FocusOnSelectedGO();
+		}
 		else { // get the bouncing of all the meshes
-			model_bouncing_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
-			model_bouncing_box->Enclose((vec*)&scene_vertices.front(), scene_num_vertex);
-			App->camera->FocusOnSelectedGO(/*model_bouncing_box*/);
+			model_bouncing_box = AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
+			model_bouncing_box.Enclose((vec*)&scene_vertices.front(), scene_num_vertex);
+			model_root->bounding_box = model_bouncing_box;
+			App->editor->SetSelected(model_root);
+			App->camera->FocusOnSelectedGO();
 		}
 
 		aiReleaseImport(scene);
@@ -118,6 +121,7 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		if (std::string::npos != extension)
 			tmp.erase(extension);
 		new_go->SetName(tmp.c_str());
+		model_root = new_go;
 		file_path = nullptr;
 	}
 

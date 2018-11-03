@@ -43,7 +43,8 @@ private:
 	
 	std::vector<vec> scene_vertices;
 	uint scene_num_vertex = 0;
-	AABB* model_bouncing_box = nullptr;
+	AABB model_bouncing_box;
+	GameObject* model_root = nullptr;
 
 };
 

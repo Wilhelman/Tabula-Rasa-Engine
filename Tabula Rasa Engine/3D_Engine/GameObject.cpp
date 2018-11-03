@@ -151,7 +151,10 @@ ComponentTransform * GameObject::GetTransform() const
 void GameObject::RecalculateBoundingBox()
 {
 	ComponentMesh* mesh_co = (ComponentMesh*)FindComponentWithType(Component::component_type::COMPONENT_MESH);
-	
+
+	std::vector<vec> vertices;
+	uint num_vertex = 0;
+
 	if (mesh_co != nullptr)
 	{
 		bounding_box.SetNegativeInfinity();
@@ -164,6 +167,13 @@ void GameObject::RecalculateBoundingBox()
 		tmp_obb.Transform(GetTransform()->GetMatrix().Transposed());
 
 		bounding_box = tmp_obb.MinimalEnclosingAABB();
+	}
+	else {
+		/*RecalculateBoundingBoxRecursively(this);
+		for (std::list<GameObject*>::iterator it = childs.begin(); it != childs.end(); it++) {
+			ComponentMesh* mesh_co = (ComponentMesh*)(*it)->FindComponentWithType(Component::component_type::COMPONENT_MESH);
+
+		}*/
 	}
 }
 
