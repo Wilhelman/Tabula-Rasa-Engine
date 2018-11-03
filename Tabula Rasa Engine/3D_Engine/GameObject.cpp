@@ -162,12 +162,12 @@ void GameObject::RecalculateBoundingBox()
 	if (mesh_co != nullptr) {
 		const Mesh* mesh = mesh_co->GetMesh();
 		bounding_box.Enclose((float3*)mesh->vertices, mesh->vertex_size);
-	}
+	
+		OBB obb(bounding_box);
+		obb.Transform(transform->GetMatrix());
 
-	math::OBB obb = bounding_box.Transform(transform->GetMatrix());
-
-	if (obb.IsFinite())
 		bounding_box = obb.MinimalEnclosingAABB();
+	}
 
 	for (std::list<GameObject*>::iterator it = childs.begin(); it != childs.end(); it++)
 		(*it)->RecalculateBoundingBox();

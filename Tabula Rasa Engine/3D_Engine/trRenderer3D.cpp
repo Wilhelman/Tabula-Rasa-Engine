@@ -197,13 +197,9 @@ bool trRenderer3D::PostUpdate(float dt)
 	//RENDER DEBUG
 	if (debug_draw_on)
 	{
-		for (uint i = 0; i < drawable_go.size(); i++)
-		{
-			glPushMatrix();
+		for (uint i = 0; i < drawable_go.size(); i++) {
 			drawable_go[i]->RecalculateBoundingBox();
-			glMultMatrixf(drawable_go[i]->GetTransform()->GetMatrix().Transposed().ptr());
 			DebugDrawAABB(drawable_go[i]->bounding_box);
-			glPopMatrix();
 		}
 	}
 
