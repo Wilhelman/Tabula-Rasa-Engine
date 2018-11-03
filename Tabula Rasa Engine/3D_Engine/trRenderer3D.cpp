@@ -187,15 +187,25 @@ bool trRenderer3D::PreUpdate(float dt)
 bool trRenderer3D::PostUpdate(float dt)
 {
 	//RENDER GEOMETRY
-	if (App->main_scene != nullptr) {
+	if (App->main_scene != nullptr)
 		App->main_scene->Draw();
-	}
-
+	
 	//RENDER DEBUG
-	/// not yet
+	if (debug_draw_on)
+	{
+		for (uint i = 0; i < drawable_go.size(); i++)
+		{
+			//glPushMatrix();
+			//glMultMatrixf(drawable_go[i]->GetTransform()->GetMatrix().Transposed().ptr());
+			DebugDrawAABB(bb_go[i]);
+			//glPopMatrix();
+		}
+	}
 
 	//RENDER IMPORTED MESH
 	drawable_go.clear();
+	bb_go.clear();
+	
 	CollectGameObjectWithMesh(App->main_scene->GetRoot());
 
 	if (!drawable_go.empty()) 
@@ -254,6 +264,8 @@ void trRenderer3D::SwitchWireframeMode(bool toggle)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	
+	wireframe = toggle;
 }
 
 void trRenderer3D::SwitchDepthMode(bool toggle)
@@ -351,9 +363,6 @@ void trRenderer3D::Draw()
 
 		if (texture != nullptr)
 			glBindTexture(GL_TEXTURE_2D, 0);
-
-		if (debug_draw_on)
-			DebugDrawAABB((*it)->bounding_box);
 		
 		glPopMatrix();
 
@@ -365,7 +374,94 @@ void trRenderer3D::Draw()
 
 void trRenderer3D::DebugDrawAABB(AABB bounding_box)
 {
+	vec bb_corners[8];
+	bounding_box.GetCornerPoints(bb_corners);
 
+	/*float vertex_array[12];
+
+	vertex_array[0] = bb_corners[0].x;
+	vertex_array[1] = bb_corners[0].y;
+	vertex_array[2] = bb_corners[0].z;
+
+	vertex_array[3] = bb_corners[1].x;
+	vertex_array[4] = bb_corners[1].y;
+	vertex_array[5] = bb_corners[1].z;
+
+	vertex_array[6] = bb_corners[2].x;
+	vertex_array[7] = bb_corners[2].y;
+	vertex_array[8] = bb_corners[2].z;
+
+	vertex_array[9] = bb_corners[3].x;
+	vertex_array[10] = bb_corners[3].y;
+	vertex_array[11] = bb_corners[3].z;
+
+
+
+	float index_array[12] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+
+	uint vertices_index = 0;
+	glGenBuffers(1, (GLuint*) &(vertices_index));
+	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 24, vertex_array, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	uint indices_index = 0;
+	glGenBuffers(1, (GLuint*) &(index_array));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_index);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 12, index_array, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glColor3f(1.f, 1.f, 1.f);
+	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_index);
+	glDrawElements(GL_LINES, 12, GL_UNSIGNED_INT, NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	glDisableClientState(GL_VERTEX_ARRAY);*/
+
+	/*if (!wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);*/
+
+	glBegin(GL_QUADS);
+
+	glVertex3fv((GLfloat*)&bb_corners[1]);
+	glVertex3fv((GLfloat*)&bb_corners[5]);
+	glVertex3fv((GLfloat*)&bb_corners[7]);
+	glVertex3fv((GLfloat*)&bb_corners[3]);
+
+	glVertex3fv((GLfloat*)&bb_corners[4]);
+	glVertex3fv((GLfloat*)&bb_corners[0]);
+	glVertex3fv((GLfloat*)&bb_corners[2]);
+	glVertex3fv((GLfloat*)&bb_corners[6]);
+
+	glVertex3fv((GLfloat*)&bb_corners[5]);
+	glVertex3fv((GLfloat*)&bb_corners[4]);
+	glVertex3fv((GLfloat*)&bb_corners[6]);
+	glVertex3fv((GLfloat*)&bb_corners[7]);
+
+	glVertex3fv((GLfloat*)&bb_corners[0]);
+	glVertex3fv((GLfloat*)&bb_corners[1]);
+	glVertex3fv((GLfloat*)&bb_corners[3]);
+	glVertex3fv((GLfloat*)&bb_corners[2]);
+
+	glVertex3fv((GLfloat*)&bb_corners[3]);
+	glVertex3fv((GLfloat*)&bb_corners[7]);
+	glVertex3fv((GLfloat*)&bb_corners[6]);
+	glVertex3fv((GLfloat*)&bb_corners[2]);
+
+	glVertex3fv((GLfloat*)&bb_corners[0]);
+	glVertex3fv((GLfloat*)&bb_corners[4]);
+	glVertex3fv((GLfloat*)&bb_corners[5]);
+	glVertex3fv((GLfloat*)&bb_corners[1]);
+
+	glEnd();
+
+	/*if (!wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);*/
 }
 
 void trRenderer3D::DrawZBuffer()
@@ -416,7 +512,12 @@ math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, floa
 void trRenderer3D::CollectGameObjectWithMesh(GameObject* game_object)
 {
 	if (game_object->FindComponentWithType(Component::component_type::COMPONENT_MESH))
+	{
 		drawable_go.push_back(game_object);
+		bb_go.push_back(game_object->bounding_box); // TODO: gameobjects without mesh (like root)
+													// must have a bounding box too
+	}
+		
 
 	for (std::list<GameObject*>::const_iterator it = game_object->childs.begin(), end = game_object->childs.end(); it != end; it++)
 		CollectGameObjectWithMesh(*it);
