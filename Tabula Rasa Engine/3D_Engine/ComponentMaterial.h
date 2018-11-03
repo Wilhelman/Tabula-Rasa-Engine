@@ -17,7 +17,7 @@ class ComponentMaterial : public Component
 public:
 
 	ComponentMaterial(GameObject* embedded_game_object);
-	~ComponentMaterial(); //todo clean the texture here
+	~ComponentMaterial();
 
 	void SetAmbientColor(float4 ambient_color);
 	const float4 GetAmbientColor()const;

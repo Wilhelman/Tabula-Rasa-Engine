@@ -189,6 +189,10 @@ bool trRenderer3D::PostUpdate(float dt)
 	//RENDER GEOMETRY
 	if (App->main_scene != nullptr)
 		App->main_scene->Draw();
+
+	drawable_go.clear();
+
+	CollectGameObjectWithMesh(App->main_scene->GetRoot());
 	
 	//RENDER DEBUG
 	if (debug_draw_on)
@@ -196,19 +200,14 @@ bool trRenderer3D::PostUpdate(float dt)
 		for (uint i = 0; i < drawable_go.size(); i++)
 		{
 			glPushMatrix();
-			float* p = drawable_go[i]->GetTransform()->GetMatrix().Transposed().ptr();
-			glMultMatrixf(p);
-			DebugDrawAABB(bb_go[i]);
+			drawable_go[i]->RecalculateBoundingBox();
+			glMultMatrixf(drawable_go[i]->GetTransform()->GetMatrix().Transposed().ptr());
+			DebugDrawAABB(drawable_go[i]->bounding_box);
 			glPopMatrix();
 		}
 	}
 
 	//RENDER IMPORTED MESH
-	drawable_go.clear();
-	bb_go.clear();
-	
-	CollectGameObjectWithMesh(App->main_scene->GetRoot());
-
 	if (!drawable_go.empty()) 
 	{
 		this->Draw();
@@ -513,11 +512,7 @@ math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, floa
 void trRenderer3D::CollectGameObjectWithMesh(GameObject* game_object)
 {
 	if (game_object->FindComponentWithType(Component::component_type::COMPONENT_MESH))
-	{
 		drawable_go.push_back(game_object);
-		bb_go.push_back(game_object->bounding_box); // TODO: gameobjects without mesh (like root)
-													// must have a bounding box too
-	}
 		
 
 	for (std::list<GameObject*>::const_iterator it = game_object->childs.begin(), end = game_object->childs.end(); it != end; it++)

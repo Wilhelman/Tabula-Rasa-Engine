@@ -70,7 +70,6 @@ public:
 private:
 
 	std::vector<GameObject*> drawable_go;
-	std::vector<AABB> bb_go;
 
 };
 #endif

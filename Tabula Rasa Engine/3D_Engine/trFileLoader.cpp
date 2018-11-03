@@ -157,7 +157,12 @@ bool trFileLoader::Import(const char* file_path)
 
 void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * scene, GameObject * parent_go, char* file_path)
 {
-	GameObject* new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
+	
+	GameObject* new_go = nullptr;
+
+	if (node->mNumMeshes > 0) //if this node have a mesh
+	{
+	new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
 	std::string tmp = "";
 	if (file_path != nullptr) {
 		tmp = file_path;
@@ -169,7 +174,7 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		if (std::string::npos != extension)
 			tmp.erase(extension);
 		file_name = tmp;
-		new_go->SetName(tmp.c_str());
+		//new_go->SetName(tmp.c_str());
 		model_root = new_go;
 		file_path = nullptr;
 	}
@@ -184,10 +189,6 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 	ComponentTransform* transform_comp = (ComponentTransform*)new_go->CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
 	transform_comp->Setup(float3(translation.x, translation.y, translation.z), float3(scaling.x, scaling.y, scaling.z), rot);
-
-
-	if (node->mNumMeshes > 0) //if this node have a mesh
-	{
 
 		mesh_data = new Mesh(); // our mesh
 
@@ -253,10 +254,11 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		// check if there is already a file
 		// todo finish this
 		//SaveMeshFile(file_name.c_str(), mesh_data);
+		
 	}
-
 	for (uint i = 0; i < node->mNumChildren; i++)
 		ImportNodesRecursively(node->mChildren[i], scene, new_go, file_path);
+	
 
 }
 

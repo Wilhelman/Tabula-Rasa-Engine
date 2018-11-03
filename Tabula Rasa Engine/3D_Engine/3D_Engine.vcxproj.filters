@@ -306,6 +306,9 @@
     <ClCompile Include="trMaterialImporter.cpp">
       <Filter>Core\Modules\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentCamera.cpp">
+      <Filter>Core\GameObject\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -790,6 +793,9 @@
     </ClInclude>
     <ClInclude Include="trMaterialImporter.h">
       <Filter>Core\Modules\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentCamera.h">
+      <Filter>Core\GameObject\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

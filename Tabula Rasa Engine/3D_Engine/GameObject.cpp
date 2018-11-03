@@ -155,38 +155,22 @@ ComponentTransform * GameObject::GetTransform() const
 
 void GameObject::RecalculateBoundingBox()
 {
+	bounding_box.SetNegativeInfinity();
+
 	ComponentMesh* mesh_co = (ComponentMesh*)FindComponentWithType(Component::component_type::COMPONENT_MESH);
 
-	if (mesh_co != nullptr)
-	{
-		bounding_box.SetNegativeInfinity();
-
+	if (mesh_co != nullptr) {
 		const Mesh* mesh = mesh_co->GetMesh();
 		bounding_box.Enclose((float3*)mesh->vertices, mesh->vertex_size);
-
-		OBB tmp_obb(bounding_box);
-
-		tmp_obb.Transform(GetTransform()->GetMatrix().Transposed());
-
-		bounding_box = tmp_obb.MinimalEnclosingAABB();
 	}
-	else { // TODO finish this ...
-		/*std::vector<vec> vertices;
-		uint num_vertex = 0u;
 
-		RecalculateBoundingBoxRecursively(this, &vertices, &num_vertex);
+	math::OBB obb = bounding_box.Transform(transform->GetMatrix());
 
-		if (num_vertex > 0u) {
-			bounding_box.Enclose((vec*)&vertices.front(), num_vertex);
+	if (obb.IsFinite())
+		bounding_box = obb.MinimalEnclosingAABB();
 
-			OBB tmp_obb(bounding_box);
-
-			tmp_obb.Transform(GetTransform()->GetMatrix().Transposed());
-
-			bounding_box = tmp_obb.MinimalEnclosingAABB();
-		}*/
-		
-	}
+	for (std::list<GameObject*>::iterator it = childs.begin(); it != childs.end(); it++)
+		(*it)->RecalculateBoundingBox();
 }
 
 void GameObject::RecalculateBoundingBoxRecursively(GameObject * go, std::vector<vec>* vertices, uint* num_vertex)
