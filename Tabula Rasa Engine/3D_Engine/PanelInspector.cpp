@@ -22,7 +22,6 @@ PanelInspector::~PanelInspector()
 {
 }
 
-
 void PanelInspector::Draw()
 {
 	ImGui::Begin("Inspector", &active);
@@ -34,6 +33,10 @@ void PanelInspector::Draw()
 		strcpy_s(go_name, GAMEOBJECT_MAX_LENGTH, selected->GetName());
 		if (ImGui::InputText("##GO_NAME", go_name, GAMEOBJECT_MAX_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
 			selected->SetName(go_name);
+
+		ImGui::SameLine();
+
+		ImGui::Checkbox("Static", &selected->is_static);
 
 		ImGui::Separator();
 
@@ -56,7 +59,7 @@ void PanelInspector::Draw()
 			float3 euler_rot = rotation.ToEulerXYZ();
 			float3 deg_euler_rot = float3(math::RadToDeg(euler_rot.x), math::RadToDeg(euler_rot.y), math::RadToDeg(euler_rot.z));
 			if (ImGui::DragFloat3("##ROTATION", (float*)&deg_euler_rot), 0.2f) {			// TODO: IS ALWAYS YES! WHY?
-				// TODO: math stuff limitless Y
+				// TODO: math stuff - limitless Y
 				have_to_update = true;
 				euler_rot.Set(math::DegToRad(deg_euler_rot.x), math::DegToRad(deg_euler_rot.y), math::DegToRad(deg_euler_rot.z));
 				rotation = math::Quat::FromEulerXYZ(euler_rot.x, euler_rot.y, euler_rot.z);
