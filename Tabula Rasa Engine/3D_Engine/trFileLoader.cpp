@@ -125,10 +125,9 @@ bool trFileLoader::Import(const char* file_path)
 		// Removing and cleaning the last AABB
 		scene_num_vertex = 0u;
 		scene_vertices.clear();
-
+		cursor_data = nullptr;
 		material_data = nullptr;
 		ImportNodesRecursively(scene->mRootNode, scene, App->main_scene->GetRoot(), (char*)file_path);
-		material_data = nullptr;
 
 		// Camera AABB stuff
 		if (scene->mNumMeshes == 1) { // if only one mesh, get the bounding_box of the last mesh
@@ -159,9 +158,9 @@ bool trFileLoader::Import(const char* file_path)
 void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * scene, GameObject * parent_go, char* file_path)
 {
 	GameObject* new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
-
+	std::string tmp = "";
 	if (file_path != nullptr) {
-		std::string tmp = file_path;
+		tmp = file_path;
 		// Let's get the file name to print it in inspector:
 		const size_t last_slash = tmp.find_last_of("\\/");
 		if (std::string::npos != last_slash)
@@ -169,6 +168,7 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		const size_t extension = tmp.rfind('.');
 		if (std::string::npos != extension)
 			tmp.erase(extension);
+		file_name = tmp;
 		new_go->SetName(tmp.c_str());
 		model_root = new_go;
 		file_path = nullptr;
@@ -248,8 +248,12 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 		ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
 		mesh_comp->SetMesh(mesh_data);
+
+		//testing zone
+		// check if there is already a file
+		// todo finish this
+		//SaveMeshFile(file_name.c_str(), mesh_data);
 	}
-	
 
 	for (uint i = 0; i < node->mNumChildren; i++)
 		ImportNodesRecursively(node->mChildren[i], scene, new_go, file_path);
@@ -293,19 +297,22 @@ ComponentMaterial * trFileLoader::LoadTexture(aiMaterial* material, GameObject* 
 	
 }
 
-bool trFileLoader::SaveMeshFile(const char* file_name)
+bool trFileLoader::SaveMeshFile(const char* file_name, Mesh* mesh_data)
 {
 	uint size_indices = sizeof(uint) * mesh_data->index_size;
 	uint size_vertices = sizeof(float) * mesh_data->vertex_size * 3;
 	uint size_uvs = sizeof(float) * mesh_data->size_uv * 2;
-	uint size_ambient_color = sizeof(float4);
 
 	// amount of indices / vertices / colors / normals / texture_coords / AABB
 	uint ranges[4] = { mesh_data->index_size, mesh_data->vertex_size, mesh_data->size_uv, 1 };
-	uint size = sizeof(ranges) + size_indices + size_vertices + size_uvs + size_ambient_color;
+	uint size = sizeof(ranges) + size_indices + size_vertices + size_uvs;
 
 	char* data = new char[size]; // Allocate
-	char* cursor = data;
+	char* cursor = nullptr;
+	if (cursor_data)
+		cursor = cursor_data;
+	else
+		cursor = data;
 
 	uint bytes = sizeof(ranges); // First store ranges
 	memcpy(cursor, ranges, bytes);
@@ -322,9 +329,9 @@ bool trFileLoader::SaveMeshFile(const char* file_name)
 	bytes = size_uvs;
 	memcpy(cursor, mesh_data->uvs, bytes);
 
-	/*cursor += bytes; // Store ambient color
-	bytes = size_ambient_color;
-	memcpy(cursor, mesh_data->ambient_color, bytes);*/ //now this is stored in component material
+	//before saving, lets point at the end with omega-cursor
+	cursor_data = cursor;
+	cursor_data += bytes;
 
 	// Saving file
 	std::string tmp_str(file_name);

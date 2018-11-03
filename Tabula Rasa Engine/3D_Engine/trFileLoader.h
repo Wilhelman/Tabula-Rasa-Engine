@@ -35,13 +35,19 @@ public:
 	ComponentMaterial* LoadTexture(aiMaterial* material, GameObject* go);
 
 
-	bool SaveMeshFile(const char* file_name);
+	bool SaveMeshFile(const char* file_name, Mesh* mesh_data);
 	bool LoadMeshFile(const char* file_path);
 
 private:
 
 	Mesh* mesh_data = nullptr;
+
+	//used as static
 	ComponentMaterial* material_data = nullptr;
+	char* cursor_data = nullptr;
+
+	// Tabula Rasa's format
+	std::string file_name;
 	
 	std::vector<vec> scene_vertices;
 	uint scene_num_vertex = 0;
