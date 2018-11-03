@@ -26,8 +26,6 @@ GameObject::GameObject(const char * name, GameObject * parent)
 // ---------------------------------------------------------
 GameObject::~GameObject()
 {
-	RELEASE(local_bounding_box);
-
 	for (std::list<Component*>::iterator it = components.begin(); it != components.end(); it++)
 		RELEASE(*it);
 
@@ -139,15 +137,15 @@ void GameObject::RecalculateBoundingBox()
 
 	if (mesh_co != nullptr)
 	{
-		local_bounding_box->SetNegativeInfinity();
+		bounding_box.SetNegativeInfinity();
 
-		local_bounding_box->Enclose((float3*)mesh->vertices, mesh->vertex_size);
+		bounding_box.Enclose((float3*)mesh->vertices, mesh->vertex_size);
 
-		OBB tmp_obb(*local_bounding_box);
+		OBB tmp_obb(bounding_box);
 
 		tmp_obb.Transform(GetTransform()->GetMatrix().Transposed());
 
-		local_bounding_box = &tmp_obb.MinimalEnclosingAABB();
+		bounding_box = tmp_obb.MinimalEnclosingAABB();
 	}
 }
 

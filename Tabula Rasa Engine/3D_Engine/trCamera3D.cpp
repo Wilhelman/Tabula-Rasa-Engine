@@ -3,6 +3,8 @@
 #include "trInput.h"
 #include "trWindow.h"
 #include "trCamera3D.h"
+#include "trEditor.h"
+#include "GameObject.h"
 
 
 trCamera3D::trCamera3D() : trModule()
@@ -66,7 +68,7 @@ bool trCamera3D::Update(float dt)
 
 	// ----- Camera focus on geometry -----
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) CenterOnScene();
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) FocusOnSelectedGO();
 
 	// ----- Camera FPS-like rotation with mouse -----
 
@@ -87,8 +89,9 @@ bool trCamera3D::Update(float dt)
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT
 		     && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
-		if (b_box != nullptr)
-			LookAt(vec(b_box->Centroid().x, b_box->Centroid().y, b_box->Centroid().z));
+		GameObject* selected = App->editor->GetSelected();
+		if(selected)
+			LookAt(vec(selected->bounding_box.Centroid().x, selected->bounding_box.Centroid().y, selected->bounding_box.Centroid().z));
 		else
 			LookAt(vec(0.f, 0.f, 0.f));
 
@@ -227,20 +230,15 @@ void trCamera3D::CalculateViewMatrix()
 	view_inv_matrix = view_matrix.Inverted();
 }
 
-void trCamera3D::CenterOnScene(AABB* bounding_box)
+void trCamera3D::FocusOnSelectedGO()
 {
-	if (bounding_box != nullptr)
-		b_box = bounding_box;
+	GameObject* selected = App->editor->GetSelected();
+	if (selected) {
 
-	if (bounding_box == nullptr && b_box == nullptr) {
-		pos.Set(3.f, 3.f, 3.f);
-		LookAt(vec(0.f, 0.f, 0.f));
-	}else if (b_box != nullptr)
-	{
-		vec center_bbox(b_box->Centroid());
+		vec center_bbox(selected->bounding_box.Centroid());
 		vec move_dir = (vec(pos.x, pos.y, pos.z) - center_bbox).Normalized();
 
-		float radius = b_box->MinimalEnclosingSphere().r;
+		float radius = selected->bounding_box.MinimalEnclosingSphere().r;
 		double fov = DEG_TO_RAD(60.0f);
 		double cam_distance = Abs(App->window->GetWidth() / App->window->GetHeight() * radius / Sin(fov / 2.f));
 
@@ -251,11 +249,8 @@ void trCamera3D::CenterOnScene(AABB* bounding_box)
 			pos.y *= -1.f;
 
 		LookAt(vec(center_bbox.x, center_bbox.y, center_bbox.z));
+	}else{
+		pos.Set(3.f, 3.f, 3.f);
+		LookAt(vec(0.f, 0.f, 0.f));
 	}
-}
-
-void trCamera3D::ClearLastBoundingBox()
-{
-	if (b_box != nullptr)
-		b_box = nullptr;
 }

@@ -28,8 +28,7 @@ public:
 	void Move(const vec &Movement);
 	float* GetViewMatrix();
 
-	void CenterOnScene(AABB* bounding_box = nullptr);
-	void ClearLastBoundingBox();
+	void FocusOnSelectedGO();
 
 private:
 
@@ -42,7 +41,6 @@ public:
 private:
 
 	float4x4 view_matrix, view_inv_matrix;
-	AABB* b_box = nullptr;
 
 	float rotation_sensitivity = 0.25f, orbit_sensitivity = 0.25f, 
 		  pan_sensitivity = 0.01f, cam_speed = 7.f, cam_boost_speed = 14.f;

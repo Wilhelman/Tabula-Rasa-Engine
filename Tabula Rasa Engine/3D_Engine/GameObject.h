@@ -47,7 +47,7 @@ private:
 
 public:
 
-	AABB* local_bounding_box = nullptr;
+	AABB bounding_box;
 
 	std::list<GameObject*> childs;
 	std::list<Component*> components;
