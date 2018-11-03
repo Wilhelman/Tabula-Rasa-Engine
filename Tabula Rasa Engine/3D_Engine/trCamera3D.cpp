@@ -10,14 +10,12 @@
 trCamera3D::trCamera3D() : trModule()
 {
 	this->name = "Camera3D";
-	CalculateViewMatrix();
 
-	X = vec(1.0f, 0.0f, 0.0f);
-	Y = vec(0.0f, 1.0f, 0.0f);
-	Z = vec(0.0f, 0.0f, 1.0f);
+	frustum.front = vec(0.0f, 0.0f, 1.0f);
+	frustum.up = vec(0.0f, 1.0f, 0.0f);
 
-	pos = vec(0.0f, 0.0f, 5.0f);
-	ref = vec(0.0f, 0.0f, 0.0f);
+	frustum.pos = vec(0.0f, 0.0f, 5.0f);
+	looking_at = vec(0.0f, 0.0f, 0.0f);
 }
 
 trCamera3D::~trCamera3D()
@@ -82,8 +80,8 @@ bool trCamera3D::Update(float dt)
 		ProcessMouseMotion(dx, dy, rotation_sensitivity);
 	}
 
-	pos += new_pos;
-	ref += new_pos;
+	frustum.pos += new_pos;
+	looking_at += new_pos;
 
 	// ----- Camera orbit around target with mouse and panning -----
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT
@@ -98,27 +96,23 @@ bool trCamera3D::Update(float dt)
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
 
-		pos -= ref;
+		frustum.pos -= looking_at;
 
 		ProcessMouseMotion(dx, dy, orbit_sensitivity);
 
-		pos = ref + Z * pos.Length();
+		frustum.pos = looking_at + frustum.front * frustum.pos.Length();
 	}
 	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
 	{
 		int dx = -App->input->GetMouseXMotion();
 		int dy = App->input->GetMouseYMotion();
 
-		new_pos += X * dx * pan_sensitivity;
-		new_pos += Y * dy * pan_sensitivity;
+		new_pos += frustum.WorldRight() * dx * pan_sensitivity;
+		new_pos += frustum.up * dy * pan_sensitivity;
 
-		pos += new_pos;
-		ref += new_pos;
+		frustum.pos += new_pos;
+		looking_at += new_pos;
 	}
-	
-	// ----- Recalculate view matrix -----
-
-	CalculateViewMatrix();
 
 	return true;
 }
@@ -126,10 +120,10 @@ bool trCamera3D::Update(float dt)
 void trCamera3D::ProcessMouseWheelInput(vec &new_pos, float speed)
 {
 	if (App->input->GetMouseZ() > 0)
-		new_pos -= Z * speed;
+		new_pos -= frustum.front * speed;
 
 	if (App->input->GetMouseZ() < 0)
-		new_pos += Z * speed;
+		new_pos += frustum.front * speed;
 }
 
 void trCamera3D::ProcessKeyboardInput(vec &new_pos, float speed)
@@ -137,11 +131,11 @@ void trCamera3D::ProcessKeyboardInput(vec &new_pos, float speed)
 	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_REPEAT) new_pos.y += speed;
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) != KEY_REPEAT) new_pos.y -= speed;
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) new_pos -= Z * speed;
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) new_pos += Z * speed;
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) new_pos -= frustum.front * speed;
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) new_pos += frustum.front * speed;
 
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) new_pos -= X * speed;
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) new_pos += X * speed;
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) new_pos -= frustum.WorldRight() * speed;
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) new_pos += frustum.WorldRight() * speed;
 }
 
 void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
@@ -153,9 +147,9 @@ void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 		float3x3 rotate_mat;
 		rotate_mat = rotate_mat.RotateY(delta_x);
 		
-		X = X * rotate_mat;
-		Y = Y * rotate_mat;
-		Z = Z * rotate_mat;
+		//X = X * rotate_mat;
+		frustum.up = frustum.up * rotate_mat;
+		frustum.front = frustum.front * rotate_mat;
 	}
 
 	if (dy != 0)
@@ -163,15 +157,15 @@ void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 		float delta_y = -(float)dy * sensitivity;
 
 		float3x3 rotate_mat;
-		rotate_mat = rotate_mat.RotateAxisAngle(X, delta_y);
+		rotate_mat = rotate_mat.RotateAxisAngle(frustum.WorldRight(), delta_y);
 
-		Y = Y * rotate_mat;
-		Z = Z * rotate_mat;
+		frustum.up = frustum.up * rotate_mat;
+		frustum.front = frustum.front * rotate_mat;
 
-		if (Y.y < -1.0f) // todo minimal issue orbiting obj
+		if (frustum.up.y < -1.0f) // todo minimal issue orbiting obj
 		{
-			Z = vec(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-			Y = Cross(Z, X);
+			frustum.front = vec(0.0f, frustum.front.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+			frustum.up = Cross(frustum.front, frustum.WorldRight());
 		}
 	}
 }
@@ -179,55 +173,49 @@ void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 // -----------------------------------------------------------------
 void trCamera3D::Look(const vec &Position, const vec &Reference, bool RotateAroundReference)
 {
-	this->pos = Position;
-	this->ref = Reference;
+	this->frustum.pos = Position;
+	this->looking_at = Reference;
 
-	Z = (Position - Reference).Normalized();
-	X = (Cross(vec(0.0f, 1.0f, 0.0f), Z)).Normalized();;
-	Y = Cross(Z, X);
+	frustum.front = (Position - Reference).Normalized();
+	//X = (Cross(vec(0.0f, 1.0f, 0.0f), Z)).Normalized();
+	
+	frustum.up = Cross(frustum.front, frustum.WorldRight());
 
 	if (!RotateAroundReference)
 	{
-		this->ref = this->pos;
-		this->pos += Z * 0.05f;
+		this->looking_at = this->frustum.pos;
+		this->frustum.pos += frustum.front * 0.05f;
 	}
-
-	CalculateViewMatrix();
 }
 
 // -----------------------------------------------------------------
 void trCamera3D::LookAt(const vec &Spot)
 {
-	ref = Spot;
+	looking_at = Spot;
 
-	Z = (pos - ref).Normalized();
-	X = (Cross(vec(0.0f, 1.0f, 0.0f), Z)).Normalized();
-	Y = Cross(Z, X);
+	frustum.front = (frustum.pos - looking_at).Normalized();
+	//X = (Cross(vec(0.0f, 1.0f, 0.0f), Z)).Normalized();
+	frustum.up = Cross(frustum.front, frustum.WorldRight());
 
-	CalculateViewMatrix();
 }
 
 
 // -----------------------------------------------------------------
 void trCamera3D::Move(const vec &Movement)
 {
-	pos += Movement;
-	ref += Movement;
-
-	CalculateViewMatrix();
+	frustum.pos += Movement;
+	looking_at += Movement;
 }
 
 // -----------------------------------------------------------------
 float* trCamera3D::GetViewMatrix()
 {
-	return view_matrix.ptr();
-}
+	static float4x4 m;
 
-// -----------------------------------------------------------------
-void trCamera3D::CalculateViewMatrix()
-{
-	view_matrix = float4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -Dot(X, pos), -Dot(Y, pos), -Dot(Z, pos), 1.0f);
-	view_inv_matrix = view_matrix.Inverted();
+	m = frustum.ViewMatrix();
+	m.Transpose();
+
+	return (float*)m.v;
 }
 
 void trCamera3D::FocusOnSelectedGO()
@@ -238,21 +226,21 @@ void trCamera3D::FocusOnSelectedGO()
 		selected->RecalculateBoundingBox(); // TODO: bad feelings ...
 
 		vec center_bbox(selected->bounding_box.Centroid());
-		vec move_dir = (vec(pos.x, pos.y, pos.z) - center_bbox).Normalized();
+		vec move_dir = (frustum.pos - center_bbox).Normalized();
 
 		float radius = selected->bounding_box.MinimalEnclosingSphere().r;
 		double fov = DEG_TO_RAD(60.0f);
 		double cam_distance = Abs(App->window->GetWidth() / App->window->GetHeight() * radius / Sin(fov / 2.f));
 
 		vec final_pos = center_bbox + move_dir * cam_distance;
-		pos = vec(final_pos.x, final_pos.y, final_pos.z);
+		frustum.pos = vec(final_pos.x, final_pos.y, final_pos.z);
 
-		if (pos.y < 0.f)
-			pos.y *= -1.f;
+		if (frustum.pos.y < 0.f)
+			frustum.pos.y *= -1.f;
 
 		LookAt(vec(center_bbox.x, center_bbox.y, center_bbox.z));
 	}else{
-		pos.Set(3.f, 3.f, 3.f);
+		frustum.pos.Set(3.f, 3.f, 3.f);
 		LookAt(vec(0.f, 0.f, 0.f));
 	}
 }

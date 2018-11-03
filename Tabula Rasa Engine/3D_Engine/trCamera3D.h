@@ -30,13 +30,11 @@ public:
 
 	void FocusOnSelectedGO();
 
-private:
-
-	void CalculateViewMatrix();
 	
 public:
 
-	vec X, Y, Z, pos, ref;
+	Frustum frustum;
+	float3 looking_at;
 
 private:
 

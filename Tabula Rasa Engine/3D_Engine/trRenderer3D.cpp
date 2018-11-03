@@ -175,7 +175,7 @@ bool trRenderer3D::PreUpdate(float dt)
 	glLoadMatrixf(App->camera->GetViewMatrix());
 
 	// light 0 on cam pos
-	lights[0].SetPos(App->camera->pos.x, App->camera->pos.y, App->camera->pos.z);
+	lights[0].SetPos(App->camera->frustum.pos.x, App->camera->frustum.pos.y, App->camera->frustum.pos.z);
 
 	for (uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();

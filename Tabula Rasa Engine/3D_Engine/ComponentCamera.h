@@ -11,18 +11,33 @@ class ComponentCamera : public Component
 public:
 
 	ComponentCamera(GameObject* embedded_game_object);
-	~ComponentCamera(); 
+	~ComponentCamera();
 
+	float GetNearPlaneDist() const;
+	float GetFarPlaneDist() const;
+	float GetFOV() const;
+	float GetAspectRatio() const;
 
+	void SetNearPlaneDist(float dist);
+	void SetFarPlaneDist(float dist);
+	void SetFOV(float fov);
+	void SetAspectRatio(float aspect_ratio);
 
-private:
+	void Look(const float3& position);
+
+	float* GetOpenGLViewMatrix();
+	float* GetOpenGLProjectionMatrix();
+
+public:
 
 	Frustum frustum;
 	float4 background_color = float4::zero;
-	bool frustum_culling = false;
-	bool projection_changed = false;
+
 	const GameObject* looking_at = nullptr;
-	uint looking_at_uid = 0;
+
+	bool frustum_culling = false;
+
+	bool projection_changed = false;
 
 };
 
