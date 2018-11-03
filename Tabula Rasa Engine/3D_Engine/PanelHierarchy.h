@@ -13,8 +13,10 @@ public:
 
 	void Draw() override;
 
-private:
+	void ItemHovered(GameObject* go);
 
+private:
+	GameObject* dragged_go = nullptr;
 	void DrawGameObject(GameObject* game_object);
 
 };

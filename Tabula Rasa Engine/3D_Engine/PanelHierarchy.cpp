@@ -4,6 +4,8 @@
 #include "trApp.h"
 #include "GameObject.h"
 #include "trMainScene.h"
+#include "trCamera3D.h"
+
 #include "trDefs.h"
 #include <list>
 
@@ -59,6 +61,8 @@ void PanelHierarchy::DrawGameObject(GameObject * game_object)
 
 	if (ImGui::TreeNodeEx(game_object->GetName(), tree_node_flags))
 	{
+		ItemHovered(game_object);
+
 		if (ImGui::IsItemClicked(0))  // left click
 			App->editor->SetSelected(game_object);
 
@@ -67,8 +71,6 @@ void PanelHierarchy::DrawGameObject(GameObject * game_object)
 
 		if (ImGui::BeginPopup("Options"))
 		{
-			//if (ImGui::MenuItem("Clone"))
-				//TR_LOG("TODO CLONE");
 
 			if (ImGui::MenuItem("Remove"))
 				game_object->to_destroy = true;
@@ -83,5 +85,35 @@ void PanelHierarchy::DrawGameObject(GameObject * game_object)
 		}
 
 		ImGui::TreePop();
+	}else
+		ItemHovered(game_object);
+}
+
+
+void PanelHierarchy::ItemHovered(GameObject* hovered_go)
+{
+	if (ImGui::IsItemHoveredRect())
+	{
+		if (dragged_go && dragged_go != hovered_go)
+		{
+			ImGui::BeginTooltip();
+			ImGui::Text("Moving %s to %s", dragged_go->GetName(), hovered_go->GetName());
+			ImGui::EndTooltip();
+		}
+
+		if (ImGui::IsMouseClicked(0)) {
+			App->editor->SetSelected(hovered_go);
+			dragged_go = App->editor->GetSelected();
+		}
+
+		if (ImGui::IsMouseDoubleClicked(0))
+			App->camera->FocusOnSelectedGO();
+
+		if (dragged_go && ImGui::IsMouseReleased(0))
+		{
+			if(dragged_go != hovered_go)
+				dragged_go->SetParent(hovered_go);
+			dragged_go = nullptr;
+		}
 	}
 }

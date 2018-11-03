@@ -115,6 +115,24 @@ GameObject * GameObject::GetParent() const
 	return this->parent;
 }
 
+void GameObject::SetParent(GameObject * new_parent)
+{
+	if (this->parent == new_parent) {
+		return;
+	}
+
+	if (parent != nullptr)
+		parent->childs.remove(this);
+
+	parent = new_parent;
+
+	if (new_parent)
+		new_parent->childs.push_back(this);
+
+	this->GetTransform()->GetMatrix();
+	this->RecalculateBoundingBox();
+}
+
 const char * GameObject::GetName() const
 {
 	return this->name.c_str();

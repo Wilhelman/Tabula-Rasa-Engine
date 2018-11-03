@@ -28,6 +28,7 @@ public:
 
 	// getters/setters stuff
 	GameObject* GetParent() const;
+	void SetParent(GameObject* new_parent);
 	const char* GetName() const;
 	void SetName(const char* name);
 	ComponentTransform* GetTransform()const;
