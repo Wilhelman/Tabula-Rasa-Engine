@@ -34,6 +34,7 @@ public:
 	ComponentTransform* GetTransform()const;
 
 	void RecalculateBoundingBox();
+	void RecalculateBoundingBoxRecursively(GameObject* go, std::vector<vec>* vertices, uint* num_vertex);
 
 	bool IsActive()const;
 
