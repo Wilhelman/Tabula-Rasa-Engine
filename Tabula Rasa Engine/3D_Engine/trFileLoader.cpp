@@ -85,7 +85,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 
 		// Camera AABB stuff
 		if (scene->mNumMeshes == 1) // if only one mesh, get the bounding_box of the last mesh
-			App->camera->CenterOnScene(App->main_scene->GetRoot()->bounding_box);
+			App->camera->CenterOnScene(App->main_scene->GetRoot()->local_bounding_box);
 		else { // get the bouncing of all the meshes
 			model_bouncing_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
 			model_bouncing_box->Enclose((vec*)&scene_vertices.front(), scene_num_vertex);
@@ -180,8 +180,8 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		}
 
 		// Generating bounding box
-		new_go->bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
-		new_go->bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
+		new_go->local_bounding_box = new AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
+		new_go->local_bounding_box->Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
 
 		ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
 		mesh_comp->SetMesh(mesh_data);

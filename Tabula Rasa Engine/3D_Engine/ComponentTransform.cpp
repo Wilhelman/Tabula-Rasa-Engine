@@ -49,10 +49,10 @@ void ComponentTransform::GetLocalPosition(float3 * position, float3 * scale, Qua
 
 float4x4 ComponentTransform::GetMatrix()
 {
-	local_matrix = math::float4x4::FromTRS(position, rotation, scale);
+	local_matrix = float4x4::FromTRS(position, rotation, scale);
 
 	if (embedded_go->GetParent() != nullptr) {
-			math::float4x4 parent_matrix = embedded_go->GetParent()->GetTransform()->GetMatrix();
+			float4x4 parent_matrix = embedded_go->GetParent()->GetTransform()->GetMatrix();
 			global_matrix = parent_matrix * local_matrix;
 			return global_matrix;
 	}

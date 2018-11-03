@@ -26,10 +26,13 @@ public:
 	// finds and returns the first component of the type sended
 	Component* FindComponentWithType(Component::component_type type);
 
+	// getters/setters stuff
 	GameObject* GetParent() const;
 	const char* GetName() const;
 	void SetName(const char* name);
 	ComponentTransform* GetTransform()const;
+
+	void RecalculateBoundingBox();
 
 	bool IsActive()const;
 
@@ -44,7 +47,7 @@ private:
 
 public:
 
-	AABB* bounding_box = nullptr;
+	AABB* local_bounding_box = nullptr;
 
 	std::list<GameObject*> childs;
 	std::list<Component*> components;

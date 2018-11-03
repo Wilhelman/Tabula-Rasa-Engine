@@ -26,7 +26,7 @@ GameObject::GameObject(const char * name, GameObject * parent)
 // ---------------------------------------------------------
 GameObject::~GameObject()
 {
-	RELEASE(bounding_box);
+	RELEASE(local_bounding_box);
 
 	for (std::list<Component*>::iterator it = components.begin(); it != components.end(); it++)
 		RELEASE(*it);
@@ -130,6 +130,25 @@ void GameObject::SetName(const char * name)
 ComponentTransform * GameObject::GetTransform() const
 {
 	return transform;
+}
+
+void GameObject::RecalculateBoundingBox()
+{
+	ComponentMesh* mesh_co = (ComponentMesh*)FindComponentWithType(Component::component_type::COMPONENT_MESH);
+	const Mesh* mesh = mesh_co->GetMesh();
+
+	if (mesh_co != nullptr)
+	{
+		local_bounding_box->SetNegativeInfinity();
+
+		local_bounding_box->Enclose((float3*)mesh->vertices, mesh->vertex_size);
+
+		OBB tmp_obb(*local_bounding_box);
+
+		tmp_obb.Transform(GetTransform()->GetMatrix().Transposed());
+
+		local_bounding_box = &tmp_obb.MinimalEnclosingAABB();
+	}
 }
 
 bool GameObject::IsActive() const
