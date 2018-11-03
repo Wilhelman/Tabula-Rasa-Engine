@@ -195,10 +195,11 @@ bool trRenderer3D::PostUpdate(float dt)
 	{
 		for (uint i = 0; i < drawable_go.size(); i++)
 		{
-			//glPushMatrix();
-			//glMultMatrixf(drawable_go[i]->GetTransform()->GetMatrix().Transposed().ptr());
+			glPushMatrix();
+			float* p = drawable_go[i]->GetTransform()->GetMatrix().Transposed().ptr();
+			glMultMatrixf(p);
 			DebugDrawAABB(bb_go[i]);
-			//glPopMatrix();
+			glPopMatrix();
 		}
 	}
 
@@ -423,8 +424,8 @@ void trRenderer3D::DebugDrawAABB(AABB bounding_box)
 
 	glDisableClientState(GL_VERTEX_ARRAY);*/
 
-	/*if (!wireframe)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);*/
+	if (!wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glBegin(GL_QUADS);
 
@@ -460,8 +461,8 @@ void trRenderer3D::DebugDrawAABB(AABB bounding_box)
 
 	glEnd();
 
-	/*if (!wireframe)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);*/
+	if (!wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void trRenderer3D::DrawZBuffer()
