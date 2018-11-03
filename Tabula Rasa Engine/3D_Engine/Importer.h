@@ -12,9 +12,10 @@ public:
 	Importer() { }
 	~Importer() { }
 
-	virtual bool Import(const char* file, const char* path, std::string& output_file) { return true; }
-	virtual bool Import(const void* buffer, uint size, std::string& output_file) { return true; }
-	virtual bool Load(const char* exported_file, void* resource) { return true; }
+	virtual bool Import(const char* file, const char* path, std::string& output_file) = 0;
+	virtual bool Import(const void* buffer, uint size, std::string& output_file) = 0;
+	//virtual bool Load(const char* exported_file, Texture* resource);
+	//virtual bool LoadCheckers(Texture* resource);
 };
 
 #endif // __trIMPORTER_H__

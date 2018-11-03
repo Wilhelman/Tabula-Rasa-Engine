@@ -40,6 +40,7 @@ public:
 private:
 
 	Mesh* mesh_data = nullptr;
+	ComponentMaterial* material_data = nullptr;
 	
 	std::vector<vec> scene_vertices;
 	uint scene_num_vertex = 0;

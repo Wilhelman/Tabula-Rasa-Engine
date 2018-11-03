@@ -55,14 +55,14 @@
     <Filter Include="Utilities\3rd Party\DevIL">
       <UniqueIdentifier>{5a4e4e97-8a43-4d33-b72b-598f9f3f00c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Importers">
-      <UniqueIdentifier>{a812b45e-66aa-4387-a9ad-1a507ba81526}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\GameObject">
       <UniqueIdentifier>{e16891a5-35de-4878-9a71-482f67d7e286}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\GameObject\Component">
       <UniqueIdentifier>{dca1fdf0-a340-4ad9-b4b9-7472d868b7f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Modules\Importers">
+      <UniqueIdentifier>{a812b45e-66aa-4387-a9ad-1a507ba81526}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -299,6 +299,12 @@
     </ClCompile>
     <ClCompile Include="trTimeManager.cpp">
       <Filter>Core\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="trSceneImporter.cpp">
+      <Filter>Core\Modules\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="trMaterialImporter.cpp">
+      <Filter>Core\Modules\Importers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -768,7 +774,7 @@
       <Filter>Core\GameObject\Component</Filter>
     </ClInclude>
     <ClInclude Include="Importer.h">
-      <Filter>Core\Importers</Filter>
+      <Filter>Core\Modules\Importers</Filter>
     </ClInclude>
     <ClInclude Include="PanelHierarchy.h">
       <Filter>Core\Editor</Filter>
@@ -778,6 +784,12 @@
     </ClInclude>
     <ClInclude Include="trTimeManager.h">
       <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="trSceneImporter.h">
+      <Filter>Core\Modules\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="trMaterialImporter.h">
+      <Filter>Core\Modules\Importers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

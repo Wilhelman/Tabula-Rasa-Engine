@@ -79,7 +79,9 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		scene_num_vertex = 0u;
 		scene_vertices.clear();
 
+		material_data = nullptr;
 		ImportNodesRecursively(scene->mRootNode, scene, App->main_scene->GetRoot(), (char*)file_path);
+		material_data = nullptr;
 
 		// Camera AABB stuff
 		if (scene->mNumMeshes == 1) { // if only one mesh, get the bounding_box of the last mesh
@@ -136,7 +138,6 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 	ComponentTransform* transform_comp = (ComponentTransform*)new_go->CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
 	transform_comp->Setup(float3(translation.x, translation.y, translation.z), float3(scaling.x, scaling.y, scaling.z), rot);
 
-	static ComponentMaterial* material_comp = nullptr;
 
 	if (node->mNumMeshes > 0) //if this node have a mesh
 	{
@@ -147,10 +148,10 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 		// Getting texture material if needed	
 		if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr) {
-			if(material_comp == nullptr)
-				material_comp = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go);
+			if(material_data == nullptr)
+				material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go);
 			else
-				material_comp = (ComponentMaterial*)new_go->CreateComponent(Component::component_type::COMPONENT_MATERIAL, material_comp);
+				material_data = (ComponentMaterial*)new_go->CreateComponent(Component::component_type::COMPONENT_MATERIAL, material_data);
 		}
 
 		// Vertex copy
@@ -206,7 +207,6 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 	for (uint i = 0; i < node->mNumChildren; i++)
 		ImportNodesRecursively(node->mChildren[i], scene, new_go, file_path);
 
-	material_comp = nullptr;
 }
 
 

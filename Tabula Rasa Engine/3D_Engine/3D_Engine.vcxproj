@@ -73,6 +73,8 @@
     <ClCompile Include="PGizmo.cpp" />
     <ClCompile Include="pcg\entropy.c" />
     <ClCompile Include="PGrid.cpp" />
+    <ClCompile Include="trMaterialImporter.cpp" />
+    <ClCompile Include="trSceneImporter.cpp" />
     <ClCompile Include="trApp.cpp" />
     <ClCompile Include="trCamera3D.cpp" />
     <ClCompile Include="trEditor.cpp" />
@@ -232,6 +234,8 @@
     <ClInclude Include="pcg\pcg_spinlock.h" />
     <ClInclude Include="pcg\pcg_variants.h" />
     <ClInclude Include="PGrid.h" />
+    <ClInclude Include="trMaterialImporter.h" />
+    <ClInclude Include="trSceneImporter.h" />
     <ClInclude Include="trApp.h" />
     <ClInclude Include="trCamera3D.h" />
     <ClInclude Include="trDefs.h" />
