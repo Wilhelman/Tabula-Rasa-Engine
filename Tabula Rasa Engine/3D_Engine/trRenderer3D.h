@@ -38,13 +38,14 @@ public:
 	void SwitchColorMaterial(bool toggle);
 	void SwitchTexture2D(bool toggle);
 	void SwitchVsync(bool toggle);
+	void SwitchDebugDraw(bool toggle);
 
 	const uint GetMeshesSize() const;
 
 	void CollectGameObjectWithMesh(GameObject* game_object);
 
 	void Draw();
-
+	void DebugDrawAABB(AABB bounding_box);
 	void DrawZBuffer();
 
 	math::float4x4 Perspective(float fovy, float aspect, float n, float f) const;
@@ -64,6 +65,7 @@ public:
 	bool texture_2D = true;
 	bool z_buffer = false;
 	bool vsync_toogle = false;
+	bool debug_draw_on = false;
 
 private:
 

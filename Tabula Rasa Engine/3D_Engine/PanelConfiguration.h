@@ -46,9 +46,8 @@ private:
 	trTimer mem_timer;
 	std::vector<float> mem_list;
 	uint index = 0u;
-	bool first_mem_pass = false;
-	bool advanced = false;
 
+	bool first_mem_pass = false;
 	float time_scale = 0.0f;
 
 };

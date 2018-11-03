@@ -198,7 +198,8 @@ bool trRenderer3D::PostUpdate(float dt)
 	drawable_go.clear();
 	CollectGameObjectWithMesh(App->main_scene->GetRoot());
 
-	if (!drawable_go.empty()) {
+	if (!drawable_go.empty()) 
+	{
 		this->Draw();
 		if(z_buffer)
 			this->DrawZBuffer();
@@ -291,6 +292,11 @@ void trRenderer3D::SwitchVsync(bool toggle)
 	SDL_GL_SetSwapInterval(toggle);
 }
 
+void trRenderer3D::SwitchDebugDraw(bool toggle)
+{
+	debug_draw_on = toggle;
+}
+
 const uint trRenderer3D::GetMeshesSize() const
 {
 	return drawable_go.size();
@@ -313,7 +319,8 @@ void trRenderer3D::Draw()
 		ComponentMaterial* material_co = (ComponentMaterial*)(*it)->FindComponentWithType(Component::component_type::COMPONENT_MATERIAL);
 		const Texture* texture = nullptr;
 		float4 ambient_color = DEFAULT_AMBIENT_COLOR;
-		if (material_co != nullptr) {
+		if (material_co != nullptr) 
+		{
 			texture = material_co->GetTexture();
 			ambient_color = material_co->GetAmbientColor();
 		}
@@ -329,7 +336,8 @@ void trRenderer3D::Draw()
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		//texture
-		if (mesh->uvs != nullptr) {
+		if (mesh->uvs != nullptr) 
+		{
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
 			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -344,13 +352,20 @@ void trRenderer3D::Draw()
 		if (texture != nullptr)
 			glBindTexture(GL_TEXTURE_2D, 0);
 
-
+		if (debug_draw_on)
+			DebugDrawAABB((*it)->bounding_box);
+		
 		glPopMatrix();
 
 		it++;
 	}
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void trRenderer3D::DebugDrawAABB(AABB bounding_box)
+{
+
 }
 
 void trRenderer3D::DrawZBuffer()

@@ -285,6 +285,13 @@ void PanelConfiguration::ShowRenderer(trRenderer3D * module)
 {
 	ImGui::Separator();
 
+	ImGui::Text("Debug draw");
+	ImGui::SameLine();
+	if (ImGui::Checkbox("##DEBUGDRAW", &App->render->debug_draw_on));
+		App->render->SwitchDebugDraw(App->render->debug_draw_on);
+
+	ImGui::Separator();
+
 	ImGui::Text("Vsync");
 	ImGui::SameLine();
 	if (ImGui::Checkbox("##VSYNC", &App->render->vsync_toogle))
