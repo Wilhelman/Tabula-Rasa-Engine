@@ -80,8 +80,7 @@ bool trFileLoader::Import3DFile(const char* file_path)
 		scene_num_vertex = 0u;
 		scene_vertices.clear();
 
-		ComponentMaterial* material_comp = nullptr;
-		ImportNodesRecursively(scene->mRootNode, scene, App->main_scene->GetRoot());
+		ImportNodesRecursively(scene->mRootNode, scene, App->main_scene->GetRoot(), (char*)file_path);
 
 		// Camera AABB stuff
 		if (scene->mNumMeshes == 1) // if only one mesh, get the bounding_box of the last mesh
@@ -105,10 +104,22 @@ bool trFileLoader::Import3DFile(const char* file_path)
 	return false;
 }
 
-void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * scene, GameObject * parent_go)
+void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * scene, GameObject * parent_go, char* file_path)
 {
+	GameObject* new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
 
-	GameObject* new_go = App->main_scene->CreateGameObject((const char*)node->mName.data, parent_go);
+	if (file_path != nullptr) {
+		std::string tmp = file_path;
+		// Let's get the file name to print it in inspector:
+		const size_t last_slash = tmp.find_last_of("\\/");
+		if (std::string::npos != last_slash)
+			tmp.erase(0, last_slash + 1);
+		const size_t extension = tmp.rfind('.');
+		if (std::string::npos != extension)
+			tmp.erase(extension);
+		new_go->SetName(tmp.c_str());
+		file_path = nullptr;
+	}
 
 	// Calculate the position, scale and rotation
 	aiVector3D translation;
@@ -189,7 +200,7 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 	
 
 	for (uint i = 0; i < node->mNumChildren; i++)
-		ImportNodesRecursively(node->mChildren[i], scene, new_go);
+		ImportNodesRecursively(node->mChildren[i], scene, new_go, file_path);
 
 	material_comp = nullptr;
 }
