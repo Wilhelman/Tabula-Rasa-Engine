@@ -23,6 +23,8 @@ void ComponentTransform::Setup(const float3 & translation, const float3 & scale,
 	this->rotation = rotation;
 
 	this->local_matrix = float4x4::FromTRS(this->position, this->rotation, this->scale);
+
+	embedded_go->RecalculateBoundingBox();
 }
 
 const float3 & ComponentTransform::GetTranslation() const
@@ -65,6 +67,7 @@ void ComponentTransform::SetPosition(const float3 position)
 	this->position = position;
 
 	this->local_matrix = float4x4::FromTRS(this->position, this->rotation, this->scale);
+	embedded_go->RecalculateBoundingBox();
 }
 
 void ComponentTransform::SetScale(const float3 scale)
@@ -72,6 +75,7 @@ void ComponentTransform::SetScale(const float3 scale)
 	this->scale = scale;
 
 	this->local_matrix = float4x4::FromTRS(this->position, this->rotation, this->scale);
+	embedded_go->RecalculateBoundingBox();
 }
 
 void ComponentTransform::SetRotation(const Quat rot)
@@ -79,4 +83,5 @@ void ComponentTransform::SetRotation(const Quat rot)
 	this->rotation = rot;
 
 	this->local_matrix = float4x4::FromTRS(this->position, this->rotation, this->scale);
+	embedded_go->RecalculateBoundingBox();
 }

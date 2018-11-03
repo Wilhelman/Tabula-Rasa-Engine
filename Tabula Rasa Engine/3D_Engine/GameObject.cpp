@@ -133,12 +133,12 @@ ComponentTransform * GameObject::GetTransform() const
 void GameObject::RecalculateBoundingBox()
 {
 	ComponentMesh* mesh_co = (ComponentMesh*)FindComponentWithType(Component::component_type::COMPONENT_MESH);
-	const Mesh* mesh = mesh_co->GetMesh();
-
+	
 	if (mesh_co != nullptr)
 	{
 		bounding_box.SetNegativeInfinity();
 
+		const Mesh* mesh = mesh_co->GetMesh();
 		bounding_box.Enclose((float3*)mesh->vertices, mesh->vertex_size);
 
 		OBB tmp_obb(bounding_box);

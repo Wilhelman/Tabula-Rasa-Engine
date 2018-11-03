@@ -235,6 +235,8 @@ void trCamera3D::FocusOnSelectedGO()
 	GameObject* selected = App->editor->GetSelected();
 	if (selected) {
 
+		selected->RecalculateBoundingBox(); // TODO: bad feelings ...
+
 		vec center_bbox(selected->bounding_box.Centroid());
 		vec move_dir = (vec(pos.x, pos.y, pos.z) - center_bbox).Normalized();
 
