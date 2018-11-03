@@ -294,9 +294,6 @@
     <ClCompile Include="ComponentTransform.cpp">
       <Filter>Core\GameObject\Component</Filter>
     </ClCompile>
-    <ClCompile Include="trMeshImporter.cpp">
-      <Filter>Core\Importers</Filter>
-    </ClCompile>
     <ClCompile Include="PanelHierarchy.cpp">
       <Filter>Core\Editor</Filter>
     </ClCompile>
@@ -769,9 +766,6 @@
     </ClInclude>
     <ClInclude Include="ComponentTransform.h">
       <Filter>Core\GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="trMeshImporter.h">
-      <Filter>Core\Importers</Filter>
     </ClInclude>
     <ClInclude Include="Importer.h">
       <Filter>Core\Importers</Filter>

@@ -111,6 +111,7 @@ void PanelHierarchy::ItemHovered(GameObject* hovered_go)
 
 		if (dragged_go && ImGui::IsMouseReleased(0))
 		{
+			// TODO: when a father is released in a child it explodes
 			if(dragged_go != hovered_go)
 				dragged_go->SetParent(hovered_go);
 			dragged_go = nullptr;

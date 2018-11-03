@@ -101,7 +101,6 @@ public:
 	trEditor*			editor = nullptr;
 	trHardware*			hardware = nullptr;
 	trFileLoader*		file_loader = nullptr;
-	trMeshImporter*		mesh_importer = nullptr;
 	trTimeManager*		time_manager = nullptr;
 	
 	
