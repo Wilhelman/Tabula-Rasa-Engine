@@ -20,6 +20,9 @@ public:
 	trModule() : active(false)
 	{}
 
+	virtual ~trModule()
+	{}
+
 	void Init()
 	{
 		active = true;
