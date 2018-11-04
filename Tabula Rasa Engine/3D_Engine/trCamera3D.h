@@ -23,7 +23,6 @@ public:
 	void ProcessMouseMotion(int dx, int dy, float sensitivity);
 	bool CleanUp();
 
-	void Look(const float3 &Position, const float3 &Reference, bool RotateAroundReference = false);
 	void LookAt(const float3 &Spot);
 	void Move(const float3 &Movement);
 

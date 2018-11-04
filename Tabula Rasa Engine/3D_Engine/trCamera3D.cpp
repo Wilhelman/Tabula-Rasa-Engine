@@ -62,7 +62,7 @@ bool trCamera3D::CleanUp()
 // -----------------------------------------------------------------
 bool trCamera3D::Update(float dt)
 {	
-	/*float3 new_pos(0.0f, 0.0f, 0.0f);
+	float3 new_pos(0.0f, 0.0f, 0.0f);
 
 	float speed = cam_speed * dt;
 
@@ -89,7 +89,9 @@ bool trCamera3D::Update(float dt)
 		ProcessMouseMotion(dx, dy, rotation_sensitivity);
 	}
 
+	// WHAT IS THIS
 	frustum.pos += new_pos;
+	//WHAT IS THIS
 	looking_at += new_pos;
 
 	// ----- Camera orbit around target with mouse and panning -----
@@ -105,10 +107,11 @@ bool trCamera3D::Update(float dt)
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
 
+		//WHAT IS THIS
 		frustum.pos -= looking_at;
 
 		ProcessMouseMotion(dx, dy, orbit_sensitivity);
-
+		//WHAT IS THIS
 		frustum.pos = looking_at + frustum.front * frustum.pos.Length();
 	}
 	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
@@ -122,17 +125,17 @@ bool trCamera3D::Update(float dt)
 		frustum.pos += new_pos;
 		looking_at += new_pos;
 	}
-	*/
+	
 	return true;
 }
 
 void trCamera3D::ProcessMouseWheelInput(float3 &new_pos, float speed)
 {
 	if (App->input->GetMouseZ() > 0)
-		new_pos -= frustum.front * speed;
+		new_pos += frustum.front * speed;
 
 	if (App->input->GetMouseZ() < 0)
-		new_pos += frustum.front * speed;
+		new_pos -= frustum.front * speed;
 }
 
 void trCamera3D::ProcessKeyboardInput(float3 &new_pos, float speed)
@@ -140,8 +143,8 @@ void trCamera3D::ProcessKeyboardInput(float3 &new_pos, float speed)
 	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_REPEAT) new_pos.y += speed;
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) != KEY_REPEAT) new_pos.y -= speed;
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) new_pos -= frustum.front * speed;
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) new_pos += frustum.front * speed;
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) new_pos += frustum.front * speed;
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) new_pos -= frustum.front * speed;
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) new_pos -= frustum.WorldRight() * speed;
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) new_pos += frustum.WorldRight() * speed;
@@ -167,7 +170,6 @@ void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 
 		float3x3 rotate_mat;
 		rotate_mat = rotate_mat.RotateAxisAngle(frustum.WorldRight(), delta_y);
-		//Quat rotation_quat = rotate_mat.ToQuat();
 
 		frustum.up = frustum.up * rotate_mat;
 		frustum.front = frustum.front * rotate_mat;
@@ -181,27 +183,19 @@ void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 }
 
 // -----------------------------------------------------------------
-void trCamera3D::Look(const float3 &Position, const float3 &Reference, bool RotateAroundReference)
-{
-	/*this->frustum.pos = Position;
-	this->looking_at = Reference;
-
-	frustum.front = (Position - Reference).Normalized();
-	//X = (Cross(vec(0.0f, 1.0f, 0.0f), Z)).Normalized();
-	
-	frustum.up = Cross(frustum.front, frustum.WorldRight());
-
-	if (!RotateAroundReference)
-	{
-		this->looking_at = this->frustum.pos;
-		this->frustum.pos += frustum.front * 0.05f;
-	}*/
-}
-
-// -----------------------------------------------------------------
 void trCamera3D::LookAt(const float3 &Spot)
 {
-	/*looking_at = Spot;
+	//TODO CHECK THIS
+	float3 dir = Spot - frustum.pos;
+
+	float3x3 m = float3x3::LookAt(frustum.front, dir.Normalized(), frustum.up, float3::unitY);
+
+	frustum.front = m.MulDir(frustum.front).Normalized();
+	frustum.up = m.MulDir(frustum.up).Normalized();
+
+
+	/*
+	looking_at = Spot;
 
 	frustum.front = (frustum.pos - looking_at).Normalized();
 	//X = (Cross(vec(0.0f, 1.0f, 0.0f), Z)).Normalized();
@@ -239,7 +233,7 @@ float * trCamera3D::GetProjectionMatrix()
 
 void trCamera3D::FocusOnSelectedGO()
 {
-	/*GameObject* selected = App->editor->GetSelected();
+	GameObject* selected = App->editor->GetSelected();
 	if (selected) {
 
 		selected->RecalculateBoundingBox(); // TODO: bad feelings ...
@@ -261,5 +255,5 @@ void trCamera3D::FocusOnSelectedGO()
 	}else{
 		frustum.pos.Set(3.f, 3.f, 3.f);
 		LookAt(float3(0.f, 0.f, 0.f));
-	}*/
+	}
 }
