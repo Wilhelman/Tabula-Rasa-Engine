@@ -6,16 +6,25 @@
 #include "trEditor.h"
 #include "GameObject.h"
 
+#define ASPECT_RATIO 1.3f
 
 trCamera3D::trCamera3D() : trModule()
 {
 	this->name = "Camera3D";
 
-	frustum.front = vec(0.0f, 0.0f, 1.0f);
-	frustum.up = vec(0.0f, 1.0f, 0.0f);
+	frustum.type = FrustumType::PerspectiveFrustum;
 
-	frustum.pos = vec(0.0f, 0.0f, 5.0f);
+	frustum.pos = vec(0.0f, 5.0f, 5.0f);
 	looking_at = vec(0.0f, 0.0f, 0.0f);
+	frustum.SetFront(float3::unitZ);
+	frustum.SetUp(float3::unitY);
+
+	frustum.nearPlaneDistance = 0.1f;
+	frustum.farPlaneDistance = 1000.0f;
+	frustum.SetVerticalFovAndAspectRatio(DEGTORAD * 60.0f, ASPECT_RATIO);
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov / 2.f ) * ASPECT_RATIO);
+
+	projection_needs_update = true;
 }
 
 trCamera3D::~trCamera3D()
@@ -158,6 +167,7 @@ void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 
 		float3x3 rotate_mat;
 		rotate_mat = rotate_mat.RotateAxisAngle(frustum.WorldRight(), delta_y);
+		//Quat rotation_quat = rotate_mat.ToQuat();
 
 		frustum.up = frustum.up * rotate_mat;
 		frustum.front = frustum.front * rotate_mat;
@@ -196,7 +206,6 @@ void trCamera3D::LookAt(const vec &Spot)
 	frustum.front = (frustum.pos - looking_at).Normalized();
 	//X = (Cross(vec(0.0f, 1.0f, 0.0f), Z)).Normalized();
 	frustum.up = Cross(frustum.front, frustum.WorldRight());
-
 }
 
 
@@ -207,15 +216,25 @@ void trCamera3D::Move(const vec &Movement)
 	looking_at += Movement;
 }
 
+void trCamera3D::SetAspectRatio(float new_aspect_ratio)
+{
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov / 2.f) * new_aspect_ratio);
+	projection_needs_update = true;
+}
+
 // -----------------------------------------------------------------
 float* trCamera3D::GetViewMatrix()
 {
-	static float4x4 m;
+	gl_view_matrix = frustum.ViewMatrix();
 
-	m = frustum.ViewMatrix();
-	m.Transpose();
+	return (float*)gl_view_matrix.v;
+}
 
-	return (float*)m.v;
+float * trCamera3D::GetProjectionMatrix()
+{
+	gl_projection_matrix = frustum.ProjectionMatrix().Transposed();
+
+	return frustum.ProjectionMatrix().Transposed().ptr();
 }
 
 void trCamera3D::FocusOnSelectedGO()

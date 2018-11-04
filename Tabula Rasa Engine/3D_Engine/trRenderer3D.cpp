@@ -10,6 +10,7 @@
 #include "Component.h"
 #include "ComponentMaterial.h"
 #include "ComponentMesh.h"
+#include "ComponentCamera.h"
 
 #include "Glew\include\GL\glew.h"
 #include "SDL\include\SDL_opengl.h"
@@ -170,6 +171,12 @@ bool trRenderer3D::Awake(JSON_Object* config)
 // PreUpdate: clear buffer
 bool trRenderer3D::PreUpdate(float dt)
 {
+	if (App->camera->projection_needs_update)
+	{
+		//UpdateCameraProjection();
+		App->camera->projection_needs_update = false;
+	}
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetViewMatrix());
@@ -231,14 +238,20 @@ bool trRenderer3D::CleanUp()
 
 void trRenderer3D::OnResize(int width, int height)
 {
+	//App->camera->SetAspectRatio((float)width / (float)height);
+
 	glViewport(0, 0, width, height);
 
+	UpdateCameraProjection();
+}
+
+void trRenderer3D::UpdateCameraProjection()
+{
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	ProjectionMatrix = this->Perspective(FOV, (float)width / (float)height, N_PLANE, F_PLANE);
-	glLoadMatrixf((GLfloat*)ProjectionMatrix.ptr());
-	
+	glLoadMatrixf((GLfloat*)App->camera->GetProjectionMatrix());
+
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }

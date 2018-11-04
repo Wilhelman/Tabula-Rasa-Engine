@@ -17,7 +17,7 @@ ComponentCamera::ComponentCamera(GameObject * embedded_game_object):
 	frustum.nearPlaneDistance = 0.1f;
 	frustum.farPlaneDistance = 1000.0f;
 	frustum.SetVerticalFovAndAspectRatio(DEGTORAD * 60.0f, ASPECT_RATIO);
-	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * ASPECT_RATIO);
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov / 2.f) * ASPECT_RATIO);
 
 	background_color = float4(0.f,0.f,0.f,255.f);
 

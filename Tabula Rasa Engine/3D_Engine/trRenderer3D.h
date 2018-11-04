@@ -15,6 +15,7 @@
 
 class GameObject;
 class Mesh;
+class ComponentCamera;
 
 class trRenderer3D : public trModule
 {
@@ -29,6 +30,7 @@ public:
 
 	void OnResize(int width, int height);
 
+	void UpdateCameraProjection();
 
 	bool IsWireframeModeEnabled();
 	void SwitchWireframeMode(bool toggle);
@@ -54,7 +56,8 @@ public:
 
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
-	float4x4 ProjectionMatrix;
+
+	ComponentCamera* active_camera = nullptr;
 
 	// Config settings
 	bool wireframe = false;

@@ -26,7 +26,11 @@ public:
 	void Look(const vec &Position, const vec &Reference, bool RotateAroundReference = false);
 	void LookAt(const vec &Spot);
 	void Move(const vec &Movement);
+
+	void SetAspectRatio(float new_aspect_ratio);
+
 	float* GetViewMatrix();
+	float* GetProjectionMatrix();
 
 	void FocusOnSelectedGO();
 
@@ -34,11 +38,14 @@ public:
 public:
 
 	Frustum frustum;
-	float3 looking_at;
+	float3 looking_at = float3::zero;
+
+	bool projection_needs_update = false;
 
 private:
 
-	float4x4 view_matrix, view_inv_matrix;
+	float4x4 gl_view_matrix = float4x4::zero;
+	float4x4 gl_projection_matrix = float4x4::zero;
 
 	float rotation_sensitivity = 0.25f, orbit_sensitivity = 0.25f, 
 		  pan_sensitivity = 0.01f, cam_speed = 7.f, cam_boost_speed = 14.f;
