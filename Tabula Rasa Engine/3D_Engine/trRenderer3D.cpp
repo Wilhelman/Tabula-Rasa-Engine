@@ -277,12 +277,16 @@ void trRenderer3D::SwitchDepthMode(bool toggle)
 {
 	(toggle) ?
 		glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
+
+	depth_test = toggle;
 }
 
 void trRenderer3D::SwitchFaceCulling(bool toggle)
 {
 	(toggle) ?
 		glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
+
+	cull_face = toggle;
 }
 
 void trRenderer3D::SwitchLighting(bool toggle)
@@ -290,6 +294,7 @@ void trRenderer3D::SwitchLighting(bool toggle)
 	(toggle) ?
 		glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
 
+	lighting = toggle;
 }
 
 void trRenderer3D::SwitchColorMaterial(bool toggle)
@@ -302,11 +307,15 @@ void trRenderer3D::SwitchTexture2D(bool toggle)
 {
 	(toggle) ?
 		glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
+
+	texture_2D = toggle;
 }
 
 void trRenderer3D::SwitchVsync(bool toggle)
 {
 	SDL_GL_SetSwapInterval(toggle);
+
+	vsync_toogle = toggle;
 }
 
 void trRenderer3D::SwitchDebugDraw(bool toggle)

@@ -21,16 +21,40 @@ void Quadtree::Insert(GameObject * go)
 {
 }
 
+void Quadtree::FillWithAABBs(std::vector<AABB>& vector)
+{
+	QuadtreeNode * node = root_node;
+
+	IterateToFillAABBs(node, vector);
+}
+
+void Quadtree::IterateToFillAABBs(QuadtreeNode * node, std::vector<AABB>& vector)
+{
+	vector.push_back(node->box);
+
+	if (node->childs[0] != nullptr) {
+		for (uint i = 0u; i < 4; i++)
+			IterateToFillAABBs(node->childs[i], vector);
+	}
+}
+
 // ------------------------------------- NODE ---------------------------------------------------- \\
 
 QuadtreeNode::QuadtreeNode(AABB limit)
 {
 	box = limit;
+	for (uint i = 0; i < 4; i++)
+		childs[i] = nullptr;
 }
 
 QuadtreeNode::~QuadtreeNode()
 {
-	// TODO: iterate and delete
+	if (childs[0] != nullptr) {
+		for (uint i = 0u; i < 4; i++)
+		{
+			RELEASE(childs[i]);
+		}
+	}
 }
 
 void QuadtreeNode::Insert(GameObject * go)

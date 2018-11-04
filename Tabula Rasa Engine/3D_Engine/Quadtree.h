@@ -19,7 +19,7 @@ public:
 	void GenerateChilds();
 
 
-private:
+public:
 	AABB box;
 	QuadtreeNode* parent = nullptr;
 	QuadtreeNode* childs[4];
@@ -38,6 +38,9 @@ public:
 
 	void Create(AABB limits);
 	void Insert(GameObject* go);
+
+	void FillWithAABBs(std::vector<AABB>& vector);
+	void IterateToFillAABBs(QuadtreeNode* node, std::vector<AABB>& vector);
 
 	/*
 

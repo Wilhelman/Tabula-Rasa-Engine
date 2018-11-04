@@ -17,47 +17,52 @@ void DebugDraw(const AABB & aabb, Color color, const float4x4 & transform)
 	glPushMatrix();
 	glMultMatrixf((GLfloat*)transform.Transposed().ptr());
 	
-	glColor3f(color.r, color.g, color.b);
+	glColor4f(color.r, color.g, color.b,1.f);
 
-	if(!App->render->wireframe)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glDisable(GL_CULL_FACE);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glBegin(GL_QUADS);
 
-	glVertex3fv((GLfloat*)&corners[1]); //glVertex3f(-sx, -sy, sz);
-	glVertex3fv((GLfloat*)&corners[5]); //glVertex3f( sx, -sy, sz);
-	glVertex3fv((GLfloat*)&corners[7]); //glVertex3f( sx,  sy, sz);
-	glVertex3fv((GLfloat*)&corners[3]); //glVertex3f(-sx,  sy, sz);
+	glVertex3fv((GLfloat*)&corners[1]);
+	glVertex3fv((GLfloat*)&corners[5]);
+	glVertex3fv((GLfloat*)&corners[7]);
+	glVertex3fv((GLfloat*)&corners[3]);
 
-	glVertex3fv((GLfloat*)&corners[4]); //glVertex3f( sx, -sy, -sz);
-	glVertex3fv((GLfloat*)&corners[0]); //glVertex3f(-sx, -sy, -sz);
-	glVertex3fv((GLfloat*)&corners[2]); //glVertex3f(-sx,  sy, -sz);
-	glVertex3fv((GLfloat*)&corners[6]); //glVertex3f( sx,  sy, -sz);
+	glVertex3fv((GLfloat*)&corners[4]);
+	glVertex3fv((GLfloat*)&corners[0]);
+	glVertex3fv((GLfloat*)&corners[2]);
+	glVertex3fv((GLfloat*)&corners[6]);
 
-	glVertex3fv((GLfloat*)&corners[5]); //glVertex3f(sx, -sy,  sz);
-	glVertex3fv((GLfloat*)&corners[4]); //glVertex3f(sx, -sy, -sz);
-	glVertex3fv((GLfloat*)&corners[6]); //glVertex3f(sx,  sy, -sz);
-	glVertex3fv((GLfloat*)&corners[7]); //glVertex3f(sx,  sy,  sz);
+	glVertex3fv((GLfloat*)&corners[5]);
+	glVertex3fv((GLfloat*)&corners[4]);
+	glVertex3fv((GLfloat*)&corners[6]);
+	glVertex3fv((GLfloat*)&corners[7]);
 
-	glVertex3fv((GLfloat*)&corners[0]); //glVertex3f(-sx, -sy, -sz);
-	glVertex3fv((GLfloat*)&corners[1]); //glVertex3f(-sx, -sy,  sz);
-	glVertex3fv((GLfloat*)&corners[3]); //glVertex3f(-sx,  sy,  sz);
-	glVertex3fv((GLfloat*)&corners[2]); //glVertex3f(-sx,  sy, -sz);
+	glVertex3fv((GLfloat*)&corners[0]);
+	glVertex3fv((GLfloat*)&corners[1]);
+	glVertex3fv((GLfloat*)&corners[3]);
+	glVertex3fv((GLfloat*)&corners[2]);
 
-	glVertex3fv((GLfloat*)&corners[3]); //glVertex3f(-sx, sy,  sz);
-	glVertex3fv((GLfloat*)&corners[7]); //glVertex3f( sx, sy,  sz);
-	glVertex3fv((GLfloat*)&corners[6]); //glVertex3f( sx, sy, -sz);
-	glVertex3fv((GLfloat*)&corners[2]); //glVertex3f(-sx, sy, -sz);
+	glVertex3fv((GLfloat*)&corners[3]);
+	glVertex3fv((GLfloat*)&corners[7]);
+	glVertex3fv((GLfloat*)&corners[6]);
+	glVertex3fv((GLfloat*)&corners[2]);
 
-	glVertex3fv((GLfloat*)&corners[0]); //glVertex3f(-sx, -sy, -sz);
-	glVertex3fv((GLfloat*)&corners[4]); //glVertex3f( sx, -sy, -sz);
-	glVertex3fv((GLfloat*)&corners[5]); //glVertex3f( sx, -sy,  sz);
-	glVertex3fv((GLfloat*)&corners[1]); //glVertex3f(-sx, -sy,  sz);
+	glVertex3fv((GLfloat*)&corners[0]);
+	glVertex3fv((GLfloat*)&corners[4]);
+	glVertex3fv((GLfloat*)&corners[5]);
+	glVertex3fv((GLfloat*)&corners[1]);
 
 	glEnd();
 
 	if (!App->render->wireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	if (App->render->cull_face)
+		glEnable(GL_CULL_FACE);
+
+	glColor4f(1.f, 1.f, 1.f,1.f);
 
 	glPopMatrix();
 }

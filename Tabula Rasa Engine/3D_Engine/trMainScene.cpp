@@ -63,22 +63,27 @@ bool trMainScene::PostUpdate(float dt)
 
 void trMainScene::DrawDebug()
 {
-	//std::vector<
+	// Draw quadtree AABBs
+	std::vector<AABB> quad_aabbs;
+	quadtree.FillWithAABBs(quad_aabbs);
+	for (uint i = 0; i < quad_aabbs.size(); i++)
+		DebugDraw(quad_aabbs[i], White);
+
+	// Draw gameobjects AABBs
 	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++) {
 		(*it)->RecalculateBoundingBox();
-		DebugDraw((*it)->bounding_box, White);
+		DebugDraw((*it)->bounding_box, Red);
 	}
 }
 
 // Called before quitting
 bool trMainScene::CleanUp()
 {
-	//delete default_mesh.data();
 	if(default_mesh != nullptr)
 		delete default_mesh;
 
 	if(grid != nullptr)
-		delete grid; //todo check
+		delete grid;
 
 	if (root != nullptr)
 		delete root;
