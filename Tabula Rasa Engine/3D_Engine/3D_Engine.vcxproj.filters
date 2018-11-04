@@ -61,6 +61,9 @@
     <Filter Include="Utilities\3rd Party\MathGeoLib">
       <UniqueIdentifier>{163aaa38-b53e-4f6e-824b-f0c70c630324}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Containers">
+      <UniqueIdentifier>{a3011f0f-0465-4a31-9055-8e691d750f5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="trWindow.cpp">
@@ -290,6 +293,12 @@
     </ClCompile>
     <ClCompile Include="MathGeoLib\Time\Clock.cpp">
       <Filter>Utilities\3rd Party\MathGeoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Quadtree.cpp">
+      <Filter>Core\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDraw.cpp">
+      <Filter>Utilities\Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -766,6 +775,12 @@
     </ClInclude>
     <ClInclude Include="MathGeoLib\MathGeoLibFwd.h">
       <Filter>Utilities\3rd Party\MathGeoLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Core\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugDraw.h">
+      <Filter>Utilities\Helpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -200,14 +200,10 @@ bool trRenderer3D::PostUpdate(float dt)
 	drawable_go.clear();
 
 	CollectGameObjectWithMesh(App->main_scene->GetRoot());
-	
-	//RENDER DEBUG
+
 	if (debug_draw_on)
 	{
-		for (uint i = 0; i < drawable_go.size(); i++) {
-			drawable_go[i]->RecalculateBoundingBox();
-			DebugDrawAABB(drawable_go[i]->bounding_box);
-		}
+		App->main_scene->DrawDebug();
 	}
 
 	//RENDER IMPORTED MESH
@@ -379,52 +375,6 @@ void trRenderer3D::Draw()
 	}
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
-}
-
-void trRenderer3D::DebugDrawAABB(AABB bounding_box)
-{
-	float3 bb_corners[8];
-	bounding_box.GetCornerPoints(bb_corners);
-
-	if (!wireframe)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-	glBegin(GL_QUADS);
-
-	glVertex3fv((GLfloat*)&bb_corners[1]);
-	glVertex3fv((GLfloat*)&bb_corners[5]);
-	glVertex3fv((GLfloat*)&bb_corners[7]);
-	glVertex3fv((GLfloat*)&bb_corners[3]);
-
-	glVertex3fv((GLfloat*)&bb_corners[4]);
-	glVertex3fv((GLfloat*)&bb_corners[0]);
-	glVertex3fv((GLfloat*)&bb_corners[2]);
-	glVertex3fv((GLfloat*)&bb_corners[6]);
-
-	glVertex3fv((GLfloat*)&bb_corners[5]);
-	glVertex3fv((GLfloat*)&bb_corners[4]);
-	glVertex3fv((GLfloat*)&bb_corners[6]);
-	glVertex3fv((GLfloat*)&bb_corners[7]);
-
-	glVertex3fv((GLfloat*)&bb_corners[0]);
-	glVertex3fv((GLfloat*)&bb_corners[1]);
-	glVertex3fv((GLfloat*)&bb_corners[3]);
-	glVertex3fv((GLfloat*)&bb_corners[2]);
-
-	glVertex3fv((GLfloat*)&bb_corners[3]);
-	glVertex3fv((GLfloat*)&bb_corners[7]);
-	glVertex3fv((GLfloat*)&bb_corners[6]);
-	glVertex3fv((GLfloat*)&bb_corners[2]);
-
-	glVertex3fv((GLfloat*)&bb_corners[0]);
-	glVertex3fv((GLfloat*)&bb_corners[4]);
-	glVertex3fv((GLfloat*)&bb_corners[5]);
-	glVertex3fv((GLfloat*)&bb_corners[1]);
-
-	glEnd();
-
-	if (!wireframe)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void trRenderer3D::DrawZBuffer()

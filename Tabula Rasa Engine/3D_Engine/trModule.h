@@ -64,6 +64,10 @@ public:
 		return true;
 	}
 
+	virtual void DrawDebug()
+	{
+	}
+
 	virtual bool Load(JSON_Object* config = nullptr)
 	{
 		return true;

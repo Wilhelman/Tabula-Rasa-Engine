@@ -94,6 +94,7 @@ bool trFileLoader::Import(const void * buffer, uint size, const char* file_path)
 			App->camera->dummy_camera->FocusOnSelectedGO();
 		}
 		else { // get the bouncing of all the meshes
+			//TODO CALCULATE HERE THE AABB OF ALL THE SCENE
 			model_bouncing_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
 			model_bouncing_box.Enclose((float3*)&scene_vertices.front(), scene_num_vertex);
 			model_root->bounding_box = model_bouncing_box;

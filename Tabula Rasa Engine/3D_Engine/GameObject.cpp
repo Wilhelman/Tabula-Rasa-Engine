@@ -158,7 +158,7 @@ void GameObject::RecalculateBoundingBox()
 	bounding_box.SetNegativeInfinity();
 
 	ComponentMesh* mesh_co = (ComponentMesh*)FindComponentWithType(Component::component_type::COMPONENT_MESH);
-
+	
 	if (mesh_co != nullptr) {
 		const Mesh* mesh = mesh_co->GetMesh();
 		bounding_box.Enclose((float3*)mesh->vertices, mesh->vertex_size);

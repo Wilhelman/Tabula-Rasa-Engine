@@ -7,6 +7,7 @@
 #include "ComponentCamera.h"
 
 #include "GameObject.h"
+#include "DebugDraw.h"
 
 trMainScene::trMainScene() : trModule()
 {
@@ -25,6 +26,7 @@ bool trMainScene::Awake(JSON_Object* config)
 	default_mesh = new std::string(json_object_get_string(config, "default_mesh"));
 
 	root = new GameObject("root", nullptr);
+	quadtree.Create(AABB(AABB(float3(-500, -100, -500), float3(500, 100, 500))));
 
 	return ret;
 }
@@ -59,6 +61,15 @@ bool trMainScene::PostUpdate(float dt)
 	return true;
 }
 
+void trMainScene::DrawDebug()
+{
+	//std::vector<
+	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++) {
+		(*it)->RecalculateBoundingBox();
+		DebugDraw((*it)->bounding_box, White);
+	}
+}
+
 // Called before quitting
 bool trMainScene::CleanUp()
 {
@@ -77,7 +88,7 @@ bool trMainScene::CleanUp()
 
 void trMainScene::ClearScene()
 {
-	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); ++it)
+	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++)
 		(*it)->to_destroy = true;
 }
 

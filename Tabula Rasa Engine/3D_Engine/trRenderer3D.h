@@ -47,7 +47,6 @@ public:
 	void CollectGameObjectWithMesh(GameObject* game_object);
 
 	void Draw();
-	void DebugDrawAABB(AABB bounding_box);
 	void DrawZBuffer();
 
 	math::float4x4 Perspective(float fovy, float aspect, float n, float f) const;

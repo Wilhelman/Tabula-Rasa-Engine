@@ -2,7 +2,7 @@
 #define __trMAINSCENE_H__
 
 #include "trModule.h"
-
+#include "Quadtree.h"
 
 class GameObject;
 class PGrid;
@@ -27,6 +27,8 @@ public:
 	bool Update(float dt);
 	bool PostUpdate(float dt);
 
+	void DrawDebug();
+
 	// Called before quitting
 	bool CleanUp();
 
@@ -49,6 +51,7 @@ private:
 	std::string* default_mesh = nullptr;
 
 	GameObject* root = nullptr;
+	Quadtree quadtree;
 
 };
 

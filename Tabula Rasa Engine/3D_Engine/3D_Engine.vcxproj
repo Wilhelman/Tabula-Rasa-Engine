@@ -17,6 +17,7 @@
     <ClCompile Include="ComponentMaterial.cpp" />
     <ClCompile Include="ComponentMesh.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
+    <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
@@ -69,6 +70,7 @@
     <ClCompile Include="PGizmo.cpp" />
     <ClCompile Include="pcg\entropy.c" />
     <ClCompile Include="PGrid.cpp" />
+    <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="trMaterialImporter.cpp" />
     <ClCompile Include="trSceneImporter.cpp" />
     <ClCompile Include="trApp.cpp" />
@@ -128,6 +130,7 @@
     <ClInclude Include="ComponentMaterial.h" />
     <ClInclude Include="ComponentMesh.h" />
     <ClInclude Include="ComponentTransform.h" />
+    <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="DevIL\include\devil_cpp_wrapper.hpp" />
     <ClInclude Include="DevIL\include\devil_internal_exports.h" />
     <ClInclude Include="DevIL\include\il.h" />
@@ -227,6 +230,7 @@
     <ClInclude Include="pcg\pcg_spinlock.h" />
     <ClInclude Include="pcg\pcg_variants.h" />
     <ClInclude Include="PGrid.h" />
+    <ClInclude Include="Quadtree.h" />
     <ClInclude Include="trMaterialImporter.h" />
     <ClInclude Include="trSceneImporter.h" />
     <ClInclude Include="trApp.h" />
