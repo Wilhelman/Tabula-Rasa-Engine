@@ -173,7 +173,7 @@ void GameObject::RecalculateBoundingBox()
 		(*it)->RecalculateBoundingBox();
 }
 
-void GameObject::RecalculateBoundingBoxRecursively(GameObject * go, std::vector<vec>* vertices, uint* num_vertex)
+void GameObject::RecalculateBoundingBoxRecursively(GameObject * go, std::vector<float3>* vertices, uint* num_vertex)
 {
 	/*ComponentMesh* mesh_co = (ComponentMesh*)go->FindComponentWithType(Component::component_type::COMPONENT_MESH);
 	if (mesh_co != nullptr)

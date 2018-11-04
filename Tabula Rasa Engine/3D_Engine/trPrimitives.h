@@ -32,7 +32,7 @@ public:
 	virtual void	Render() const;
 	virtual void	InnerRender() const = 0;
 	void			SetPos(float x, float y, float z);
-	void			SetRotation(float angle, const math::vec &u);
+	void			SetRotation(float angle, const math::float3 &u);
 	void			Scale(float x, float y, float z);
 	PrimitiveTypes	GetType() const;
 

@@ -238,7 +238,7 @@ bool trRenderer3D::CleanUp()
 
 void trRenderer3D::OnResize(int width, int height)
 {
-	//App->camera->SetAspectRatio((float)width / (float)height);
+	App->camera->SetAspectRatio((float)width / (float)height);
 
 	glViewport(0, 0, width, height);
 
@@ -383,54 +383,8 @@ void trRenderer3D::Draw()
 
 void trRenderer3D::DebugDrawAABB(AABB bounding_box)
 {
-	vec bb_corners[8];
+	float3 bb_corners[8];
 	bounding_box.GetCornerPoints(bb_corners);
-
-	/*float vertex_array[12];
-
-	vertex_array[0] = bb_corners[0].x;
-	vertex_array[1] = bb_corners[0].y;
-	vertex_array[2] = bb_corners[0].z;
-
-	vertex_array[3] = bb_corners[1].x;
-	vertex_array[4] = bb_corners[1].y;
-	vertex_array[5] = bb_corners[1].z;
-
-	vertex_array[6] = bb_corners[2].x;
-	vertex_array[7] = bb_corners[2].y;
-	vertex_array[8] = bb_corners[2].z;
-
-	vertex_array[9] = bb_corners[3].x;
-	vertex_array[10] = bb_corners[3].y;
-	vertex_array[11] = bb_corners[3].z;
-
-
-
-	float index_array[12] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
-
-	uint vertices_index = 0;
-	glGenBuffers(1, (GLuint*) &(vertices_index));
-	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 24, vertex_array, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	uint indices_index = 0;
-	glGenBuffers(1, (GLuint*) &(index_array));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_index);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 12, index_array, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glColor3f(1.f, 1.f, 1.f);
-	glBindBuffer(GL_ARRAY_BUFFER, vertices_index);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_index);
-	glDrawElements(GL_LINES, 12, GL_UNSIGNED_INT, NULL);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	glDisableClientState(GL_VERTEX_ARRAY);*/
 
 	if (!wireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

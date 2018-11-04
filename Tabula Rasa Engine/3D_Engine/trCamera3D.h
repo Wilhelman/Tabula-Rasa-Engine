@@ -18,14 +18,14 @@ public:
 	bool Awake(JSON_Object* config = nullptr);
 	bool Start();
 	bool Update(float dt);
-	void ProcessMouseWheelInput(vec &new_pos, float speed);
-	void ProcessKeyboardInput(vec &new_pos, float speed);
+	void ProcessMouseWheelInput(float3 &new_pos, float speed);
+	void ProcessKeyboardInput(float3 &new_pos, float speed);
 	void ProcessMouseMotion(int dx, int dy, float sensitivity);
 	bool CleanUp();
 
-	void Look(const vec &Position, const vec &Reference, bool RotateAroundReference = false);
-	void LookAt(const vec &Spot);
-	void Move(const vec &Movement);
+	void Look(const float3 &Position, const float3 &Reference, bool RotateAroundReference = false);
+	void LookAt(const float3 &Spot);
+	void Move(const float3 &Movement);
 
 	void SetAspectRatio(float new_aspect_ratio);
 

@@ -10,13 +10,13 @@ ComponentCamera::ComponentCamera(GameObject * embedded_game_object):
 {
 	frustum.type = FrustumType::PerspectiveFrustum;
 
-	frustum.SetPos(float3::zero);
-	frustum.SetFront(float3::unitZ);
-	frustum.SetUp(float3::unitY);
+	frustum.pos = float3::zero;
+	frustum.front = float3::unitZ;
+	frustum.up = float3::unitY;
 
 	frustum.nearPlaneDistance = 0.1f;
 	frustum.farPlaneDistance = 1000.0f;
-	frustum.SetVerticalFovAndAspectRatio(DEGTORAD * 60.0f, ASPECT_RATIO);
+	//frustum.SetVerticalFovAndAspectRatio(DEGTORAD * 60.0f, ASPECT_RATIO);
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov / 2.f) * ASPECT_RATIO);
 
 	background_color = float4(0.f,0.f,0.f,255.f);

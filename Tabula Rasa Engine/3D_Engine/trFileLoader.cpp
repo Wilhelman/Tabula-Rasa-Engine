@@ -93,8 +93,8 @@ bool trFileLoader::Import(const void * buffer, uint size, const char* file_path)
 			App->camera->FocusOnSelectedGO();
 		}
 		else { // get the bouncing of all the meshes
-			model_bouncing_box = AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
-			model_bouncing_box.Enclose((vec*)&scene_vertices.front(), scene_num_vertex);
+			model_bouncing_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
+			model_bouncing_box.Enclose((float3*)&scene_vertices.front(), scene_num_vertex);
 			model_root->bounding_box = model_bouncing_box;
 			App->editor->SetSelected(model_root);
 			App->camera->FocusOnSelectedGO();
@@ -135,8 +135,8 @@ bool trFileLoader::Import(const char* file_path)
 			App->camera->FocusOnSelectedGO();
 		}
 		else { // get the bouncing of all the meshes
-			model_bouncing_box = AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
-			model_bouncing_box.Enclose((vec*)&scene_vertices.front(), scene_num_vertex);
+			model_bouncing_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
+			model_bouncing_box.Enclose((float3*)&scene_vertices.front(), scene_num_vertex);
 			model_root->bounding_box = model_bouncing_box;
 			App->editor->SetSelected(model_root);
 			App->camera->FocusOnSelectedGO();
@@ -209,7 +209,7 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 		// Data for the bounding box of all the meshes
 		for (uint i = 0; i < mesh_data->vertex_size; i++) {
-			scene_vertices.push_back(vec(mesh_data->vertices[i], mesh_data->vertices[i + 1], mesh_data->vertices[i + 2]));
+			scene_vertices.push_back(float3(mesh_data->vertices[i], mesh_data->vertices[i + 1], mesh_data->vertices[i + 2]));
 		}
 		scene_num_vertex += mesh_data->vertex_size;
 
@@ -244,7 +244,7 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		}
 
 		// Generating bounding box
-		new_go->bounding_box = AABB(vec(0.f, 0.f, 0.f), vec(0.f, 0.f, 0.f));
+		new_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
 		new_go->bounding_box.Enclose((float3*)mesh_data->vertices, mesh_data->vertex_size);
 
 		ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);

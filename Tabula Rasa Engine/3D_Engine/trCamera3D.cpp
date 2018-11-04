@@ -14,15 +14,15 @@ trCamera3D::trCamera3D() : trModule()
 
 	frustum.type = FrustumType::PerspectiveFrustum;
 
-	frustum.pos = vec(0.0f, 5.0f, 5.0f);
-	looking_at = vec(0.0f, 0.0f, 0.0f);
-	frustum.SetFront(float3::unitZ);
-	frustum.SetUp(float3::unitY);
+	frustum.pos = float3(-2.f,3.f,-10.f);
+	frustum.front = float3::unitZ;
+	frustum.up = float3::unitY;
 
 	frustum.nearPlaneDistance = 0.1f;
 	frustum.farPlaneDistance = 1000.0f;
-	frustum.SetVerticalFovAndAspectRatio(DEGTORAD * 60.0f, ASPECT_RATIO);
-	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov / 2.f ) * ASPECT_RATIO);
+	frustum.verticalFov = math::DegToRad(60.0f);
+
+	SetAspectRatio(ASPECT_RATIO);
 
 	projection_needs_update = true;
 }
@@ -62,7 +62,7 @@ bool trCamera3D::CleanUp()
 // -----------------------------------------------------------------
 bool trCamera3D::Update(float dt)
 {	
-	vec new_pos(0.0f, 0.0f, 0.0f);
+	/*float3 new_pos(0.0f, 0.0f, 0.0f);
 
 	float speed = cam_speed * dt;
 
@@ -98,9 +98,9 @@ bool trCamera3D::Update(float dt)
 	{
 		GameObject* selected = App->editor->GetSelected();
 		if(selected)
-			LookAt(vec(selected->bounding_box.Centroid().x, selected->bounding_box.Centroid().y, selected->bounding_box.Centroid().z));
+			LookAt(float3(selected->bounding_box.Centroid().x, selected->bounding_box.Centroid().y, selected->bounding_box.Centroid().z));
 		else
-			LookAt(vec(0.f, 0.f, 0.f));
+			LookAt(float3(0.f, 0.f, 0.f));
 
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
@@ -122,11 +122,11 @@ bool trCamera3D::Update(float dt)
 		frustum.pos += new_pos;
 		looking_at += new_pos;
 	}
-
+	*/
 	return true;
 }
 
-void trCamera3D::ProcessMouseWheelInput(vec &new_pos, float speed)
+void trCamera3D::ProcessMouseWheelInput(float3 &new_pos, float speed)
 {
 	if (App->input->GetMouseZ() > 0)
 		new_pos -= frustum.front * speed;
@@ -135,7 +135,7 @@ void trCamera3D::ProcessMouseWheelInput(vec &new_pos, float speed)
 		new_pos += frustum.front * speed;
 }
 
-void trCamera3D::ProcessKeyboardInput(vec &new_pos, float speed)
+void trCamera3D::ProcessKeyboardInput(float3 &new_pos, float speed)
 {
 	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_REPEAT) new_pos.y += speed;
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) != KEY_REPEAT) new_pos.y -= speed;
@@ -174,16 +174,16 @@ void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 
 		if (frustum.up.y < -1.0f) // todo minimal issue orbiting obj
 		{
-			frustum.front = vec(0.0f, frustum.front.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+			frustum.front = float3(0.0f, frustum.front.y > 0.0f ? 1.0f : -1.0f, 0.0f);
 			frustum.up = Cross(frustum.front, frustum.WorldRight());
 		}
 	}
 }
 
 // -----------------------------------------------------------------
-void trCamera3D::Look(const vec &Position, const vec &Reference, bool RotateAroundReference)
+void trCamera3D::Look(const float3 &Position, const float3 &Reference, bool RotateAroundReference)
 {
-	this->frustum.pos = Position;
+	/*this->frustum.pos = Position;
 	this->looking_at = Reference;
 
 	frustum.front = (Position - Reference).Normalized();
@@ -195,25 +195,25 @@ void trCamera3D::Look(const vec &Position, const vec &Reference, bool RotateArou
 	{
 		this->looking_at = this->frustum.pos;
 		this->frustum.pos += frustum.front * 0.05f;
-	}
+	}*/
 }
 
 // -----------------------------------------------------------------
-void trCamera3D::LookAt(const vec &Spot)
+void trCamera3D::LookAt(const float3 &Spot)
 {
-	looking_at = Spot;
+	/*looking_at = Spot;
 
 	frustum.front = (frustum.pos - looking_at).Normalized();
 	//X = (Cross(vec(0.0f, 1.0f, 0.0f), Z)).Normalized();
-	frustum.up = Cross(frustum.front, frustum.WorldRight());
+	frustum.up = Cross(frustum.front, frustum.WorldRight());*/
 }
 
 
 // -----------------------------------------------------------------
-void trCamera3D::Move(const vec &Movement)
+void trCamera3D::Move(const float3 &Movement)
 {
-	frustum.pos += Movement;
-	looking_at += Movement;
+	/*frustum.pos += Movement;
+	looking_at += Movement;*/
 }
 
 void trCamera3D::SetAspectRatio(float new_aspect_ratio)
@@ -227,39 +227,39 @@ float* trCamera3D::GetViewMatrix()
 {
 	gl_view_matrix = frustum.ViewMatrix();
 
-	return (float*)gl_view_matrix.v;
+	return gl_view_matrix.Transposed().ptr();
 }
 
 float * trCamera3D::GetProjectionMatrix()
 {
 	gl_projection_matrix = frustum.ProjectionMatrix().Transposed();
 
-	return frustum.ProjectionMatrix().Transposed().ptr();
+	return gl_projection_matrix.ptr();
 }
 
 void trCamera3D::FocusOnSelectedGO()
 {
-	GameObject* selected = App->editor->GetSelected();
+	/*GameObject* selected = App->editor->GetSelected();
 	if (selected) {
 
 		selected->RecalculateBoundingBox(); // TODO: bad feelings ...
 
-		vec center_bbox(selected->bounding_box.Centroid());
-		vec move_dir = (frustum.pos - center_bbox).Normalized();
+		float3 center_bbox(selected->bounding_box.Centroid());
+		float3 move_dir = (frustum.pos - center_bbox).Normalized();
 
 		float radius = selected->bounding_box.MinimalEnclosingSphere().r;
 		double fov = DEG_TO_RAD(60.0f);
 		double cam_distance = Abs(App->window->GetWidth() / App->window->GetHeight() * radius / Sin(fov / 2.f));
 
-		vec final_pos = center_bbox + move_dir * cam_distance;
-		frustum.pos = vec(final_pos.x, final_pos.y, final_pos.z);
+		float3 final_pos = center_bbox + move_dir * cam_distance;
+		frustum.pos = float3(final_pos.x, final_pos.y, final_pos.z);
 
 		if (frustum.pos.y < 0.f)
 			frustum.pos.y *= -1.f;
 
-		LookAt(vec(center_bbox.x, center_bbox.y, center_bbox.z));
+		LookAt(float3(center_bbox.x, center_bbox.y, center_bbox.z));
 	}else{
 		frustum.pos.Set(3.f, 3.f, 3.f);
-		LookAt(vec(0.f, 0.f, 0.f));
-	}
+		LookAt(float3(0.f, 0.f, 0.f));
+	}*/
 }

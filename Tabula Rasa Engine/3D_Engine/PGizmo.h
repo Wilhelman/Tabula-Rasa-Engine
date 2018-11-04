@@ -6,14 +6,14 @@ class PGizmo : public trPrimitive
 {
 public:
 
-	PGizmo(math::vec origin);
+	PGizmo(math::float3 origin);
 	~PGizmo();
 
 	void InnerRender() const;
 
 private:
 
-	math::vec origin;
+	math::float3 origin;
 	PArrow* x_arrow = nullptr;
 	PArrow* y_arrow = nullptr;
 	PArrow* z_arrow = nullptr;

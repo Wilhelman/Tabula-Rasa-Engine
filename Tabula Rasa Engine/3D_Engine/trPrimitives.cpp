@@ -25,7 +25,7 @@ void trPrimitive::SetPos(float x, float y, float z)
 }
 
 // ------------------------------------------------------------
-void trPrimitive::SetRotation(float angle, const math::vec &u)
+void trPrimitive::SetRotation(float angle, const math::float3 &u)
 {
 	transform = float4x4::RotateAxisAngle(u, angle) * transform;
 }

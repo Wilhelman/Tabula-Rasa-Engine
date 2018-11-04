@@ -8,7 +8,7 @@
 PGrid::PGrid() : trPrimitive()
 {
 	type = PrimitiveTypes::Primitive_Grid;
-	gizmo = new PGizmo(vec(0.f, 0.f, 0.f));
+	gizmo = new PGizmo(float3(0.f, 0.f, 0.f));
 
 	float vertex_array[96];
 	uint offset = 0; 

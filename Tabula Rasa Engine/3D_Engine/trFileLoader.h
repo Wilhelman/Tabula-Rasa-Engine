@@ -49,7 +49,7 @@ private:
 	// Tabula Rasa's format
 	std::string file_name;
 	
-	std::vector<vec> scene_vertices;
+	std::vector<float3> scene_vertices;
 	uint scene_num_vertex = 0;
 	AABB model_bouncing_box;
 	GameObject* model_root = nullptr;

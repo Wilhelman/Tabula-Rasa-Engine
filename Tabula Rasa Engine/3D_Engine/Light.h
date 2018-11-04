@@ -16,7 +16,7 @@ struct Light
 
 	Color ambient;
 	Color diffuse;
-	vec position;
+	float3 position;
 
 	int ref = 0;
 	bool on = false;

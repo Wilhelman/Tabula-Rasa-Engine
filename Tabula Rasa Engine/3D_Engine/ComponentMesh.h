@@ -6,9 +6,9 @@
 
 struct Mesh
 {
-	math::vec position;
-	math::vec scale;
-	math::vec rotation;
+	math::float3 position;
+	math::float3 scale;
+	math::float3 rotation;
 
 	std::string name;
 	std::string path;
