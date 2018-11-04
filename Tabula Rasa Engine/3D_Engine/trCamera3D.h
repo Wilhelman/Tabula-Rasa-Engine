@@ -9,6 +9,8 @@
 
 #include "trApp.h"
 
+class ComponentCamera;
+
 class trCamera3D : public trModule
 {
 public:
@@ -22,21 +24,10 @@ public:
 	void ProcessKeyboardInput(float3 &new_pos, float speed);
 	void ProcessMouseMotion(int dx, int dy, float sensitivity);
 	bool CleanUp();
-
-	void LookAt(const float3 &Spot);
-
-	void SetAspectRatio(float new_aspect_ratio);
-
-	float* GetViewMatrix();
-	float* GetProjectionMatrix();
-
-	void FocusOnSelectedGO();
-
 	
 public:
 
-	Frustum frustum;
-	bool projection_needs_update = false;
+	ComponentCamera* dummy_camera = nullptr;
 
 private:
 

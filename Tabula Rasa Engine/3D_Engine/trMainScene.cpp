@@ -4,6 +4,7 @@
 #include "trCamera3D.h"
 #include "trFileLoader.h"
 #include "PGrid.h"
+#include "ComponentCamera.h"
 
 #include "GameObject.h"
 
@@ -31,12 +32,12 @@ bool trMainScene::Awake(JSON_Object* config)
 // Called before the first frame
 bool trMainScene::Start()
 {
-	App->camera->LookAt(float3(0.f, 0.f, 0.f));
+	App->camera->dummy_camera->LookAt(float3(0.f, 0.f, 0.f));
 
 	grid = new PGrid();
 	grid->axis = true;
 
-	//App->file_loader->Import(default_mesh->c_str());
+	App->file_loader->Import(default_mesh->c_str());
 	
 	return true;
 }

@@ -171,18 +171,18 @@ bool trRenderer3D::Awake(JSON_Object* config)
 // PreUpdate: clear buffer
 bool trRenderer3D::PreUpdate(float dt)
 {
-	if (App->camera->projection_needs_update)
+	if (App->camera->dummy_camera->projection_needs_update)
 	{
 		//UpdateCameraProjection();
-		App->camera->projection_needs_update = false;
+		App->camera->dummy_camera->projection_needs_update = false;
 	}
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->GetViewMatrix());
+	glLoadMatrixf(App->camera->dummy_camera->GetViewMatrix());
 
 	// light 0 on cam pos
-	lights[0].SetPos(App->camera->frustum.pos.x, App->camera->frustum.pos.y, App->camera->frustum.pos.z);
+	lights[0].SetPos(App->camera->dummy_camera->frustum.pos.x, App->camera->dummy_camera->frustum.pos.y, App->camera->dummy_camera->frustum.pos.z);
 
 	for (uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
@@ -238,7 +238,7 @@ bool trRenderer3D::CleanUp()
 
 void trRenderer3D::OnResize(int width, int height)
 {
-	App->camera->SetAspectRatio((float)width / (float)height);
+	App->camera->dummy_camera->SetAspectRatio((float)width / (float)height);
 
 	glViewport(0, 0, width, height);
 
@@ -250,7 +250,7 @@ void trRenderer3D::UpdateCameraProjection()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	glLoadMatrixf((GLfloat*)App->camera->GetProjectionMatrix());
+	glLoadMatrixf((GLfloat*)App->camera->dummy_camera->GetProjectionMatrix());
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

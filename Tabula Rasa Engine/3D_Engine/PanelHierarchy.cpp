@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "trMainScene.h"
 #include "trCamera3D.h"
+#include "ComponentCamera.h"
 
 #include "trDefs.h"
 #include <list>
@@ -107,7 +108,7 @@ void PanelHierarchy::ItemHovered(GameObject* hovered_go)
 		}
 
 		if (ImGui::IsMouseDoubleClicked(0))
-			App->camera->FocusOnSelectedGO();
+			App->camera->dummy_camera->FocusOnSelectedGO();
 
 		if (dragged_go && ImGui::IsMouseReleased(0))
 		{

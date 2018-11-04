@@ -13,31 +13,27 @@ public:
 	ComponentCamera(GameObject* embedded_game_object);
 	~ComponentCamera();
 
-	float GetNearPlaneDist() const;
-	float GetFarPlaneDist() const;
-	float GetFOV() const;
-	float GetAspectRatio() const;
 
-	void SetNearPlaneDist(float dist);
-	void SetFarPlaneDist(float dist);
-	void SetFOV(float fov);
-	void SetAspectRatio(float aspect_ratio);
 
-	void Look(const float3& position);
+	void LookAt(const float3 &Spot);
 
-	float* GetOpenGLViewMatrix();
-	float* GetOpenGLProjectionMatrix();
+	void SetAspectRatio(float new_aspect_ratio);
+
+	float* GetViewMatrix();
+	float* GetProjectionMatrix();
+
+	void FocusOnSelectedGO();
 
 public:
-
 	Frustum frustum;
-	float4 background_color = float4::zero;
+	bool projection_needs_update = false;
+private:
 
-	const GameObject* looking_at = nullptr;
+	float4x4 gl_view_matrix = float4x4::zero;
+	float4x4 gl_projection_matrix = float4x4::zero;
 
-	bool frustum_culling = false;
-
-	bool projection_changed = false;
+	float rotation_sensitivity = 0.25f, orbit_sensitivity = 0.25f,
+		pan_sensitivity = 0.01f, cam_speed = 7.f, cam_boost_speed = 14.f;
 
 };
 

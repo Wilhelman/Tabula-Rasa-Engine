@@ -12,6 +12,7 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "ComponentTransform.h"
+#include "ComponentCamera.h"
 
 #include "MathGeoLib/MathGeoLib.h"
 
@@ -90,14 +91,14 @@ bool trFileLoader::Import(const void * buffer, uint size, const char* file_path)
 		// Camera AABB stuff
 		if (scene->mNumMeshes == 1) { // if only one mesh, get the bounding_box of the last mesh
 			App->editor->SetSelected(model_root);
-			App->camera->FocusOnSelectedGO();
+			App->camera->dummy_camera->FocusOnSelectedGO();
 		}
 		else { // get the bouncing of all the meshes
 			model_bouncing_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
 			model_bouncing_box.Enclose((float3*)&scene_vertices.front(), scene_num_vertex);
 			model_root->bounding_box = model_bouncing_box;
 			App->editor->SetSelected(model_root);
-			App->camera->FocusOnSelectedGO();
+			App->camera->dummy_camera->FocusOnSelectedGO();
 		}
 
 		aiReleaseImport(scene);
@@ -132,14 +133,14 @@ bool trFileLoader::Import(const char* file_path)
 		// Camera AABB stuff
 		if (scene->mNumMeshes == 1) { // if only one mesh, get the bounding_box of the last mesh
 			App->editor->SetSelected(model_root);
-			App->camera->FocusOnSelectedGO();
+			App->camera->dummy_camera->FocusOnSelectedGO();
 		}
 		else { // get the bouncing of all the meshes
 			model_bouncing_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
 			model_bouncing_box.Enclose((float3*)&scene_vertices.front(), scene_num_vertex);
 			model_root->bounding_box = model_bouncing_box;
 			App->editor->SetSelected(model_root);
-			App->camera->FocusOnSelectedGO();
+			App->camera->dummy_camera->FocusOnSelectedGO();
 		}
 
 		aiReleaseImport(scene);
