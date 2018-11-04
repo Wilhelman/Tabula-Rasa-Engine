@@ -7,6 +7,8 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 
+#include "trMainScene.h"
+
 #include "Event.h"
 
 // ---------------------------------------------------------
@@ -18,10 +20,13 @@ GameObject::GameObject(const char * name, GameObject * parent)
 	this->name = name;
 	this->parent = parent;
 
+	this->is_static = true;
+
 	if(parent != nullptr)// if is not root
 		parent->childs.push_back(this);
 	else
 		CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
+
 }
 // ---------------------------------------------------------
 GameObject::~GameObject()

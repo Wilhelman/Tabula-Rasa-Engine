@@ -1,7 +1,9 @@
 #include "Quadtree.h"
 #include "trDefs.h"
 
-#define BUCKET_SIZE 3
+#include "GameObject.h"
+
+#define BUCKET_SIZE 2
 
 Quadtree::Quadtree()
 {
@@ -19,6 +21,11 @@ void Quadtree::Create(AABB limits)
 
 void Quadtree::Insert(GameObject * go)
 {
+	if (root_node != nullptr)
+	{
+		if (go->bounding_box.Intersects(root_node->box))
+			root_node->Insert(go);
+	}
 }
 
 void Quadtree::FillWithAABBs(std::vector<AABB>& vector)
@@ -36,6 +43,11 @@ void Quadtree::IterateToFillAABBs(QuadtreeNode * node, std::vector<AABB>& vector
 		for (uint i = 0u; i < 4; i++)
 			IterateToFillAABBs(node->childs[i], vector);
 	}
+}
+
+void Quadtree::Clear()
+{
+	RELEASE(root_node);
 }
 
 // ------------------------------------- NODE ---------------------------------------------------- \\
@@ -63,7 +75,9 @@ void QuadtreeNode::Insert(GameObject * go)
 		objects_inside.push_back(go);
 	}
 	else {
+		objects_inside.push_back(go);
 		GenerateChilds();
+		RedistributeObjects();
 	}
 }
 
@@ -81,12 +95,52 @@ void QuadtreeNode::GenerateChilds()
 	float height = math::Abs(min_point.y - max_point.y);
 	float depth = math::Abs(min_point.z - max_point.z);
 
-	// First child
-	float3 min_point_c1 = min_point;
-	float3 max_point_c1 = min_point;
-	max_point_c1.x += width / 2.f;
-	max_point_c1.y += height / 2.f;
-	max_point_c1.z += depth / 2.f;
-	AABB child_1_box = AABB(min_point_c1, max_point_c1);
-	childs[0] = new QuadtreeNode(child_1_box);
+	/*
+		 __ __ __ __
+		| CH1 | CH2	|
+		|__ __|__ __|
+		| CH3 |	CH4 |
+		|__ __|__ __|
+
+	*/
+
+	// CH1
+	float3 min_point_child = min_point;
+	float3 max_point_child = min_point;
+	max_point_child.x += width / 2.f;
+	max_point_child.y += height;
+	max_point_child.z += depth / 2.f;
+	AABB child_box = AABB(min_point_child, max_point_child);
+	childs[0] = new QuadtreeNode(child_box);
+
+	// CH2
+	min_point_child.x += width / 2.f;
+	max_point_child.x += width / 2.f;
+	child_box = AABB(min_point_child, max_point_child);
+	childs[1] = new QuadtreeNode(child_box);
+
+	// CH3
+	min_point_child.x -= width / 2.f;
+	max_point_child.x -= width / 2.f;
+	min_point_child.z += depth / 2.f;
+	max_point_child.z += depth / 2.f;
+	child_box = AABB(min_point_child, max_point_child);
+	childs[2] = new QuadtreeNode(child_box);
+
+	// CH4
+	min_point_child.x += width / 2.f;
+	max_point_child.x += width / 2.f;
+	child_box = AABB(min_point_child, max_point_child);
+	childs[3] = new QuadtreeNode(child_box);
+}
+
+void QuadtreeNode::RedistributeObjects()
+{
+	for (std::list<GameObject*>::iterator it = objects_inside.begin(); it != objects_inside.end(); it++) {
+		for (uint j = 0u; j < 4; j++)
+		{
+			if ((*it)->bounding_box.Intersects(childs[j]->box))
+				childs[j]->Insert((*it));
+		}
+	}
 }

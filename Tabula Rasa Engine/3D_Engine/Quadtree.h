@@ -17,6 +17,7 @@ public:
 	void Insert(GameObject* go);
 	bool IsLeaf() const;
 	void GenerateChilds();
+	void RedistributeObjects();
 
 
 public:
@@ -42,15 +43,7 @@ public:
 	void FillWithAABBs(std::vector<AABB>& vector);
 	void IterateToFillAABBs(QuadtreeNode* node, std::vector<AABB>& vector);
 
-	/*
-
-	Create(AABB limits)
-	Clear()
-	Insert(GameObject*)
-	Remove(GameObject*)
-	Intersect(vector<GameObject*>& , PRIMITIVE)
-
-	*/
+	void Clear();
 
 
 public:

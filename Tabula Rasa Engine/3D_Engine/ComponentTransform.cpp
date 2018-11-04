@@ -1,6 +1,9 @@
 #include "ComponentTransform.h"
 #include "GameObject.h"
 
+#include "trApp.h"
+#include "trMainScene.h"
+
 ComponentTransform::ComponentTransform(GameObject* embedded_game_object): Component(embedded_game_object, Component::component_type::COMPONENT_TRANSFORM),
 position(float3::zero), scale(float3(1.f, 1.f, 1.f)), rotation(Quat::identity)
 {
@@ -25,6 +28,11 @@ void ComponentTransform::Setup(const float3 & translation, const float3 & scale,
 	this->local_matrix = float4x4::FromTRS(this->position, this->rotation, this->scale);
 
 	embedded_go->RecalculateBoundingBox();
+
+	if (embedded_go->is_static) {
+		App->main_scene->ReDoQuadtree();
+	}
+		
 }
 
 const float3 & ComponentTransform::GetTranslation() const

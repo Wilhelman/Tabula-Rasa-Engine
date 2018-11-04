@@ -39,7 +39,8 @@ bool trMainScene::Start()
 	grid = new PGrid();
 	grid->axis = true;
 
-	App->file_loader->Import(default_mesh->c_str());
+	//App->file_loader->Import(default_mesh->c_str());
+
 	
 	return true;
 }
@@ -71,7 +72,7 @@ void trMainScene::DrawDebug()
 
 	// Draw gameobjects AABBs
 	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++) {
-		(*it)->RecalculateBoundingBox();
+		//(*it)->RecalculateBoundingBox();
 		DebugDraw((*it)->bounding_box, Red);
 	}
 }
@@ -117,6 +118,15 @@ bool trMainScene::Save(JSON_Object* config) const
 GameObject * trMainScene::GetRoot() const
 {
 	return root;
+}
+
+void trMainScene::ReDoQuadtree()
+{
+	quadtree.Clear();
+	quadtree.Create(AABB(AABB(float3(-500, -100, -500), float3(500, 100, 500))));
+
+	//for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++)
+		//quadtree.Insert((*it));
 }
 
 GameObject * trMainScene::CreateGameObject(GameObject * parent)
