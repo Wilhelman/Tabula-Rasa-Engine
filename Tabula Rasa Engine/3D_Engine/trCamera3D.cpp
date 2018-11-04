@@ -89,30 +89,34 @@ bool trCamera3D::Update(float dt)
 		ProcessMouseMotion(dx, dy, rotation_sensitivity);
 	}
 
-	// WHAT IS THIS
 	frustum.pos += new_pos;
-	//WHAT IS THIS
-	looking_at += new_pos;
 
 	// ----- Camera orbit around target with mouse and panning -----
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT
 		     && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
+		float dx = (float)(-App->input->GetMouseXMotion()) * 0.001f;
+		float dy = (float)(-App->input->GetMouseYMotion()) * 0.001f;
+
+		float3 point = float3::zero;
+
 		GameObject* selected = App->editor->GetSelected();
-		if(selected)
-			LookAt(float3(selected->bounding_box.Centroid().x, selected->bounding_box.Centroid().y, selected->bounding_box.Centroid().z));
-		else
-			LookAt(float3(0.f, 0.f, 0.f));
+		if (selected)
+			point = float3(selected->bounding_box.Centroid().x, 
+						   selected->bounding_box.Centroid().y, 
+						   selected->bounding_box.Centroid().z);
 
-		int dx = -App->input->GetMouseXMotion();
-		int dy = -App->input->GetMouseYMotion();
+		float3 focus = frustum.pos - point;
 
-		//WHAT IS THIS
-		frustum.pos -= looking_at;
+		Quat qy(frustum.up, dx);
+		Quat qx(frustum.WorldRight(), dy);
 
-		ProcessMouseMotion(dx, dy, orbit_sensitivity);
-		//WHAT IS THIS
-		frustum.pos = looking_at + frustum.front * frustum.pos.Length();
+		focus = qx.Transform(focus);
+		focus = qy.Transform(focus);
+
+		frustum.pos = focus + point;
+
+		LookAt(point);
 	}
 	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
 	{
@@ -123,7 +127,6 @@ bool trCamera3D::Update(float dt)
 		new_pos += frustum.up * dy * pan_sensitivity;
 
 		frustum.pos += new_pos;
-		looking_at += new_pos;
 	}
 	
 	return true;
@@ -159,7 +162,6 @@ void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 		float3x3 rotate_mat;
 		rotate_mat = rotate_mat.RotateY(delta_x);
 		
-		//X = X * rotate_mat;
 		frustum.up = frustum.up * rotate_mat;
 		frustum.front = frustum.front * rotate_mat;
 	}
@@ -193,7 +195,6 @@ void trCamera3D::LookAt(const float3 &Spot)
 	frustum.front = m.MulDir(frustum.front).Normalized();
 	frustum.up = m.MulDir(frustum.up).Normalized();
 
-
 	/*
 	looking_at = Spot;
 
@@ -202,14 +203,7 @@ void trCamera3D::LookAt(const float3 &Spot)
 	frustum.up = Cross(frustum.front, frustum.WorldRight());*/
 }
 
-
 // -----------------------------------------------------------------
-void trCamera3D::Move(const float3 &Movement)
-{
-	/*frustum.pos += Movement;
-	looking_at += Movement;*/
-}
-
 void trCamera3D::SetAspectRatio(float new_aspect_ratio)
 {
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov / 2.f) * new_aspect_ratio);

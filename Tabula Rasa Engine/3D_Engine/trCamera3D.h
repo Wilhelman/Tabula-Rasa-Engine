@@ -24,7 +24,6 @@ public:
 	bool CleanUp();
 
 	void LookAt(const float3 &Spot);
-	void Move(const float3 &Movement);
 
 	void SetAspectRatio(float new_aspect_ratio);
 
@@ -37,8 +36,6 @@ public:
 public:
 
 	Frustum frustum;
-	float3 looking_at = float3::zero;
-
 	bool projection_needs_update = false;
 
 private:

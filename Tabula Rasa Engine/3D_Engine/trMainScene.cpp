@@ -32,7 +32,7 @@ bool trMainScene::Awake(JSON_Object* config)
 bool trMainScene::Start()
 {
 	App->camera->Move(float3(1.f, 1.f, 1.f));
-	//App->camera->LookAt(float3(0.f, 0.f, 0.f));
+	App->camera->LookAt(float3(0.f, 0.f, 0.f));
 
 	grid = new PGrid();
 	grid->axis = true;
