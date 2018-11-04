@@ -98,25 +98,25 @@ bool trCamera3D::Update(float dt)
 		float dx = (float)(-App->input->GetMouseXMotion()) * 0.001f;
 		float dy = (float)(-App->input->GetMouseYMotion()) * 0.001f;
 
-		float3 point = float3::zero;
+		float3 aim_point = float3::zero;
 
 		GameObject* selected = App->editor->GetSelected();
 		if (selected)
-			point = float3(selected->bounding_box.Centroid().x, 
-						   selected->bounding_box.Centroid().y, 
-						   selected->bounding_box.Centroid().z);
+			aim_point = float3(selected->bounding_box.Centroid().x,
+						       selected->bounding_box.Centroid().y, 
+						       selected->bounding_box.Centroid().z);
 
-		float3 focus = frustum.pos - point;
+		float3 dist_to_aim_point = frustum.pos - aim_point;
 
-		Quat qy(frustum.up, dx);
-		Quat qx(frustum.WorldRight(), dy);
+		Quat rot_quat_y(frustum.up, dx);
+		Quat rot_quat_x(frustum.WorldRight(), dy);
 
-		focus = qx.Transform(focus);
-		focus = qy.Transform(focus);
+		dist_to_aim_point = rot_quat_x.Mul(dist_to_aim_point);
+		dist_to_aim_point = rot_quat_y.Mul(dist_to_aim_point);
 
-		frustum.pos = focus + point;
+		frustum.pos = dist_to_aim_point + aim_point;
 
-		LookAt(point);
+		LookAt(aim_point);
 	}
 	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
 	{
@@ -185,22 +185,15 @@ void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 }
 
 // -----------------------------------------------------------------
-void trCamera3D::LookAt(const float3 &Spot)
+void trCamera3D::LookAt(const float3 &spot)
 {
-	//TODO CHECK THIS
-	float3 dir = Spot - frustum.pos;
+	float3 frustum_dir = spot - frustum.pos;
+	frustum_dir = frustum_dir.Normalized();
 
-	float3x3 m = float3x3::LookAt(frustum.front, dir.Normalized(), frustum.up, float3::unitY);
+	float3x3 look_mat = float3x3::LookAt(frustum.front, frustum_dir, frustum.up, float3::unitY);
 
-	frustum.front = m.MulDir(frustum.front).Normalized();
-	frustum.up = m.MulDir(frustum.up).Normalized();
-
-	/*
-	looking_at = Spot;
-
-	frustum.front = (frustum.pos - looking_at).Normalized();
-	//X = (Cross(vec(0.0f, 1.0f, 0.0f), Z)).Normalized();
-	frustum.up = Cross(frustum.front, frustum.WorldRight());*/
+	frustum.front = look_mat.MulDir(frustum.front).Normalized();
+	frustum.up = look_mat.MulDir(frustum.up).Normalized();
 }
 
 // -----------------------------------------------------------------
