@@ -12,6 +12,9 @@ public:
 	bool Start();
 	bool CleanUp();
 
+	bool DoesFileExist(char* file_name) const;
+	bool AddNewPath(const char* path);
+
 private:
 
 };
