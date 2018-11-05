@@ -73,8 +73,7 @@ bool trFileSystem::AddNewPath(const char * path)
 		TR_LOG("trFileSystem: archive/dir successfully added to the search path.\n");
 	}
 	else
-		TR_LOG("trFileSystem: could not add archive/dir to the search path: %s\n", PHYSFS_getLastErrorCode());
-
+		TR_LOG("trFileSystem: could not add archive/dir to the search path: %s\n", PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 
 	return ret;
 }
@@ -82,14 +81,41 @@ bool trFileSystem::AddNewPath(const char * path)
 bool trFileSystem::OpenFileForWriting(char * file_name) const
 {
 	bool ret = false;
+	PHYSFS_File* file = PHYSFS_openWrite(file_name);
 
-	if (PHYSFS_openWrite(file_name) != nullptr)
+	if (file != nullptr)
 	{
 		ret = true;
 		TR_LOG("trFileSystem: file %s successfully opened for writing.\n", file_name);
 	}
 	else
-		TR_LOG("trFileSystem: could not open file %s for writting: %s\n", file_name, PHYSFS_getLastErrorCode());
+		TR_LOG("trFileSystem: could not open file %s for writting: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+
+	if (PHYSFS_close(file) != 0)
+		TR_LOG("trFileSystem: success on closing file %s\n", file_name);
+	else
+	{
+		ret = false;
+		TR_LOG("trFileSystem: could not close file %s: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+	}
+
+	return ret;
+}
+
+bool trFileSystem::OpenFileForReading(char * file_name) const
+{
+	bool ret = false;
+	PHYSFS_File* file = PHYSFS_openRead(file_name);
+
+	if (file != nullptr)
+	{
+		ret = true;
+		TR_LOG("trFileSystem: file %s successfully opened for reading.\n", file_name);
+	}
+	else
+		TR_LOG("trFileSystem: could not open file %s for reading: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+
+	PHYSFS_close(file);
 
 	return ret;
 }

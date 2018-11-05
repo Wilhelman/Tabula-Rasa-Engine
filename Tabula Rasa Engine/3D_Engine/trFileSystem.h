@@ -16,6 +16,7 @@ public:
 	bool AddNewPath(const char* path);
 
 	bool OpenFileForWriting(char* file_name) const;
+	bool OpenFileForReading(char* file_name) const;
 
 private:
 
