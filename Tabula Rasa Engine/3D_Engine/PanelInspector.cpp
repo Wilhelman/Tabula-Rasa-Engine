@@ -30,14 +30,15 @@ void PanelInspector::Draw()
 	GameObject* selected = App->editor->GetSelected();
 
 	if (selected != nullptr) {
-		
+		ImGui::Checkbox("##ACTIVE", &selected->is_active);
+		ImGui::SameLine();
 		strcpy_s(go_name, GAMEOBJECT_MAX_LENGTH, selected->GetName());
 		if (ImGui::InputText("##GO_NAME", go_name, GAMEOBJECT_MAX_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
 			selected->SetName(go_name);
 
 		ImGui::SameLine();
 
-		if (ImGui::Checkbox("Static", &selected->is_static)) {
+		if (ImGui::Checkbox("Static##STATIC", &selected->is_static)) {
 			if (selected->is_static) {
 				App->main_scene->InsertGoInQuadtree(selected);
 			}

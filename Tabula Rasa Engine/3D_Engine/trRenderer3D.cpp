@@ -433,9 +433,10 @@ math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, floa
 
 void trRenderer3D::CollectGameObjectWithMesh(GameObject* game_object)
 {
-	if (game_object->FindComponentWithType(Component::component_type::COMPONENT_MESH))
-		drawable_go.push_back(game_object);
-		
+	if (game_object->FindComponentWithType(Component::component_type::COMPONENT_MESH)) {
+		if(game_object->is_active)
+			drawable_go.push_back(game_object);
+	}
 
 	for (std::list<GameObject*>::const_iterator it = game_object->childs.begin(), end = game_object->childs.end(); it != end; it++)
 		CollectGameObjectWithMesh(*it);

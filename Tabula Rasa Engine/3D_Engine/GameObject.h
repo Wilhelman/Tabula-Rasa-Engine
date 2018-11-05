@@ -55,6 +55,7 @@ public:
 
 	bool to_destroy = false;
 	bool is_static = false;
+	bool is_active = true;
 
 };
 
