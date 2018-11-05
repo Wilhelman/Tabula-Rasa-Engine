@@ -8,15 +8,18 @@
 trFileSystem::trFileSystem()
 {
 	this->name = "FileSystem";
+}
 
+trFileSystem::~trFileSystem() { }
+
+bool trFileSystem::Awake(JSON_Object * config)
+{	
 	// Initializing PhysFS library
 	TR_LOG("trFileSystem: initializing PhysFS library...\n");
-	char* base_path = SDL_GetBasePath();
-	PHYSFS_init(base_path);
-	SDL_free(base_path);
+	PHYSFS_init(nullptr);
 
 	TR_LOG("trFileSystem: setting search directories...\n");
-	
+
 	// Setting search directories
 	AddNewPath(".");
 	AddNewPath("../Game");
@@ -25,10 +28,8 @@ trFileSystem::trFileSystem()
 	PHYSFS_setWriteDir(".");
 
 	// TODO: here we should create all the needed directories here
-}
 
-trFileSystem::~trFileSystem()
-{
+	return true;
 }
 
 bool trFileSystem::Start()
@@ -53,7 +54,7 @@ bool trFileSystem::CleanUp()
 	return true;
 }
 
-bool trFileSystem::DoesFileExist(char * file_name) const
+bool trFileSystem::DoesFileExist(const char * file_name) const
 {
 	bool ret = false;
 
@@ -78,44 +79,55 @@ bool trFileSystem::AddNewPath(const char * path)
 	return ret;
 }
 
-bool trFileSystem::OpenFileForWriting(char * file_name) const
+PHYSFS_File* trFileSystem::OpenFileForWriting(const char * file_name) const
 {
-	bool ret = false;
 	PHYSFS_File* file = PHYSFS_openWrite(file_name);
 
 	if (file != nullptr)
-	{
-		ret = true;
 		TR_LOG("trFileSystem: file %s successfully opened for writing.\n", file_name);
-	}
 	else
 		TR_LOG("trFileSystem: could not open file %s for writting: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
-
-	if (PHYSFS_close(file) != 0)
-		TR_LOG("trFileSystem: success on closing file %s\n", file_name);
-	else
-	{
-		ret = false;
-		TR_LOG("trFileSystem: could not close file %s: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
-	}
-
-	return ret;
+	
+	return file;
 }
 
-bool trFileSystem::OpenFileForReading(char * file_name) const
+PHYSFS_File* trFileSystem::OpenFileForReading(const char* file_name) const
 {
-	bool ret = false;
 	PHYSFS_File* file = PHYSFS_openRead(file_name);
 
 	if (file != nullptr)
-	{
-		ret = true;
 		TR_LOG("trFileSystem: file %s successfully opened for reading.\n", file_name);
-	}
 	else
 		TR_LOG("trFileSystem: could not open file %s for reading: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 
-	PHYSFS_close(file);
+	CloseFile(file, file_name);
+	
+	return file;
+}
+
+void trFileSystem::CloseFile(PHYSFS_File* file, const char* file_name) const
+{
+	if (PHYSFS_close(file) != 0)
+		TR_LOG("trFileSystem: success on closing file %s\n", file_name);
+	else
+		TR_LOG("trFileSystem: could not close file %s: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+}
+
+bool trFileSystem::WriteInFile(const char* file_name, const char* buffer, uint32 size) const
+{
+	bool ret = true;
+
+	PHYSFS_File* file = OpenFileForWriting(file_name);
+
+	if (file == nullptr && PHYSFS_writeBytes(file, (const void*)buffer, size) < size)
+	{
+		ret = false;
+		TR_LOG("trFileSystem: could not write to file %s: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+	}
+	else
+		TR_LOG("trFileSystem: success on writting to file %s\n", file_name);
+
+	CloseFile(file, file_name);
 
 	return ret;
 }

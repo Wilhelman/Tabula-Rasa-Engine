@@ -48,6 +48,9 @@ bool trMainScene::Start()
 
 	//App->file_loader->Import(default_mesh->c_str());
 
+	const char* hello = "hello world";
+	App->file_system->WriteInFile("text_g_file.txt", hello, strlen(hello));
+
 	return true;
 }
 
