@@ -45,6 +45,7 @@ public:
 	const uint GetMeshesSize() const;
 
 	void CollectGameObjectWithMesh(GameObject* game_object);
+	void CollectActiveGameObjects();
 
 	void Draw();
 	void DrawZBuffer();
@@ -71,6 +72,7 @@ public:
 
 private:
 
+	std::vector<GameObject*> meshable_go;
 	std::vector<GameObject*> drawable_go;
 
 };

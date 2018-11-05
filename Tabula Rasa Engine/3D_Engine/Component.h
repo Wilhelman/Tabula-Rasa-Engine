@@ -24,6 +24,7 @@ public:
 	virtual ~Component() {}
 
 	virtual bool Enable();
+	virtual bool PreUpdate(float dt);
 	virtual bool Update(float dt);
 	virtual bool Disable();
 

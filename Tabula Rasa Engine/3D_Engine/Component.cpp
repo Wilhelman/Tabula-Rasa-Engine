@@ -14,6 +14,11 @@ bool Component::Enable()
 	return false;
 }
 
+bool Component::PreUpdate(float dt)
+{
+	return false;
+}
+
 bool Component::Update(float dt)
 {
 	return false;

@@ -171,26 +171,27 @@ bool trRenderer3D::Awake(JSON_Object* config)
 // PreUpdate: clear buffer
 bool trRenderer3D::PreUpdate(float dt)
 {
-
-	drawable_go.clear();
-
+	meshable_go.clear();
 	CollectGameObjectWithMesh(App->main_scene->GetRoot());
-
 
 	// Camera culling
 	if (App->main_scene->main_camera) {
 		ComponentCamera* camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentWithType(Component::component_type::COMPONENT_CAMERA);
 		if (camera_co) {
-			for (uint i = 0; i < drawable_go.size(); i++)
+			for (uint i = 0; i < meshable_go.size(); i++)
 			{
-				if (camera_co->FrustumContainsAaBox(drawable_go.at(i)->bounding_box))
-					drawable_go.at(i)->is_active = true;
+				if (camera_co->FrustumContainsAaBox(meshable_go.at(i)->bounding_box))
+					meshable_go.at(i)->is_active = true;
 				else
-					drawable_go.at(i)->is_active = false;
+					meshable_go.at(i)->is_active = false;
 			}
 			
 		}
 	}
+
+	drawable_go.clear();
+	CollectActiveGameObjects();
+
 
 	if (App->camera->dummy_camera->projection_needs_update)
 	{
@@ -218,11 +219,12 @@ bool trRenderer3D::PostUpdate(float dt)
 	if (App->main_scene != nullptr)
 		App->main_scene->Draw();
 
-
 	if (debug_draw_on)
 	{
 		App->main_scene->DrawDebug();
 	}
+
+	
 
 	//RENDER IMPORTED MESH
 	if (!drawable_go.empty()) 
@@ -452,10 +454,19 @@ math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, floa
 void trRenderer3D::CollectGameObjectWithMesh(GameObject* game_object)
 {
 	if (game_object->FindComponentWithType(Component::component_type::COMPONENT_MESH)) {
-		if(game_object->is_active)
-			drawable_go.push_back(game_object);
+		//(game_object->is_active)
+		meshable_go.push_back(game_object);
 	}
 
 	for (std::list<GameObject*>::const_iterator it = game_object->childs.begin(), end = game_object->childs.end(); it != end; it++)
 		CollectGameObjectWithMesh(*it);
+}
+
+void trRenderer3D::CollectActiveGameObjects()
+{
+	for (uint i = 0u; i < meshable_go.size(); i++)
+	{
+		if(meshable_go.at(i)->is_active)
+			drawable_go.push_back(meshable_go.at(i));
+	}
 }

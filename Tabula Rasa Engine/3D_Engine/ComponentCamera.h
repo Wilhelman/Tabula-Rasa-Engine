@@ -13,6 +13,8 @@ public:
 	ComponentCamera(GameObject* embedded_game_object);
 	~ComponentCamera();
 
+	bool PreUpdate(float dt);
+
 	void LookAt(const float3 &Spot);
 
 	void SetAspectRatio(float new_aspect_ratio);

@@ -31,6 +31,16 @@ ComponentCamera::~ComponentCamera()
 {
 }
 
+bool ComponentCamera::PreUpdate(float dt)
+{
+	float3 pos = float3::zero;
+	float3 sca = float3::zero;
+	Quat rot = Quat::identity;
+	embedded_go->GetTransform()->GetLocalPosition(&pos, &sca, &rot);
+	frustum.pos = pos;
+	return true;
+}
+
 void ComponentCamera::LookAt(const float3 &spot)
 {
 	float3 frustum_dir = spot - frustum.pos;

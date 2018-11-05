@@ -18,6 +18,7 @@ public:
 	GameObject(const char* name, GameObject* parent);
 	~GameObject();
 
+	bool PreUpdate(float dt);
 	bool Update(float dt);
 
 	Component* CreateComponent(Component::component_type type);

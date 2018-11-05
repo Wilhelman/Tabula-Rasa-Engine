@@ -52,6 +52,10 @@ bool trMainScene::Start()
 bool trMainScene::PreUpdate(float dt)
 {
 	root->DestroyGameObjectsIfNeeded();
+
+	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++)
+		(*it)->PreUpdate(dt);
+
 	return true;
 }
 
