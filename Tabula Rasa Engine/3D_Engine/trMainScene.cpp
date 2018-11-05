@@ -3,7 +3,9 @@
 #include "trMainScene.h"
 #include "trCamera3D.h"
 #include "trFileLoader.h"
-#include "trFileSystem.h"
+
+#include "trFileSystem.h" // TODO: delete this if not needed
+
 #include "PGrid.h"
 #include "ComponentCamera.h"
 
@@ -45,13 +47,6 @@ bool trMainScene::Start()
 	grid->axis = true;
 
 	//App->file_loader->Import(default_mesh->c_str());
-
-	bool test_1 = false;
-	bool test_2 = false;
-
-	test_1 = App->file_system->DoesFileExist("err.txt");
-	test_2 = App->file_system->DoesFileExist("test_file.txt");
-
 
 	return true;
 }

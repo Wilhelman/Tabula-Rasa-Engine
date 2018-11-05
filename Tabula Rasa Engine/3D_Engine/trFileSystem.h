@@ -15,6 +15,8 @@ public:
 	bool DoesFileExist(char* file_name) const;
 	bool AddNewPath(const char* path);
 
+	bool OpenFileForWriting(char* file_name) const;
+
 private:
 
 };
