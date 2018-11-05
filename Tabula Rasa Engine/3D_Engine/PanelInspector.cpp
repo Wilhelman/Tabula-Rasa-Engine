@@ -5,6 +5,7 @@
 
 #include "trApp.h"
 #include "trEditor.h"
+#include "trMainScene.h"
 
 #include "MathGeoLib/MathGeoLib.h"
 
@@ -36,7 +37,14 @@ void PanelInspector::Draw()
 
 		ImGui::SameLine();
 
-		ImGui::Checkbox("Static", &selected->is_static);
+		if (ImGui::Checkbox("Static", &selected->is_static)) {
+			if (selected->is_static) {
+				App->main_scene->quadtree.Insert(selected);
+			}
+			else {// care redo quadtree
+				
+			}
+		}
 
 		ImGui::Separator();
 

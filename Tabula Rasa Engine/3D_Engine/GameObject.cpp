@@ -20,7 +20,7 @@ GameObject::GameObject(const char * name, GameObject * parent)
 	this->name = name;
 	this->parent = parent;
 
-	this->is_static = true;
+	this->is_static = false;
 
 	if(parent != nullptr)// if is not root
 		parent->childs.push_back(this);
