@@ -1,4 +1,7 @@
 #include "trFileSystem.h"
+#include "PhysFS\include\physfs.h"
+
+#pragma comment( lib, "PhysFS/libx86/physfs.lib" )
 
 trFileSystem::trFileSystem()
 {
