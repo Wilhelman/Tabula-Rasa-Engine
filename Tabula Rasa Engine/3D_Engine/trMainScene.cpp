@@ -26,6 +26,10 @@ bool trMainScene::Awake(JSON_Object* config)
 	default_mesh = new std::string(json_object_get_string(config, "default_mesh"));
 
 	root = new GameObject("root", nullptr);
+
+	main_camera = new GameObject("Main Camera", root);
+	main_camera->CreateComponent(Component::component_type::COMPONENT_CAMERA);
+
 	quadtree.Create(AABB(AABB(float3(-500, -100, -500), float3(500, 100, 500))));
 
 	return ret;
@@ -79,15 +83,9 @@ void trMainScene::DrawDebug()
 // Called before quitting
 bool trMainScene::CleanUp()
 {
-	if(default_mesh != nullptr)
-		delete default_mesh;
-
-	if(grid != nullptr)
-		delete grid;
-
-	if (root != nullptr)
-		delete root;
-
+	RELEASE(default_mesh);
+	RELEASE(grid);
+	RELEASE(root);
 	return true;
 }
 

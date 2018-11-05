@@ -6,6 +6,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentCamera.h"
 
 #include "trMainScene.h"
 
@@ -22,8 +23,10 @@ GameObject::GameObject(const char * name, GameObject * parent)
 
 	this->is_static = false;
 
-	if(parent != nullptr)// if is not root
+	if (parent != nullptr) {// if is not root
+		CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
 		parent->childs.push_back(this);
+	}
 	else
 		CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
 
@@ -59,6 +62,9 @@ Component * GameObject::CreateComponent(Component::component_type type)
 		break;
 	case Component::component_type::COMPONENT_MATERIAL:
 		tmp_component = new ComponentMaterial(this);
+		break;
+	case Component::component_type::COMPONENT_CAMERA:
+		tmp_component = new ComponentCamera(this);
 		break;
 	case Component::component_type::COMPONENT_UNKNOWN:
 		TR_LOG("Just how?");
