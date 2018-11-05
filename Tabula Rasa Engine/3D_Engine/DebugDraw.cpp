@@ -66,3 +66,27 @@ void DebugDraw(const AABB & aabb, Color color, const float4x4 & transform)
 
 	glPopMatrix();
 }
+
+void DebugDraw(const Frustum & frustum, Color color, const float4x4& transform)
+{
+	glPushMatrix();
+	glMultMatrixf((GLfloat*)transform.Transposed().ptr());
+
+	glColor4f(color.r, color.g, color.b, 1.f);
+	glLineWidth(5.f);
+
+	glBegin(GL_LINES);
+
+	for (uint i = 0; i < 12; i++)
+	{
+		glVertex3f(frustum.Edge(i).a.x, frustum.Edge(i).a.y, frustum.Edge(i).a.z);
+		glVertex3f(frustum.Edge(i).b.x, frustum.Edge(i).b.y, frustum.Edge(i).b.z);
+	}
+
+	glEnd();
+
+	glLineWidth(1.f);
+	glColor4f(1.f, 1.f, 1.f, 1.f);
+
+	glPopMatrix();
+}

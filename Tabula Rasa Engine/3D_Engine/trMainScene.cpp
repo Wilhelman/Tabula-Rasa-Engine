@@ -75,8 +75,12 @@ void trMainScene::DrawDebug()
 
 	// Draw gameobjects AABBs
 	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++) {
-		//(*it)->RecalculateBoundingBox();
 		DebugDraw((*it)->bounding_box, Red);
+	}
+
+	if (main_camera != nullptr) {
+		ComponentCamera* camera_co = (ComponentCamera*)main_camera->FindComponentWithType(Component::Component::COMPONENT_CAMERA);
+		DebugDraw(camera_co->frustum);
 	}
 }
 
