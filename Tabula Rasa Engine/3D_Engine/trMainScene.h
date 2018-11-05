@@ -42,6 +42,9 @@ public:
 
 	GameObject* GetRoot()const;
 
+	void InsertGoInQuadtree(GameObject* go);
+	void EraseGoInQuadtree(GameObject* go);
+
 	void ReDoQuadtree();
 
 	GameObject* CreateGameObject(GameObject* parent);
@@ -53,6 +56,8 @@ private:
 	std::string* default_mesh = nullptr;
 
 	GameObject* root = nullptr;
+
+	std::list<GameObject*> static_go;
 	
 public:
 	Quadtree quadtree;

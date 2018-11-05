@@ -39,10 +39,10 @@ void PanelInspector::Draw()
 
 		if (ImGui::Checkbox("Static", &selected->is_static)) {
 			if (selected->is_static) {
-				App->main_scene->quadtree.Insert(selected);
+				App->main_scene->InsertGoInQuadtree(selected);
 			}
-			else {// care redo quadtree
-				
+			else {
+				App->main_scene->EraseGoInQuadtree(selected);
 			}
 		}
 

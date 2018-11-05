@@ -119,13 +119,30 @@ GameObject * trMainScene::GetRoot() const
 	return root;
 }
 
+void trMainScene::InsertGoInQuadtree(GameObject * go)
+{
+	static_go.push_back(go);
+	quadtree.Insert(go);
+}
+
+void trMainScene::EraseGoInQuadtree(GameObject * go)
+{
+	for (std::list<GameObject*>::iterator it = static_go.begin(); it != static_go.end(); it++) {
+		if (go == (*it)) {
+			static_go.erase(it);
+			ReDoQuadtree();
+			break;
+		}
+	}
+}
+
 void trMainScene::ReDoQuadtree()
 {
-	//quadtree.Clear();
-	//quadtree.Create(AABB(AABB(float3(-500, -100, -500), float3(500, 100, 500))));
+	quadtree.Clear();
+	quadtree.Create(AABB(AABB(float3(-500, -100, -500), float3(500, 100, 500))));
 
-	//for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++)
-		//quadtree.Insert((*it));
+	for (std::list<GameObject*>::iterator it = static_go.begin(); it != static_go.end(); it++)
+			quadtree.Insert((*it));
 }
 
 GameObject * trMainScene::CreateGameObject(GameObject * parent)
