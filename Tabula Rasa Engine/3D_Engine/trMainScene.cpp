@@ -95,8 +95,10 @@ bool trMainScene::CleanUp()
 
 void trMainScene::ClearScene()
 {
-	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++)
-		(*it)->to_destroy = true;
+	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++) {
+		if((*it) != main_camera)
+			(*it)->to_destroy = true;
+	}
 }
 
 void trMainScene::Draw()

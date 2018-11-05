@@ -56,12 +56,13 @@ private:
 	std::string* default_mesh = nullptr;
 
 	GameObject* root = nullptr;
-	GameObject* main_camera = nullptr;
+	
 
 	std::list<GameObject*> static_go;
 	
 public:
 	Quadtree quadtree;
+	GameObject* main_camera = nullptr;
 
 };
 

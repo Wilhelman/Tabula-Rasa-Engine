@@ -13,11 +13,10 @@ public:
 	ComponentCamera(GameObject* embedded_game_object);
 	~ComponentCamera();
 
-
-
 	void LookAt(const float3 &Spot);
 
 	void SetAspectRatio(float new_aspect_ratio);
+	bool FrustumContainsAaBox(const AABB& ref_box);
 
 	float* GetViewMatrix();
 	float* GetProjectionMatrix();

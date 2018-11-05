@@ -171,6 +171,27 @@ bool trRenderer3D::Awake(JSON_Object* config)
 // PreUpdate: clear buffer
 bool trRenderer3D::PreUpdate(float dt)
 {
+
+	drawable_go.clear();
+
+	CollectGameObjectWithMesh(App->main_scene->GetRoot());
+
+
+	// Camera culling
+	if (App->main_scene->main_camera) {
+		ComponentCamera* camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentWithType(Component::component_type::COMPONENT_CAMERA);
+		if (camera_co) {
+			for (uint i = 0; i < drawable_go.size(); i++)
+			{
+				if (camera_co->FrustumContainsAaBox(drawable_go.at(i)->bounding_box))
+					drawable_go.at(i)->is_active = true;
+				else
+					drawable_go.at(i)->is_active = false;
+			}
+			
+		}
+	}
+
 	if (App->camera->dummy_camera->projection_needs_update)
 	{
 		//UpdateCameraProjection();
@@ -197,9 +218,6 @@ bool trRenderer3D::PostUpdate(float dt)
 	if (App->main_scene != nullptr)
 		App->main_scene->Draw();
 
-	drawable_go.clear();
-
-	CollectGameObjectWithMesh(App->main_scene->GetRoot());
 
 	if (debug_draw_on)
 	{
