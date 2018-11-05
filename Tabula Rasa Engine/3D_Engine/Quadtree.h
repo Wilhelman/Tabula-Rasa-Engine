@@ -19,6 +19,10 @@ public:
 	void GenerateChilds();
 	void RedistributeObjects();
 
+	// Intersections stuff
+	void CollectsGOs(const Frustum& frustum, std::vector<GameObject*>& go_output)const;
+	bool FrustumContainsAaBox(const AABB & ref_box, const Frustum& frustum)const;
+
 
 public:
 	AABB box;
@@ -42,6 +46,9 @@ public:
 
 	void FillWithAABBs(std::vector<AABB>& vector);
 	void IterateToFillAABBs(QuadtreeNode* node, std::vector<AABB>& vector);
+
+	// Intersection stuff
+	void CollectsGOs(const Frustum& frustum, std::vector<GameObject*>& go_output)const;
 
 	void Clear();
 
