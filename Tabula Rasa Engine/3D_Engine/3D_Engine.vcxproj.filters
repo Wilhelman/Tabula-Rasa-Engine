@@ -300,6 +300,9 @@
     <ClCompile Include="DebugDraw.cpp">
       <Filter>Utilities\Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="trFileSystem.cpp">
+      <Filter>Core\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -781,6 +784,9 @@
     </ClInclude>
     <ClInclude Include="DebugDraw.h">
       <Filter>Utilities\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="trFileSystem.h">
+      <Filter>Core\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -21,6 +21,7 @@ class trHardware;
 class trFileLoader;
 class trMeshImporter;
 class trTimeManager;
+class trFileSystem;
 
 class trApp
 {
@@ -102,6 +103,7 @@ public:
 	trHardware*			hardware = nullptr;
 	trFileLoader*		file_loader = nullptr;
 	trTimeManager*		time_manager = nullptr;
+	trFileSystem*		file_system = nullptr;
 	
 	
 private:
