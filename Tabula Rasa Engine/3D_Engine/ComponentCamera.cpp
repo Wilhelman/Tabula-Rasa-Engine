@@ -61,32 +61,30 @@ void ComponentCamera::SetAspectRatio(float new_aspect_ratio)
 
 bool ComponentCamera::FrustumContainsAaBox(const AABB & ref_box)
 {
-	float3 vCorner[8];
-	int iTotalIn = 0;
-	ref_box.GetCornerPoints(vCorner); // get the corners of the box into the vCorner array
-								 // test all 8 corners against the 6 sides
-								 // if all points are behind 1 specific plane, we are out
-								 // if we are in with all points, then we are fully in
-	for (int p = 0; p < 6; ++p) {
-		int iInCount = 8;
-		int iPtIn = 1;
-		for (int i = 0; i < 8; ++i) {
-			// test this point against the planes
-			if (frustum.GetPlane(p).IsOnPositiveSide(vCorner[i])) {
-				iPtIn = 0;
-				--iInCount;
+	float3 aabb_corners[8];
+	int total_in = 0;
+	ref_box.GetCornerPoints(aabb_corners);
+
+	for (int p = 0; p < 6; ++p) { // Planes of the frustum
+		int corners_outside = 8;
+		int point_in = 1;
+		
+		for (int i = 0; i < 8; ++i) { // each corner of the AABB
+
+			if (frustum.GetPlane(p).IsOnPositiveSide(aabb_corners[i])) {
+				point_in = 0;
+				--corners_outside;
 			}
 		}
-		// were all the points outside of plane p?
-		if(iInCount == 0)
+
+		if(corners_outside == 0) // totally in
 			return false;
-		// check if they were all on the right side of the plane
-		iTotalIn += iPtIn;
+
+		total_in += point_in;
 	}
-	// so if iTotalIn is 6, then all are inside the view
-	if (iTotalIn == 6)
-		return true;
-	// we must be partly in then otherwise
+	//if (iTotalIn == 6)// TODO: maybe is usefull ...
+		//return true;
+
 	return true;
 }
 
