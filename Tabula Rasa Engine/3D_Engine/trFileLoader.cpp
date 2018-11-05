@@ -146,6 +146,8 @@ bool trFileLoader::Import(const char* file_path)
 			App->camera->dummy_camera->FocusOnSelectedGO();
 		}
 
+		App->main_scene->GetRoot()->RecalculateBoundingBox();
+
 		aiReleaseImport(scene);
 
 		return true;

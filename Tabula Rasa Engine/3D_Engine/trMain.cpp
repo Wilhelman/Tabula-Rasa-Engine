@@ -121,7 +121,7 @@ int main(int argc, char* args[])
 
 	TR_LOG("... Bye! :)\n");
 #ifdef _DEBUG
-	int leaks = MAX(0, m_getMemoryStatistics().totalAllocUnitCount /*-23*/); // TODO: figure out why this -23 at the end
+	int leaks = MAX(0, m_getMemoryStatistics().totalAllocUnitCount);
 	TR_LOG("With %d memory leaks!\n", (leaks > 0) ? leaks : 0);
 #endif
 

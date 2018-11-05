@@ -41,7 +41,6 @@ bool trMainScene::Start()
 
 	//App->file_loader->Import(default_mesh->c_str());
 
-	
 	return true;
 }
 
@@ -122,8 +121,8 @@ GameObject * trMainScene::GetRoot() const
 
 void trMainScene::ReDoQuadtree()
 {
-	quadtree.Clear();
-	quadtree.Create(AABB(AABB(float3(-500, -100, -500), float3(500, 100, 500))));
+	//quadtree.Clear();
+	//quadtree.Create(AABB(AABB(float3(-500, -100, -500), float3(500, 100, 500))));
 
 	//for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++)
 		//quadtree.Insert((*it));
