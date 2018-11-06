@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 
+#include "ImGuizmo/ImGuizmo.h"
+
 class Panel;
 class PanelAbout;
 class PanelConfiguration;
@@ -66,5 +68,8 @@ private:
 	bool have_to_quit = false;
 
 	bool show_imgui = true;
+
+	// ImGuizmo stuff
+	ImGuizmo::OPERATION guizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
 
 };

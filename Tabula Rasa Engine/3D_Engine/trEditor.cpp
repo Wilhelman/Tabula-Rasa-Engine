@@ -146,6 +146,13 @@ bool trEditor::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
 		show_imgui = !show_imgui;
 
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+		guizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
+	else if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+		guizmo_operation = ImGuizmo::OPERATION::ROTATE;
+	else if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+		guizmo_operation = ImGuizmo::OPERATION::SCALE;
+
 	if (!show_imgui)
 		return true;
 	
@@ -297,8 +304,8 @@ void trEditor::DisplayGuizmos()
 	ImGuizmo::Enable(true);
 
 	// Setting up default guizmo
-	static ImGuizmo::OPERATION current_guizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
-	static ImGuizmo::MODE current_guizmo_mode = ImGuizmo::MODE::WORLD;
+	ImGuizmo::OPERATION current_guizmo_operation = guizmo_operation;
+	ImGuizmo::MODE current_guizmo_mode = ImGuizmo::MODE::WORLD;
 
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
@@ -309,8 +316,8 @@ void trEditor::DisplayGuizmos()
 	transform_matrix = transform_matrix.Transposed();
 
 	ImGuizmo::Manipulate(view_matrix.ptr(),
-		proj_matrix.ptr(),
-		current_guizmo_operation,
-		current_guizmo_mode,
-		transform_matrix.ptr());
+						 proj_matrix.ptr(),
+						 current_guizmo_operation,
+						 current_guizmo_mode,
+					 	 transform_matrix.ptr()); 
 }
