@@ -25,6 +25,8 @@ public:
 	void SetScale(const float3 scale);
 	void SetRotation(const Quat rot);
 
+	void EnableGuizmoOnGo(GameObject* go) const;
+
 private:
 
 	float3 position = float3::zero;

@@ -15,6 +15,7 @@
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_sdl.h"
 #include "ImGui/imgui_impl_opengl3.h"
+#include "ImGuizmo/ImGuizmo.h"
 #include "SDL/include/SDL.h"
 #include "SDL/include/SDL_opengl.h"
 
@@ -131,6 +132,7 @@ bool trEditor::Update(float dt)
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();
+	ImGuizmo::BeginFrame();
 
 	// Show/hide imgui
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)

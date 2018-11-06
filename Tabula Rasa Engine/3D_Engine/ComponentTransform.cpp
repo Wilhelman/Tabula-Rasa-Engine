@@ -97,3 +97,8 @@ void ComponentTransform::SetRotation(const Quat rot)
 	this->local_matrix = float4x4::FromTRS(this->position, this->rotation, this->scale);
 	embedded_go->RecalculateBoundingBox();
 }
+
+void ComponentTransform::EnableGuizmoOnGo(GameObject* go) const
+{
+
+}
