@@ -7,6 +7,7 @@
 #include "trCamera3D.h"
 #include "trMainScene.h"
 #include "trEditor.h"
+#include "trFileSystem.h"
 
 #include "GameObject.h"
 #include "ComponentMesh.h"
@@ -24,6 +25,10 @@
 #include "Assimp/include/cfileio.h"
 
 #pragma comment (lib, "Assimp/libx86/assimp-vc140-mt.lib")
+
+#define LIBRARY_DIR "Library"
+#define MESH_DIR "/Library/Meshes"
+#define MATERIAL_DIR "/Library/Materials"
 
 void StreamCallback(const char* msg, char* user_msg) {
 	TR_LOG("trFileLoader: %s",msg);
@@ -52,6 +57,10 @@ bool trFileLoader::Awake(JSON_Object* config)
 
 bool trFileLoader::Start()
 {
+	// Create basic folders
+	App->file_system->MakeNewDir(LIBRARY_DIR);
+	App->file_system->MakeNewDir(MESH_DIR);
+	App->file_system->MakeNewDir(MATERIAL_DIR);
 
 	return true;
 }
@@ -275,7 +284,7 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		//testing zone
 		// check if there is already a file
 		// todo finish this
-		//SaveMeshFile(file_name.c_str(), mesh_data);
+		//SaveMeshFile(new_go->GetName(), mesh_data);
 		
 	}
 	for (uint i = 0; i < node->mNumChildren; i++)
@@ -323,56 +332,49 @@ ComponentMaterial * trFileLoader::LoadTexture(aiMaterial* material, GameObject* 
 
 bool trFileLoader::SaveMeshFile(const char* file_name, Mesh* mesh_data)
 {
-	uint size_indices = sizeof(uint) * mesh_data->index_size;
-	uint size_vertices = sizeof(float) * mesh_data->vertex_size * 3;
-	uint size_uvs = sizeof(float) * mesh_data->size_uv * 2;
+	/*uint size_indices = sizeof(uint) * mesh_data->index_size;
+	uint size_vertices = sizeof(float) * (mesh_data->vertex_size * 3);
+	uint size_uvs = sizeof(float) * (mesh_data->size_uv * 2);
 
 	// amount of indices / vertices / colors / normals / texture_coords / AABB
-	uint ranges[4] = { mesh_data->index_size, mesh_data->vertex_size, mesh_data->size_uv, 1 };
-	uint size = sizeof(ranges) + size_indices + size_vertices + size_uvs;
+	uint ranges[3] = { mesh_data->index_size, mesh_data->vertex_size, mesh_data->size_uv};
+	uint size = sizeof(ranges) + size_vertices + size_uvs;
 
 	char* data = new char[size]; // Allocate
-	char* cursor = nullptr;
-	if (cursor_data)
-		cursor = cursor_data;
-	else
-		cursor = data;
+	char* cursor = data;
 
-	uint bytes = sizeof(ranges); // First store ranges
+	// First store ranges
+	uint bytes = sizeof(ranges);
 	memcpy(cursor, ranges, bytes);
-	
-	cursor += bytes; // Store indices
-	bytes = size_indices;
-	memcpy(cursor, mesh_data->indices, bytes);
 
-	cursor += bytes; // Store vertices
-	bytes = size_vertices;
+	cursor += bytes;
+
+	//Store vertices
+	bytes = sizeof(float) * mesh_data->vertex_size;
 	memcpy(cursor, mesh_data->vertices, bytes);
 
-	cursor += bytes; // Store uvs
-	bytes = size_uvs;
+	cursor += bytes;
+
+	//Store indices
+	bytes = sizeof(uint) * mesh_data->index_size;
+	memcpy(cursor, mesh_data->indices, bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(float)* mesh_data->size_uv;
 	memcpy(cursor, mesh_data->uvs, bytes);
 
-	//before saving, lets point at the end with omega-cursor
-	cursor_data = cursor;
-	cursor_data += bytes;
-
 	// Saving file
-	std::string tmp_str(file_name);
-	tmp_str.append(".tr", 4); // adding our own format extension
-	std::ofstream ofile(tmp_str.c_str(), std::ios::out);
 
-	if (ofile.fail())
-	{
-		TR_LOG("Unable to open file...");
-		return false;
-	}
+	std::string tmp_str(MESH_DIR);
+	tmp_str.append("/");
+	tmp_str.append(file_name);
+	tmp_str.append(".tr"); // adding our own format extension
 
-	ofile.write(cursor, size);
-	ofile.close();
-
+	//App->file_system->WriteInFile(file_name, cursor, size);
+	
 	// deleting useless data
-	RELEASE_ARRAY(data);
+	RELEASE_ARRAY(data);*/
 
 	return true;
 }

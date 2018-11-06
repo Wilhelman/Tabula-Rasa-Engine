@@ -63,6 +63,8 @@ bool trMainScene::PreUpdate(float dt)
 
 bool trMainScene::Update(float dt)
 {
+	TR_LOG("DINAMIC GO: %i", dinamic_go.size());
+	TR_LOG("STATIC GO: %i", static_go.size());
 	return true;
 }
 
@@ -107,6 +109,9 @@ void trMainScene::ClearScene()
 			(*it)->is_active = false; // doing this, renderer will ignore it till is destroyed
 		}
 	}
+
+	static_go.clear();
+	dinamic_go.clear();
 }
 
 void trMainScene::Draw()
@@ -133,7 +138,7 @@ GameObject * trMainScene::GetRoot() const
 
 void trMainScene::InsertGoInQuadtree(GameObject * go) // This GO is now static
 {
-	if (go != main_camera) {
+	if (go != main_camera && !go->to_destroy) {
 		static_go.push_back(go);
 		quadtree.Insert(go);
 		for (std::list<GameObject*>::iterator it = dinamic_go.begin(); it != dinamic_go.end(); it++) {
