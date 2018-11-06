@@ -13,7 +13,7 @@ trFileSystem::trFileSystem()
 trFileSystem::~trFileSystem() { }
 
 bool trFileSystem::Awake(JSON_Object * config)
-{	
+{
 	// Initializing PhysFS library
 	TR_LOG("trFileSystem: initializing PhysFS library...\n");
 	PHYSFS_init(nullptr);
@@ -87,7 +87,7 @@ PHYSFS_File* trFileSystem::OpenFileForWriting(const char * file_name) const
 		TR_LOG("trFileSystem: file %s successfully opened for writing.\n", file_name);
 	else
 		TR_LOG("trFileSystem: could not open file %s for writting: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
-	
+
 	return file;
 }
 
@@ -100,8 +100,6 @@ PHYSFS_File* trFileSystem::OpenFileForReading(const char* file_name) const
 	else
 		TR_LOG("trFileSystem: could not open file %s for reading: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 
-	CloseFile(file, file_name);
-	
 	return file;
 }
 
@@ -113,13 +111,13 @@ void trFileSystem::CloseFile(PHYSFS_File* file, const char* file_name) const
 		TR_LOG("trFileSystem: could not close file %s: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 }
 
-bool trFileSystem::WriteInFile(const char* file_name, const char* buffer, uint32 size) const
+bool trFileSystem::WriteInFile(const char* file_name, char* buffer, uint size) const
 {
 	bool ret = true;
 
 	PHYSFS_File* file = OpenFileForWriting(file_name);
 
-	if (file == nullptr && PHYSFS_writeBytes(file, (const void*)buffer, size) < size)
+	if (file == nullptr || PHYSFS_writeBytes(file, (const void*)buffer, size) < size)
 	{
 		ret = false;
 		TR_LOG("trFileSystem: could not write to file %s: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
@@ -132,7 +130,30 @@ bool trFileSystem::WriteInFile(const char* file_name, const char* buffer, uint32
 	return ret;
 }
 
-/*bool trFileSystem::MakeNewDir(const char * dir_name)
+bool trFileSystem::ReadFromFile(const char* file_name, char* buffer)
+{
+	bool ret = true;
+	PHYSFS_File* file = OpenFileForReading(file_name);
+
+	if (file != nullptr)
+	{
+		uint size = PHYSFS_fileLength(file);
+
+		if (PHYSFS_readBytes(file, buffer, size) == -1)
+		{
+			ret = false;
+			TR_LOG("trFileSystem: could not read from file %s: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+		}
+		else
+			TR_LOG("trFileSystem: success on reading from file %s: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+	}
+
+	CloseFile(file, file_name);
+
+	return ret;
+}
+
+bool trFileSystem::MakeNewDir(const char * dir_name)
 {
 	bool ret = true;
 
@@ -145,4 +166,4 @@ bool trFileSystem::WriteInFile(const char* file_name, const char* buffer, uint32
 	}
 
 	return ret;
-}*/
+}

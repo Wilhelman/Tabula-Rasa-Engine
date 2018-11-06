@@ -23,9 +23,10 @@ public:
 	PHYSFS_File* OpenFileForReading(const char* file_name) const;
 	void CloseFile(PHYSFS_File* file, const char* file_name) const;
 
-	bool WriteInFile(const char* file_name, const char* buffer, uint32 size) const;
-	
-	bool CreateNewDirectory(const char* dir_name);
+	bool WriteInFile(const char* file_name, char* buffer, uint size) const;
+	bool ReadFromFile(const char* file_name, char* buffer);
+
+	bool MakeNewDir(const char* dir_name);
 		
 private:
 
