@@ -3,11 +3,7 @@
 
 #include "trApp.h"
 #include "trMainScene.h"
-#include "trCamera3D.h"
-#include "ComponentCamera.h"
 
-#include "ImGuizmo/ImGuizmo.h"
-#include "ImGui/imgui.h"
 
 ComponentTransform::ComponentTransform(GameObject* embedded_game_object): Component(embedded_game_object, Component::component_type::COMPONENT_TRANSFORM),
 position(float3::zero), scale(float3(1.f, 1.f, 1.f)), rotation(Quat::identity)
@@ -101,27 +97,4 @@ void ComponentTransform::SetRotation(const Quat rot)
 
 	this->local_matrix = float4x4::FromTRS(this->position, this->rotation, this->scale);
 	embedded_go->RecalculateBoundingBox();
-}
-
-void ComponentTransform::DisplayGuizmos(GameObject* go)
-{
-	ImGuizmo::Enable(true);
-	
-	// Setting up default guizmo
-	static ImGuizmo::OPERATION current_guizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
-	static ImGuizmo::MODE current_guizmo_mode = ImGuizmo::MODE::WORLD;
-
-	ImGuiIO& io = ImGui::GetIO();
-	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
-
-	float4x4 view_matrix(App->camera->dummy_camera->GetViewMatrix());
-	float4x4 proj_matrix(App->camera->dummy_camera->GetProjectionMatrix());
-	float4x4 transform_matrix(go->GetTransform()->GetMatrix());
-	transform_matrix = transform_matrix.Transposed();
-
-	ImGuizmo::Manipulate(view_matrix.ptr(),
-					     proj_matrix.ptr(),
-						 current_guizmo_operation,
-						 current_guizmo_mode,
-						 transform_matrix.ptr());
 }

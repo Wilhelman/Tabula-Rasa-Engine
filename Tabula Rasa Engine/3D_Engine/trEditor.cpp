@@ -2,6 +2,7 @@
 #include "trApp.h"
 #include "trWindow.h"
 #include "trEditor.h"
+#include "trCamera3D.h"
 #include "trRenderer3D.h"
 #include "trInput.h"
 
@@ -22,6 +23,11 @@
 #include "SDL/include/SDL_opengl.h"
 
 #include "Event.h"
+
+#include "ComponentCamera.h"
+
+#include "ImGuizmo/ImGuizmo.h"
+#include "ImGui/imgui.h"
 
 #include <vector>
 
@@ -256,6 +262,9 @@ void trEditor::OnEventReceived(const Event & event)
 
 void trEditor::Draw()
 {
+	if (selected)
+		DisplayGuizmos();
+
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
@@ -281,4 +290,27 @@ GameObject * trEditor::GetSelected() const
 void trEditor::SetSelected(GameObject * selected)
 {
 	this->selected = selected;
+}
+
+void trEditor::DisplayGuizmos()
+{
+	ImGuizmo::Enable(true);
+
+	// Setting up default guizmo
+	static ImGuizmo::OPERATION current_guizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
+	static ImGuizmo::MODE current_guizmo_mode = ImGuizmo::MODE::WORLD;
+
+	ImGuiIO& io = ImGui::GetIO();
+	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+
+	float4x4 view_matrix(App->camera->dummy_camera->GetViewMatrix());
+	float4x4 proj_matrix(App->camera->dummy_camera->GetProjectionMatrix());
+	float4x4 transform_matrix(selected->GetTransform()->GetMatrix());
+	transform_matrix = transform_matrix.Transposed();
+
+	ImGuizmo::Manipulate(view_matrix.ptr(),
+		proj_matrix.ptr(),
+		current_guizmo_operation,
+		current_guizmo_mode,
+		transform_matrix.ptr());
 }

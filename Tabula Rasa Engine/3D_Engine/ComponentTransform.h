@@ -25,8 +25,6 @@ public:
 	void SetScale(const float3 scale);
 	void SetRotation(const Quat rot);
 
-	void DisplayGuizmos(GameObject* go);
-
 private:
 
 	float3 position = float3::zero;

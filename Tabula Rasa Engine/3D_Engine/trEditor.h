@@ -41,6 +41,8 @@ public:
 	GameObject* GetSelected()const;
 	void SetSelected(GameObject* selected);
 
+	void DisplayGuizmos();
+
 public:
 
 	//panels
