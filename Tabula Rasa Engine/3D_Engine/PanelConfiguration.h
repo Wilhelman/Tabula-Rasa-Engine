@@ -2,8 +2,8 @@
 #define __PANELCONFIGURATION_H__
 
 #include "Panel.h"
-#include "imgui.h"
-#include "imgui_defs.h"
+#include "ImGui/imgui.h"
+#include "ImGui/imgui_defs.h"
 #include <vector>
 
 #include "trTimer.h"

@@ -1,5 +1,5 @@
 #include "PanelConsole.h"
-#include "imgui.h"
+#include "ImGui/imgui.h"
 
 PanelConsole::PanelConsole(std::vector<std::string> init_logs) : Panel("Console", SDL_SCANCODE_1)
 {

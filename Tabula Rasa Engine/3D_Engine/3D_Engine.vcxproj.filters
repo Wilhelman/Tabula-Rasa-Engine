@@ -87,18 +87,6 @@
     <ClCompile Include="trApp.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="imgui.cpp">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_demo.cpp">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_draw.cpp">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_widgets.cpp">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="trMainScene.cpp">
       <Filter>Core\Scenes</Filter>
     </ClCompile>
@@ -113,12 +101,6 @@
     </ClCompile>
     <ClCompile Include="trCamera3D.cpp">
       <Filter>Core\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_impl_opengl2.cpp">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_impl_sdl.cpp">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="pcg\entropy.c">
       <Filter>Utilities\3rd Party\PCG</Filter>
@@ -303,6 +285,24 @@
     <ClCompile Include="trFileSystem.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="ImGui\imgui.cpp">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_demo.cpp">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_opengl2.cpp">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_sdl.cpp">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -329,24 +329,6 @@
     <ClInclude Include="trApp.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="imconfig.h">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui.h">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_internal.h">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="imstb_rectpack.h">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="imstb_textedit.h">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="imstb_truetype.h">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="trMainScene.h">
       <Filter>Core\Scenes</Filter>
     </ClInclude>
@@ -361,12 +343,6 @@
     </ClInclude>
     <ClInclude Include="trCamera3D.h">
       <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_impl_opengl2.h">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_impl_sdl.h">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="pcg\entropy.h">
       <Filter>Utilities\3rd Party\PCG</Filter>
@@ -394,9 +370,6 @@
     </ClInclude>
     <ClInclude Include="PanelConsole.h">
       <Filter>Core\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_defs.h">
-      <Filter>Utilities\3rd Party\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="mmgr\mmgr.h">
       <Filter>Utilities\3rd Party\mmgr</Filter>
@@ -787,6 +760,36 @@
     </ClInclude>
     <ClInclude Include="trFileSystem.h">
       <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_defs.h">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_opengl2.h">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_sdl.h">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\Importer.h">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

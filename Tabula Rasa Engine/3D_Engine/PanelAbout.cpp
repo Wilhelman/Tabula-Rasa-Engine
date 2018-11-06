@@ -1,13 +1,13 @@
 #include "PanelAbout.h"
 
-#include "imgui.h"
+#include "ImGui/imgui.h"
 #include "trApp.h"
 #include "trHardware.h"
 #include "trEditor.h"
 #include "Glew/include/GL/glew.h"
 #include "Assimp/include/version.h"
 #include "DevIL/include/il.h"
-#include "imgui_defs.h"
+#include "ImGui/imgui_defs.h"
 
 PanelAbout::PanelAbout() : Panel("About")
 {

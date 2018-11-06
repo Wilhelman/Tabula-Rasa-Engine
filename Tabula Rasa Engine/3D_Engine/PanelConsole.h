@@ -2,7 +2,7 @@
 #define __PANEL_CONSOLE_H__
 
 #include "Panel.h"
-#include "imgui.h"
+#include "ImGui/imgui.h"
 
 #include <string>
 #include <vector>
