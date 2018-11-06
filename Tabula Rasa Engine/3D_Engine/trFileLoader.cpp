@@ -284,7 +284,7 @@ void trFileLoader::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		//testing zone
 		// check if there is already a file
 		// todo finish this
-		//SaveMeshFile(new_go->GetName(), mesh_data);
+		SaveMeshFile(new_go->GetName(), mesh_data);
 		
 	}
 	for (uint i = 0; i < node->mNumChildren; i++)
@@ -371,7 +371,7 @@ bool trFileLoader::SaveMeshFile(const char* file_name, Mesh* mesh_data)
 	tmp_str.append(file_name);
 	tmp_str.append(".tr"); // adding our own format extension
 
-	//App->file_system->WriteInFile(file_name, cursor, size);
+	App->file_system->WriteInFile(tmp_str.c_str(), cursor, size);
 	
 	// deleting useless data
 	RELEASE_ARRAY(data);
