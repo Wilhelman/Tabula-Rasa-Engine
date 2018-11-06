@@ -215,7 +215,7 @@ bool trRenderer3D::PreUpdate(float dt)
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(camera_co->GetViewMatrix());
+	glLoadMatrixf(camera_co->GetViewMatrix().ptr());
 
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->dummy_camera->frustum.pos.x, App->camera->dummy_camera->frustum.pos.y, App->camera->dummy_camera->frustum.pos.z);
@@ -290,7 +290,7 @@ void trRenderer3D::UpdateCameraProjection()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	glLoadMatrixf((GLfloat*)camera_co->GetProjectionMatrix());
+	glLoadMatrixf((GLfloat*)camera_co->GetProjectionMatrix().ptr());
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

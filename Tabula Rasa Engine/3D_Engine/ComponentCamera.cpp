@@ -93,18 +93,18 @@ bool ComponentCamera::FrustumContainsAaBox(const AABB & ref_box)
 }
 
 // -----------------------------------------------------------------
-float* ComponentCamera::GetViewMatrix()
+float4x4 ComponentCamera::GetViewMatrix()
 {
 	gl_view_matrix = frustum.ViewMatrix();
 
-	return gl_view_matrix.Transposed().ptr();
+	return gl_view_matrix.Transposed();
 }
 
-float * ComponentCamera::GetProjectionMatrix()
+float4x4 ComponentCamera::GetProjectionMatrix()
 {
-	gl_projection_matrix = frustum.ProjectionMatrix().Transposed();
+	gl_projection_matrix = frustum.ProjectionMatrix();
 
-	return gl_projection_matrix.ptr();
+	return gl_projection_matrix.Transposed();
 }
 
 void ComponentCamera::FocusOnAABB(AABB& aabb)

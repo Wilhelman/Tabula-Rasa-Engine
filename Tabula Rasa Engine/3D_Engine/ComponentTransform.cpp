@@ -103,25 +103,25 @@ void ComponentTransform::SetRotation(const Quat rot)
 	embedded_go->RecalculateBoundingBox();
 }
 
-void ComponentTransform::EnableGuizmoOnGo(GameObject* go)
+void ComponentTransform::DisplayGuizmos(GameObject* go)
 {
 	ImGuizmo::Enable(true);
 	
 	// Setting up default guizmo
 	static ImGuizmo::OPERATION current_guizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
 	static ImGuizmo::MODE current_guizmo_mode = ImGuizmo::MODE::WORLD;
-	float4x4 delta_matrix = float4x4::identity;
 
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
 
-	float4x4 matrix(float4x4::identity);
+	float4x4 view_matrix(App->camera->dummy_camera->GetViewMatrix());
+	float4x4 proj_matrix(App->camera->dummy_camera->GetProjectionMatrix());
+	float4x4 transform_matrix(go->GetTransform()->GetMatrix());
+	transform_matrix = transform_matrix.Transposed();
 
-	ImGuizmo::DrawCube(App->camera->dummy_camera->GetViewMatrix(), App->camera->dummy_camera->GetViewMatrix(), matrix.ptr());
-
-	ImGuizmo::Manipulate(App->camera->dummy_camera->GetViewMatrix(), 
-						App->camera->dummy_camera->GetViewMatrix(),
-					     current_guizmo_operation, current_guizmo_mode,
-						 go->GetTransform()->GetMatrix().Transposed().ptr(), 
-						 delta_matrix.ptr());
+	ImGuizmo::Manipulate(view_matrix.ptr(),
+					     proj_matrix.ptr(),
+						 current_guizmo_operation,
+						 current_guizmo_mode,
+						 transform_matrix.ptr());
 }

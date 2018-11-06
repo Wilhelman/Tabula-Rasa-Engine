@@ -20,8 +20,8 @@ public:
 	void SetAspectRatio(float new_aspect_ratio);
 	bool FrustumContainsAaBox(const AABB& ref_box);
 
-	float* GetViewMatrix();
-	float* GetProjectionMatrix();
+	float4x4 GetViewMatrix();
+	float4x4 GetProjectionMatrix();
 
 	void FocusOnAABB(AABB& aabb);
 
