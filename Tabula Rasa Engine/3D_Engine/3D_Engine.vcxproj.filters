@@ -64,6 +64,9 @@
     <Filter Include="Core\Containers">
       <UniqueIdentifier>{a3011f0f-0465-4a31-9055-8e691d750f5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities\3rd Party\ImGuizmo">
+      <UniqueIdentifier>{c89e79ef-7f75-4dfb-a0c4-894e8aaf14cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="trWindow.cpp">
@@ -305,6 +308,12 @@
     </ClCompile>
     <ClCompile Include="ImGui\imgui_impl_opengl3.cpp">
       <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuizmo\ImSequencer.cpp">
+      <Filter>Utilities\3rd Party\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuizmo\ImGuizmo.cpp">
+      <Filter>Utilities\3rd Party\ImGuizmo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -796,6 +805,12 @@
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_opengl3.h">
       <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuizmo\ImSequencer.h">
+      <Filter>Utilities\3rd Party\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuizmo\ImGuizmo.h">
+      <Filter>Utilities\3rd Party\ImGuizmo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,7 @@
 #include "DevIL/include/il.h"
 #include "ImGui/imgui_defs.h"
 #include "PhysFS/include/physfs.h"
+#include "ImGuizmo/ImGuizmo.h"
 
 PanelAbout::PanelAbout() : Panel("About")
 {
@@ -87,10 +88,15 @@ void PanelAbout::Draw()
 		if (ImGui::Button("Web page##Eigth"))
 			App->RequestBrowser("http://www.brofiler.com/");
 
-		ImGui::Text("File system: PHYSFS", PHYSFS_VER_MAJOR, PHYSFS_VER_MINOR, PHYSFS_VER_PATCH);
+		ImGui::Text("File system: PHYSFS v%i.%i.%i", PHYSFS_VER_MAJOR, PHYSFS_VER_MINOR, PHYSFS_VER_PATCH);
 		ImGui::SameLine();
 		if (ImGui::Button("Web page##Nineth"))
-			App->RequestBrowser("http://www.brofiler.com/");
+			App->RequestBrowser("https://icculus.org/physfs/");
+
+		ImGui::Text("Guizmo system: ImGuizmo");
+		ImGui::SameLine();
+		if (ImGui::Button("GitHub##Fourth"))
+			App->RequestBrowser("https://github.com/CedricGuillemet/ImGuizmo");
 
 		ImGui::Text("Memomory manager: mmgr");
 		ImGui::SameLine();
