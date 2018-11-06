@@ -30,6 +30,8 @@ GameObject::GameObject(const char * name, GameObject * parent)
 	else
 		CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
 
+	bounding_box = AABB(float3(-1.f, -1.f, -1.f), float3(1.f, 1.f, 1.f));
+
 }
 // ---------------------------------------------------------
 GameObject::~GameObject()
@@ -173,17 +175,26 @@ ComponentTransform * GameObject::GetTransform() const
 
 void GameObject::RecalculateBoundingBox()
 {
-	bounding_box.SetNegativeInfinity();
+	
 
 	ComponentMesh* mesh_co = (ComponentMesh*)FindComponentWithType(Component::component_type::COMPONENT_MESH);
 	
 	if (mesh_co != nullptr) {
+		bounding_box.SetNegativeInfinity();
+
 		const Mesh* mesh = mesh_co->GetMesh();
 		bounding_box.Enclose((float3*)mesh->vertices, mesh->vertex_size);
 	
 		OBB obb(bounding_box);
 		obb.Transform(transform->GetMatrix());
 
+		bounding_box = obb.MinimalEnclosingAABB();
+	}
+	else { // GO without mesh
+		bounding_box.SetNegativeInfinity();
+		bounding_box = AABB(float3(-1.f, -1.f, -1.f), float3(1.f, 1.f, 1.f));
+		OBB obb(bounding_box);
+		obb.Transform(transform->GetMatrix());
 		bounding_box = obb.MinimalEnclosingAABB();
 	}
 

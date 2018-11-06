@@ -7,6 +7,7 @@
 ComponentTransform::ComponentTransform(GameObject* embedded_game_object): Component(embedded_game_object, Component::component_type::COMPONENT_TRANSFORM),
 position(float3::zero), scale(float3(1.f, 1.f, 1.f)), rotation(Quat::identity)
 {
+
 }
 
 ComponentTransform::ComponentTransform(GameObject* embedded_game_object, const float3 & translation, const float3 & scale, const Quat & rotation) :
