@@ -64,8 +64,11 @@ void PanelHierarchy::DrawGameObject(GameObject * game_object)
 	{
 		ItemHovered(game_object);
 
-		if (ImGui::IsItemClicked(0))  // left click
+		if (ImGui::IsItemClicked(0)) // left click
 			App->editor->SetSelected(game_object);
+
+		/*if (App->editor->GetSelected() != nullptr) // TODO: fix ImGuizmo
+			App->editor->GetSelected()->GetTransform()->EnableGuizmoOnGo(App->editor->GetSelected());*/
 
 		if (ImGui::IsItemClicked(1))  // right click
 			ImGui::OpenPopup("Options");
@@ -85,9 +88,15 @@ void PanelHierarchy::DrawGameObject(GameObject * game_object)
 			it++;
 		}
 
+
+
 		ImGui::TreePop();
-	}else
+	}
+	else
 		ItemHovered(game_object);
+
+
+
 }
 
 

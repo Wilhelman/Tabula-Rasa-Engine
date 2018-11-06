@@ -25,7 +25,7 @@ public:
 	void SetScale(const float3 scale);
 	void SetRotation(const Quat rot);
 
-	void EnableGuizmoOnGo(GameObject* go) const;
+	void EnableGuizmoOnGo(GameObject* go);
 
 private:
 

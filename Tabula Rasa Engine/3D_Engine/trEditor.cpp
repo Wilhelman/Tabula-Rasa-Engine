@@ -12,6 +12,8 @@
 #include "PanelInspector.h"
 #include "PanelHierarchy.h"
 
+#include "GameObject.h"
+
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_sdl.h"
 #include "ImGui/imgui_impl_opengl3.h"
@@ -121,6 +123,11 @@ bool trEditor::Start()
 
 bool trEditor::PreUpdate(float dt)
 {
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
+	ImGui::NewFrame();
+	ImGuizmo::BeginFrame();
+
 	if (have_to_quit)
 		return false;
 
@@ -129,11 +136,6 @@ bool trEditor::PreUpdate(float dt)
 
 bool trEditor::Update(float dt)
 {
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
-	ImGui::NewFrame();
-	ImGuizmo::BeginFrame();
-
 	// Show/hide imgui
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
 		show_imgui = !show_imgui;
@@ -269,7 +271,6 @@ void trEditor::Log(const char * new_log)
 		console->AddLogToConsole(new_log);
 	else 
 		init_logs.push_back(new_log);
-	
 }
 
 GameObject * trEditor::GetSelected() const
