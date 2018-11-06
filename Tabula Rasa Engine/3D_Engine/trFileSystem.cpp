@@ -131,3 +131,18 @@ bool trFileSystem::WriteInFile(const char* file_name, const char* buffer, uint32
 
 	return ret;
 }
+
+bool trFileSystem::MakeNewDir(const char * dir_name)
+{
+	bool ret = true;
+
+	if (PHYSFS_mkdir(dir_name) != 0)
+		TR_LOG("trFilesystem: success on creating directory %s\n", dir_name);
+	else
+	{
+		ret = false;
+		TR_LOG("trFilesystem: could not create directory %s: %s\n", dir_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+	}
+
+	return ret;
+}

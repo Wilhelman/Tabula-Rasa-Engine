@@ -24,6 +24,8 @@ public:
 	void CloseFile(PHYSFS_File* file, const char* file_name) const;
 
 	bool WriteInFile(const char* file_name, const char* buffer, uint32 size) const;
+	
+	bool CreateNewDirectory(const char* dir_name);
 		
 private:
 
