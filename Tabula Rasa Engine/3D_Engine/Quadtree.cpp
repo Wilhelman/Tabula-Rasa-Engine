@@ -77,12 +77,15 @@ QuadtreeNode::~QuadtreeNode()
 
 void QuadtreeNode::Insert(GameObject * go)
 {
-	if (objects_inside.size() < BUCKET_SIZE) {
-		objects_inside.push_back(go);
+	objects_inside.push_back(go);
+
+	if (IsLeaf()) {
+		if (objects_inside.size() >= BUCKET_SIZE) {
+			GenerateChilds();
+			RedistributeObjects();
+		}
 	}
 	else {
-		objects_inside.push_back(go);
-		GenerateChilds();
 		RedistributeObjects();
 	}
 }
@@ -149,6 +152,7 @@ void QuadtreeNode::RedistributeObjects()
 				childs[j]->Insert((*it));
 		}
 	}
+	this->objects_inside.clear();
 }
 
 void QuadtreeNode::CollectsGOs(const Frustum & frustum, std::vector<GameObject*>& go_output) const

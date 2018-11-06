@@ -178,8 +178,6 @@ bool trRenderer3D::PreUpdate(float dt)
 	else {
 		camera_co = App->camera->dummy_camera;
 	}
-
-	
 	
 	meshable_go.clear();
 	drawable_go.clear();
@@ -189,10 +187,9 @@ bool trRenderer3D::PreUpdate(float dt)
 	// Quadtree update
 	App->main_scene->quadtree.CollectsGOs(main_camera_co->frustum, meshable_go);
 	//CollectGameObjectWithMesh(App->main_scene->GetRoot());
-	TR_LOG("Num of GOS: %i", meshable_go.size());
+	//TR_LOG("Num of GOS: %i", meshable_go.size());
 	if (main_camera_co->frustum_culling) {
 
-		TR_LOG("Num of GOS: %i", meshable_go.size());
 		for (uint i = 0; i < meshable_go.size(); i++)
 		{
 			
