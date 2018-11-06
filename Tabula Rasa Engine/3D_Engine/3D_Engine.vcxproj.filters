@@ -174,12 +174,6 @@
     <ClCompile Include="trTimeManager.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="trSceneImporter.cpp">
-      <Filter>Core\Modules\Importers</Filter>
-    </ClCompile>
-    <ClCompile Include="trMaterialImporter.cpp">
-      <Filter>Core\Modules\Importers</Filter>
-    </ClCompile>
     <ClCompile Include="ComponentCamera.cpp">
       <Filter>Core\GameObject\Component</Filter>
     </ClCompile>
@@ -314,6 +308,9 @@
     </ClCompile>
     <ClCompile Include="ImGuizmo\ImGuizmo.cpp">
       <Filter>Utilities\3rd Party\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshImporter.cpp">
+      <Filter>Core\Modules\Importers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -563,9 +560,6 @@
     <ClInclude Include="ComponentTransform.h">
       <Filter>Core\GameObject\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Importer.h">
-      <Filter>Core\Modules\Importers</Filter>
-    </ClInclude>
     <ClInclude Include="PanelHierarchy.h">
       <Filter>Core\Editor</Filter>
     </ClInclude>
@@ -574,12 +568,6 @@
     </ClInclude>
     <ClInclude Include="trTimeManager.h">
       <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="trSceneImporter.h">
-      <Filter>Core\Modules\Importers</Filter>
-    </ClInclude>
-    <ClInclude Include="trMaterialImporter.h">
-      <Filter>Core\Modules\Importers</Filter>
     </ClInclude>
     <ClInclude Include="ComponentCamera.h">
       <Filter>Core\GameObject\Component</Filter>
@@ -811,6 +799,12 @@
     </ClInclude>
     <ClInclude Include="ImGuizmo\ImGuizmo.h">
       <Filter>Utilities\3rd Party\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="Importer.h">
+      <Filter>Core\Modules\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshImporter.h">
+      <Filter>Core\Modules\Importers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

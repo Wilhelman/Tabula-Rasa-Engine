@@ -61,6 +61,7 @@
     <ClCompile Include="MathGeoLib\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
+    <ClCompile Include="MeshImporter.cpp" />
     <ClCompile Include="PanelHierarchy.cpp" />
     <ClCompile Include="mmgr\mmgr.cpp" />
     <ClCompile Include="Panel.cpp" />
@@ -75,8 +76,6 @@
     <ClCompile Include="PGrid.cpp" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="trFileSystem.cpp" />
-    <ClCompile Include="trMaterialImporter.cpp" />
-    <ClCompile Include="trSceneImporter.cpp" />
     <ClCompile Include="trApp.cpp" />
     <ClCompile Include="trCamera3D.cpp" />
     <ClCompile Include="trEditor.cpp" />
@@ -162,6 +161,7 @@
     <ClInclude Include="ImGui\imstb_rectpack.h" />
     <ClInclude Include="ImGui\imstb_textedit.h" />
     <ClInclude Include="ImGui\imstb_truetype.h" />
+    <ClInclude Include="Importer.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="MathGeoLib\Algorithm\Random\LCG.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB.h" />
@@ -223,6 +223,7 @@
     <ClInclude Include="MathGeoLib\Math\sse_mathfun.h" />
     <ClInclude Include="MathGeoLib\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Time\Clock.h" />
+    <ClInclude Include="MeshImporter.h" />
     <ClInclude Include="PanelHierarchy.h" />
     <ClInclude Include="mmgr\mmgr.h" />
     <ClInclude Include="mmgr\nommgr.h" />
@@ -240,15 +241,12 @@
     <ClInclude Include="PGrid.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="trFileSystem.h" />
-    <ClInclude Include="trMaterialImporter.h" />
-    <ClInclude Include="trSceneImporter.h" />
     <ClInclude Include="trApp.h" />
     <ClInclude Include="trCamera3D.h" />
     <ClInclude Include="trDefs.h" />
     <ClInclude Include="trEditor.h" />
     <ClInclude Include="trFileLoader.h" />
     <ClInclude Include="trHardware.h" />
-    <ClInclude Include="Importer.h" />
     <ClInclude Include="trInput.h" />
     <ClInclude Include="trLog.h" />
     <ClInclude Include="trMainScene.h" />
