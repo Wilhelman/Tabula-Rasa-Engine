@@ -28,6 +28,8 @@ public:
 public:
 	Frustum frustum;
 	bool projection_needs_update = false;
+	bool frustum_culling = false;
+
 private:
 
 	float4x4 gl_view_matrix = float4x4::zero;

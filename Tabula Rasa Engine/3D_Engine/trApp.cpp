@@ -164,8 +164,11 @@ bool trApp::Update()
 void trApp::PrepareUpdate()
 {
 	dt = (float)ms_timer.Read() / 1000.f;
-	time_manager->UpdateGameClock(dt);
+
+	if(run_time)
+		time_manager->UpdateGameClock(dt);
 	time_manager->UpdateRealTimeClock(dt);
+
 	ms_timer.Start();
 }
 
@@ -360,6 +363,16 @@ void trApp::SetFpsCap(uint max_framerate)
 		capped_ms = 1000 / max_framerate;
 	else
 		capped_ms = 0;
+}
+
+void trApp::SwitchRunTime()
+{
+	run_time = !run_time;
+}
+
+bool trApp::IsRunTime() const
+{
+	return run_time;
 }
 
 void trApp::Save()

@@ -66,6 +66,9 @@ public:
 	void SetVersion(const char* version);
 	void SetFpsCap(uint max_framerate);
 
+	void SwitchRunTime();
+	bool IsRunTime()const;
+
 	// Load / Save
 	void Save();
 	void Load();
@@ -118,6 +121,8 @@ private:
 
 	bool				all_modules_loaded = false;
 	bool				want_to_save, want_to_load = false;
+
+	bool				run_time = false;
 
 	//fps/ms
 	trTimer				ms_timer;

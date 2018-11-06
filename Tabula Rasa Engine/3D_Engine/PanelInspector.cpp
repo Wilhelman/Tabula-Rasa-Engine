@@ -13,6 +13,7 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "ComponentTransform.h"
+#include "ComponentCamera.h"
 
 PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
 {
@@ -67,7 +68,7 @@ void PanelInspector::Draw()
 			ImGui::Text("Rotation:");
 			float3 euler_rot = rotation.ToEulerXYZ();
 			float3 deg_euler_rot = float3(math::RadToDeg(euler_rot.x), math::RadToDeg(euler_rot.y), math::RadToDeg(euler_rot.z));
-			if (ImGui::DragFloat3("##ROTATION", (float*)&deg_euler_rot), 0.2f) {			// TODO: IS ALWAYS YES! WHY?
+			if (ImGui::DragFloat3("##ROTATION", (float*)&deg_euler_rot), 0.2f) {			// TODO: IS ALWAYS YES! WHY? FLOAT WHY?
 				// TODO: math stuff - limitless Y
 				have_to_update = true;
 				euler_rot.Set(math::DegToRad(deg_euler_rot.x), math::DegToRad(deg_euler_rot.y), math::DegToRad(deg_euler_rot.z));
@@ -92,12 +93,9 @@ void PanelInspector::Draw()
 			case Component::component_type::COMPONENT_CAMERA: {
 				ComponentCamera* camera_co = (ComponentCamera*)(*it);
 				if (ImGui::CollapsingHeader("CAMERA COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
-					/*ImGui::Checkbox("Static##STATIC", &selected->is_static)
-					ImGui::Text("Frustum culling", mesh->face_size);
-					ImGui::Text("Vertices: %i", mesh->vertex_size / 3);///bc vertices are stored in x/y/z format!
-					ImGui::Text("Indices: %i", mesh->index_size);
-					ImGui::Text("UVS: %i", mesh->size_uv);
-					ImGui::Text("Source: %s", mesh->path.c_str());*/
+
+					ImGui::Checkbox("Frustum culling##FRUSTUM_CULLING", &camera_co->frustum_culling);
+					//TODO: NEAR, FAR ETC.
 				}
 				ImGui::Separator();
 				break;

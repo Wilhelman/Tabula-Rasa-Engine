@@ -171,37 +171,43 @@ bool trRenderer3D::Awake(JSON_Object* config)
 // PreUpdate: clear buffer
 bool trRenderer3D::PreUpdate(float dt)
 {
+	ComponentCamera* camera_co = nullptr;
+	if (App->IsRunTime()) {
+		camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentWithType(Component::component_type::COMPONENT_CAMERA);
+	}
+	else {
+		camera_co = App->camera->dummy_camera;
+	}
+
 	meshable_go.clear();
 	CollectGameObjectWithMesh(App->main_scene->GetRoot());
 
 	// Camera culling
-	if (App->main_scene->main_camera) {
-		ComponentCamera* camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentWithType(Component::component_type::COMPONENT_CAMERA);
-		if (camera_co) {
-			for (uint i = 0; i < meshable_go.size(); i++)
-			{
-				if (camera_co->FrustumContainsAaBox(meshable_go.at(i)->bounding_box))
-					meshable_go.at(i)->is_active = true;
-				else
-					meshable_go.at(i)->is_active = false;
-			}
-			
+
+	if (camera_co) {
+		for (uint i = 0; i < meshable_go.size(); i++)
+		{
+			if (camera_co->FrustumContainsAaBox(meshable_go.at(i)->bounding_box))
+				meshable_go.at(i)->is_active = true;
+			else
+				meshable_go.at(i)->is_active = false;
 		}
 	}
+	
 
 	drawable_go.clear();
 	CollectActiveGameObjects();
 
 
-	if (App->camera->dummy_camera->projection_needs_update)
+	if (camera_co->projection_needs_update)
 	{
 		//UpdateCameraProjection();
-		App->camera->dummy_camera->projection_needs_update = false;
+		camera_co->projection_needs_update = false;
 	}
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->dummy_camera->GetViewMatrix());
+	glLoadMatrixf(camera_co->GetViewMatrix());
 
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->dummy_camera->frustum.pos.x, App->camera->dummy_camera->frustum.pos.y, App->camera->dummy_camera->frustum.pos.z);
@@ -254,7 +260,13 @@ bool trRenderer3D::CleanUp()
 
 void trRenderer3D::OnResize(int width, int height)
 {
-	App->camera->dummy_camera->SetAspectRatio((float)width / (float)height);
+	ComponentCamera* camera_co = nullptr;
+	if (App->IsRunTime())
+		camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentWithType(Component::component_type::COMPONENT_CAMERA);
+	else
+		camera_co = App->camera->dummy_camera;
+
+	camera_co->SetAspectRatio((float)width / (float)height);
 
 	glViewport(0, 0, width, height);
 
@@ -263,10 +275,16 @@ void trRenderer3D::OnResize(int width, int height)
 
 void trRenderer3D::UpdateCameraProjection()
 {
+	ComponentCamera* camera_co = nullptr;
+	if (App->IsRunTime())
+		camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentWithType(Component::component_type::COMPONENT_CAMERA);
+	else
+		camera_co = App->camera->dummy_camera;
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	glLoadMatrixf((GLfloat*)App->camera->dummy_camera->GetProjectionMatrix());
+	glLoadMatrixf((GLfloat*)camera_co->GetProjectionMatrix());
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

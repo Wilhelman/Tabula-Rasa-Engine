@@ -364,8 +364,16 @@ void PanelConfiguration::ShowEngineClocks()
 				   App->time_manager->ReadGameHourFormat().min,
 				   App->time_manager->ReadGameHourFormat().sec);
 
-		if (ImGui::Button("PLAY"))
-			App->time_manager->ReStartGameClock();
+		if (ImGui::Button("PLAY")) {
+			if (App->IsRunTime()) {
+
+			}
+			else {
+				App->time_manager->ReStartGameClock();
+			}
+			App->SwitchRunTime();
+		}
+			
 
 		ImGui::SameLine();
 
