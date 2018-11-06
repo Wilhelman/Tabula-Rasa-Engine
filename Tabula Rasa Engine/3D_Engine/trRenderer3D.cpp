@@ -182,21 +182,25 @@ bool trRenderer3D::PreUpdate(float dt)
 	meshable_go.clear();
 	CollectGameObjectWithMesh(App->main_scene->GetRoot());
 
-	// Camera culling
+	drawable_go.clear();
 
-	if (camera_co) {
+	// Camera culling
+	ComponentCamera* main_camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentWithType(Component::component_type::COMPONENT_CAMERA);
+	if (main_camera_co->frustum_culling) {
 		for (uint i = 0; i < meshable_go.size(); i++)
 		{
-			if (camera_co->FrustumContainsAaBox(meshable_go.at(i)->bounding_box))
-				meshable_go.at(i)->is_active = true;
+			if (main_camera_co->FrustumContainsAaBox(meshable_go.at(i)->bounding_box))
+				meshable_go.at(i)->in_camera = true;
 			else
-				meshable_go.at(i)->is_active = false;
+				meshable_go.at(i)->in_camera = false;
 		}
-	}
-	
 
-	drawable_go.clear();
-	CollectActiveGameObjects();
+		CollectActiveInCameraGameObjects();
+	}
+	else {
+
+		CollectActiveGameObjects();
+	}
 
 
 	if (camera_co->projection_needs_update)
@@ -485,6 +489,15 @@ void trRenderer3D::CollectActiveGameObjects()
 	for (uint i = 0u; i < meshable_go.size(); i++)
 	{
 		if(meshable_go.at(i)->is_active)
+			drawable_go.push_back(meshable_go.at(i));
+	}
+}
+
+void trRenderer3D::CollectActiveInCameraGameObjects()
+{
+	for (uint i = 0u; i < meshable_go.size(); i++)
+	{
+		if (meshable_go.at(i)->is_active && meshable_go.at(i)->in_camera)
 			drawable_go.push_back(meshable_go.at(i));
 	}
 }

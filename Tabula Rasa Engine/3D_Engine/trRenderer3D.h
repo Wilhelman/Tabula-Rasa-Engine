@@ -46,6 +46,7 @@ public:
 
 	void CollectGameObjectWithMesh(GameObject* game_object);
 	void CollectActiveGameObjects();
+	void CollectActiveInCameraGameObjects();
 
 	void Draw();
 	void DrawZBuffer();

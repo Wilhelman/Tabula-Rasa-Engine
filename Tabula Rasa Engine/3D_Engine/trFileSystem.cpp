@@ -132,7 +132,7 @@ bool trFileSystem::WriteInFile(const char* file_name, const char* buffer, uint32
 	return ret;
 }
 
-bool trFileSystem::MakeNewDir(const char * dir_name)
+/*bool trFileSystem::MakeNewDir(const char * dir_name)
 {
 	bool ret = true;
 
@@ -145,4 +145,4 @@ bool trFileSystem::MakeNewDir(const char * dir_name)
 	}
 
 	return ret;
-}
+}*/
