@@ -180,6 +180,7 @@ bool trRenderer3D::PreUpdate(float dt)
 	}
 	
 	meshable_go.clear();
+	App->main_scene->CollectDinamicGOs(meshable_go);
 	drawable_go.clear();
 
 	// Camera culling
@@ -187,12 +188,11 @@ bool trRenderer3D::PreUpdate(float dt)
 	// Quadtree update
 	App->main_scene->quadtree.CollectsGOs(main_camera_co->frustum, meshable_go);
 	//CollectGameObjectWithMesh(App->main_scene->GetRoot());
-	//TR_LOG("Num of GOS: %i", meshable_go.size());
+
 	if (main_camera_co->frustum_culling) {
 
 		for (uint i = 0; i < meshable_go.size(); i++)
 		{
-			
 			if (main_camera_co->FrustumContainsAaBox(meshable_go.at(i)->bounding_box))
 				meshable_go.at(i)->in_camera = true;
 			else

@@ -31,7 +31,9 @@ void ComponentTransform::Setup(const float3 & translation, const float3 & scale,
 	embedded_go->RecalculateBoundingBox();
 	
 	if (embedded_go->is_static) {
-		App->main_scene->ReDoQuadtree();
+
+		App->main_scene->EraseGoInQuadtree(embedded_go);
+		embedded_go->is_static = false;
 	}
 		
 }

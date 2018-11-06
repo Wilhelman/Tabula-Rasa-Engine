@@ -129,24 +129,39 @@ GameObject * trMainScene::GetRoot() const
 	return root;
 }
 
-void trMainScene::InsertGoInQuadtree(GameObject * go)
+void trMainScene::InsertGoInQuadtree(GameObject * go) // This GO is now static
 {
 	if (go != main_camera) {
 		static_go.push_back(go);
 		quadtree.Insert(go);
+		for (std::list<GameObject*>::iterator it = dinamic_go.begin(); it != dinamic_go.end(); it++) {
+			if ((*it) == go) {
+				dinamic_go.erase(it);
+				break;
+			}
+		}
+			
 	}
-	
 }
 
-void trMainScene::EraseGoInQuadtree(GameObject * go)
+void trMainScene::EraseGoInQuadtree(GameObject * go) // This go is now dinamic
 {
-	for (std::list<GameObject*>::iterator it = static_go.begin(); it != static_go.end(); it++) {
-		if (go == (*it)) {
-			static_go.erase(it);
-			ReDoQuadtree();
-			break;
+	if (go != main_camera) {
+		dinamic_go.push_back(go);
+		for (std::list<GameObject*>::iterator it = static_go.begin(); it != static_go.end(); it++) {
+			if (go == (*it)) {
+				static_go.erase(it);
+				ReDoQuadtree();
+				break;
+			}
 		}
 	}
+}
+
+void trMainScene::CollectDinamicGOs(std::vector<GameObject*>& dinamic_vector)
+{
+	for (std::list<GameObject*>::iterator it = dinamic_go.begin(); it != dinamic_go.end(); it++)
+		dinamic_vector.push_back((*it));
 }
 
 void trMainScene::ReDoQuadtree()

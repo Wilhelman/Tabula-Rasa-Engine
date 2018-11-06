@@ -155,12 +155,12 @@ bool trFileLoader::Import(const char* file_path)
 
 		App->main_scene->GetRoot()->RecalculateBoundingBox();
 
+		for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++)
+			(*it)->is_static = true;
+
 		for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++) {
 			if ((*it)->is_static) {
 				App->main_scene->InsertGoInQuadtree((*it));
-			}
-			else {
-				App->main_scene->EraseGoInQuadtree((*it));
 			}
 		}
 

@@ -45,6 +45,8 @@ public:
 	void InsertGoInQuadtree(GameObject* go);
 	void EraseGoInQuadtree(GameObject* go);
 
+	void CollectDinamicGOs(std::vector<GameObject*>& dinamic_vector);
+
 	void ReDoQuadtree();
 
 	GameObject* CreateGameObject(GameObject* parent);
@@ -57,12 +59,13 @@ private:
 
 	GameObject* root = nullptr;
 	
-
 	std::list<GameObject*> static_go;
+	std::list<GameObject*> dinamic_go;
 	
 public:
 	Quadtree quadtree;
 	GameObject* main_camera = nullptr;
+	
 
 };
 
