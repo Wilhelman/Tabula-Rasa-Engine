@@ -179,16 +179,23 @@ bool trRenderer3D::PreUpdate(float dt)
 		camera_co = App->camera->dummy_camera;
 	}
 
+	
+	
 	meshable_go.clear();
-	CollectGameObjectWithMesh(App->main_scene->GetRoot());
-
 	drawable_go.clear();
 
 	// Camera culling
 	ComponentCamera* main_camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentWithType(Component::component_type::COMPONENT_CAMERA);
+	// Quadtree update
+	App->main_scene->quadtree.CollectsGOs(main_camera_co->frustum, meshable_go);
+	//CollectGameObjectWithMesh(App->main_scene->GetRoot());
+	TR_LOG("Num of GOS: %i", meshable_go.size());
 	if (main_camera_co->frustum_culling) {
+
+		TR_LOG("Num of GOS: %i", meshable_go.size());
 		for (uint i = 0; i < meshable_go.size(); i++)
 		{
+			
 			if (main_camera_co->FrustumContainsAaBox(meshable_go.at(i)->bounding_box))
 				meshable_go.at(i)->in_camera = true;
 			else

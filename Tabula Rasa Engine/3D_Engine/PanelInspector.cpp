@@ -70,7 +70,7 @@ void PanelInspector::Draw()
 			float3 deg_euler_rot = float3(math::RadToDeg(euler_rot.x), math::RadToDeg(euler_rot.y), math::RadToDeg(euler_rot.z));
 			if (ImGui::DragFloat3("##ROTATION", (float*)&deg_euler_rot), 0.2f) {			// TODO: IS ALWAYS YES! WHY? FLOAT WHY?
 				// TODO: math stuff - limitless Y
-				have_to_update = true;
+				//have_to_update = true;
 				euler_rot.Set(math::DegToRad(deg_euler_rot.x), math::DegToRad(deg_euler_rot.y), math::DegToRad(deg_euler_rot.z));
 				rotation = math::Quat::FromEulerXYZ(euler_rot.x, euler_rot.y, euler_rot.z);
 			}

@@ -21,7 +21,7 @@ GameObject::GameObject(const char * name, GameObject * parent)
 	this->name = name;
 	this->parent = parent;
 
-	this->is_static = false;
+	this->is_static = true;
 
 	if (parent != nullptr) {// if is not root
 		CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
