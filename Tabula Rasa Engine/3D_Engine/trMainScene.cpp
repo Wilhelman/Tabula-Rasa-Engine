@@ -63,8 +63,6 @@ bool trMainScene::PreUpdate(float dt)
 
 bool trMainScene::Update(float dt)
 {
-	TR_LOG("DINAMIC GO: %i", dinamic_go.size());
-	TR_LOG("STATIC GO: %i", static_go.size());
 	return true;
 }
 
@@ -109,9 +107,10 @@ void trMainScene::ClearScene()
 			(*it)->is_active = false; // doing this, renderer will ignore it till is destroyed
 		}
 	}
-
 	static_go.clear();
 	dinamic_go.clear();
+
+	ReDoQuadtree();
 }
 
 void trMainScene::Draw()
@@ -168,7 +167,8 @@ void trMainScene::EraseGoInQuadtree(GameObject * go) // This go is now dinamic
 void trMainScene::CollectDinamicGOs(std::vector<GameObject*>& dinamic_vector)
 {
 	for (std::list<GameObject*>::iterator it = dinamic_go.begin(); it != dinamic_go.end(); it++) {
-		dinamic_vector.push_back((*it));
+		if (!(*it)->to_destroy)
+			dinamic_vector.push_back((*it));
 	}
 		
 }
@@ -178,8 +178,11 @@ void trMainScene::ReDoQuadtree()
 	quadtree.Clear();
 	quadtree.Create(AABB(AABB(float3(-500, -100, -500), float3(500, 100, 500))));
 
-	for (std::list<GameObject*>::iterator it = static_go.begin(); it != static_go.end(); it++)
+	for (std::list<GameObject*>::iterator it = static_go.begin(); it != static_go.end(); it++) {
+		if(!(*it)->to_destroy)
 			quadtree.Insert((*it));
+	}
+			
 }
 
 GameObject * trMainScene::CreateGameObject(GameObject * parent)

@@ -332,7 +332,7 @@ ComponentMaterial * trFileLoader::LoadTexture(aiMaterial* material, GameObject* 
 
 bool trFileLoader::SaveMeshFile(const char* file_name, Mesh* mesh_data)
 {
-	/*uint size_indices = sizeof(uint) * mesh_data->index_size;
+	uint size_indices = sizeof(uint) * mesh_data->index_size;
 	uint size_vertices = sizeof(float) * (mesh_data->vertex_size * 3);
 	uint size_uvs = sizeof(float) * (mesh_data->size_uv * 2);
 
@@ -374,7 +374,7 @@ bool trFileLoader::SaveMeshFile(const char* file_name, Mesh* mesh_data)
 	//App->file_system->WriteInFile(file_name, cursor, size);
 	
 	// deleting useless data
-	RELEASE_ARRAY(data);*/
+	RELEASE_ARRAY(data);
 
 	return true;
 }
