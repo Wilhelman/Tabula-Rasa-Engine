@@ -8,6 +8,7 @@
 #include "Assimp/include/version.h"
 #include "DevIL/include/il.h"
 #include "ImGui/imgui_defs.h"
+#include "PhysFS/include/physfs.h"
 
 PanelAbout::PanelAbout() : Panel("About")
 {
@@ -84,6 +85,11 @@ void PanelAbout::Draw()
 		ImGui::Text("Profiler: Brofiler v1.1.2");
 		ImGui::SameLine();
 		if (ImGui::Button("Web page##Eigth"))
+			App->RequestBrowser("http://www.brofiler.com/");
+
+		ImGui::Text("File system: PHYSFS", PHYSFS_VER_MAJOR, PHYSFS_VER_MINOR, PHYSFS_VER_PATCH);
+		ImGui::SameLine();
+		if (ImGui::Button("Web page##Nineth"))
 			App->RequestBrowser("http://www.brofiler.com/");
 
 		ImGui::Text("Memomory manager: mmgr");
