@@ -38,6 +38,8 @@ bool ComponentCamera::PreUpdate(float dt)
 	Quat rot = Quat::identity;
 	embedded_go->GetTransform()->GetLocalPosition(&pos, &sca, &rot);
 	frustum.pos = pos;
+	frustum.front = embedded_go->GetTransform()->GetMatrix().WorldZ();
+	frustum.up = embedded_go->GetTransform()->GetMatrix().WorldY();
 	return true;
 }
 

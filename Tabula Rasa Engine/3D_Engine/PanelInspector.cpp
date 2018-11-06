@@ -89,6 +89,19 @@ void PanelInspector::Draw()
 			case Component::component_type::COMPONENT_TRANSFORM:
 				continue;
 			break;
+			case Component::component_type::COMPONENT_CAMERA: {
+				ComponentCamera* camera_co = (ComponentCamera*)(*it);
+				if (ImGui::CollapsingHeader("CAMERA COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
+					/*ImGui::Checkbox("Static##STATIC", &selected->is_static)
+					ImGui::Text("Frustum culling", mesh->face_size);
+					ImGui::Text("Vertices: %i", mesh->vertex_size / 3);///bc vertices are stored in x/y/z format!
+					ImGui::Text("Indices: %i", mesh->index_size);
+					ImGui::Text("UVS: %i", mesh->size_uv);
+					ImGui::Text("Source: %s", mesh->path.c_str());*/
+				}
+				ImGui::Separator();
+				break;
+			}
 			case Component::component_type::COMPONENT_MESH: 
 			{
 				ComponentMesh* mesh_co = (ComponentMesh*)(*it);

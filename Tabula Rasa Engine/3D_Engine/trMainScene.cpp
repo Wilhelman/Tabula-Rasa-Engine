@@ -1,5 +1,6 @@
 #include "trDefs.h"
 #include "trApp.h"
+#include "trRenderer3D.h"
 #include "trMainScene.h"
 #include "trCamera3D.h"
 #include "trFileLoader.h"
@@ -32,6 +33,8 @@ bool trMainScene::Awake(JSON_Object* config)
 
 	main_camera = new GameObject("Main Camera", root);
 	main_camera->CreateComponent(Component::component_type::COMPONENT_CAMERA);
+
+	App->render->active_camera = (ComponentCamera*)main_camera->CreateComponent(Component::component_type::COMPONENT_CAMERA);
 
 	quadtree.Create(AABB(AABB(float3(-500, -100, -500), float3(500, 100, 500))));
 
