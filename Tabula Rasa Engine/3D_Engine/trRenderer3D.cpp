@@ -180,8 +180,9 @@ bool trRenderer3D::PreUpdate(float dt)
 	}
 	
 	meshable_go.clear();
-	App->main_scene->CollectDinamicGOs(meshable_go);
 	drawable_go.clear();
+
+	App->main_scene->CollectDinamicGOs(meshable_go);
 
 	// Camera culling
 	ComponentCamera* main_camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentWithType(Component::component_type::COMPONENT_CAMERA);
@@ -202,7 +203,6 @@ bool trRenderer3D::PreUpdate(float dt)
 		CollectActiveInCameraGameObjects();
 	}
 	else {
-
 		CollectActiveGameObjects();
 	}
 
@@ -237,8 +237,6 @@ bool trRenderer3D::PostUpdate(float dt)
 	{
 		App->main_scene->DrawDebug();
 	}
-
-	
 
 	//RENDER IMPORTED MESH
 	if (!drawable_go.empty()) 
@@ -477,22 +475,11 @@ math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, floa
 	return Perspective;
 }
 
-void trRenderer3D::CollectGameObjectWithMesh(GameObject* game_object)
-{
-	if (game_object->FindComponentWithType(Component::component_type::COMPONENT_MESH)) {
-		//(game_object->is_active)
-		meshable_go.push_back(game_object);
-	}
-
-	for (std::list<GameObject*>::const_iterator it = game_object->childs.begin(), end = game_object->childs.end(); it != end; it++)
-		CollectGameObjectWithMesh(*it);
-}
-
 void trRenderer3D::CollectActiveGameObjects()
 {
 	for (uint i = 0u; i < meshable_go.size(); i++)
 	{
-		if(meshable_go.at(i)->is_active)
+		if(meshable_go.at(i)->is_active && !meshable_go.at(i)->to_destroy)
 			drawable_go.push_back(meshable_go.at(i));
 	}
 }
@@ -501,7 +488,7 @@ void trRenderer3D::CollectActiveInCameraGameObjects()
 {
 	for (uint i = 0u; i < meshable_go.size(); i++)
 	{
-		if (meshable_go.at(i)->is_active && meshable_go.at(i)->in_camera)
+		if (meshable_go.at(i)->is_active && meshable_go.at(i)->in_camera && !meshable_go.at(i)->to_destroy)
 			drawable_go.push_back(meshable_go.at(i));
 	}
 }

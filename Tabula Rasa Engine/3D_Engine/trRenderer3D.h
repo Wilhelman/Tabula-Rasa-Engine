@@ -44,7 +44,6 @@ public:
 
 	const uint GetMeshesSize() const;
 
-	void CollectGameObjectWithMesh(GameObject* game_object);
 	void CollectActiveGameObjects();
 	void CollectActiveInCameraGameObjects();
 

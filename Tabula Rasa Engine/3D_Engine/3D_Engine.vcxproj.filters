@@ -303,6 +303,9 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>Utilities\3rd Party\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_opengl3.cpp">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -789,6 +792,9 @@
       <Filter>Utilities\3rd Party\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_opengl3.h">
       <Filter>Utilities\3rd Party\ImGui</Filter>
     </ClInclude>
   </ItemGroup>

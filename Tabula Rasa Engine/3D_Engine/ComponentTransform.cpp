@@ -14,6 +14,7 @@ ComponentTransform::ComponentTransform(GameObject* embedded_game_object, const f
 	Component(embedded_game_object, Component::component_type::COMPONENT_TRANSFORM),
 	position(translation), scale(scale), rotation(rotation)
 {
+
 }
 
 ComponentTransform::~ComponentTransform()

@@ -14,7 +14,7 @@
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_sdl.h"
-#include "ImGui/imgui_impl_opengl2.h"
+#include "ImGui/imgui_impl_opengl3.h"
 #include "SDL/include/SDL.h"
 #include "SDL/include/SDL_opengl.h"
 
@@ -41,7 +41,7 @@ bool trEditor::Start()
 	ImGui::CreateContext();
 
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->render->context);
-	ImGui_ImplOpenGL2_Init();
+	ImGui_ImplOpenGL3_Init();
 
 	// ImGui style
 	{
@@ -128,7 +128,7 @@ bool trEditor::PreUpdate(float dt)
 
 bool trEditor::Update(float dt)
 {
-	ImGui_ImplOpenGL2_NewFrame();
+	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();
 
@@ -236,7 +236,7 @@ bool trEditor::CleanUp()
 
 	init_logs.clear();
 
-	ImGui_ImplOpenGL2_Shutdown();
+	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 	this->active = false;
@@ -253,7 +253,7 @@ void trEditor::OnEventReceived(const Event & event)
 void trEditor::Draw()
 {
 	ImGui::Render();
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void trEditor::InfoFPSMS(float current_fps, float current_ms, int frames)

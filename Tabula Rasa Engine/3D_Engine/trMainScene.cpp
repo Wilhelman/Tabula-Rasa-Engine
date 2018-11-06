@@ -102,8 +102,10 @@ bool trMainScene::CleanUp()
 void trMainScene::ClearScene()
 {
 	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++) {
-		if((*it) != main_camera)
+		if ((*it) != main_camera) {
 			(*it)->to_destroy = true;
+			(*it)->is_active = false; // doing this, renderer will ignore it till is destroyed
+		}
 	}
 }
 
@@ -160,8 +162,10 @@ void trMainScene::EraseGoInQuadtree(GameObject * go) // This go is now dinamic
 
 void trMainScene::CollectDinamicGOs(std::vector<GameObject*>& dinamic_vector)
 {
-	for (std::list<GameObject*>::iterator it = dinamic_go.begin(); it != dinamic_go.end(); it++)
+	for (std::list<GameObject*>::iterator it = dinamic_go.begin(); it != dinamic_go.end(); it++) {
 		dinamic_vector.push_back((*it));
+	}
+		
 }
 
 void trMainScene::ReDoQuadtree()
