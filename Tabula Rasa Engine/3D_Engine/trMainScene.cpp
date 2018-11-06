@@ -131,8 +131,11 @@ GameObject * trMainScene::GetRoot() const
 
 void trMainScene::InsertGoInQuadtree(GameObject * go)
 {
-	static_go.push_back(go);
-	quadtree.Insert(go);
+	if (go != main_camera) {
+		static_go.push_back(go);
+		quadtree.Insert(go);
+	}
+	
 }
 
 void trMainScene::EraseGoInQuadtree(GameObject * go)

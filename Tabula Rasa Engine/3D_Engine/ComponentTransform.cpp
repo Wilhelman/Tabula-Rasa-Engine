@@ -29,7 +29,7 @@ void ComponentTransform::Setup(const float3 & translation, const float3 & scale,
 	this->local_matrix = float4x4::FromTRS(this->position, this->rotation, this->scale);
 
 	embedded_go->RecalculateBoundingBox();
-
+	
 	if (embedded_go->is_static) {
 		App->main_scene->ReDoQuadtree();
 	}

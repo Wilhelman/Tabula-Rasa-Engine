@@ -91,15 +91,14 @@ bool trFileLoader::Import(const void * buffer, uint size, const char* file_path)
 		// Camera AABB stuff
 		if (scene->mNumMeshes == 1) { // if only one mesh, get the bounding_box of the last mesh
 			App->editor->SetSelected(model_root);
-			App->camera->dummy_camera->FocusOnSelectedGO();
+			App->camera->dummy_camera->FocusOnAABB(App->camera->dummy_camera->last_aabb);
 		}
 		else { // get the bouncing of all the meshes
-			//TODO CALCULATE HERE THE AABB OF ALL THE SCENE
 			model_bouncing_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
 			model_bouncing_box.Enclose((float3*)&scene_vertices.front(), scene_num_vertex);
-			model_root->bounding_box = model_bouncing_box;
-			App->editor->SetSelected(model_root);
-			App->camera->dummy_camera->FocusOnSelectedGO();
+			//	model_root->bounding_box = model_bouncing_box;
+			//	App->editor->SetSelected(model_root);
+			App->camera->dummy_camera->FocusOnAABB(model_bouncing_box);
 		}
 
 		App->main_scene->GetRoot()->RecalculateBoundingBox();
@@ -141,16 +140,17 @@ bool trFileLoader::Import(const char* file_path)
 		ImportNodesRecursively(scene->mRootNode, scene, App->main_scene->GetRoot(), (char*)file_path);
 
 		// Camera AABB stuff
-		if (scene->mNumMeshes == 1) { // if only one mesh, get the bounding_box of the last mesh
+		if (scene->mRootNode->mNumChildren == 1) { // if only one mesh, get the bounding_box of the last mesh
 			App->editor->SetSelected(model_root);
-			App->camera->dummy_camera->FocusOnSelectedGO();
+			App->camera->dummy_camera->FocusOnAABB(App->camera->dummy_camera->last_aabb);
 		}
 		else { // get the bouncing of all the meshes
 			model_bouncing_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
 			model_bouncing_box.Enclose((float3*)&scene_vertices.front(), scene_num_vertex);
-			model_root->bounding_box = model_bouncing_box;
-			App->editor->SetSelected(model_root);
-			App->camera->dummy_camera->FocusOnSelectedGO();
+		//	model_root->bounding_box = model_bouncing_box;
+		//	App->editor->SetSelected(model_root);
+			// TODO: calculate it better
+			App->camera->dummy_camera->FocusOnAABB(model_bouncing_box);
 		}
 
 		App->main_scene->GetRoot()->RecalculateBoundingBox();

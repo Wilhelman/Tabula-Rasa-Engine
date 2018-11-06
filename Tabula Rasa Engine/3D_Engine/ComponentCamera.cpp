@@ -24,6 +24,8 @@ ComponentCamera::ComponentCamera(GameObject * embedded_game_object):
 
 	SetAspectRatio(ASPECT_RATIO);
 
+	last_aabb = AABB(float3(-1.f,-1.f,-1.f),float3(1.f,1.f,1.f));
+
 	projection_needs_update = true;
 }
 
@@ -105,30 +107,27 @@ float * ComponentCamera::GetProjectionMatrix()
 	return gl_projection_matrix.ptr();
 }
 
-void ComponentCamera::FocusOnSelectedGO()
+void ComponentCamera::FocusOnAABB(AABB& aabb)
 {
 	GameObject* selected = App->editor->GetSelected();
 	if (selected) {
-
 		selected->RecalculateBoundingBox(); // TODO: bad feelings ...
-
-		float3 center_bbox(selected->bounding_box.Centroid());
-		float3 move_dir = (frustum.pos - center_bbox).Normalized();
-
-		float radius = selected->bounding_box.MinimalEnclosingSphere().r;
-		double fov = DEG_TO_RAD(60.0f);
-		double cam_distance = Abs(App->window->GetWidth() / App->window->GetHeight() * radius / Sin(fov / 2.f));
-
-		float3 final_pos = center_bbox + move_dir * cam_distance;
-		frustum.pos = float3(final_pos.x, final_pos.y, final_pos.z);
-
-		if (frustum.pos.y < 0.f)
-			frustum.pos.y *= -1.f;
-
-		LookAt(float3(center_bbox.x, center_bbox.y, center_bbox.z));
+		aabb = selected->bounding_box;
 	}
-	else {
-		frustum.pos.Set(3.f, 3.f, 3.f);
-		LookAt(float3(0.f, 0.f, 0.f));
-	}
+
+	float3 center_bbox(aabb.Centroid());
+	float3 move_dir = (frustum.pos - center_bbox).Normalized();
+
+	float radius = aabb.MinimalEnclosingSphere().r;
+	double fov = DEG_TO_RAD(60.0f);
+	double cam_distance = Abs(App->window->GetWidth() / App->window->GetHeight() * radius / Sin(fov / 2.f));
+
+	float3 final_pos = center_bbox + move_dir * cam_distance;
+	frustum.pos = float3(final_pos.x, final_pos.y, final_pos.z);
+
+	if (frustum.pos.y < 0.f)
+		frustum.pos.y *= -1.f;
+
+	LookAt(float3(center_bbox.x, center_bbox.y, center_bbox.z));
+	
 }

@@ -176,7 +176,6 @@ ComponentTransform * GameObject::GetTransform() const
 void GameObject::RecalculateBoundingBox()
 {
 	
-
 	ComponentMesh* mesh_co = (ComponentMesh*)FindComponentWithType(Component::component_type::COMPONENT_MESH);
 	
 	if (mesh_co != nullptr) {

@@ -108,7 +108,7 @@ void PanelHierarchy::ItemHovered(GameObject* hovered_go)
 		}
 
 		if (ImGui::IsMouseDoubleClicked(0))
-			App->camera->dummy_camera->FocusOnSelectedGO();
+			App->camera->dummy_camera->FocusOnAABB(App->camera->dummy_camera->last_aabb);
 
 		if (dragged_go && ImGui::IsMouseReleased(0))
 		{

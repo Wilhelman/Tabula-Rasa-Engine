@@ -23,12 +23,13 @@ public:
 	float* GetViewMatrix();
 	float* GetProjectionMatrix();
 
-	void FocusOnSelectedGO();
+	void FocusOnAABB(AABB& aabb);
 
 public:
 	Frustum frustum;
 	bool projection_needs_update = false;
 	bool frustum_culling = false;
+	AABB last_aabb;
 
 private:
 
@@ -37,7 +38,7 @@ private:
 
 	float rotation_sensitivity = 0.25f, orbit_sensitivity = 0.25f,
 		pan_sensitivity = 0.01f, cam_speed = 7.f, cam_boost_speed = 14.f;
-
+	
 };
 
 #endif // __COMPONENT_CAMERA_H__
