@@ -167,3 +167,18 @@ bool trFileSystem::MakeNewDir(const char * dir_name)
 
 	return ret;
 }
+
+bool trFileSystem::DeleteFileDir(const char* file_dir_name)
+{
+	bool ret = true;
+
+	if (PHYSFS_delete(file_dir_name) != 0)
+		TR_LOG("trFilesystem: success on deleting %s\n", file_dir_name);
+	else
+	{
+		ret = false;
+		TR_LOG("trFilesystem: could not delete %s: %s\n", file_dir_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+	}
+
+	return ret;
+}

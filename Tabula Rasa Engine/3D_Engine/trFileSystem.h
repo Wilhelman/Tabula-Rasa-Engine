@@ -27,6 +27,7 @@ public:
 	bool ReadFromFile(const char* file_name, char* buffer);
 
 	bool MakeNewDir(const char* dir_name);
+	bool DeleteFileDir(const char* file_dir_name);
 		
 private:
 

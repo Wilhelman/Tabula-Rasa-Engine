@@ -4,9 +4,6 @@
 #include "trMainScene.h"
 #include "trCamera3D.h"
 #include "trFileLoader.h"
-
-#include "trFileSystem.h" // TODO: delete this if not needed
-
 #include "PGrid.h"
 #include "ComponentCamera.h"
 
