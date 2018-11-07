@@ -200,7 +200,7 @@ void QuadtreeNode::CollectIntersectingGOs(const LineSegment & line_segment, std:
 		for (std::list<GameObject*>::const_iterator it = objects_inside.begin(); it != objects_inside.end(); it++) 
 		{
 			AABB go_box = (*it)->bounding_box;
-			if (line_segment.Intersects(this->box)) 
+			if (line_segment.Intersects(go_box))
 			{ 
 				bool unique = true;
 				for (uint i = 0; i < intersect_vec.size(); i++)

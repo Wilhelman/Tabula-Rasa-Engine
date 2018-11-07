@@ -6,6 +6,7 @@
 #include "trFileLoader.h"
 #include "PGrid.h"
 #include "ComponentCamera.h"
+#include "trEditor.h" //TODO: check this
 
 #include "GameObject.h"
 #include "DebugDraw.h"
@@ -189,6 +190,7 @@ void trMainScene::ReDoQuadtree()
 void trMainScene::TestAgainstRay(LineSegment line_segment)
 {
 	std::vector<GameObject*> intersect_vec;
+	GameObject* selected_go = nullptr;
 	quadtree.CollectIntersectingGOs(line_segment, intersect_vec);
 
 	AABB closest_bounding_box;
@@ -197,13 +199,19 @@ void trMainScene::TestAgainstRay(LineSegment line_segment)
 	for (uint i = 0; i < intersect_vec.size(); i++)
 	{
 		if (i == 0)
+		{
 			closest_bounding_box = intersect_vec[i]->bounding_box;
+			selected_go = intersect_vec[i];
+		}
 		else if (intersect_vec[i]->bounding_box.CenterPoint().Length()
-				 < closest_bounding_box.CenterPoint().Length())
+			< closest_bounding_box.CenterPoint().Length())
+		{
+			selected_go = intersect_vec[i];
 			closest_bounding_box = intersect_vec[i]->bounding_box;
+		}
 	}
 
-	DebugDraw(closest_bounding_box);
+	App->editor->SetSelected(selected_go);
 }
 
 GameObject * trMainScene::CreateGameObject(GameObject * parent)

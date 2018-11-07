@@ -129,5 +129,4 @@ void ComponentCamera::FocusOnAABB(AABB& aabb)
 		frustum.pos.y *= -1.f;
 
 	LookAt(float3(center_bbox.x, center_bbox.y, center_bbox.z));
-	
 }

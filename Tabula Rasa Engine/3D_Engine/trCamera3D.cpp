@@ -5,6 +5,7 @@
 #include "trCamera3D.h"
 #include "trEditor.h"
 #include "GameObject.h"
+#include "trMainScene.h"
 
 #include "ComponentCamera.h"
 
@@ -58,10 +59,6 @@ bool trCamera3D::Update(float dt)
 
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		OnPick();
-
-	
-
-	
 
 	// -----
 
@@ -200,6 +197,8 @@ void trCamera3D::OnPick()
 	float normalized_y = 1.0f - (float(mouse_y) * 2.0f) / height;
 
 	pick_ray = dummy_camera->frustum.UnProjectLineSegment(normalized_x, normalized_y);
+
+	App->main_scene->TestAgainstRay(pick_ray);
 
 	/*float distance;
 	GameObject* hit = App->level->CastRay(picking, distance);
