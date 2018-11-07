@@ -147,9 +147,9 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		}*/
 
 		// Vertex copy
-		mesh_data->vertex_size = new_mesh->mNumVertices;
-		mesh_data->vertices = new float[mesh_data->vertex_size * 3];
-		memcpy(mesh_data->vertices, new_mesh->mVertices, sizeof(float) * mesh_data->vertex_size * 3);
+		mesh_data->vertex_size = new_mesh->mNumVertices * 3;
+		mesh_data->vertices = new float[mesh_data->vertex_size];
+		memcpy(mesh_data->vertices, new_mesh->mVertices, sizeof(float) * mesh_data->vertex_size);
 
 		// Data for the bounding box of all the meshes
 		for (uint i = 0; i < mesh_data->vertex_size; i++) {
@@ -350,11 +350,11 @@ ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* 
 bool MeshImporter::SaveMeshFile(const char* file_name, Mesh* mesh_data, std::string& output_file)
 {
 	uint size_indices = sizeof(uint) * mesh_data->index_size;
-	uint size_vertices = sizeof(float) * (mesh_data->vertex_size * 3);
-	uint size_uvs = sizeof(float) * (mesh_data->size_uv * 2);
+	uint size_vertices = sizeof(float) * (mesh_data->vertex_size);
+	uint size_uvs = sizeof(float) * (mesh_data->size_uv);
 
 	// amount of indices / vertices / colors / normals / texture_coords / AABB
-	uint ranges[3] = { mesh_data->index_size, mesh_data->vertex_size, mesh_data->size_uv };
+	uint ranges[3] = { mesh_data->index_size, mesh_data->vertex_size, mesh_data->size_uv};
 	uint size = sizeof(ranges) + size_indices + size_vertices + size_uvs;
 
 	char* data = new char[size]; // Allocate
@@ -405,7 +405,6 @@ bool MeshImporter::LoadMeshFile(const char * file_path)
 	}
 
 	/*
-	
 	cursor += bytes;
 	bytes = size_indices; // Store indices
 	memcpy(cursor, mesh_data->indices, bytes);
@@ -417,7 +416,6 @@ bool MeshImporter::LoadMeshFile(const char * file_path)
 	cursor += bytes;
 	bytes = size_uvs; // Store uvs
 	memcpy(cursor, mesh_data->uvs, bytes);
-
 	*/
 
 	char* cursor = buffer;
@@ -440,13 +438,13 @@ bool MeshImporter::LoadMeshFile(const char * file_path)
 	cursor += bytes;
 	bytes = sizeof(float) * resource->vertex_size;
 	resource->vertices = new float[resource->vertex_size];
-	memcpy(resource->indices, cursor, bytes);
+	memcpy(resource->vertices, cursor, bytes);
 
 	// Load uvs
 	cursor += bytes;
 	bytes = sizeof(float) * resource->size_uv;
 	resource->uvs = new float[resource->size_uv];
-	memcpy(resource->indices, cursor, bytes);
+	memcpy(resource->uvs, cursor, bytes);
 
 	GameObject* new_go = App->main_scene->CreateGameObject("NOT EVEN A NAME", App->main_scene->GetRoot());
 	new_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));

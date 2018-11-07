@@ -29,13 +29,13 @@ void ComponentMesh::GenerateAndBindMesh(Mesh * mesh)
 {
 	glGenBuffers(1, (GLuint*) &(mesh->vertex_buffer));
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
-	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * mesh->vertex_size, mesh->vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->vertex_size, mesh->vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	if (mesh->uvs != nullptr) {
 		glGenBuffers(1, (GLuint*) &(mesh->uv_buffer));
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
-		glBufferData(GL_ARRAY_BUFFER, 2 * mesh->size_uv * sizeof(GLfloat), mesh->uvs, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * mesh->size_uv , mesh->uvs, GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
