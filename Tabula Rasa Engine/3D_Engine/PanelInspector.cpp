@@ -97,12 +97,22 @@ void PanelInspector::Draw()
 			float rot_angle;
 			rotation.ToAxisAngle(rot_axis, rot_angle);
 			rot_axis *= rot_angle;
+
+			if (rot_axis.x < 0.0f)
+				rot_axis.x += 2 * pi;
+			if (rot_axis.y < 0.0f)
+				rot_axis.y += 2 * pi;
+			if (rot_axis.z < 0.0f)
+				rot_axis.z += 2 * pi;
+
 			rot_axis = math::RadToDeg(rot_axis);
 
 			if (ImGui::DragFloat3("##ROTATION", (float*)&rot_axis, 0.1f))
+			{
 				have_to_update = true;
-			rot_axis = math::DegToRad(rot_axis);
-			rotation.SetFromAxisAngle(rot_axis.Normalized(), rot_axis.Length());
+				rot_axis = math::DegToRad(rot_axis);
+				rotation.SetFromAxisAngle(rot_axis.Normalized(), rot_axis.Length());
+			}
 
 			ImGui::Text("Scale:");
 			if (ImGui::DragFloat3("##SCALE", (float*)&scale, 0.02f))
