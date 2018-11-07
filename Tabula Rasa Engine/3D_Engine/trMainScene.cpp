@@ -186,6 +186,26 @@ void trMainScene::ReDoQuadtree()
 			
 }
 
+void trMainScene::TestAgainstRay(LineSegment line_segment)
+{
+	std::vector<GameObject*> intersect_vec;
+	quadtree.CollectIntersectingGOs(line_segment, intersect_vec);
+
+	AABB closest_bounding_box;
+	closest_bounding_box.SetNegativeInfinity();
+
+	for (uint i = 0; i < intersect_vec.size(); i++)
+	{
+		if (i == 0)
+			closest_bounding_box = intersect_vec[i]->bounding_box;
+		else if (intersect_vec[i]->bounding_box.CenterPoint().Length()
+				 < closest_bounding_box.CenterPoint().Length())
+			closest_bounding_box = intersect_vec[i]->bounding_box;
+	}
+
+	DebugDraw(closest_bounding_box);
+}
+
 GameObject * trMainScene::CreateGameObject(GameObject * parent)
 {
 	if (parent == nullptr)

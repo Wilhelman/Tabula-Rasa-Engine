@@ -21,6 +21,8 @@ public:
 
 	// Intersections stuff
 	void CollectsGOs(const Frustum& frustum, std::vector<GameObject*>& go_output)const;
+	void CollectIntersectingGOs(const LineSegment& line_segment, std::vector<GameObject*>& intersect_vec) const;
+
 	bool FrustumContainsAaBox(const AABB & ref_box, const Frustum& frustum)const;
 
 
@@ -48,7 +50,8 @@ public:
 	void IterateToFillAABBs(QuadtreeNode* node, std::vector<AABB>& vector);
 
 	// Intersection stuff
-	void CollectsGOs(const Frustum& frustum, std::vector<GameObject*>& go_output)const;
+	void CollectsGOs(const Frustum& frustum, std::vector<GameObject*>& go_output) const;
+	void CollectIntersectingGOs(const LineSegment& line_segment, std::vector<GameObject*>& intersect_vec) const;
 
 	void Clear();
 

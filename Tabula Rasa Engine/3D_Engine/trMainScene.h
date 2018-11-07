@@ -49,6 +49,8 @@ public:
 
 	void ReDoQuadtree();
 
+	void TestAgainstRay(LineSegment line_segment);
+
 	GameObject* CreateGameObject(GameObject* parent);
 	GameObject* CreateGameObject(const char* name, GameObject* parent = nullptr);
 

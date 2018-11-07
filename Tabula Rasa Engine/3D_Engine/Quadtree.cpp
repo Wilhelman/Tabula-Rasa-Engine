@@ -51,6 +51,11 @@ void Quadtree::CollectsGOs(const Frustum & frustum, std::vector<GameObject*>& go
 	root_node->CollectsGOs(frustum, go_output);
 }
 
+void Quadtree::CollectIntersectingGOs(const LineSegment & line_segment, std::vector<GameObject*>& intersect_vec) const
+{
+	root_node->CollectIntersectingGOs(line_segment, intersect_vec);
+}
+
 void Quadtree::Clear()
 {
 	RELEASE(root_node);
@@ -183,6 +188,38 @@ void QuadtreeNode::CollectsGOs(const Frustum & frustum, std::vector<GameObject*>
 			{
 				childs[i]->CollectsGOs(frustum, go_output);
 			}
+		}
+
+	}
+}
+
+void QuadtreeNode::CollectIntersectingGOs(const LineSegment & line_segment, std::vector<GameObject*>& intersect_vec) const
+{
+	if (line_segment.Intersects(this->box)) 
+	{
+		for (std::list<GameObject*>::const_iterator it = objects_inside.begin(); it != objects_inside.end(); it++) 
+		{
+			AABB go_box = (*it)->bounding_box;
+			if (line_segment.Intersects(this->box)) 
+			{ 
+				bool unique = true;
+				for (uint i = 0; i < intersect_vec.size(); i++)
+				{
+					if ((*it) == intersect_vec.at(i))
+						unique = false;
+				}
+
+				if (unique) // care iterating childs with the same gos
+					intersect_vec.push_back((*it));
+			}
+
+		}
+
+		if (!IsLeaf()) 
+		{
+			for (uint i = 0u; i < 4; i++)
+				childs[i]->CollectIntersectingGOs(line_segment, intersect_vec);
+			
 		}
 
 	}
