@@ -69,6 +69,7 @@
     <ClCompile Include="PanelConfiguration.cpp" />
     <ClCompile Include="PanelConsole.cpp" />
     <ClCompile Include="PanelInspector.cpp" />
+    <ClCompile Include="PanelResources.cpp" />
     <ClCompile Include="PArrow.cpp" />
     <ClCompile Include="ParsonJson\parson.c" />
     <ClCompile Include="PGizmo.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="PanelConfiguration.h" />
     <ClInclude Include="PanelConsole.h" />
     <ClInclude Include="PanelInspector.h" />
+    <ClInclude Include="PanelResources.h" />
     <ClInclude Include="PArrow.h" />
     <ClInclude Include="ParsonJson\parson.h" />
     <ClInclude Include="PGizmo.h" />

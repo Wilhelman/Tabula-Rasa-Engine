@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 
-#define BUCKET_SIZE 7
+#define BUCKET_SIZE 8 // TODO: check this framerate
 
 Quadtree::Quadtree()
 {

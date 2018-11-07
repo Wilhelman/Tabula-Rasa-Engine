@@ -312,6 +312,9 @@
     <ClCompile Include="MeshImporter.cpp">
       <Filter>Core\Modules\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="PanelResources.cpp">
+      <Filter>Core\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -805,6 +808,9 @@
     </ClInclude>
     <ClInclude Include="MeshImporter.h">
       <Filter>Core\Modules\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelResources.h">
+      <Filter>Core\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
