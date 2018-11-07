@@ -311,7 +311,7 @@ void trEditor::DisplayGuizmos()
 
 	// Setting up default guizmo
 	ImGuizmo::OPERATION current_guizmo_operation = guizmo_operation;
-	ImGuizmo::MODE current_guizmo_mode = ImGuizmo::MODE::WORLD;
+	ImGuizmo::MODE current_guizmo_mode = guizmo_mode;
 
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);

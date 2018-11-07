@@ -15,9 +15,12 @@
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
 
+
+
 PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
 {
 	active = false;
+	btn_guizmo_mode = "Local";
 }
 
 PanelInspector::~PanelInspector()
@@ -67,6 +70,22 @@ void PanelInspector::Draw()
 				position = float3::zero;
 				scale = float3::one;
 				rotation = Quat::identity;
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button(btn_guizmo_mode.c_str()))
+			{
+				if (App->editor->guizmo_mode == ImGuizmo::MODE::WORLD)
+				{
+					App->editor->guizmo_mode = ImGuizmo::MODE::LOCAL;
+					btn_guizmo_mode = "Global";
+				}
+				else
+				{
+					App->editor->guizmo_mode = ImGuizmo::MODE::WORLD;
+					btn_guizmo_mode = "Local";
+				}
 			}
 
 			ImGui::Text("Position:");

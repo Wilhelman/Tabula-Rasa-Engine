@@ -56,6 +56,8 @@ public:
 	PanelHierarchy* hierarchy = nullptr;
 	PanelResources* resources = nullptr;
 
+	ImGuizmo::MODE guizmo_mode = ImGuizmo::MODE::WORLD;
+
 private:
 
 	std::vector<std::string> init_logs;
@@ -66,12 +68,9 @@ private:
 
 	//default imgui demo window
 	bool show_demo_window = false;
-
 	bool have_to_quit = false;
-
 	bool show_imgui = true;
 
 	// ImGuizmo stuff
 	ImGuizmo::OPERATION guizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
-
 };
