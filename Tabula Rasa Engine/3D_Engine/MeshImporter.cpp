@@ -191,7 +191,7 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 		SaveMeshFile(node->mName.C_Str(), mesh_data, output_file);
 
-		LoadMeshFile(output_file.c_str());
+		LoadMeshFile(node->mName.C_Str(), output_file.c_str());
 
 		RELEASE(mesh_data);
 	}
@@ -391,7 +391,7 @@ bool MeshImporter::SaveMeshFile(const char* file_name, Mesh* mesh_data, std::str
 	return true;
 }
 
-bool MeshImporter::LoadMeshFile(const char * file_path)
+bool MeshImporter::LoadMeshFile(const char* file_name, const char * file_path)
 {
 	// Open file requested file
 	char* buffer = nullptr;
@@ -403,20 +403,6 @@ bool MeshImporter::LoadMeshFile(const char * file_path)
 		TR_LOG("Unable to open file...");
 		return false;
 	}
-
-	/*
-	cursor += bytes;
-	bytes = size_indices; // Store indices
-	memcpy(cursor, mesh_data->indices, bytes);
-
-	cursor += bytes;
-	bytes = size_vertices; // Store vertices
-	memcpy(cursor, mesh_data->vertices, bytes);
-
-	cursor += bytes;
-	bytes = size_uvs; // Store uvs
-	memcpy(cursor, mesh_data->uvs, bytes);
-	*/
 
 	char* cursor = buffer;
 	uint ranges[3];
@@ -446,7 +432,7 @@ bool MeshImporter::LoadMeshFile(const char * file_path)
 	resource->uvs = new float[resource->size_uv];
 	memcpy(resource->uvs, cursor, bytes);
 
-	GameObject* new_go = App->main_scene->CreateGameObject("NOT EVEN A NAME", App->main_scene->GetRoot());
+	GameObject* new_go = App->main_scene->CreateGameObject(file_name, App->main_scene->GetRoot());
 	new_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
 	new_go->bounding_box.Enclose((float3*)resource->vertices, resource->vertex_size / 3);
 

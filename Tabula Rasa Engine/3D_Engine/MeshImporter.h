@@ -30,7 +30,7 @@ public:
 	ComponentMaterial* LoadTexture(aiMaterial* material, GameObject* go);
 
 	bool SaveMeshFile(const char* file_name, Mesh* mesh_data, std::string& output_file);
-	bool LoadMeshFile(const char* file_path);
+	bool LoadMeshFile(const char* file_name, const char* file_path);
 
 private:
 
