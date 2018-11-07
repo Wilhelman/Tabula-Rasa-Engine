@@ -83,6 +83,7 @@ inline const char* const PATH(const char* folder, const char* file)
 #define GAMEOBJECT_MAX_LENGTH 100
 
 // Folders
+#define ASSETS_DIR "Assets"
 #define LIBRARY_DIR "Library"
 #define MESH_DIR "/Library/Meshes"
 #define MATERIAL_DIR "/Library/Materials"

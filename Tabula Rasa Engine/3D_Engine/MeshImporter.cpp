@@ -47,9 +47,9 @@ MeshImporter::~MeshImporter()
 	aiDetachAllLogStreams();
 }
 
-bool MeshImporter::Import(const char * file, const char * path, std::string & output_file)
+bool MeshImporter::Import(const char * path, std::string & output_file)
 {
-	TR_LOG("trFileLoader: Start importing a file with path: %s%s", path, file);
+	TR_LOG("trFileLoader: Start importing a file with path: %s", path);
 
 	//TODO CHECK PATH
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);

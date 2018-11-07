@@ -23,6 +23,7 @@ bool trFileLoader::Awake(JSON_Object* config)
 bool trFileLoader::Start()
 {
 	// Create basic folders
+	App->file_system->MakeNewDir(ASSETS_DIR);
 	App->file_system->MakeNewDir(LIBRARY_DIR);
 	App->file_system->MakeNewDir(MESH_DIR);
 	App->file_system->MakeNewDir(MATERIAL_DIR);
@@ -43,8 +44,13 @@ bool trFileLoader::CleanUp()
 void trFileLoader::ImportFBX(const char* file_path)
 {
 	TR_LOG("trFileLoader: Start importing a file with path: %s", file_path);
+
+	// TODO: copy paste FBX file to Assets/
+
+	// Then get the file_path from de Assets continue
+
 	std::string output;
-	mesh_importer->Import(nullptr, file_path, output);
+	mesh_importer->Import(file_path, output);
 
 }
 
