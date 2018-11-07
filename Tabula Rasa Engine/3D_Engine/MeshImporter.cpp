@@ -381,8 +381,8 @@ bool MeshImporter::SaveMeshFile(const char* file_name, Mesh* mesh_data, std::str
 	tmp_str.append("/");
 	tmp_str.append(file_name);
 	tmp_str.append(".trMesh"); // adding our own format extension
-
-	App->file_system->WriteInFile(tmp_str.c_str(), cursor, size);
+	
+	App->file_system->WriteInFile(tmp_str.c_str(), data, size);
 	output_file = tmp_str;
 
 	// deleting useless data
@@ -395,13 +395,13 @@ bool MeshImporter::LoadMeshFile(const char * file_path)
 {
 	// Open file requested file
 	char* buffer = nullptr;
-	App->file_system->ReadFromFile(file_path, buffer);
+	App->file_system->ReadFromFile(file_path, &buffer);
 
 	// Check for errors
 	if (buffer == nullptr)
 	{
-	TR_LOG("Unable to open file...");
-	return false;
+		TR_LOG("Unable to open file...");
+		return false;
 	}
 
 	/*
