@@ -135,9 +135,6 @@
     <ClCompile Include="trPrimitives.cpp">
       <Filter>Utilities\Primitives</Filter>
     </ClCompile>
-    <ClCompile Include="PArrow.cpp">
-      <Filter>Utilities\Primitives</Filter>
-    </ClCompile>
     <ClCompile Include="trFileLoader.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
@@ -315,6 +312,9 @@
     <ClCompile Include="PanelResources.cpp">
       <Filter>Core\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="PRay.cpp">
+      <Filter>Utilities\Primitives</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -405,9 +405,6 @@
       <Filter>Utilities\3rd Party\Glew</Filter>
     </ClInclude>
     <ClInclude Include="trPrimitives.h">
-      <Filter>Utilities\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="PArrow.h">
       <Filter>Utilities\Primitives</Filter>
     </ClInclude>
     <ClInclude Include="Assimp\include\ai_assert.h">
@@ -811,6 +808,9 @@
     </ClInclude>
     <ClInclude Include="PanelResources.h">
       <Filter>Core\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="PRay.h">
+      <Filter>Utilities\Primitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

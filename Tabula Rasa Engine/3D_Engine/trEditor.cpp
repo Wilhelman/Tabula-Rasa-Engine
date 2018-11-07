@@ -309,7 +309,6 @@ void trEditor::DisplayGuizmos()
 {
 	ImGuizmo::Enable(true);
 
-	// Setting up default guizmo
 	ImGuizmo::OPERATION current_guizmo_operation = guizmo_operation;
 	ImGuizmo::MODE current_guizmo_mode = guizmo_mode;
 
@@ -327,10 +326,13 @@ void trEditor::DisplayGuizmos()
 						 current_guizmo_mode,
 					 	 transform_matrix.ptr()); 
 
-	float3 new_pos;
-	Quat new_rot;
-	float3 new_scale;
+	if (ImGuizmo::IsUsing())
+	{
+		float3 new_pos;
+		Quat new_rot;
+		float3 new_scale;
 
-	transform_matrix.Transposed().Decompose(new_pos, new_rot, new_scale);
-	selected->GetTransform()->Setup(new_pos, new_scale, new_rot);
+		transform_matrix.Transposed().Decompose(new_pos, new_rot, new_scale);
+		selected->GetTransform()->Setup(new_pos, new_scale, new_rot);
+	}
 }

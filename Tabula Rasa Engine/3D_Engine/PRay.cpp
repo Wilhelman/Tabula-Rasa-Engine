@@ -1,21 +1,21 @@
-#include "PArrow.h"
+#include "PRay.h"
 
-#include "Glew\include\GL\glew.h"
+#include "Glew/include/GL/glew.h"
 #include "trDefs.h"
 
-PArrow::PArrow()
+PRay::PRay()
 {
 	origin = float3(0.f, 0.f, 0.f);
 	destination = float3(0.f, 0.f, 0.f);
 	color = float4(0.f, 0.f, 0.f, 0.f);
 }
 
-PArrow::~PArrow() {
+PRay::~PRay() {
 	glDeleteBuffers(1, (GLuint*)&vertices_index);
 	glDeleteBuffers(1, (GLuint*)&indices_index);
 }
 
-PArrow::PArrow(math::float3 origin, math::float3 direction, math::float4 color) : trPrimitive(), origin(origin), destination(direction), color(color)
+PRay::PRay(math::float3 origin, math::float3 direction, math::float4 color) : trPrimitive(), origin(origin), destination(direction), color(color)
 {
 	type = PrimitiveTypes::Primitive_Arrow;
 
@@ -41,7 +41,7 @@ PArrow::PArrow(math::float3 origin, math::float3 direction, math::float4 color) 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void PArrow::InnerRender() const
+void PRay::InnerRender() const
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
 

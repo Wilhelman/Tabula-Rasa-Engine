@@ -70,7 +70,7 @@
     <ClCompile Include="PanelConsole.cpp" />
     <ClCompile Include="PanelInspector.cpp" />
     <ClCompile Include="PanelResources.cpp" />
-    <ClCompile Include="PArrow.cpp" />
+    <ClCompile Include="PRay.cpp" />
     <ClCompile Include="ParsonJson\parson.c" />
     <ClCompile Include="PGizmo.cpp" />
     <ClCompile Include="pcg\entropy.c" />
@@ -234,7 +234,7 @@
     <ClInclude Include="PanelConsole.h" />
     <ClInclude Include="PanelInspector.h" />
     <ClInclude Include="PanelResources.h" />
-    <ClInclude Include="PArrow.h" />
+    <ClInclude Include="PRay.h" />
     <ClInclude Include="ParsonJson\parson.h" />
     <ClInclude Include="PGizmo.h" />
     <ClInclude Include="pcg\entropy.h" />

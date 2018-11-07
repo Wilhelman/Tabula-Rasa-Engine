@@ -1,6 +1,6 @@
 #include "trPrimitives.h"
 
-class PArrow;
+class PRay;
 
 class PGizmo : public trPrimitive
 {
@@ -14,9 +14,9 @@ public:
 private:
 
 	math::float3 origin;
-	PArrow* x_arrow = nullptr;
-	PArrow* y_arrow = nullptr;
-	PArrow* z_arrow = nullptr;
-	PArrow* w_arrow = nullptr;
+	PRay* x_arrow = nullptr;
+	PRay* y_arrow = nullptr;
+	PRay* z_arrow = nullptr;
+	PRay* w_arrow = nullptr;
 
 };
