@@ -182,7 +182,7 @@ void GameObject::RecalculateBoundingBox()
 		bounding_box.SetNegativeInfinity();
 
 		const Mesh* mesh = mesh_co->GetMesh();
-		bounding_box.Enclose((float3*)mesh->vertices, mesh->vertex_size);
+		bounding_box.Enclose((float3*)mesh->vertices, mesh->vertex_size / 3);
 	
 		OBB obb(bounding_box);
 		obb.Transform(transform->GetMatrix());

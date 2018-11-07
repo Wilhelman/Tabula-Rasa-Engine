@@ -69,12 +69,12 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 			App->camera->dummy_camera->FocusOnAABB(App->camera->dummy_camera->last_aabb);
 		}
 		else { // get the bouncing of all the meshes
-			model_bouncing_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
-			model_bouncing_box.Enclose((float3*)&scene_vertices.front(), scene_num_vertex);
+			//model_bouncing_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
+			//model_bouncing_box.Enclose((float3*)&scene_vertices.front(), scene_num_vertex);
 			//	model_root->bounding_box = model_bouncing_box;
 			//	App->editor->SetSelected(model_root);
 			// TODO: calculate it better
-			App->camera->dummy_camera->FocusOnAABB(model_bouncing_box);
+			App->camera->dummy_camera->FocusOnAABB(App->camera->dummy_camera->last_aabb);
 		}
 
 		App->main_scene->GetRoot()->RecalculateBoundingBox();
@@ -159,9 +159,9 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 		// UVs copy
 		if (new_mesh->HasTextureCoords(0)) {//i?
-			mesh_data->size_uv = new_mesh->mNumVertices;
-			mesh_data->uvs = new float[mesh_data->size_uv * 2];
-			for (int i = 0; i < mesh_data->size_uv; i++) {
+			mesh_data->size_uv = new_mesh->mNumVertices * 2;
+			mesh_data->uvs = new float[mesh_data->size_uv];
+			for (int i = 0; i < new_mesh->mNumVertices; i++) {
 				mesh_data->uvs[i * 2] = new_mesh->mTextureCoords[0][i].x;
 				mesh_data->uvs[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
 			}
@@ -448,7 +448,7 @@ bool MeshImporter::LoadMeshFile(const char * file_path)
 
 	GameObject* new_go = App->main_scene->CreateGameObject("NOT EVEN A NAME", App->main_scene->GetRoot());
 	new_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
-	new_go->bounding_box.Enclose((float3*)resource->vertices, resource->vertex_size);
+	new_go->bounding_box.Enclose((float3*)resource->vertices, resource->vertex_size / 3);
 
 	ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
 	mesh_comp->SetMesh(resource);

@@ -37,7 +37,6 @@ void ComponentTransform::Setup(const float3 & translation, const float3 & scale,
 		App->main_scene->EraseGoInQuadtree(embedded_go);
 		embedded_go->is_static = false;
 	}
-		
 }
 
 const float3 & ComponentTransform::GetTranslation() const
