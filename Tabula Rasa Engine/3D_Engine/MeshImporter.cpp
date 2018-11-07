@@ -134,7 +134,7 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
 		float3 quat_to_euler = rot.ToEulerXYZ(); // transforming it to euler to show it in inspector
 
-		mesh_data = new Mesh(); // our mesh
+		Mesh* mesh_data = new Mesh(); // our mesh
 
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
 
@@ -380,7 +380,7 @@ bool MeshImporter::SaveMeshFile(const char* file_name, Mesh* mesh_data, std::str
 	std::string tmp_str(MESH_DIR);
 	tmp_str.append("/");
 	tmp_str.append(file_name);
-	tmp_str.append(".tr"); // adding our own format extension
+	tmp_str.append(".trMesh"); // adding our own format extension
 
 	App->file_system->WriteInFile(tmp_str.c_str(), cursor, size);
 	output_file = tmp_str;
@@ -393,5 +393,70 @@ bool MeshImporter::SaveMeshFile(const char* file_name, Mesh* mesh_data, std::str
 
 bool MeshImporter::LoadMeshFile(const char * file_path)
 {
+	// Open file requested file
+	char* buffer = nullptr;
+	App->file_system->ReadFromFile(file_path, buffer);
+
+	// Check for errors
+	if (buffer == nullptr)
+	{
+	TR_LOG("Unable to open file...");
 	return false;
+	}
+
+	/*
+	
+	cursor += bytes;
+	bytes = size_indices; // Store indices
+	memcpy(cursor, mesh_data->indices, bytes);
+
+	cursor += bytes;
+	bytes = size_vertices; // Store vertices
+	memcpy(cursor, mesh_data->vertices, bytes);
+
+	cursor += bytes;
+	bytes = size_uvs; // Store uvs
+	memcpy(cursor, mesh_data->uvs, bytes);
+
+	*/
+
+	char* cursor = buffer;
+	uint ranges[3];
+	uint bytes = sizeof(ranges);
+	memcpy(ranges, cursor, bytes);
+
+	Mesh * resource = new Mesh();
+	resource->index_size = ranges[0];
+	resource->vertex_size = ranges[1];
+	resource->size_uv = ranges[2];
+
+	// Load indices
+	cursor += bytes;
+	bytes = sizeof(uint) * resource->index_size;
+	resource->indices = new uint[resource->index_size];
+	memcpy(resource->indices, cursor, bytes);
+
+	// Load vertices
+	cursor += bytes;
+	bytes = sizeof(float) * resource->vertex_size;
+	resource->vertices = new float[resource->vertex_size];
+	memcpy(resource->indices, cursor, bytes);
+
+	// Load uvs
+	cursor += bytes;
+	bytes = sizeof(float) * resource->size_uv;
+	resource->uvs = new float[resource->size_uv];
+	memcpy(resource->indices, cursor, bytes);
+
+	GameObject* new_go = App->main_scene->CreateGameObject("NOT EVEN A NAME", App->main_scene->GetRoot());
+	new_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
+	new_go->bounding_box.Enclose((float3*)resource->vertices, resource->vertex_size);
+
+	ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
+	mesh_comp->SetMesh(resource);
+
+
+	RELEASE_ARRAY(buffer);
+
+	return true;
 }

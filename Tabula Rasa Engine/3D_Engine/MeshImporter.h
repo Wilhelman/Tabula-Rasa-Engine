@@ -33,7 +33,6 @@ public:
 	bool LoadMeshFile(const char* file_path);
 
 private:
-	Mesh* mesh_data = nullptr;
 
 	//used as static
 	ComponentMaterial* material_data = nullptr;
