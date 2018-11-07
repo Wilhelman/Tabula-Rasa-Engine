@@ -87,6 +87,7 @@ void trMainScene::DrawDebug()
 	if (main_camera != nullptr) {
 		ComponentCamera* camera_co = (ComponentCamera*)main_camera->FindComponentWithType(Component::Component::COMPONENT_CAMERA);
 		DebugDraw(camera_co->frustum);
+		DebugDraw(App->camera->pick_ray, Red);
 	}
 }
 

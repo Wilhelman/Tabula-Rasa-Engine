@@ -90,3 +90,21 @@ void DebugDraw(const Frustum & frustum, Color color, const float4x4& transform)
 
 	glPopMatrix();
 }
+
+void DebugDraw(const LineSegment & line_segment, Color color, const float4x4 & transform)
+{
+	glPushMatrix();
+	glMultMatrixf((GLfloat*)transform.Transposed().ptr());
+
+	glColor4f(color.r, color.g, color.b, 1.f);
+	glLineWidth(5.f);
+
+	glBegin(GL_LINES);
+
+	glVertex3f((GLfloat)line_segment.a.x, (GLfloat)line_segment.a.y, (GLfloat)line_segment.a.z);
+	glVertex3f((GLfloat)line_segment.b.x, (GLfloat)line_segment.b.y, (GLfloat)line_segment.b.z);
+
+	glEnd();
+
+	glPopMatrix();
+}

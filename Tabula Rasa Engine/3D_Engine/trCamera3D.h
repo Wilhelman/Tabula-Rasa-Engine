@@ -20,14 +20,19 @@ public:
 	bool Awake(JSON_Object* config = nullptr);
 	bool Start();
 	bool Update(float dt);
+
 	void ProcessMouseWheelInput(float3 &new_pos, float speed);
 	void ProcessKeyboardInput(float3 &new_pos, float speed);
 	void ProcessMouseMotion(int dx, int dy, float sensitivity);
+
+	void OnPick();
+
 	bool CleanUp();
 	
 public:
 
 	ComponentCamera* dummy_camera = nullptr;
+	LineSegment pick_ray;
 
 private:
 
@@ -36,6 +41,9 @@ private:
 
 	float rotation_sensitivity = 0.25f, orbit_sensitivity = 0.25f, 
 		  pan_sensitivity = 0.01f, cam_speed = 7.f, cam_boost_speed = 14.f;
+
+
+
 };
 
 #endif

@@ -54,6 +54,17 @@ bool trCamera3D::CleanUp()
 // -----------------------------------------------------------------
 bool trCamera3D::Update(float dt)
 {	
+	// Drawing ray
+
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+		OnPick();
+
+	
+
+	
+
+	// -----
+
 	float3 new_pos(0.0f, 0.0f, 0.0f);
 
 	float speed = cam_speed * dt;
@@ -175,4 +186,24 @@ void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 			dummy_camera->frustum.up = Cross(dummy_camera->frustum.front, dummy_camera->frustum.WorldRight());
 		}
 	}
+}
+
+void trCamera3D::OnPick()
+{
+	float width = (float)App->window->GetWidth();
+	float height = (float)App->window->GetHeight();
+
+	int mouse_x = App->input->GetMouseX();
+	int mouse_y = App->input->GetMouseY();
+
+	float normalized_x = -(1.0f - (float(mouse_x) * 2.0f) / width);
+	float normalized_y = 1.0f - (float(mouse_y) * 2.0f) / height;
+
+	pick_ray = dummy_camera->frustum.UnProjectLineSegment(normalized_x, normalized_y);
+
+	/*float distance;
+	GameObject* hit = App->level->CastRay(picking, distance);
+
+	if (hit != nullptr && hit_point != nullptr)
+		*hit_point = picking.GetPoint(distance);*/
 }
