@@ -56,30 +56,40 @@ void PanelInspector::Draw()
 		Quat rotation = Quat::identity;
 
 		trans_co->GetLocalPosition(&position, &scale, &rotation);
-		
 
-		if (ImGui::CollapsingHeader("TRANSFORM COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
+		if (ImGui::CollapsingHeader("TRANSFORM COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) 
+		{
 			bool have_to_update = false;
+
+			if (ImGui::Button("Reset"))
+			{
+				have_to_update = true;
+				position = float3::zero;
+				scale = float3::one;
+				rotation = Quat::identity;
+			}
 
 			ImGui::Text("Position:");
 			if (ImGui::DragFloat3("##POSITION", (float*)&position, 0.2f))
 				have_to_update = true;
 
 			ImGui::Text("Rotation:");
-			float3 euler_rot = rotation.ToEulerXYZ();
-			float3 deg_euler_rot = float3(math::RadToDeg(euler_rot.x), math::RadToDeg(euler_rot.y), math::RadToDeg(euler_rot.z));
-			if (ImGui::DragFloat3("##ROTATION", (float*)&deg_euler_rot, 0.2f)) {			// TODO: IS ALWAYS YES! WHY? FLOAT WHY?
-				// TODO: math stuff - limitless Y
-				//have_to_update = true;
-				euler_rot.Set(math::DegToRad(deg_euler_rot.x), math::DegToRad(deg_euler_rot.y), math::DegToRad(deg_euler_rot.z));
-				rotation = math::Quat::FromEulerXYZ(euler_rot.x, euler_rot.y, euler_rot.z);
-			}
+			float3 rot_axis;
+			float rot_angle;
+			rotation.ToAxisAngle(rot_axis, rot_angle);
+			rot_axis *= rot_angle;
+			rot_axis = math::RadToDeg(rot_axis);
+
+			if (ImGui::DragFloat3("##ROTATION", (float*)&rot_axis, 0.1f))
+				have_to_update = true;
+			rot_axis = math::DegToRad(rot_axis);
+			rotation.SetFromAxisAngle(rot_axis.Normalized(), rot_axis.Length());
 
 			ImGui::Text("Scale:");
 			if (ImGui::DragFloat3("##SCALE", (float*)&scale, 0.02f))
 				have_to_update = true;
 
-			if(have_to_update)
+			if (have_to_update)
 				trans_co->Setup(position, scale, rotation);
 		}
 			
