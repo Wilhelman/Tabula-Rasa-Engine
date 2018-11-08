@@ -122,7 +122,12 @@ bool trInput::PreUpdate(float dt)
 			case SDL_WINDOWEVENT:
 			{
 				if (e.window.event == SDL_WINDOWEVENT_RESIZED)
+				{
 					App->render->OnResize(e.window.data1, e.window.data2);
+					App->window->SetWidth(e.window.data1);  // TODO: do this with events
+					App->window->SetHeight(e.window.data2); // TODO: do this with events
+				}
+					
 				break;
 			}
 
