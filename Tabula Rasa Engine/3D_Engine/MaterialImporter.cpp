@@ -37,7 +37,24 @@ MaterialImporter::~MaterialImporter()
 
 bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 {
-	return false;
+
+	char* buffer = nullptr;
+
+	uint size = App->file_system->ReadFromFile(file_path, &buffer);
+
+	if (buffer == nullptr) {
+		TR_LOG("Texture error loading file with path %s", file_path);
+		return false;
+	}
+
+	uint img_id = 0u;
+
+	ILenum error_num;
+
+	ilGenImages(1, &img_id);
+	ilBindImage(img_id);
+
+	return true;
 }
 
 bool MaterialImporter::Import(const void * buffer, uint size, std::string & output_file)
@@ -49,13 +66,7 @@ Texture* MaterialImporter::LoadImageFromPath(const char * path)
 {
 	Texture* texture = new Texture();
 
-	char* buffer = nullptr;
-
-	App->file_system->ReadFromFile(path, &buffer);
-
-	if (buffer == nullptr) {
-		TR_LOG("Texture error loading file with path %s", path);
-	}
+	
 
 	uint img_id = 0u;
 	texture->id = 0u;

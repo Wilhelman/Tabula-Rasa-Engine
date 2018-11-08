@@ -130,20 +130,20 @@ bool trFileSystem::WriteInFile(const char* file_name, char* buffer, uint size) c
 	return ret;
 }
 
-bool trFileSystem::ReadFromFile(const char* file_name, char** buffer)
+uint trFileSystem::ReadFromFile(const char* file_name, char** buffer)
 {
-	bool ret = true;
+	uint size = 0u;
 	PHYSFS_File* file = OpenFileForReading(file_name);
 
 	if (file != nullptr)
 	{
-		uint size = PHYSFS_fileLength(file);
+		size = PHYSFS_fileLength(file);
 
 		*buffer = new char[size];
 
 		if (PHYSFS_readBytes(file, *buffer, size) == -1)
 		{
-			ret = false;
+			size = 0u;
 			TR_LOG("trFileSystem: could not read from file %s: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 		}
 		else
@@ -152,7 +152,7 @@ bool trFileSystem::ReadFromFile(const char* file_name, char** buffer)
 
 	CloseFile(file, file_name);
 
-	return ret;
+	return size;
 }
 
 bool trFileSystem::MakeNewDir(const char * dir_name)

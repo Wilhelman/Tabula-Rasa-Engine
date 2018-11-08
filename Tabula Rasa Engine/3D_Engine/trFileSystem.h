@@ -18,7 +18,7 @@ public:
 
 	bool DoesFileExist(const char* file_name) const;
 	bool WriteInFile(const char* file_name, char* buffer, uint size) const;
-	bool ReadFromFile(const char* file_name, char** buffer);
+	uint ReadFromFile(const char* file_name, char** buffer);
 	bool MakeNewDir(const char* dir_name);
 	bool DeleteFileDir(const char* file_dir_name);
 		
