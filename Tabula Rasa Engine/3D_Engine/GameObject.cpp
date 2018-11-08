@@ -126,7 +126,7 @@ Component * GameObject::CreateComponent(Component::component_type type,  Compone
 	return tmp_component;
 }
 
-Component * GameObject::FindComponentWithType(Component::component_type type)
+Component * GameObject::FindComponentByType(Component::component_type type)
 {
 	for (std::list<Component*>::iterator co_it = components.begin(); co_it != components.end(); co_it++) {
 		if ((*co_it)->GetType() == type)
@@ -176,7 +176,7 @@ ComponentTransform * GameObject::GetTransform() const
 void GameObject::RecalculateBoundingBox()
 {
 	
-	ComponentMesh* mesh_co = (ComponentMesh*)FindComponentWithType(Component::component_type::COMPONENT_MESH);
+	ComponentMesh* mesh_co = (ComponentMesh*)FindComponentByType(Component::component_type::COMPONENT_MESH);
 	
 	if (mesh_co != nullptr) {
 		bounding_box.SetNegativeInfinity();

@@ -173,7 +173,7 @@ bool trRenderer3D::PreUpdate(float dt)
 {
 	ComponentCamera* camera_co = nullptr;
 	if (App->IsRunTime()) {
-		camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentWithType(Component::component_type::COMPONENT_CAMERA);
+		camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentByType(Component::component_type::COMPONENT_CAMERA);
 	}
 	else {
 		camera_co = App->camera->dummy_camera;
@@ -185,7 +185,7 @@ bool trRenderer3D::PreUpdate(float dt)
 	App->main_scene->CollectDinamicGOs(meshable_go);
 
 	// Camera culling
-	ComponentCamera* main_camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentWithType(Component::component_type::COMPONENT_CAMERA);
+	ComponentCamera* main_camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentByType(Component::component_type::COMPONENT_CAMERA);
 	// Quadtree update
 	App->main_scene->quadtree.CollectsGOs(main_camera_co->frustum, meshable_go);
 	//CollectGameObjectWithMesh(App->main_scene->GetRoot());
@@ -268,7 +268,7 @@ void trRenderer3D::OnResize(int width, int height)
 {
 	ComponentCamera* camera_co = nullptr;
 	if (App->IsRunTime())
-		camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentWithType(Component::component_type::COMPONENT_CAMERA);
+		camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentByType(Component::component_type::COMPONENT_CAMERA);
 	else
 		camera_co = App->camera->dummy_camera;
 
@@ -283,7 +283,7 @@ void trRenderer3D::UpdateCameraProjection()
 {
 	ComponentCamera* camera_co = nullptr;
 	if (App->IsRunTime())
-		camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentWithType(Component::component_type::COMPONENT_CAMERA);
+		camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentByType(Component::component_type::COMPONENT_CAMERA);
 	else
 		camera_co = App->camera->dummy_camera;
 
@@ -383,10 +383,10 @@ void trRenderer3D::Draw()
 		glPushMatrix();
 		glMultMatrixf((GLfloat*)(*it)->GetTransform()->GetMatrix().Transposed().ptr());
 
-		ComponentMesh* mesh_co = (ComponentMesh*)(*it)->FindComponentWithType(Component::component_type::COMPONENT_MESH);
+		ComponentMesh* mesh_co = (ComponentMesh*)(*it)->FindComponentByType(Component::component_type::COMPONENT_MESH);
 		const Mesh* mesh = mesh_co->GetMesh();
 
-		ComponentMaterial* material_co = (ComponentMaterial*)(*it)->FindComponentWithType(Component::component_type::COMPONENT_MATERIAL);
+		ComponentMaterial* material_co = (ComponentMaterial*)(*it)->FindComponentByType(Component::component_type::COMPONENT_MATERIAL);
 		const Texture* texture = nullptr;
 		float4 ambient_color = DEFAULT_AMBIENT_COLOR;
 		if (material_co != nullptr) 
