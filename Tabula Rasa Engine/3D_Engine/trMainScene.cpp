@@ -211,8 +211,9 @@ void trMainScene::TestAgainstRay(LineSegment line_segment)
 		}
 	}
 
-	App->editor->SetSelected(selected_go);
-}
+		App->editor->SetSelected(selected_go); 
+}											   
+											   
 
 GameObject * trMainScene::CreateGameObject(GameObject * parent)
 {

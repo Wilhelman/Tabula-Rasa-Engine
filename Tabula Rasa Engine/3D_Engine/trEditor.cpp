@@ -302,7 +302,8 @@ GameObject * trEditor::GetSelected() const
 
 void trEditor::SetSelected(GameObject * selected)
 {
-	this->selected = selected;
+	if (!ImGui::IsMouseHoveringAnyWindow())
+		this->selected = selected;
 }
 
 void trEditor::DisplayGuizmos()
