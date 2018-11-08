@@ -6,6 +6,7 @@
 #include "trEditor.h"
 #include "GameObject.h"
 #include "trMainScene.h"
+#include "ImGui/imgui.h"
 
 #include "ComponentCamera.h"
 
@@ -57,7 +58,9 @@ bool trCamera3D::Update(float dt)
 {	
 	// Drawing ray
 
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN 
+		&& !ImGui::IsMouseHoveringAnyWindow()
+		&& App->input->GetKey(SDL_SCANCODE_LALT) == KEY_IDLE)
 		OnPick();
 
 	// -----

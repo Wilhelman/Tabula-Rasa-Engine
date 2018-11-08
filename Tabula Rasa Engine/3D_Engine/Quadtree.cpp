@@ -221,7 +221,36 @@ void QuadtreeNode::CollectIntersectingGOs(const LineSegment & line_segment, std:
 				childs[i]->CollectIntersectingGOs(line_segment, intersect_vec);
 			
 		}
+	}
 
+	uint size = intersect_vec.size();
+
+	// If we have multiple intersecting gameobjects we order them by their distance to the camera in ascending order
+	if (size > 1)
+	{
+		bool swapped = true;
+		GameObject* temp = nullptr;
+
+		for (uint i = 0; (i <= size) && swapped; i++)
+		{
+			swapped = false;
+
+			for (uint j = 0; j < size - 1; j++)
+			{
+				Sphere sphere_A = intersect_vec[j]->bounding_box.MinimalEnclosingSphere();
+				Sphere sphere_B = intersect_vec[j + 1]->bounding_box.MinimalEnclosingSphere();
+				float dist_to_cam_A = (intersect_vec[j]->bounding_box.CenterPoint() - line_segment.a).Length() - Pow(sphere_A.r, 2.0f);
+				float dist_to_cam_B = (intersect_vec[j + 1]->bounding_box.CenterPoint() - line_segment.a).Length() - Pow(sphere_A.r, 2.0f);
+
+				if (dist_to_cam_B < dist_to_cam_A)
+				{
+					temp = intersect_vec[j];
+					intersect_vec[j] = intersect_vec[j + 1];
+					intersect_vec[j + 1] = temp;
+					swapped = true;
+				}
+			}
+		}
 	}
 }
 
