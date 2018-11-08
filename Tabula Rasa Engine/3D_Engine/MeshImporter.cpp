@@ -4,11 +4,11 @@
 #include "trLog.h"
 #include "trApp.h"
 #include "trRenderer3D.h"
-#include "trTextures.h"
 #include "trCamera3D.h"
 #include "trMainScene.h"
 #include "trEditor.h"
 #include "trFileSystem.h"
+#include "trFileLoader.h"
 
 #include "GameObject.h"
 #include "ComponentMesh.h"
@@ -17,6 +17,8 @@
 #include "ComponentCamera.h"
 
 #include "MathGeoLib/MathGeoLib.h"
+
+#include "MaterialImporter.h"
 
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
@@ -330,7 +332,7 @@ ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* 
 		posible_path = posible_path + texture_path;
 		TR_LOG("trFileLoader: Search in - %s", posible_path.c_str());
 		ComponentMaterial* material_comp = (ComponentMaterial*)go->CreateComponent(Component::component_type::COMPONENT_MATERIAL);
-		material_comp->SetTexture(App->texture->LoadImageFromPath(posible_path.c_str()));
+		material_comp->SetTexture(App->file_loader->material_importer->LoadImageFromPath(posible_path.c_str()));
 
 		// Material color of the mesh
 		aiColor4D tmp_color;

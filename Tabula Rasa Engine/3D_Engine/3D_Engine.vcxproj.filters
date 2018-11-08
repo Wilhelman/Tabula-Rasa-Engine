@@ -138,9 +138,6 @@
     <ClCompile Include="trFileLoader.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="trTextures.cpp">
-      <Filter>Core\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="PGrid.cpp">
       <Filter>Utilities\Primitives</Filter>
     </ClCompile>
@@ -314,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="PRay.cpp">
       <Filter>Utilities\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialImporter.cpp">
+      <Filter>Core\Modules\Importers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -532,9 +532,6 @@
     </ClInclude>
     <ClInclude Include="DevIL\include\il.h">
       <Filter>Utilities\3rd Party\DevIL</Filter>
-    </ClInclude>
-    <ClInclude Include="trTextures.h">
-      <Filter>Core\Modules</Filter>
     </ClInclude>
     <ClInclude Include="PGrid.h">
       <Filter>Utilities\Primitives</Filter>
@@ -811,6 +808,9 @@
     </ClInclude>
     <ClInclude Include="PRay.h">
       <Filter>Utilities\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialImporter.h">
+      <Filter>Core\Modules\Importers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

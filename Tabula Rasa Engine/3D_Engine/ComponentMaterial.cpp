@@ -1,6 +1,7 @@
 #include "ComponentMaterial.h"
 #include "trApp.h"
-#include "trTextures.h"
+#include "MaterialImporter.h"
+#include "trFileLoader.h"
 
 ComponentMaterial::ComponentMaterial(GameObject * embedded_game_object) :
 Component(embedded_game_object, Component::component_type::COMPONENT_MATERIAL)
@@ -10,7 +11,7 @@ Component(embedded_game_object, Component::component_type::COMPONENT_MATERIAL)
 ComponentMaterial::~ComponentMaterial()
 {
 	if (this->texture != nullptr)
-		App->texture->DeleteTextureBuffer(this->texture);
+		App->file_loader->material_importer->DeleteTextureBuffer(this->texture);
 
 	RELEASE(texture);
 }

@@ -5,6 +5,7 @@
 #include "trFileSystem.h"
 
 #include "MeshImporter.h"
+#include "MaterialImporter.h"
 
 trFileLoader::trFileLoader()
 {
@@ -16,7 +17,7 @@ trFileLoader::~trFileLoader()
 bool trFileLoader::Awake(JSON_Object* config)
 {
 	mesh_importer = new MeshImporter();
-	
+	material_importer = new MaterialImporter();
 	return true;
 }
 
@@ -37,6 +38,7 @@ bool trFileLoader::CleanUp()
 	TR_LOG("Cleaning File Loader");
 
 	RELEASE(mesh_importer);
+	RELEASE(material_importer);
 
 	return true;
 }

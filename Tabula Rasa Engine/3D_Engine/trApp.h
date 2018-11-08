@@ -12,14 +12,12 @@
 // Modules
 class trWindow;
 class trInput;
-class trTextures;
 class trRenderer3D;
 class trCamera3D;
 class trMainScene;
 class trEditor;
 class trHardware;
 class trFileLoader;
-class trMeshImporter;
 class trTimeManager;
 class trFileSystem;
 
@@ -98,7 +96,6 @@ public:
 	// Modules
 	trWindow*			window = nullptr;
 	trInput*			input = nullptr;
-	trTextures*			texture = nullptr;
 	trRenderer3D*		render = nullptr;
 	trCamera3D*			camera = nullptr;
 	trMainScene*		main_scene = nullptr;

@@ -1,7 +1,8 @@
-#include "trTextures.h"
+#include "MaterialImporter.h"
 #include "trApp.h"
 #include "trRenderer3D.h"
 #include "ComponentMaterial.h"
+#include "trFileSystem.h"
 
 #include "DevIL\include\ilut.h"
 #include "DevIL\include\il.h"
@@ -11,22 +12,13 @@
 #pragma comment (lib, "DevIL/libx86/ILU.lib")
 #pragma comment (lib, "DevIL/libx86/ILUT.lib")
 
-trTextures::trTextures()
-{
-}
-
-trTextures::~trTextures()
-{
-}
-
-bool trTextures::Awake(JSON_Object* config)
+MaterialImporter::MaterialImporter()
 {
 	if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION ||
-	    iluGetInteger(ILU_VERSION_NUM) < ILU_VERSION ||
-		ilutGetInteger(ILUT_VERSION_NUM) < ILUT_VERSION) 
+		iluGetInteger(ILU_VERSION_NUM) < ILU_VERSION ||
+		ilutGetInteger(ILUT_VERSION_NUM) < ILUT_VERSION)
 	{
 		TR_LOG("trTexture: DevIL version is different ... exiting!");
-		return false;
 	}
 
 	ilutRenderer(ILUT_OPENGL);
@@ -36,24 +28,35 @@ bool trTextures::Awake(JSON_Object* config)
 	ilutRenderer(ILUT_OPENGL);
 
 	TR_LOG("trTexture: Initializating DevIL ...");
-
-	return true;
 }
 
-bool trTextures::Start()
+MaterialImporter::~MaterialImporter()
 {
-	return true;
 }
 
-bool trTextures::CleanUp()
+
+bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 {
-	return true;
+	return false;
 }
 
-Texture* trTextures::LoadImageFromPath(const char * path)
+bool MaterialImporter::Import(const void * buffer, uint size, std::string & output_file)
+{
+	return false;
+}
+
+Texture* MaterialImporter::LoadImageFromPath(const char * path)
 {
 	Texture* texture = new Texture();
-	
+
+	char* buffer = nullptr;
+
+	App->file_system->ReadFromFile(path, &buffer);
+
+	if (buffer == nullptr) {
+		TR_LOG("Texture error loading file with path %s", path);
+	}
+
 	uint img_id = 0u;
 	texture->id = 0u;
 
@@ -113,7 +116,7 @@ Texture* trTextures::LoadImageFromPath(const char * path)
 		
 }
 
-void trTextures::DeleteTextureBuffer(Texture * tex)
+void MaterialImporter::DeleteTextureBuffer(Texture * tex)
 {
 	ilDeleteImages(1, &tex->id);
 }

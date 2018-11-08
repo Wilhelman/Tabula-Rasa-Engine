@@ -8,6 +8,7 @@
 struct Mesh;
 
 class MeshImporter;
+class MaterialImporter;
 
 class trFileLoader : public trModule
 {
@@ -27,8 +28,9 @@ public:
 
 	bool LoadMeshFile(const char* file_path);
 
-private:
+public:
 	MeshImporter* mesh_importer = nullptr;
+	MaterialImporter* material_importer = nullptr;
 
 };
 

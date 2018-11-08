@@ -5,7 +5,6 @@
 #include "trLog.h"
 #include "trWindow.h"
 #include "trInput.h"
-#include "trTextures.h"
 #include "trRenderer3D.h"
 #include "trCamera3D.h"
 #include "trEditor.h"
@@ -28,7 +27,6 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 
 	input = new trInput();
 	window = new trWindow();
-	texture = new trTextures();
 	render = new trRenderer3D();
 	camera = new trCamera3D();
 	main_scene = new trMainScene();
@@ -50,7 +48,6 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(file_loader);
 	AddModule(time_manager);
 	AddModule(file_system);
-	AddModule(texture);
 
 	// render last to swap buffer
 	AddModule(render);
