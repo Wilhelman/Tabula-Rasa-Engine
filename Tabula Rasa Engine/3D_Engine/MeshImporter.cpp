@@ -141,12 +141,16 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
 
 		// Getting texture material if needed	
-		/*if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr) {
-			if (material_data == nullptr)
-				material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go);
-			else
-				material_data = (ComponentMaterial*)new_go->CreateComponent(Component::component_type::COMPONENT_MATERIAL, material_data);
-		}*/
+		if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr) {
+			if (material_data == nullptr) {
+				material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], nullptr);
+
+			}
+			else {
+
+			}
+				//material_data = (ComponentMaterial*)new_go->CreateComponent(Component::component_type::COMPONENT_MATERIAL, material_data);
+		}
 
 		// Vertex copy
 		mesh_data->vertex_size = new_mesh->mNumVertices * 3;
@@ -331,15 +335,21 @@ ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* 
 		std::string posible_path = "assets/textures/";
 		posible_path = posible_path + texture_path;
 		TR_LOG("trFileLoader: Search in - %s", posible_path.c_str());
-		ComponentMaterial* material_comp = (ComponentMaterial*)go->CreateComponent(Component::component_type::COMPONENT_MATERIAL);
-		material_comp->SetTexture(App->file_loader->material_importer->LoadImageFromPath(posible_path.c_str()));
+		//ComponentMaterial* material_comp = (ComponentMaterial*)go->CreateComponent(Component::component_type::COMPONENT_MATERIAL);
+
+		std::string output_path;
+		if (App->file_loader->material_importer->Import(posible_path.c_str(), output_path)) {
+
+		}
+
+	//	material_comp->SetTexture(App->file_loader->material_importer->LoadImageFromPath(posible_path.c_str()));
 
 		// Material color of the mesh
 		aiColor4D tmp_color;
 		aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &tmp_color);
-		material_comp->SetAmbientColor(float4(tmp_color.r, tmp_color.g, tmp_color.b, tmp_color.a));
+	//	material_comp->SetAmbientColor(float4(tmp_color.r, tmp_color.g, tmp_color.b, tmp_color.a));
 
-		return material_comp;
+		return nullptr;
 	}
 	else {
 		TR_LOG("trFileLoader: Didn't find any embeded texture");

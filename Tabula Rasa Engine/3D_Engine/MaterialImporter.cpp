@@ -40,7 +40,7 @@ bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 
 	char* buffer = nullptr;
 
-	uint size = App->file_system->ReadFromFile(file_path, &buffer);
+	uint file_size = App->file_system->ReadFromFile(file_path, &buffer);
 
 	if (buffer == nullptr) {
 		TR_LOG("Texture error loading file with path %s", file_path);
@@ -53,6 +53,48 @@ bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 
 	ilGenImages(1, &img_id);
 	ilBindImage(img_id);
+
+	if (!ilLoadL(IL_TYPE_UNKNOWN, buffer, file_size)) {
+		TR_LOG("Texture error loading file with path %s", file_path);
+		return false;
+	}
+
+	ilEnable(IL_FILE_OVERWRITE);
+
+	ILuint size = 0;
+	ILubyte* data = nullptr;
+	ilSetInteger(IL_DXTC_FORMAT, IL_DXT5);
+	size = ilSaveL(IL_DDS, NULL, 0);
+
+	if (size > 0)
+	{
+		ilEnable(IL_FILE_OVERWRITE);
+		data = new ILubyte[size];
+
+		if (ilSaveL(IL_DDS, data, size) > 0)
+		{
+			// Saving file
+			std::string file_name = file_path;
+			// Let's get the file name to print it in inspector:
+			const size_t last_slash = file_name.find_last_of("\\/");
+			if (std::string::npos != last_slash)
+				file_name.erase(0, last_slash + 1);
+			const size_t extension = file_name.rfind('.');
+			if (std::string::npos != extension)
+				file_name.erase(extension);
+
+			std::string tmp_str(MATERIAL_DIR);
+			tmp_str.append("/");
+			tmp_str.append(file_name);
+			tmp_str.append(".dds"); // adding our own format extension
+
+			App->file_system->WriteInFile(tmp_str.c_str(), (char*)data, size);
+			output_file = tmp_str;
+		}
+
+		RELEASE_ARRAY(data);
+	}
+
 
 	return true;
 }
