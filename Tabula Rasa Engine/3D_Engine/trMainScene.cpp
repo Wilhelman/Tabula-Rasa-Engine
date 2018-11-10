@@ -26,7 +26,8 @@ bool trMainScene::Awake(JSON_Object* config)
 {
 	bool ret = true;
 
-	default_mesh = new std::string(json_object_get_string(config, "default_mesh"));
+	if(config)
+		default_mesh = new std::string(json_object_get_string(config, "default_mesh"));
 
 	root = new GameObject("root", nullptr);
 
@@ -47,7 +48,8 @@ bool trMainScene::Start()
 	grid = new PGrid();
 	grid->axis = true;
 
-	//App->file_loader->Import(default_mesh->c_str());
+	if(default_mesh)
+		App->file_loader->ImportFBX(default_mesh->c_str());
 
 	return true;
 }

@@ -103,7 +103,7 @@ inline const char* const PATH(const char* folder, const char* file)
 #define W_FULLSCREEN false
 #define W_RESIZABLE true
 #define W_BORDERLESS false
-#define W_FULLSCREEN_DESKTOP true
+#define W_FULLSCREEN_DESKTOP false
 /// Camera
 #define C_ROT_SENSITIVITY 0.005f
 #define C_ORB_SENSITIVITY 0.005f
