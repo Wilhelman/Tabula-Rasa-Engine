@@ -19,6 +19,10 @@ public:
 	bool Awake(JSON_Object* config = nullptr);
 	bool CleanUp();
 
+	// Load / Save
+	bool Load(const JSON_Object* config = nullptr);
+	bool Save(JSON_Object* config = nullptr) const;
+
 	void SetTitle(const char*);
 
 	//Setters/Getters

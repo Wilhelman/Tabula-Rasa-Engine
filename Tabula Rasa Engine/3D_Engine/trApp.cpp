@@ -430,14 +430,19 @@ bool trApp::SaveNow()
 
 	bool ret = true;
 
-	JSON_Value* root_value = nullptr;
-	root_value = json_parse_file("Settings/config.json");
+	JSON_Value* root_value = json_value_init_object();
+	JSON_Object* root_obj = json_value_get_object(root_value);
 
-	if (root_value == nullptr) {
-		TR_LOG("trApp: Can't load settings.json, generating a new one ...");
-		root_value = json_value_init_object();
-	}
-
+	// Application settings
+	JSON_Value* app_value = json_value_init_object();
+	JSON_Object* app_obj = json_value_get_object(app_value);
+	json_object_set_value(root_obj, "app", app_value);
+	json_object_set_string(app_obj, "title", App->GetTitle());
+	json_object_set_string(app_obj, "organization", App->GetOrganization());
+	json_object_set_string(app_obj, "version", App->GetVersion());
+	json_object_set_number(app_obj, "framerate_cap", capped_ms);
+	json_object_set_boolean(app_obj, "cap_framerate", cap_fps);
+	
 	char *serialized_string = NULL;
 
 	for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
@@ -447,14 +452,16 @@ bool trApp::SaveNow()
 		if (pModule->active == false) {
 			continue;
 		}
+		JSON_Value* mod_value = json_value_init_object();
+		JSON_Object* mod_obj = json_value_get_object(mod_value);
+		json_object_set_value(root_obj, (*it)->name.c_str(), mod_value);
 
-		JSON_Object* module_obj = json_object_get_object(json_value_get_object(root_value), (*it)->name.c_str());
-		ret = (*it)->Save(module_obj);
+		ret = (*it)->Save(mod_obj);
 	}
 	
 	serialized_string = json_serialize_to_string_pretty(root_value);
 	puts(serialized_string);
-	json_serialize_to_file(root_value, "Settings/config.json");
+	json_serialize_to_file(root_value, "Settings/settings.json");
 	json_free_serialized_string(serialized_string);
 	json_value_free(root_value);
 

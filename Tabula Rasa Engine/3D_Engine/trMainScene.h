@@ -37,7 +37,7 @@ public:
 	void Draw();
 
 	// Load / Save
-	bool Load(JSON_Object* config = nullptr);
+	bool Load(const JSON_Object* config = nullptr);
 	bool Save(JSON_Object* config = nullptr) const;
 
 	GameObject* GetRoot()const;
@@ -57,7 +57,6 @@ public:
 private:
 
 	PGrid* grid = nullptr;
-	std::string* default_mesh = nullptr;
 
 	GameObject* root = nullptr;
 	

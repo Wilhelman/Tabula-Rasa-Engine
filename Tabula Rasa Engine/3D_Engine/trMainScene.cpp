@@ -26,9 +26,6 @@ bool trMainScene::Awake(JSON_Object* config)
 {
 	bool ret = true;
 
-	if(config)
-		default_mesh = new std::string(json_object_get_string(config, "default_mesh"));
-
 	root = new GameObject("root", nullptr);
 
 	main_camera = new GameObject("Main Camera", root);
@@ -47,9 +44,6 @@ bool trMainScene::Start()
 
 	grid = new PGrid();
 	grid->axis = true;
-
-	if(default_mesh)
-		App->file_loader->ImportFBX(default_mesh->c_str());
 
 	return true;
 }
@@ -98,7 +92,6 @@ void trMainScene::DrawDebug()
 // Called before quitting
 bool trMainScene::CleanUp()
 {
-	RELEASE(default_mesh);
 	RELEASE(grid);
 	RELEASE(root);
 	return true;
@@ -124,7 +117,7 @@ void trMainScene::Draw()
 }
 
 // Load Game State
-bool trMainScene::Load(JSON_Object* config)
+bool trMainScene::Load(const JSON_Object* config)
 {
 	return true;
 }

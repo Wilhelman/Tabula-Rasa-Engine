@@ -68,7 +68,7 @@ public:
 	{
 	}
 
-	virtual bool Load(JSON_Object* config = nullptr)
+	virtual bool Load(const JSON_Object* config = nullptr)
 	{
 		return true;
 	}

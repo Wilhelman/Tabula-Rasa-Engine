@@ -114,6 +114,25 @@ bool trWindow::CleanUp()
 	return true;
 }
 
+bool trWindow::Load(const JSON_Object * config)
+{
+
+	return true;
+}
+
+bool trWindow::Save(JSON_Object * config) const
+{
+	json_object_set_number(config, "width", width);
+	json_object_set_number(config, "height", height);
+	json_object_set_number(config, "scale", scale);
+	json_object_set_boolean(config, "fullscreen", fullscreen);
+	json_object_set_boolean(config, "borderless", resizable);
+	json_object_set_boolean(config, "resizable", borderless);
+	json_object_set_boolean(config, "fullscreen_window", fullscreen_desktop);
+
+	return true;
+}
+
 void trWindow::SetTitle(const char* title)
 {
 	SDL_SetWindowTitle(window, title);
@@ -188,7 +207,7 @@ void trWindow::SetBorderless(bool borderless)
 {
 	this->borderless = borderless;
 
-	SDL_SetWindowBordered(window, (SDL_bool)!borderless);
+	SDL_SetWindowBordered(window, (SDL_bool)borderless);
 }
 
 void trWindow::SetFullscreenWindowed(bool fullscreen_desktop)

@@ -143,6 +143,22 @@ bool trCamera3D::Update(float dt)
 	return true;
 }
 
+bool trCamera3D::Load(const JSON_Object * config)
+{
+	return true;
+}
+
+bool trCamera3D::Save(JSON_Object * config) const
+{
+	json_object_set_number(config, "rotation_sensitivity", rotation_sensitivity);
+	json_object_set_number(config, "orbit_sensitivity", orbit_sensitivity);
+	json_object_set_number(config, "pan_sensitivity", pan_sensitivity);
+	json_object_set_number(config, "cam_speed",cam_speed);
+	json_object_set_number(config, "cam_boost_speed",cam_boost_speed);
+
+	return true;
+}
+
 void trCamera3D::ProcessMouseWheelInput(float3 &new_pos, float speed)
 {
 	if (App->input->GetMouseZ() > 0)

@@ -21,6 +21,10 @@ public:
 	bool Start();
 	bool Update(float dt);
 
+	// Load / Save
+	bool Load(const JSON_Object* config = nullptr);
+	bool Save(JSON_Object* config = nullptr) const;
+
 	void ProcessMouseWheelInput(float3 &new_pos, float speed);
 	void ProcessKeyboardInput(float3 &new_pos, float speed);
 	void ProcessMouseMotion(int dx, int dy, float sensitivity);
