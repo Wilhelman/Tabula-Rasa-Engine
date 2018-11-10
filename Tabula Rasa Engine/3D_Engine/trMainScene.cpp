@@ -190,16 +190,32 @@ void trMainScene::ReDoQuadtree()
 
 void trMainScene::TestAgainstRay(LineSegment line_segment) 
 {
-	// TODO: when mesh is transformed picking doesn't work anymore. If it's tranformed quadtree does not contain 
-	// this mesh inside anymore for some reaseon -> objects_inside.size() = 0. Also quadtree behaves weird and sometimes
-	// does not contain any gameobjects inside even if they are not transformed.
 	std::map<float, GameObject*> intersect_map;
 	GameObject* selected_go = nullptr;
 	float min_distance = App->camera->dummy_camera->frustum.farPlaneDistance;
 
-	// Collecting all gameobjects whose AABBs have intersected with the line segment
+	// Collecting all STATIC gameobjects whose AABBs have intersected with the line segment
 	quadtree.CollectIntersectingGOs(line_segment, intersect_map);
+
+	// Collecting all DYNAMIC gameobjects (as they are not in the quadtree, it only accepts STATIC objects inside)
+	std::vector<GameObject*> intersect_dynamic_vec;
+	CollectDinamicGOs(intersect_dynamic_vec);
+
+	/* Checking if these dynamic gameobjects are inside the fustrum. If so, checking if they intersect with the line
+	   segment; in that case, we put them in our map along with their hit distance. */
+	for (uint i = 0; i < intersect_dynamic_vec.size(); i++)
+	{
+		AABB current_bounding_box = intersect_dynamic_vec[i]->bounding_box;
+		if (App->camera->dummy_camera->FrustumContainsAaBox(current_bounding_box))
+		{
+			float hit_distance;
+			float out_distance;
+			if (line_segment.Intersects(current_bounding_box, hit_distance, out_distance))
+				intersect_map.insert(std::pair<float, GameObject*>(hit_distance, intersect_dynamic_vec[i]));
+		}
+	}
 	
+	// Now we can go through the map checking each gameobject's triangle against the line segment
 	for (std::map<float, GameObject*>::iterator it_map = intersect_map.begin(); it_map != intersect_map.end(); it_map++)
 	{
 		const ComponentMesh* mesh_comp = (ComponentMesh*)it_map->second->FindComponentByType(Component::COMPONENT_MESH);
