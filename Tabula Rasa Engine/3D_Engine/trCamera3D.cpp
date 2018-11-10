@@ -56,14 +56,14 @@ bool trCamera3D::CleanUp()
 // -----------------------------------------------------------------
 bool trCamera3D::Update(float dt)
 {	
-	// Drawing ray
+	// ----- Mouse picking -----
 
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN 
 		&& !ImGui::IsMouseHoveringAnyWindow()
 		&& App->input->GetKey(SDL_SCANCODE_LALT) == KEY_IDLE)
-		OnPick();
+		OnPickGameObject();
 
-	// -----
+	// ----- Camera movement speed calculations -----
 
 	float3 new_pos(0.0f, 0.0f, 0.0f);
 
@@ -188,7 +188,7 @@ void trCamera3D::ProcessMouseMotion(int dx, int dy, float sensitivity)
 	}
 }
 
-void trCamera3D::OnPick()
+void trCamera3D::OnPickGameObject()
 {
 	float width = (float)App->window->GetWidth();
 	float height = (float)App->window->GetHeight();

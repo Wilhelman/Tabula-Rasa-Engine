@@ -188,84 +188,75 @@ void trMainScene::ReDoQuadtree()
 			
 }
 
-void trMainScene::TestAgainstRay(LineSegment line_segment)
+void trMainScene::TestAgainstRay(LineSegment line_segment) 
 {
-	std::vector<GameObject*> intersect_vec;
+	// TODO: when mesh is transformed picking doesn't work anymore. If it's tranformed quadtree does not contain 
+	// this mesh inside anymore for some reaseon -> objects_inside.size() = 0. Also quadtree behaves weird and sometimes
+	// does not contain any gameobjects inside even if they are not transformed.
+	std::map<float, GameObject*> intersect_map;
 	GameObject* selected_go = nullptr;
+	float min_distance = App->camera->dummy_camera->frustum.farPlaneDistance;
 
 	// Collecting all gameobjects whose AABBs have intersected with the line segment
-	quadtree.CollectIntersectingGOs(line_segment, intersect_vec);
+	quadtree.CollectIntersectingGOs(line_segment, intersect_map);
 	
-	for (uint i = 0; i < intersect_vec.size(); i++)
+	for (std::map<float, GameObject*>::iterator it_map = intersect_map.begin(); it_map != intersect_map.end(); it_map++)
 	{
-		ComponentMesh* mesh_comp = (ComponentMesh*)intersect_vec[i]->FindComponentByType(Component::COMPONENT_MESH);
+		const ComponentMesh* mesh_comp = (ComponentMesh*)it_map->second->FindComponentByType(Component::COMPONENT_MESH);
 
 		// Making sure the intersecting gameobject has a mesh component
 		if (mesh_comp != nullptr)
 		{
-			// Transforming line segment into intersecting gameobject's local space
-			LineSegment segment_local_space(line_segment);
-			segment_local_space.Transform(intersect_vec[i]->GetTransform()->GetMatrix().Inverted());
-
-			Triangle tri;
-			const Mesh* mesh = mesh_comp->GetMesh();
-			float min_distance = App->camera->dummy_camera->frustum.farPlaneDistance;
-			uint index_counter = 0;
-
-			while (index_counter < mesh->index_size)
+			/* Checking if the current minimum distance to the camera is greater than the AABB's hit distance of 
+			   the current intersecting gameobject in the loop. If it's not, we can safely discard this gameobject 
+			   as it's further away from the previous one. This way, we prevent the program from calculating all 
+			   the mesh triangles so the mouse picking process will be faster. */
+			if (min_distance >= (*it_map).first)
 			{
-				// Creating gameobject's mesh triangles
-				tri.a.x = mesh->vertices[mesh->indices[index_counter] * 3];
-				tri.a.y = mesh->vertices[mesh->indices[index_counter] * 3 + 1];
-				tri.a.z = mesh->vertices[mesh->indices[index_counter++] * 3 + 2];
+				// Transforming line segment into intersecting gameobject's local space
+				LineSegment segment_local_space(line_segment);
+				segment_local_space.Transform(it_map->second->GetTransform()->GetMatrix().Inverted());
 
-				tri.b.x = mesh->vertices[mesh->indices[index_counter] * 3];
-				tri.b.y = mesh->vertices[mesh->indices[index_counter] * 3 + 1];
-				tri.b.z = mesh->vertices[mesh->indices[index_counter++] * 3 + 2];
+				Triangle tri;
+				const Mesh* mesh = mesh_comp->GetMesh();
+				uint index_counter = 0;
 
-				tri.c.x = mesh->vertices[mesh->indices[index_counter] * 3];
-				tri.c.y = mesh->vertices[mesh->indices[index_counter] * 3 + 1];
-				tri.c.z = mesh->vertices[mesh->indices[index_counter++] * 3 + 2];
-
-				// Checking if line has interseted with each triangle
-				float hit_distance = 0.0f;
-				float3 hit_point = float3::zero;
-
-				if (segment_local_space.Intersects(tri, &hit_distance, &hit_point))
+				while (index_counter < mesh->index_size)
 				{
-					// If triangle intersects we neeed to check if it's the closest one of all of them
-					if (hit_distance < min_distance)
+					// Creating gameobject's mesh triangles
+					tri.a.x = mesh->vertices[mesh->indices[index_counter] * 3];
+					tri.a.y = mesh->vertices[mesh->indices[index_counter] * 3 + 1];
+					tri.a.z = mesh->vertices[mesh->indices[index_counter++] * 3 + 2];
+
+					tri.b.x = mesh->vertices[mesh->indices[index_counter] * 3];
+					tri.b.y = mesh->vertices[mesh->indices[index_counter] * 3 + 1];
+					tri.b.z = mesh->vertices[mesh->indices[index_counter++] * 3 + 2];
+
+					tri.c.x = mesh->vertices[mesh->indices[index_counter] * 3];
+					tri.c.y = mesh->vertices[mesh->indices[index_counter] * 3 + 1];
+					tri.c.z = mesh->vertices[mesh->indices[index_counter++] * 3 + 2];
+
+					// Checking if line has interseted with each triangle
+					float hit_distance = 0.0f;
+					float3 hit_point = float3::zero;
+
+					if (segment_local_space.Intersects(tri, &hit_distance, &hit_point))
 					{
-						// If it is we save this hit point unless another triangle is closer
-						min_distance = hit_distance;
-						selected_go = intersect_vec[i];
+						// If triangle intersects we neeed to check if it's the closest one of all of them
+						if (hit_distance < min_distance)
+						{
+							// If it is we save its hit point (unless another triangle is closer int next lap)
+							min_distance = hit_distance;
+							selected_go = it_map->second;
+						}
 					}
 				}
 			}
 		}
 	}
 
+	// Finally, we set the resulting selected gameobject
 	App->editor->SetSelected(selected_go);
-
-	/*AABB closest_bounding_box;
-	closest_bounding_box.SetNegativeInfinity();
-
-	for (uint i = 0; i < intersect_vec.size(); i++)
-	{
-		if (i == 0)
-		{
-			closest_bounding_box = intersect_vec[i]->bounding_box;
-			selected_go = intersect_vec[i];
-		}
-		else if (intersect_vec[i]->bounding_box.CenterPoint().Length()
-				 < closest_bounding_box.CenterPoint().Length())
-		{
-			selected_go = intersect_vec[i];
-			closest_bounding_box = intersect_vec[i]->bounding_box;
-		}
-	}
-
-		App->editor->SetSelected(selected_go); */
 }											   
 											   
 

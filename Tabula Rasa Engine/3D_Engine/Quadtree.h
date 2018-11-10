@@ -4,6 +4,7 @@
 #include "MathGeoLib/MathGeoLib.h"
 
 #include <list>
+#include <map>
 
 class GameObject;
 
@@ -21,7 +22,7 @@ public:
 
 	// Intersections stuff
 	void CollectsGOs(const Frustum& frustum, std::vector<GameObject*>& go_output)const;
-	void CollectIntersectingGOs(const LineSegment& line_segment, std::vector<GameObject*>& intersect_vec) const;
+	void CollectIntersectingGOs(const LineSegment& line_segment, std::map<float, GameObject*>& intersect_map) const;
 
 	bool FrustumContainsAaBox(const AABB & ref_box, const Frustum& frustum)const;
 
@@ -51,7 +52,7 @@ public:
 
 	// Intersection stuff
 	void CollectsGOs(const Frustum& frustum, std::vector<GameObject*>& go_output) const;
-	void CollectIntersectingGOs(const LineSegment& line_segment, std::vector<GameObject*>& intersect_vec) const;
+	void CollectIntersectingGOs(const LineSegment& line_segment, std::map<float, GameObject*>& intersect_map) const;
 
 	void Clear();
 

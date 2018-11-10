@@ -25,7 +25,7 @@ public:
 	void ProcessKeyboardInput(float3 &new_pos, float speed);
 	void ProcessMouseMotion(int dx, int dy, float sensitivity);
 
-	void OnPick();
+	void OnPickGameObject();
 
 	bool CleanUp();
 	

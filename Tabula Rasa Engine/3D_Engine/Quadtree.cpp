@@ -51,9 +51,9 @@ void Quadtree::CollectsGOs(const Frustum & frustum, std::vector<GameObject*>& go
 	root_node->CollectsGOs(frustum, go_output);
 }
 
-void Quadtree::CollectIntersectingGOs(const LineSegment & line_segment, std::vector<GameObject*>& intersect_vec) const
+void Quadtree::CollectIntersectingGOs(const LineSegment & line_segment, std::map<float, GameObject*>& intersect_map) const
 {
-	root_node->CollectIntersectingGOs(line_segment, intersect_vec);
+	root_node->CollectIntersectingGOs(line_segment, intersect_map);
 }
 
 void Quadtree::Clear()
@@ -193,39 +193,44 @@ void QuadtreeNode::CollectsGOs(const Frustum & frustum, std::vector<GameObject*>
 	}
 }
 
-void QuadtreeNode::CollectIntersectingGOs(const LineSegment & line_segment, std::vector<GameObject*>& intersect_vec) const
+void QuadtreeNode::CollectIntersectingGOs(const LineSegment & line_segment, std::map<float, GameObject*>& intersect_map) const
 {
+	// As we use a map with hit distance value as key it is already ordered in ascending order by default.
+	// This means the gameobjects are already sorted by their AABBs distance to the camera.
 	if (line_segment.Intersects(this->box)) 
 	{
 		for (std::list<GameObject*>::const_iterator it = objects_inside.begin(); it != objects_inside.end(); it++) 
 		{
 			AABB go_box = (*it)->bounding_box;
-			if (line_segment.Intersects(go_box))
+			float hit_distance;
+			float out_distance;
+			if (line_segment.Intersects(go_box, hit_distance, out_distance))
 			{ 
 				bool unique = true;
-				for (uint i = 0; i < intersect_vec.size(); i++)
+
+				for (std::map<float, GameObject*>::iterator it_map = intersect_map.begin(); it_map != intersect_map.end(); it_map++)
 				{
-					if ((*it) == intersect_vec.at(i))
+					if ((*it) == (*it_map).second)
 						unique = false;
 				}
 
 				if (unique) // care iterating childs with the same gos
-					intersect_vec.push_back((*it));
+					intersect_map.insert(std::pair<float, GameObject*>(hit_distance, *it));
 			}
-
 		}
 
 		if (!IsLeaf()) 
 		{
 			for (uint i = 0u; i < 4; i++)
-				childs[i]->CollectIntersectingGOs(line_segment, intersect_vec);
+				childs[i]->CollectIntersectingGOs(line_segment, intersect_map);
 			
 		}
 	}
 
-	uint size = intersect_vec.size();
+	/*uint size = intersect_map.size();
 
-	// If we have multiple intersecting gameobjects we order them by their distance to the camera in ascending order
+	// If we have multiple intersecting gameobjects we order them by their distance to the camera in ascending order.
+	// This means that the first element will be the closer gameobject to the camera.
 	if (size > 1)
 	{
 		bool swapped = true;
@@ -237,7 +242,7 @@ void QuadtreeNode::CollectIntersectingGOs(const LineSegment & line_segment, std:
 
 			for (uint j = 0; j < size - 1; j++)
 			{
-				Sphere sphere_A = intersect_vec[j]->bounding_box.MinimalEnclosingSphere();
+				Sphere sphere_A = intersect_map.fi->bounding_box.MinimalEnclosingSphere();
 				Sphere sphere_B = intersect_vec[j + 1]->bounding_box.MinimalEnclosingSphere();
 				float dist_to_cam_A = (intersect_vec[j]->bounding_box.CenterPoint() - line_segment.a).Length() - Pow(sphere_A.r, 2.0f);
 				float dist_to_cam_B = (intersect_vec[j + 1]->bounding_box.CenterPoint() - line_segment.a).Length() - Pow(sphere_A.r, 2.0f);
@@ -251,7 +256,7 @@ void QuadtreeNode::CollectIntersectingGOs(const LineSegment & line_segment, std:
 				}
 			}
 		}
-	}
+	}*/
 }
 
 bool QuadtreeNode::FrustumContainsAaBox(const AABB & ref_box, const Frustum & frustum) const
