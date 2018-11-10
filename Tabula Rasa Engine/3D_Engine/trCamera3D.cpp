@@ -33,6 +33,13 @@ bool trCamera3D::Awake(JSON_Object* config)
 		cam_speed = json_object_get_number(config, "cam_speed");
 		cam_boost_speed = json_object_get_number(config, "cam_boost_speed");
 	}
+	else {
+		rotation_sensitivity = C_ROT_SENSITIVITY;
+		orbit_sensitivity = C_ORB_SENSITIVITY;
+		pan_sensitivity = C_PAN_SENSITIVITY;
+		cam_speed = C_CAM_SPEED;
+		cam_boost_speed = C_CAM_BOOST_SPEED;
+	}
 	return true;
 }
 

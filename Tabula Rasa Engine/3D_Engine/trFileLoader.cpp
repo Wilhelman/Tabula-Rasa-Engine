@@ -25,6 +25,7 @@ bool trFileLoader::Start()
 {
 	// Create basic folders
 	App->file_system->MakeNewDir(ASSETS_DIR);
+	App->file_system->MakeNewDir(SETTINGS_DIR);
 	App->file_system->MakeNewDir(LIBRARY_DIR);
 	App->file_system->MakeNewDir(MESH_DIR);
 	App->file_system->MakeNewDir(MATERIAL_DIR);

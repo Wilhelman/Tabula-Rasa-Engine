@@ -90,6 +90,13 @@ inline const char* const PATH(const char* folder, const char* file)
 #define MATERIAL_DIR "/Library/Materials"
 
 // Default settings
+/// App
+#define A_TITLE "Tabula Rasa Engine"
+#define A_ORGANIZATION "None"
+#define A_VERSION "v0.3.1-development"
+#define A_FPS_CAP true
+#define A_FPS_CAP_VALUE 60
+/// Window
 #define W_WIDTH 500
 #define W_HEIGHT 500
 #define W_SCALE 1
@@ -97,6 +104,11 @@ inline const char* const PATH(const char* folder, const char* file)
 #define W_RESIZABLE true
 #define W_BORDERLESS false
 #define W_FULLSCREEN_DESKTOP true
-
+/// Camera
+#define C_ROT_SENSITIVITY 0.005f
+#define C_ORB_SENSITIVITY 0.005f
+#define C_PAN_SENSITIVITY 0.01f
+#define C_CAM_SPEED 7.f
+#define C_CAM_BOOST_SPEED 14.f
 
 #endif

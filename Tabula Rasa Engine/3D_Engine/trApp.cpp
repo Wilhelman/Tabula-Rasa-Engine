@@ -80,7 +80,7 @@ bool trApp::Awake()
 	bool ret = true;
 
 	JSON_Value* root_value = nullptr;
-	root_value = json_parse_file("config.json");
+	root_value = json_parse_file("Settings/settings.json");
 
 	if (root_value != nullptr) {
 
@@ -108,6 +108,12 @@ bool trApp::Awake()
 	else {
 
 		TR_LOG("trApp: Error loading config.json file");
+
+		this->SetTitle(A_TITLE);
+		this->SetOrganization(A_ORGANIZATION);
+		this->SetFpsCap(A_FPS_CAP_VALUE);
+		cap_fps = A_FPS_CAP;
+		this->SetVersion(A_VERSION);
 
 		for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
 			ret = (*it)->Awake();
@@ -390,11 +396,11 @@ bool trApp::LoadNow()
 	bool ret = true;
 
 	JSON_Value* root_value = nullptr;
-	root_value = json_parse_file("config.json");
+	root_value = json_parse_file("Settings/config.json");
 
 	if (root_value != nullptr) {
 
-		TR_LOG("config.json loaded correctly, iterating between modules ...");
+		TR_LOG("settings.json loaded correctly, iterating between modules ...");
 
 		for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
 		{
@@ -411,7 +417,7 @@ bool trApp::LoadNow()
 		json_value_free(root_value);
 	}
 	else
-		TR_LOG("trApp: Error loading config.json file");
+		TR_LOG("trApp: Error loading settings.json file");
 	
 	
 	return ret;
@@ -425,10 +431,10 @@ bool trApp::SaveNow()
 	bool ret = true;
 
 	JSON_Value* root_value = nullptr;
-	root_value = json_parse_file("config.json");
+	root_value = json_parse_file("Settings/config.json");
 
 	if (root_value == nullptr) {
-		TR_LOG("trApp: Can't load config.json, generating a new one ...");
+		TR_LOG("trApp: Can't load settings.json, generating a new one ...");
 		root_value = json_value_init_object();
 	}
 
@@ -448,7 +454,7 @@ bool trApp::SaveNow()
 	
 	serialized_string = json_serialize_to_string_pretty(root_value);
 	puts(serialized_string);
-	json_serialize_to_file(root_value, "config.json");
+	json_serialize_to_file(root_value, "Settings/config.json");
 	json_free_serialized_string(serialized_string);
 	json_value_free(root_value);
 
