@@ -91,7 +91,7 @@ bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 			App->file_system->WriteInFile(tmp_str.c_str(), (char*)data, size);
 			output_file = tmp_str;
 		}
-
+		RELEASE_ARRAY(buffer);
 		RELEASE_ARRAY(data);
 	}
 
