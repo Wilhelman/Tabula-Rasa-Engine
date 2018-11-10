@@ -201,6 +201,7 @@ void trCamera3D::OnPickGameObject()
 
 	pick_ray = dummy_camera->frustum.UnProjectLineSegment(normalized_x, normalized_y);
 
+
 	App->main_scene->TestAgainstRay(pick_ray);
 
 	/*float distance;

@@ -84,8 +84,19 @@ inline const char* const PATH(const char* folder, const char* file)
 
 // Folders
 #define ASSETS_DIR "Assets"
+#define SETTINGS_DIR "Settings"
 #define LIBRARY_DIR "Library"
 #define MESH_DIR "/Library/Meshes"
 #define MATERIAL_DIR "/Library/Materials"
+
+// Default settings
+#define W_WIDTH 500
+#define W_HEIGHT 500
+#define W_SCALE 1
+#define W_FULLSCREEN false
+#define W_RESIZABLE true
+#define W_BORDERLESS false
+#define W_FULLSCREEN_DESKTOP true
+
 
 #endif

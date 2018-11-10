@@ -32,12 +32,11 @@ MaterialImporter::MaterialImporter()
 
 MaterialImporter::~MaterialImporter()
 {
+	ilShutDown();
 }
-
 
 bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 {
-
 	char* buffer = nullptr;
 
 	uint file_size = App->file_system->ReadFromFile(file_path, &buffer);
@@ -95,7 +94,6 @@ bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 		RELEASE_ARRAY(data);
 	}
 
-
 	return true;
 }
 
@@ -107,8 +105,6 @@ bool MaterialImporter::Import(const void * buffer, uint size, std::string & outp
 Texture* MaterialImporter::LoadImageFromPath(const char * path)
 {
 	Texture* texture = new Texture();
-
-	
 
 	uint img_id = 0u;
 	texture->id = 0u;
@@ -166,7 +162,6 @@ Texture* MaterialImporter::LoadImageFromPath(const char * path)
 	else {
 		return nullptr;
 	}
-		
 }
 
 void MaterialImporter::DeleteTextureBuffer(Texture * tex)

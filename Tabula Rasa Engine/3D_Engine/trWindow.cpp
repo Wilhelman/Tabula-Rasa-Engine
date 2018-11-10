@@ -37,6 +37,15 @@ bool trWindow::Awake(JSON_Object* config)
 			this->SetBorderless(json_object_get_boolean(config, "borderless"));
 			this->SetFullscreenWindowed(json_object_get_boolean(config, "fullscreen_window"));
 		}
+		else {
+			this->SetWidth(W_WIDTH);
+			this->SetHeight(W_HEIGHT);
+			this->SetScale(W_SCALE);
+			this->SetFullscreen(W_FULLSCREEN);
+			this->SetResizable(W_RESIZABLE);
+			this->SetBorderless(W_BORDERLESS);
+			this->SetFullscreenWindowed(W_FULLSCREEN_DESKTOP);
+		}
 		
 		//Create window
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
