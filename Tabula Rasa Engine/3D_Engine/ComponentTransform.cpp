@@ -22,6 +22,36 @@ ComponentTransform::~ComponentTransform()
 {
 }
 
+bool ComponentTransform::Save(JSON_Array * array, JSON_Object* component_obj) const
+{
+	// Translation
+	JSON_Value* component_value = json_value_init_array();
+	JSON_Array* translation_array = json_value_get_array(component_value);
+	json_object_set_value(component_obj, "Translation", component_value);
+	json_array_append_number(translation_array, position.x);
+	json_array_append_number(translation_array, position.y);
+	json_array_append_number(translation_array, position.z);
+
+	// Scale
+	component_value = json_value_init_array();
+	JSON_Array* scale_array = json_value_get_array(component_value);
+	json_object_set_value(component_obj, "Scale", component_value);
+	json_array_append_number(scale_array, scale.x);
+	json_array_append_number(scale_array, scale.y);
+	json_array_append_number(scale_array, scale.z);
+	
+	// Rotation
+	component_value = json_value_init_array();
+	JSON_Array* rotation_array = json_value_get_array(component_value);
+	json_object_set_value(component_obj, "Rotation", component_value);
+	json_array_append_number(rotation_array, rotation.w);
+	json_array_append_number(rotation_array, rotation.x);
+	json_array_append_number(rotation_array, rotation.y);
+	json_array_append_number(rotation_array, rotation.z);
+
+	return true;
+}
+
 void ComponentTransform::Setup(const float3 & translation, const float3 & scale, const Quat & rotation)
 {
 	this->position = translation;

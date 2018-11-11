@@ -19,6 +19,8 @@ public:
 	ComponentMaterial(GameObject* embedded_game_object);
 	~ComponentMaterial();
 
+	bool Save(JSON_Array* array, JSON_Object* component_obj)const;
+
 	void SetAmbientColor(float4 ambient_color);
 	const float4 GetAmbientColor()const;
 

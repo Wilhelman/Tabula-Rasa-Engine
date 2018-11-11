@@ -33,6 +33,11 @@ ComponentCamera::~ComponentCamera()
 {
 }
 
+bool ComponentCamera::Save(JSON_Array * array, JSON_Object* component_obj) const
+{
+	return true;
+}
+
 bool ComponentCamera::PreUpdate(float dt)
 {
 	float3 pos = float3::zero;

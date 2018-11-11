@@ -25,6 +25,11 @@ ComponentMesh::~ComponentMesh()
 	delete this->mesh;
 }
 
+bool ComponentMesh::Save(JSON_Array * array, JSON_Object* component_obj) const
+{
+	return true;
+}
+
 void ComponentMesh::GenerateAndBindMesh(Mesh * mesh)
 {
 	glGenBuffers(1, (GLuint*) &(mesh->vertex_buffer));

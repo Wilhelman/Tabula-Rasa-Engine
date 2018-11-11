@@ -16,6 +16,11 @@ ComponentMaterial::~ComponentMaterial()
 	RELEASE(texture);
 }
 
+bool ComponentMaterial::Save(JSON_Array * array, JSON_Object* component_obj) const
+{
+	return true;
+}
+
 void ComponentMaterial::SetAmbientColor(float4 ambient_color)
 {
 	this->ambient_color = ambient_color;

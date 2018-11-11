@@ -12,6 +12,8 @@ public:
 	ComponentTransform(GameObject* embedded_game_object, const float3& translation, const float3& scale, const Quat& rotation);
 	~ComponentTransform();
 
+	bool Save(JSON_Array* array, JSON_Object* component_obj)const;
+
 	void Setup(const float3& translation, const float3& scale, const Quat& rotation);
 	const float3& GetTranslation()const;
 	const float3& GetScale()const;

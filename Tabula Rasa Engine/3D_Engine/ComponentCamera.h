@@ -13,6 +13,8 @@ public:
 	ComponentCamera(GameObject* embedded_game_object);
 	~ComponentCamera();
 
+	bool Save(JSON_Array* array, JSON_Object* component_obj)const;
+
 	bool PreUpdate(float dt);
 
 	void LookAt(const float3 &Spot);
