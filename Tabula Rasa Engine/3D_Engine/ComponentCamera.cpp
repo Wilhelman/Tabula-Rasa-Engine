@@ -35,6 +35,18 @@ ComponentCamera::~ComponentCamera()
 
 bool ComponentCamera::Save(JSON_Object* component_obj) const
 {
+	JSON_Value* component_value = json_value_init_array();
+	JSON_Array* translation_array = json_value_get_array(component_value);
+	json_object_set_value(component_obj, "F_Position", component_value);
+	json_array_append_number(translation_array, frustum.pos.x);
+	json_array_append_number(translation_array, frustum.pos.y);
+	json_array_append_number(translation_array, frustum.pos.z);
+
+	json_object_set_number(component_obj, "F_Near", frustum.nearPlaneDistance);
+	json_object_set_number(component_obj, "F_Far", frustum.farPlaneDistance);
+	json_object_set_number(component_obj, "F_HorizontalFov", frustum.horizontalFov);
+	json_object_set_number(component_obj, "F_VerticalFov", frustum.verticalFov);
+
 	return true;
 }
 

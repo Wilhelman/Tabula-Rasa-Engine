@@ -18,6 +18,8 @@ ComponentMaterial::~ComponentMaterial()
 
 bool ComponentMaterial::Save(JSON_Object* component_obj) const
 {
+	json_object_set_string(component_obj, "path", texture->path.c_str());
+
 	return true;
 }
 
