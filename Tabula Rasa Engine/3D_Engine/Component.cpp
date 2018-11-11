@@ -33,6 +33,11 @@ bool Component::Disable()
 	return false;
 }
 
+int Component::GetUUID() const
+{
+	return uuid;
+}
+
 GameObject * Component::GetEmbeddedObject() const
 {
 	return nullptr;

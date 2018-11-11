@@ -177,6 +177,11 @@ ComponentTransform * GameObject::GetTransform() const
 	return transform;
 }
 
+int GameObject::GetUUID() const
+{
+	return uuid;
+}
+
 void GameObject::RecalculateBoundingBox()
 {
 	

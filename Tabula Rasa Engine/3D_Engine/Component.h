@@ -28,6 +28,7 @@ public:
 	virtual bool Update(float dt);
 	virtual bool Disable();
 
+	int GetUUID()const;
 	GameObject* GetEmbeddedObject() const;
 	bool IsActive()const;
 

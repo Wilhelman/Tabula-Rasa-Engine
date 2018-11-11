@@ -127,6 +127,32 @@ bool trMainScene::Load(const JSON_Object* config)
 // Save Game State
 bool trMainScene::Save(JSON_Object* config) const
 {
+	// TODO save all gos
+
+	JSON_Value* vroot = nullptr;
+	JSON_Object* root = nullptr;
+	JSON_Array* array = nullptr;
+
+	vroot = json_parse_string("Scene");
+
+	// Scene stuff
+	root = json_value_get_object(vroot);
+	json_object_set_string(root, "Name", "Unnamed Scene");
+
+	/// todo save camera editor stuff
+
+	// Go's stuff
+	JSON_Value* va = json_value_init_array();
+	array = json_value_get_array(va);
+	json_object_set_value(root, "Game Objects", va);
+
+	/// Iterating between all gos
+	
+	/*for (std::list<GameObject*>::const_iterator it = root->childs.begin(); it != root->childs.end(); ++it) {
+
+	}*/
+	
+
 	return true;
 }
 

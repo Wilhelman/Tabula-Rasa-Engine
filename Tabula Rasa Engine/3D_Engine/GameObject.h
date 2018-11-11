@@ -33,6 +33,7 @@ public:
 	const char* GetName() const;
 	void SetName(const char* name);
 	ComponentTransform* GetTransform()const;
+	int GetUUID()const;
 
 	void RecalculateBoundingBox();
 
