@@ -110,5 +110,14 @@ inline const char* const PATH(const char* folder, const char* file)
 #define C_PAN_SENSITIVITY 0.01f
 #define C_CAM_SPEED 7.f
 #define C_CAM_BOOST_SPEED 14.f
+/// Renderer
+#define R_VSYNC true
+#define R_WIREFRAME false
+#define R_DEPTH_TEST true
+#define R_ZBUFFER false
+#define R_CULL_FACE true
+#define R_LIGHTING true
+#define R_COLOR_MATERIAL true
+#define R_TEXTURE_2D true
 
 #endif

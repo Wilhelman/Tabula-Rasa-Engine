@@ -25,7 +25,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	capped_ms = 1000 / 60;
 	fps_counter = 0;
 
-	randomizator = new math::LCG();
+	//randomizator = new math::LCG();
 
 	input = new trInput();
 	window = new trWindow();

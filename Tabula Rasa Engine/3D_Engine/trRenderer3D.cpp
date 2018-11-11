@@ -58,16 +58,40 @@ bool trRenderer3D::Awake(JSON_Object* config)
 		z_buffer = json_object_get_boolean(config, "z_buffer");
 		color_material = json_object_get_boolean(config, "color_material");
 		texture_2D = json_object_get_boolean(config, "texture_2D");
-
-		if (json_object_get_boolean(config, "vsync")) {
-			if (SDL_GL_SetSwapInterval(1) < 0)
+		vsync_toogle = json_object_get_boolean(config, "vsync");
+		if (vsync_toogle) {
+			if (SDL_GL_SetSwapInterval(1) < 0) {
+				TR_LOG("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
+				vsync_toogle = false;
+			}
+			else
+				TR_LOG("Renderer3D: vSync ENABLED");
+				
+		}
+		else {
+			if (SDL_GL_SetSwapInterval(0) < 0)
 				TR_LOG("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
 			else
-			{
-				vsync_toogle = true;
-				TR_LOG("Renderer3D: vSync ENABLED");
+				TR_LOG("Renderer3D: vSync DISABLED");
+		}
+	}
+	else {
+		wireframe = R_WIREFRAME;
+		depth_test = R_DEPTH_TEST;
+		cull_face = R_CULL_FACE;
+		lighting = R_LIGHTING;
+		z_buffer = R_ZBUFFER;
+		color_material = R_COLOR_MATERIAL;
+		texture_2D = R_TEXTURE_2D;
+		vsync_toogle = R_VSYNC;
+		if (vsync_toogle) {
+			if (SDL_GL_SetSwapInterval(1) < 0) {
+				TR_LOG("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
+				vsync_toogle = false;
 			}
-				
+			else
+				TR_LOG("Renderer3D: vSync ENABLED");
+
 		}
 		else {
 			if (SDL_GL_SetSwapInterval(0) < 0)
@@ -264,6 +288,24 @@ bool trRenderer3D::CleanUp()
 	return true;
 }
 
+bool trRenderer3D::Load(const JSON_Object * config)
+{
+	return true;
+}
+
+bool trRenderer3D::Save(JSON_Object * config) const
+{
+	json_object_set_boolean(config, "vsync", vsync_toogle);
+	json_object_set_boolean(config, "wireframe", wireframe);
+	json_object_set_boolean(config, "depth_test", depth_test);
+	json_object_set_boolean(config, "z_buffer", z_buffer);
+	json_object_set_boolean(config, "cull_face", cull_face);
+	json_object_set_boolean(config, "lighting", lighting);
+	json_object_set_boolean(config, "color_material", color_material);
+	json_object_set_boolean(config, "texture_2D", texture_2D);
+	return true;
+}
+
 void trRenderer3D::OnResize(int width, int height)
 {
 	ComponentCamera* camera_co = nullptr;
@@ -345,6 +387,8 @@ void trRenderer3D::SwitchColorMaterial(bool toggle)
 {
 	(toggle) ?
 		glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
+
+	color_material = toggle;
 }
 
 void trRenderer3D::SwitchTexture2D(bool toggle)

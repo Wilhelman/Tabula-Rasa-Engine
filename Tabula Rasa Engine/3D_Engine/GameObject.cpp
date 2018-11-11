@@ -18,6 +18,7 @@ GameObject::GameObject()
 
 GameObject::GameObject(const char * name, GameObject * parent)
 {
+	//this->uuid = App->randomizator->Int();
 	this->name = name;
 	this->parent = parent;
 
