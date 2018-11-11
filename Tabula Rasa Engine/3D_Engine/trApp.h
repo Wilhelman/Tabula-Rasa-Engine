@@ -8,6 +8,7 @@
 #include "ParsonJson/parson.h"
 #include "trLog.h"
 #include "SDL/include/SDL.h"
+#include "MathGeoLib/Algorithm/Random/LCG.h"
 
 // Modules
 class trWindow;
@@ -71,6 +72,8 @@ public:
 	void Save();
 	void Load();
 
+	LCG& GetRandomizator();
+
 private:
 
 	// Call modules before each loop iteration
@@ -105,7 +108,9 @@ public:
 	trTimeManager*		time_manager = nullptr;
 	trFileSystem*		file_system = nullptr;
 	
-	
+	// UID generator
+	math::LCG*			randomizator = nullptr;
+
 private:
 
 	std::list<trModule*>modules;

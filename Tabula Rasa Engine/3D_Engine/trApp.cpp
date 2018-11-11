@@ -25,6 +25,8 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	capped_ms = 1000 / 60;
 	fps_counter = 0;
 
+	randomizator = new math::LCG();
+
 	input = new trInput();
 	window = new trWindow();
 	render = new trRenderer3D();
@@ -66,6 +68,8 @@ trApp::~trApp()
 	}
 
 	modules.clear();
+
+	RELEASE(randomizator);
 }
 
 void trApp::AddModule(trModule* module)
@@ -466,4 +470,9 @@ bool trApp::SaveNow()
 	json_value_free(root_value);
 
 	return ret;
+}
+
+LCG & trApp::GetRandomizator()
+{
+	return *randomizator;
 }
