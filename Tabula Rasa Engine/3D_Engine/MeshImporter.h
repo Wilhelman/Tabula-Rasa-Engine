@@ -43,9 +43,8 @@ private:
 
 	std::vector<float3> scene_vertices;
 	uint scene_num_vertex = 0;
-	AABB model_bouncing_box;
-	GameObject* model_root = nullptr;
 
+	AABB scene_bb;
 };
 
 #endif // __MESH_IMPORTER_H__

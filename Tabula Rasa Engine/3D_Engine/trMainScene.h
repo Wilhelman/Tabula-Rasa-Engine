@@ -66,6 +66,7 @@ private:
 public:
 	Quadtree quadtree;
 	GameObject* main_camera = nullptr;
+	AABB scene_bb;
 	
 
 };

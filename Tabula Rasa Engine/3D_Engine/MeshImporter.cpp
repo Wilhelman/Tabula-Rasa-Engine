@@ -58,7 +58,8 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 	//TODO CHECK PATH
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 
-	if (scene != nullptr) {
+	if (scene != nullptr) 
+	{
 		App->main_scene->ClearScene();
 		// Removing and cleaning the last AABB
 		scene_num_vertex = 0u;
@@ -67,39 +68,27 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 		material_data = nullptr;
 		ImportNodesRecursively(scene->mRootNode, scene, /*App->main_scene->GetRoot(),*/ (char*)path);
 
-		// Camera AABB stuff
-		if (scene->mRootNode->mNumChildren == 1) // if only one mesh, get the bounding_box of the last mesh
-		{ 
-			App->editor->SetSelected(model_root);
-
-			for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++)
-			{
-				if (!(*it)->to_destroy)
-					App->camera->dummy_camera->last_aabb = (*it)->bounding_box;
-			}
-				
-			App->camera->dummy_camera->FocusOnAABB(App->camera->dummy_camera->last_aabb);
-		}
-		else 
-		{ 
-			AABB bounding_box;
-			App->main_scene->GetRoot()->RecalculateBoundingBox();
-			AABB scene_bb;
-			scene_bb.SetNegativeInfinity();
-
-			for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++)
-			{
-				if (!(*it)->to_destroy)
-				{
-					AABB current_bb = (*it)->bounding_box;
-					scene_bb.Enclose(current_bb);
-				}
-			}
-
-			App->camera->dummy_camera->FocusOnAABB(scene_bb);
-		}
-
+		// Calculating global scene AABB for camera focus on load
 		App->main_scene->GetRoot()->RecalculateBoundingBox();
+		scene_bb.SetNegativeInfinity();
+		bool mesh_find = false;
+
+		for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++)
+		{
+			if (!(*it)->to_destroy && (*it)->FindComponentByType(ComponentMesh::COMPONENT_MESH) != nullptr)
+			{
+				AABB current_bb = (*it)->bounding_box;
+				scene_bb.Enclose(current_bb);
+				
+				if (!mesh_find) mesh_find = true;
+			}
+		}
+
+		if (!mesh_find)
+			scene_bb = App->camera->dummy_camera->default_aabb;
+
+		App->main_scene->scene_bb = scene_bb;
+		App->camera->dummy_camera->FocusOnAABB(scene_bb);
 
 		for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++)
 			(*it)->is_static = true;
@@ -113,7 +102,6 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 		aiReleaseImport(scene);
 
 		return true;
-
 	}
 
 	TR_LOG("trFileLoader: Error importing a file: %s", path);

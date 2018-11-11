@@ -40,6 +40,8 @@ bool trMainScene::Awake(JSON_Object* config)
 // Called before the first frame
 bool trMainScene::Start()
 {
+	scene_bb = App->camera->dummy_camera->default_aabb;
+
 	App->camera->dummy_camera->LookAt(float3(0.f, 0.f, 0.f));
 
 	grid = new PGrid();

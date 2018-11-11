@@ -24,7 +24,7 @@ ComponentCamera::ComponentCamera(GameObject * embedded_game_object):
 
 	SetAspectRatio(ASPECT_RATIO);
 
-	last_aabb = AABB(float3(-1.f,-1.f,-1.f),float3(1.f,1.f,1.f));
+	default_aabb = AABB(float3(-1.f,-1.f,-1.f),float3(1.f,1.f,1.f));
 
 	projection_needs_update = true;
 }

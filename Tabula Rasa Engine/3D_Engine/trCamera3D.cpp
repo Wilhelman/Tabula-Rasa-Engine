@@ -86,7 +86,7 @@ bool trCamera3D::Update(float dt)
 	// ----- Camera focus on geometry -----
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) {
-		dummy_camera->FocusOnAABB(dummy_camera->last_aabb);
+		dummy_camera->FocusOnAABB(App->main_scene->scene_bb);
 	}
 	// ----- Camera FPS-like rotation with mouse -----
 

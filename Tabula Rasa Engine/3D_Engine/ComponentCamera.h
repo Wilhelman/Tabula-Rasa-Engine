@@ -29,7 +29,7 @@ public:
 	Frustum frustum;
 	bool projection_needs_update = false;
 	bool frustum_culling = false;
-	AABB last_aabb;
+	AABB default_aabb;
 
 private:
 
