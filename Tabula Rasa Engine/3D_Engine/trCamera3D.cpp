@@ -16,7 +16,6 @@ trCamera3D::trCamera3D() : trModule()
 {
 	this->name = "Camera3D";
 
-	dummy_camera = new ComponentCamera(nullptr);
 }
 
 trCamera3D::~trCamera3D()
@@ -26,6 +25,8 @@ trCamera3D::~trCamera3D()
 
 bool trCamera3D::Awake(JSON_Object* config)
 {
+	dummy_camera = new ComponentCamera(nullptr);
+
 	if (config != nullptr) {
 		rotation_sensitivity = json_object_get_number(config,"rotation_sensitivity"); 
 		orbit_sensitivity = json_object_get_number(config, "orbit_sensitivity");

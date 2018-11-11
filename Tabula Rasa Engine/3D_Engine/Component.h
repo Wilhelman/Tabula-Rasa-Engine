@@ -39,6 +39,7 @@ protected:
 	
 	GameObject* embedded_go = nullptr;
 	component_type type = component_type::COMPONENT_UNKNOWN;
+	int uuid = 0;
 
 };
 
