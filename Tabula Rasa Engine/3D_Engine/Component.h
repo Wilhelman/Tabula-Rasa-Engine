@@ -2,6 +2,7 @@
 #define __COMPONENT_H__
 
 #include "trDefs.h"
+#include "ParsonJson/parson.h"
 
 class GameObject;
 
@@ -27,6 +28,8 @@ public:
 	virtual bool PreUpdate(float dt);
 	virtual bool Update(float dt);
 	virtual bool Disable();
+
+	virtual bool Save(JSON_Array* array)const;
 
 	int GetUUID()const;
 	GameObject* GetEmbeddedObject() const;

@@ -33,6 +33,11 @@ bool Component::Disable()
 	return false;
 }
 
+bool Component::Save(JSON_Array * array) const
+{
+	return true;
+}
+
 int Component::GetUUID() const
 {
 	return uuid;

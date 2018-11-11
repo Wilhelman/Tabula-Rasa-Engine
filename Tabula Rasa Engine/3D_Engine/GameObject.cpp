@@ -62,8 +62,8 @@ bool GameObject::Update(float dt)
 
 bool GameObject::Save(JSON_Array* array)const
 {
-	JSON_Value* root_value;
-	JSON_Object*root_obj;
+	JSON_Value* root_value = nullptr;
+	JSON_Object* root_obj = nullptr;
 	root_value = json_value_init_object();
 	root_obj = json_value_get_object(root_value);
 
@@ -74,14 +74,32 @@ bool GameObject::Save(JSON_Array* array)const
 	json_object_set_number(root_obj, "ParentUUID", (parent) ? parent->GetUUID() : 0);
 	json_object_set_string(root_obj, "Name", name.c_str());
 
+	// COMPONENTS info
+	JSON_Value* array_value = json_value_init_array();
+	JSON_Array * components_array = json_value_get_array(array_value);
+
+	json_object_set_value(root_obj, "Components", array_value);
+
+	for (std::list<Component*>::const_iterator it = components.begin(); it != components.end(); ++it)
+	{
+		JSON_Value* component_value = nullptr;
+		JSON_Object* component_obj = nullptr;
+		component_value = json_value_init_object();
+		component_obj = json_value_get_object(component_value);
+
+		json_object_set_number(component_obj, "Type", (*it)->GetType()); // TODO: Would be cool if instead of number we write the string ...
+
+		//(*it)->Save(components_array);
+
+		json_array_append_value(components_array, json_value_deep_copy(component_value));
+	}
 
 	json_array_append_value(array, json_value_deep_copy(root_value));
 
-	// Recursively all children
+	// Iterate for all children
 	for (std::list<GameObject*>::const_iterator it = childs.begin(); it != childs.end(); ++it)
-	{
 		(*it)->Save(array);
-	}
+
 	return true;
 }
 

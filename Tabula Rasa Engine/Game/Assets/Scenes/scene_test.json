@@ -1,1 +1,1 @@
-{"Name":"Unnamed Scene","Game Objects":[{"UUID":1398441794,"ParentUUID":698401032,"Name":"Main Camera"},{"UUID":853744534,"ParentUUID":698401032,"Name":"Chimney"},{"UUID":32338375,"ParentUUID":853744534,"Name":"Baker_house"}]}
+{"Name":"Unnamed Scene","Game Objects":[{"UUID":1398441794,"ParentUUID":698401032,"Name":"Main Camera","Components":[{"Type":1},{"Type":4}]},{"UUID":853744534,"ParentUUID":698401032,"Name":"Chimney","Components":[{"Type":1},{"Type":2}]},{"UUID":32338375,"ParentUUID":698401032,"Name":"Baker_house","Components":[{"Type":1},{"Type":2}]}]}
