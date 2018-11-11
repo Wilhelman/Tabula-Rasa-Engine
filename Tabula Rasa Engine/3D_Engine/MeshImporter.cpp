@@ -16,6 +16,8 @@
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
 
+#include "DebugDraw.h"
+
 #include "MathGeoLib/MathGeoLib.h"
 
 #include "MaterialImporter.h"
@@ -66,17 +68,25 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 		ImportNodesRecursively(scene->mRootNode, scene, /*App->main_scene->GetRoot(),*/ (char*)path);
 
 		// Camera AABB stuff
-		if (scene->mRootNode->mNumChildren == 1) { // if only one mesh, get the bounding_box of the last mesh
+		if (scene->mRootNode->mNumChildren == 1) // if only one mesh, get the bounding_box of the last mesh
+		{ 
 			App->editor->SetSelected(model_root);
 			App->camera->dummy_camera->FocusOnAABB(App->camera->dummy_camera->last_aabb);
 		}
-		else { // get the bouncing of all the meshes
-			//model_bouncing_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
-			//model_bouncing_box.Enclose((float3*)&scene_vertices.front(), scene_num_vertex);
-			//	model_root->bounding_box = model_bouncing_box;
-			//	App->editor->SetSelected(model_root);
-			// TODO: calculate it better
-			App->camera->dummy_camera->FocusOnAABB(App->camera->dummy_camera->last_aabb);
+		else 
+		{ 
+			AABB bounding_box;
+
+			AABB scene_bb;
+			scene_bb.SetNegativeInfinity();
+
+			for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++)
+			{
+				AABB current_bb = (*it)->bounding_box;
+				scene_bb.Enclose(current_bb);
+			}
+
+			App->camera->dummy_camera->FocusOnAABB(scene_bb);
 		}
 
 		App->main_scene->GetRoot()->RecalculateBoundingBox();
@@ -450,7 +460,6 @@ bool MeshImporter::LoadMeshFile(const char* file_name, const char * file_path)
 
 	ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
 	mesh_comp->SetMesh(resource);
-
 
 	RELEASE_ARRAY(buffer);
 

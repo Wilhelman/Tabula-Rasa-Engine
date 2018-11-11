@@ -197,7 +197,9 @@ void trMainScene::TestAgainstRay(LineSegment line_segment)
 	CollectDinamicGOs(intersect_dynamic_vec);
 
 	/* Checking if these dynamic gameobjects are inside the fustrum. If so, checking if they intersect with the line
-	   segment; in that case, we put them in our map along with their hit distance. */
+	   segment; in that case, we put them in our map along with their hit distance. As we use a map (with hit distance 
+	   value as key) it is already ordered in ascending order by default. This means the gameobjects are already sorted 
+	   by their AABBs distance to the camera, so we will check first the closer gameobjects to speed up the process. */
 	for (uint i = 0; i < intersect_dynamic_vec.size(); i++)
 	{
 		AABB current_bounding_box = intersect_dynamic_vec[i]->bounding_box;
@@ -256,7 +258,7 @@ void trMainScene::TestAgainstRay(LineSegment line_segment)
 						// If triangle intersects we neeed to check if it's the closest one of all of them
 						if (hit_distance < min_distance)
 						{
-							// If it is we save its hit point (unless another triangle is closer int next lap)
+							// If it is we save its hit distance (unless another triangle is closer in next lap)
 							min_distance = hit_distance;
 							selected_go = it_map->second;
 						}
