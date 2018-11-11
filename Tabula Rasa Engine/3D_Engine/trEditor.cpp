@@ -149,12 +149,15 @@ bool trEditor::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
 		show_imgui = !show_imgui;
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-		guizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
-	else if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
-		guizmo_operation = ImGuizmo::OPERATION::ROTATE;
-	else if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
-		guizmo_operation = ImGuizmo::OPERATION::SCALE;
+	if (!ImGuizmo::IsUsing())
+	{
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+			guizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
+		else if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+			guizmo_operation = ImGuizmo::OPERATION::ROTATE;
+		else if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+			guizmo_operation = ImGuizmo::OPERATION::SCALE;
+	}
 
 	if (!show_imgui)
 		return true;
