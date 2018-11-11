@@ -71,19 +71,29 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 		if (scene->mRootNode->mNumChildren == 1) // if only one mesh, get the bounding_box of the last mesh
 		{ 
 			App->editor->SetSelected(model_root);
+
+			for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++)
+			{
+				if (!(*it)->to_destroy)
+					App->camera->dummy_camera->last_aabb = (*it)->bounding_box;
+			}
+				
 			App->camera->dummy_camera->FocusOnAABB(App->camera->dummy_camera->last_aabb);
 		}
 		else 
 		{ 
 			AABB bounding_box;
-
+			App->main_scene->GetRoot()->RecalculateBoundingBox();
 			AABB scene_bb;
 			scene_bb.SetNegativeInfinity();
 
 			for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++)
 			{
-				AABB current_bb = (*it)->bounding_box;
-				scene_bb.Enclose(current_bb);
+				if (!(*it)->to_destroy)
+				{
+					AABB current_bb = (*it)->bounding_box;
+					scene_bb.Enclose(current_bb);
+				}
 			}
 
 			App->camera->dummy_camera->FocusOnAABB(scene_bb);
