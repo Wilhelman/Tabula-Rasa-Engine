@@ -9,6 +9,7 @@
 #include "trLog.h"
 #include "SDL/include/SDL.h"
 #include "MathGeoLib/Algorithm/Random/LCG.h"
+#include "pcg/pcg_variants.h"
 
 // Modules
 class trWindow;
@@ -72,8 +73,6 @@ public:
 	void Save();
 	void Load();
 
-	LCG& GetRandomizator();
-
 private:
 
 	// Call modules before each loop iteration
@@ -107,9 +106,9 @@ public:
 	trFileLoader*		file_loader = nullptr;
 	trTimeManager*		time_manager = nullptr;
 	trFileSystem*		file_system = nullptr;
-	
-	// UID generator
-	math::LCG*			randomizator = nullptr;
+
+	//LCG*				gen_uuid = nullptr;
+	pcg32_random_t		gen_uuid;
 
 private:
 
@@ -136,8 +135,6 @@ private:
 	int					last_fps = 0;
 	int					capped_ms = 0;
 	bool				cap_fps = true;
-
-
 
 };
 

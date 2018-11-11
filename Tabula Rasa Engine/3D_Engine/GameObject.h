@@ -46,7 +46,7 @@ private:
 	std::string name;
 	GameObject* parent = nullptr;
 	ComponentTransform* transform = nullptr; //Always should have one
-	uint uuid = 0u;
+	int uuid = 0;
 
 public:
 

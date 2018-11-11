@@ -340,6 +340,16 @@ bool trRenderer3D::Load(const JSON_Object * config)
 				TR_LOG("Renderer3D: vSync DISABLED");
 		}
 	}
+
+	SwitchWireframeMode(wireframe);
+	SwitchDepthMode(depth_test);
+	SwitchFaceCulling(cull_face);
+	SwitchLighting(lighting);
+	SwitchColorMaterial(color_material);
+	SwitchTexture2D(texture_2D);
+
+	// Projection matrix for
+	OnResize(App->window->GetWidth(), App->window->GetHeight());
 	return true;
 }
 

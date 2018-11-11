@@ -12,13 +12,17 @@
 
 #include "Event.h"
 
+#include <algorithm>
+#include "pcg/pcg_variants.h"
+
 // ---------------------------------------------------------
 GameObject::GameObject()
 {}
 
 GameObject::GameObject(const char * name, GameObject * parent)
 {
-	//this->uuid = App->randomizator->Int();
+	this->uuid = pcg32_random_r(&App->gen_uuid);
+	TR_LOG("UUID %i", uuid);
 	this->name = name;
 	this->parent = parent;
 

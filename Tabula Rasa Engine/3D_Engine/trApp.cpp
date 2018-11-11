@@ -68,8 +68,6 @@ trApp::~trApp()
 	}
 
 	modules.clear();
-
-	RELEASE(randomizator);
 }
 
 void trApp::AddModule(trModule* module)
@@ -481,9 +479,4 @@ bool trApp::SaveNow()
 	json_value_free(root_value);
 
 	return ret;
-}
-
-LCG & trApp::GetRandomizator()
-{
-	return *randomizator;
 }
