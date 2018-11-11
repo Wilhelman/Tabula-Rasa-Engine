@@ -420,8 +420,19 @@ bool trApp::LoadNow()
 		}
 		json_value_free(root_value);
 	}
-	else
+	else {
 		TR_LOG("trApp: Error loading settings.json file");
+		for (std::list<trModule*>::iterator it = modules.begin(); it != modules.end() && ret == true; it++)
+		{
+			trModule* pModule = (*it);
+
+			if (pModule->active == false) {
+				continue;
+			}
+			ret = (*it)->Load();
+		}
+	}
+		
 	
 	
 	return ret;

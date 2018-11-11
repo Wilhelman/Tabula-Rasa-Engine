@@ -116,7 +116,24 @@ bool trWindow::CleanUp()
 
 bool trWindow::Load(const JSON_Object * config)
 {
-
+	if (config != nullptr) {
+		this->SetWidth(json_object_get_number(config, "width"));
+		this->SetHeight(json_object_get_number(config, "height"));
+		this->SetScale(json_object_get_number(config, "scale"));
+		this->SetFullscreen(json_object_get_boolean(config, "fullscreen"));
+		this->SetResizable(json_object_get_boolean(config, "resizable"));
+		this->SetBorderless(json_object_get_boolean(config, "borderless"));
+		this->SetFullscreenWindowed(json_object_get_boolean(config, "fullscreen_window"));
+	}
+	else {
+		this->SetWidth(W_WIDTH);
+		this->SetHeight(W_HEIGHT);
+		this->SetScale(W_SCALE);
+		this->SetFullscreen(W_FULLSCREEN);
+		this->SetResizable(W_RESIZABLE);
+		this->SetBorderless(W_BORDERLESS);
+		this->SetFullscreenWindowed(W_FULLSCREEN_DESKTOP);
+	}
 	return true;
 }
 
@@ -126,8 +143,8 @@ bool trWindow::Save(JSON_Object * config) const
 	json_object_set_number(config, "height", height);
 	json_object_set_number(config, "scale", scale);
 	json_object_set_boolean(config, "fullscreen", fullscreen);
-	json_object_set_boolean(config, "borderless", resizable);
-	json_object_set_boolean(config, "resizable", borderless);
+	json_object_set_boolean(config, "borderless", borderless);
+	json_object_set_boolean(config, "resizable", resizable);
 	json_object_set_boolean(config, "fullscreen_window", fullscreen_desktop);
 
 	return true;
@@ -206,8 +223,8 @@ void trWindow::SetResizable(bool resizable)
 void trWindow::SetBorderless(bool borderless)
 {
 	this->borderless = borderless;
-
-	SDL_SetWindowBordered(window, (SDL_bool)borderless);
+	if(borderless)
+		SDL_SetWindowBordered(window, (SDL_bool)borderless);
 }
 
 void trWindow::SetFullscreenWindowed(bool fullscreen_desktop)

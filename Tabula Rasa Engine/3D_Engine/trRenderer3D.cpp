@@ -290,6 +290,56 @@ bool trRenderer3D::CleanUp()
 
 bool trRenderer3D::Load(const JSON_Object * config)
 {
+	if (config != nullptr) {
+		wireframe = json_object_get_boolean(config, "wireframe");
+		depth_test = json_object_get_boolean(config, "depth_test");
+		cull_face = json_object_get_boolean(config, "cull_face");
+		lighting = json_object_get_boolean(config, "lighting");
+		z_buffer = json_object_get_boolean(config, "z_buffer");
+		color_material = json_object_get_boolean(config, "color_material");
+		texture_2D = json_object_get_boolean(config, "texture_2D");
+		vsync_toogle = json_object_get_boolean(config, "vsync");
+		if (vsync_toogle) {
+			if (SDL_GL_SetSwapInterval(1) < 0) {
+				TR_LOG("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
+				vsync_toogle = false;
+			}
+			else
+				TR_LOG("Renderer3D: vSync ENABLED");
+
+		}
+		else {
+			if (SDL_GL_SetSwapInterval(0) < 0)
+				TR_LOG("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
+			else
+				TR_LOG("Renderer3D: vSync DISABLED");
+		}
+	}
+	else {
+		wireframe = R_WIREFRAME;
+		depth_test = R_DEPTH_TEST;
+		cull_face = R_CULL_FACE;
+		lighting = R_LIGHTING;
+		z_buffer = R_ZBUFFER;
+		color_material = R_COLOR_MATERIAL;
+		texture_2D = R_TEXTURE_2D;
+		vsync_toogle = R_VSYNC;
+		if (vsync_toogle) {
+			if (SDL_GL_SetSwapInterval(1) < 0) {
+				TR_LOG("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
+				vsync_toogle = false;
+			}
+			else
+				TR_LOG("Renderer3D: vSync ENABLED");
+
+		}
+		else {
+			if (SDL_GL_SetSwapInterval(0) < 0)
+				TR_LOG("Renderer3D: Warning: Unable to set VSync!SDL Error : %s\n", SDL_GetError());
+			else
+				TR_LOG("Renderer3D: vSync DISABLED");
+		}
+	}
 	return true;
 }
 
