@@ -16,7 +16,16 @@ bool trFileSystem::Awake(JSON_Object * config)
 {
 	// Initializing PhysFS library
 	TR_LOG("trFileSystem: initializing PhysFS library...\n");
-	PHYSFS_init(nullptr);
+
+	bool ret = true;
+
+	if (PHYSFS_init(nullptr) != 0)
+		TR_LOG("trFileSystem: success on initializing PhysFS \n");
+	else
+	{
+		ret = false;
+		TR_LOG("trFileSystem: error initializing PhysFS: %s \n", PHYSFS_getLastError());
+	}	
 
 	TR_LOG("trFileSystem: setting search directories...\n");
 
@@ -26,8 +35,6 @@ bool trFileSystem::Awake(JSON_Object * config)
 
 	// Setting game directory to write in it
 	PHYSFS_setWriteDir(".");
-
-	// TODO: here we should create all the needed directories here
 
 	return true;
 }
@@ -62,6 +69,31 @@ bool trFileSystem::DoesFileExist(const char * file_name) const
 		ret = true;
 
 	return ret;
+}
+
+bool trFileSystem::DoesDirExist(const char * dir_name) const
+{
+	bool ret = true;
+	PHYSFS_Stat* stat = nullptr;
+
+	if (PHYSFS_stat(dir_name, stat) != 0)
+		TR_LOG("trFileSystem: directory %s found\n", dir_name);
+	else
+	{
+		ret = false;
+		TR_LOG("trFileSystem: directory %s not found\n", dir_name);
+	}
+
+	return ret;
+}
+
+char** trFileSystem::GetFilesFromDir(const char * dir_name) const
+{
+	char **rc = PHYSFS_enumerateFiles(dir_name);
+
+	PHYSFS_freeList(rc);
+
+	return rc;
 }
 
 bool trFileSystem::AddNewPath(const char * path)

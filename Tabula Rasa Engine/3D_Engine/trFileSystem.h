@@ -17,8 +17,13 @@ public:
 	bool CleanUp();
 
 	bool DoesFileExist(const char* file_name) const;
+	bool DoesDirExist(const char* dir_name) const;
+
+	char** GetFilesFromDir(const char* dir_name) const;
+
 	bool WriteInFile(const char* file_name, char* buffer, uint size) const;
 	uint ReadFromFile(const char* file_name, char** buffer);
+	
 	bool MakeNewDir(const char* dir_name);
 	bool DeleteFileDir(const char* file_dir_name);
 		
