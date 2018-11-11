@@ -38,7 +38,9 @@ public:
 
 	// Load / Save
 	bool Load(const JSON_Object* config = nullptr);
-	bool Save(JSON_Object* config = nullptr) const;
+	bool Save(JSON_Object* config = nullptr)const;
+
+	bool SerializeScene();
 
 	GameObject* GetRoot()const;
 

@@ -373,6 +373,9 @@ void trApp::SetFpsCap(uint max_framerate)
 void trApp::SwitchRunTime()
 {
 	run_time = !run_time;
+	if (run_time) {
+		App->main_scene->SerializeScene();
+	}
 }
 
 bool trApp::IsRunTime() const

@@ -11,6 +11,8 @@
 
 #include "GameObject.h"
 #include "DebugDraw.h"
+#include <iostream> 
+#include <stdio.h>
 
 trMainScene::trMainScene() : trModule()
 {
@@ -125,33 +127,44 @@ bool trMainScene::Load(const JSON_Object* config)
 }
 
 // Save Game State
-bool trMainScene::Save(JSON_Object* config) const
+bool trMainScene::Save(JSON_Object* config)const 
+{
+
+	return true;
+}
+
+bool trMainScene::SerializeScene()
 {
 	// TODO save all gos
-
-	JSON_Value* vroot = nullptr;
-	JSON_Object* root = nullptr;
+	JSON_Value* root_value = nullptr;
+	JSON_Object* root_obj = nullptr;
 	JSON_Array* array = nullptr;
 
-	vroot = json_parse_string("Scene");
+	root_value = json_value_init_object();
 
 	// Scene stuff
-	root = json_value_get_object(vroot);
-	json_object_set_string(root, "Name", "Unnamed Scene");
+	root_obj = json_value_get_object(root_value);
+	json_object_set_string(root_obj, "Name", "Unnamed Scene");
 
 	/// todo save camera editor stuff
 
 	// Go's stuff
-	JSON_Value* va = json_value_init_array();
-	array = json_value_get_array(va);
-	json_object_set_value(root, "Game Objects", va);
+	JSON_Value* go_value = json_value_init_array();
+	array = json_value_get_array(go_value);
+	json_object_set_value(root_obj, "Game Objects", go_value);
 
 	/// Iterating between all gos
-	
-	/*for (std::list<GameObject*>::const_iterator it = root->childs.begin(); it != root->childs.end(); ++it) {
 
-	}*/
-	
+	for (std::list<GameObject*>::const_iterator it = root->childs.begin(); it != root->childs.end(); it++) {
+
+	}
+	char *serialized_string = NULL;
+
+	serialized_string = json_serialize_to_string_pretty(root_value);
+	puts(serialized_string);
+	json_serialize_to_file(root_value, "Assets/Scenes/scene_test.json");
+	json_free_serialized_string(serialized_string);
+	json_value_free(root_value);
 
 	return true;
 }
