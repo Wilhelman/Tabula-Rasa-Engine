@@ -327,7 +327,7 @@ void trEditor::DisplayGuizmos()
 						 current_guizmo_mode,
 					 	 transform_matrix.ptr()); 
 
-	if (ImGuizmo::IsUsing())
+	if (ImGuizmo::IsUsing() && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_IDLE)
 	{
 		float3 new_pos;
 		Quat new_rot;
