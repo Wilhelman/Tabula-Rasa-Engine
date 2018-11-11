@@ -162,7 +162,7 @@ bool trMainScene::SerializeScene()
 
 	serialized_string = json_serialize_to_string_pretty(root_value);
 	puts(serialized_string);
-	json_serialize_to_file(root_value, "Assets/Scenes/scene_test.json");
+	json_serialize_to_file(root_value, "Assets/Scenes/scene_test.trScene");
 	json_free_serialized_string(serialized_string);
 	json_value_free(root_value);
 

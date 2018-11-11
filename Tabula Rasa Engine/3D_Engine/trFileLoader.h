@@ -25,6 +25,8 @@ public:
 	bool CleanUp();
 
 	void ImportFBX(const char* file_path);
+	void ImportTexture(const char* file_path);
+	void ImportScene(const char* file_path);
 
 	bool LoadMeshFile(const char* file_path);
 

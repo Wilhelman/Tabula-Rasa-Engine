@@ -57,6 +57,20 @@ void trFileLoader::ImportFBX(const char* file_path)
 
 }
 
+void trFileLoader::ImportTexture(const char * file_path)
+{
+	// TODO: copy paste FBX file to Assets/
+
+	// Then get the file_path from de Assets continue
+}
+
+void trFileLoader::ImportScene(const char * file_path)
+{
+	// TODO: copy paste FBX file to Assets/
+
+	// Then get the file_path from de Assets continue
+}
+
 
 bool trFileLoader::LoadMeshFile(const char* file_path)
 {
