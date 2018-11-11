@@ -44,18 +44,29 @@ void PanelResources::DrawAssets(std::string dir_name)
 	assets_dir.append("/");
 	App->file_system->GetFilesFromDir(assets_dir.c_str(), file_list, dir_list);
 
-	ImGuiTreeNodeFlags_ node_flag = ImGuiTreeNodeFlags_None;
-
-	/*if (dir_list.empty())
-		node_flag = ImGuiTreeNodeFlags_Leaf;*/
-
 	for (std::list<std::string>::iterator it_dir = dir_list.begin(); it_dir != dir_list.end(); it_dir++)
 	{
-		if (ImGui::TreeNodeEx((*it_dir).c_str(), node_flag))
+		if (ImGui::TreeNodeEx((*it_dir).c_str()))
 		{
 			std::string tmp_dir = assets_dir;
 			tmp_dir.append((*it_dir).c_str());
 			DrawAssets(tmp_dir);
+			ImGui::TreePop();
+		}
+	}
+
+	for (std::list<std::string>::iterator it_file = file_list.begin(); it_file != file_list.end(); it_file++)
+	{
+		if (ImGui::TreeNodeEx((*it_file).c_str(), ImGuiTreeNodeFlags_Leaf))
+		{
+			if (ImGui::IsItemClicked()) 
+			{
+				if (ImGui::IsItemClicked(0))
+				{
+					// TODO: show import config window
+				}
+			}
+
 			ImGui::TreePop();
 		}
 	}
