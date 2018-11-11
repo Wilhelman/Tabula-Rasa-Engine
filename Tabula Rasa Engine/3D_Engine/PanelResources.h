@@ -12,11 +12,7 @@ public:
 	virtual ~PanelResources();
 
 	void Draw() override;
-	void DrawAssets(std::string asset_name);
-
-private:
-	std::list<std::string> file_list;
-	std::list<std::string> dir_list;
+	void DrawAssets(std::string dir_name);
 };
 
 #endif// __PANELABOUT_H__
