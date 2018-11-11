@@ -146,7 +146,7 @@ bool trMainScene::SerializeScene()
 	root_obj = json_value_get_object(root_value);
 	json_object_set_string(root_obj, "Name", "Unnamed Scene");
 
-	/// todo save camera editor stuff
+	/// todo save camera editor stuff if needed
 
 	// Go's stuff
 	JSON_Value* go_value = json_value_init_array();
@@ -154,10 +154,10 @@ bool trMainScene::SerializeScene()
 	json_object_set_value(root_obj, "Game Objects", go_value);
 
 	/// Iterating between all gos
-
 	for (std::list<GameObject*>::const_iterator it = root->childs.begin(); it != root->childs.end(); it++) {
-
+		(*it)->Save(array);
 	}
+
 	char *serialized_string = NULL;
 
 	serialized_string = json_serialize_to_string_pretty(root_value);

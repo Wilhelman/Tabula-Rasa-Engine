@@ -60,6 +60,31 @@ bool GameObject::Update(float dt)
 	return true;
 }
 
+bool GameObject::Save(JSON_Array* array)const
+{
+	JSON_Value* root_value;
+	JSON_Object*root_obj;
+	root_value = json_value_init_object();
+	root_obj = json_value_get_object(root_value);
+
+	// TODO check duplicate error
+
+	// GO info
+	json_object_set_number(root_obj, "UUID", uuid);
+	json_object_set_number(root_obj, "ParentUUID", (parent) ? parent->GetUUID() : 0);
+	json_object_set_string(root_obj, "Name", name.c_str());
+
+
+	json_array_append_value(array, json_value_deep_copy(root_value));
+
+	// Recursively all children
+	for (std::list<GameObject*>::const_iterator it = childs.begin(); it != childs.end(); ++it)
+	{
+		(*it)->Save(array);
+	}
+	return true;
+}
+
 // ---------------------------------------------------------
 Component * GameObject::CreateComponent(Component::component_type type)
 {

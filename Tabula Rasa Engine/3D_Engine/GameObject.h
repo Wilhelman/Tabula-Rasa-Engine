@@ -7,6 +7,7 @@
 #include "ComponentTransform.h"
 
 #include "MathGeoLib/MathGeoLib.h"
+#include "ParsonJson/parson.h"
 
 #include <string>
 #include <list>
@@ -20,6 +21,8 @@ public:
 
 	bool PreUpdate(float dt);
 	bool Update(float dt);
+
+	bool Save(JSON_Array* array)const;
 
 	Component* CreateComponent(Component::component_type type);
 	Component* CreateComponent(Component::component_type type, Component* component);
