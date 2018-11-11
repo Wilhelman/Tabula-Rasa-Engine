@@ -6,11 +6,6 @@
 
 struct Mesh
 {
-	math::float3 position;
-	math::float3 scale;
-	math::float3 rotation;
-
-	std::string name;
 	std::string path;
 
 	uint index_buffer = 0u;
@@ -38,7 +33,7 @@ public:
 	ComponentMesh(GameObject* embedded_game_object, Mesh* mesh);
 	~ComponentMesh();
 
-	bool Save(JSON_Array* array, JSON_Object* component_obj)const;
+	bool Save(JSON_Object* component_obj)const;
 
 	void GenerateAndBindMesh(Mesh* mesh);
 

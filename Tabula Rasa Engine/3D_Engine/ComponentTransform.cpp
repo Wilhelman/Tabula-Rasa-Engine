@@ -22,7 +22,7 @@ ComponentTransform::~ComponentTransform()
 {
 }
 
-bool ComponentTransform::Save(JSON_Array * array, JSON_Object* component_obj) const
+bool ComponentTransform::Save(JSON_Object* component_obj) const
 {
 	// Translation
 	JSON_Value* component_value = json_value_init_array();

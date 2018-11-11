@@ -29,7 +29,7 @@ public:
 	virtual bool Update(float dt);
 	virtual bool Disable();
 
-	virtual bool Save(JSON_Array* array, JSON_Object* component_obj)const;
+	virtual bool Save(JSON_Object* component_obj)const;
 
 	int GetUUID()const;
 	GameObject* GetEmbeddedObject() const;

@@ -458,6 +458,12 @@ bool MeshImporter::LoadMeshFile(const char* file_name, const char * file_path)
 
 	ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
 	mesh_comp->SetMesh(resource);
+	Mesh* mesh = (Mesh*)mesh_comp->GetMesh();
+	std::string tmp_str(MESH_DIR);
+	tmp_str.append("/");
+	tmp_str.append(file_name);
+	tmp_str.append(".trMesh");
+	mesh->path = tmp_str;
 
 	RELEASE_ARRAY(buffer);
 

@@ -33,7 +33,7 @@ bool Component::Disable()
 	return false;
 }
 
-bool Component::Save(JSON_Array * array, JSON_Object* component_obj) const
+bool Component::Save(JSON_Object* component_obj) const
 {
 	return true;
 }

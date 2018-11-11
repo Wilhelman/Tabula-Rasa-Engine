@@ -16,7 +16,7 @@ ComponentMaterial::~ComponentMaterial()
 	RELEASE(texture);
 }
 
-bool ComponentMaterial::Save(JSON_Array * array, JSON_Object* component_obj) const
+bool ComponentMaterial::Save(JSON_Object* component_obj) const
 {
 	return true;
 }

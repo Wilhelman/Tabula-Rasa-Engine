@@ -33,7 +33,7 @@ ComponentCamera::~ComponentCamera()
 {
 }
 
-bool ComponentCamera::Save(JSON_Array * array, JSON_Object* component_obj) const
+bool ComponentCamera::Save(JSON_Object* component_obj) const
 {
 	return true;
 }

@@ -25,8 +25,9 @@ ComponentMesh::~ComponentMesh()
 	delete this->mesh;
 }
 
-bool ComponentMesh::Save(JSON_Array * array, JSON_Object* component_obj) const
+bool ComponentMesh::Save(JSON_Object* component_obj) const
 {
+	json_object_set_string(component_obj, "path", mesh->path.c_str());
 	return true;
 }
 
@@ -67,7 +68,6 @@ Mesh::~Mesh()
 	if (vertices != nullptr) { delete[] vertices; vertices = nullptr; }
 	if (uvs != nullptr) { delete[] uvs; uvs = nullptr; }
 
-	name.clear();
 	path.clear();
 
 	glDeleteBuffers(1, (GLuint*)&index_buffer);

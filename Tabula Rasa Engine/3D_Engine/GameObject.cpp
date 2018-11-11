@@ -89,7 +89,7 @@ bool GameObject::Save(JSON_Array* array)const
 
 		json_object_set_number(component_obj, "Type", (*it)->GetType()); // TODO: Would be cool if instead of number we write the string ...
 
-		(*it)->Save(components_array, component_obj);
+		(*it)->Save(component_obj);
 
 		json_array_append_value(components_array, json_value_deep_copy(component_value));
 	}
