@@ -3,6 +3,7 @@
 
 #include "trModule.h"
 
+
 struct PHYSFS_File;
 
 
@@ -19,7 +20,7 @@ public:
 	bool DoesFileExist(const char* file_name) const;
 	bool DoesDirExist(const char* dir_name) const;
 
-	char** GetFilesFromDir(const char* dir_name) const;
+	void GetFilesFromDir(const char* dir_name, std::list<std::string>& file_list, std::list<std::string>& dir_list) const;
 
 	bool WriteInFile(const char* file_name, char* buffer, uint size) const;
 	uint ReadFromFile(const char* file_name, char** buffer);

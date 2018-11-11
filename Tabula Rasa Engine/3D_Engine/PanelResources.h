@@ -15,7 +15,8 @@ public:
 	void DrawAssets(std::string asset_name);
 
 private:
-	std::list<std::string> file_names_list;
+	std::list<std::string> file_list;
+	std::list<std::string> dir_list;
 };
 
 #endif// __PANELABOUT_H__

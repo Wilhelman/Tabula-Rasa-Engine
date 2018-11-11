@@ -74,9 +74,8 @@ bool trFileSystem::DoesFileExist(const char * file_name) const
 bool trFileSystem::DoesDirExist(const char * dir_name) const
 {
 	bool ret = true;
-	PHYSFS_Stat* stat = nullptr;
 
-	if (PHYSFS_stat(dir_name, stat) != 0)
+	if (PHYSFS_isDirectory(dir_name) != 0)
 		TR_LOG("trFileSystem: directory %s found\n", dir_name);
 	else
 	{
@@ -87,13 +86,26 @@ bool trFileSystem::DoesDirExist(const char * dir_name) const
 	return ret;
 }
 
-char** trFileSystem::GetFilesFromDir(const char * dir_name) const
+void trFileSystem::GetFilesFromDir(const char* dir_name, std::list<std::string>& file_list, std::list<std::string>& dir_list) const
 {
 	char **rc = PHYSFS_enumerateFiles(dir_name);
 
-	PHYSFS_freeList(rc);
+	if (rc == nullptr)
+		TR_LOG("Directory %s not found", dir_name);
+	else
+	{
+		std::string directory = dir_name;
 
-	return rc;
+		for (char** i = rc; *i != nullptr; i++)
+		{
+			if (DoesDirExist((directory + *i).c_str()))
+				dir_list.push_back(*i);
+			else
+				file_list.push_back(*i);
+		}
+	}
+
+	PHYSFS_freeList(rc);
 }
 
 bool trFileSystem::AddNewPath(const char * path)
