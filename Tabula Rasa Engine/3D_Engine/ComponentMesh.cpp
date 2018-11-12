@@ -22,7 +22,7 @@ ComponentMesh::ComponentMesh(GameObject * embedded_game_object, Mesh* mesh) :
 
 ComponentMesh::~ComponentMesh()
 {
-	delete this->mesh;
+	RELEASE(mesh);
 }
 
 bool ComponentMesh::Save(JSON_Object* component_obj) const

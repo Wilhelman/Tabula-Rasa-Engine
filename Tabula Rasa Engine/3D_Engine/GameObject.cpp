@@ -25,7 +25,11 @@ GameObject::GameObject(const char * name, GameObject * parent)
 		this->uuid = pcg32_random_r(&App->gen_uuid);
 	else
 		this->uuid = 0;
+	
 	this->name = name;
+	if (this->name.compare("Main Camera") == 0)
+		this->name = "Main Camera(Not really)";
+
 	this->parent = parent;
 
 	this->is_static = true;
@@ -116,6 +120,29 @@ bool GameObject::Load(JSON_Object * go_obj, std::map<GameObject*, int>& uuid_rel
 
 	go_value = json_object_get_value(go_obj, "Name");
 	name = json_value_get_string(go_value);
+	if (name.compare("Main Camera") == 0) {
+		App->main_scene->main_camera = this;
+	}
+
+	// Get Components Array
+	JSON_Array* array = json_object_get_array(go_obj, "Components");
+	if (array != nullptr) {
+		uint components_size = json_array_get_count(array);
+
+		for (uint i = 0u; i < components_size; ++i)
+		{
+			JSON_Object* component_obj = json_array_get_object(array, i);
+			JSON_Value* component_value = json_object_get_value(component_obj, "Type");
+			Component::component_type co_type = (Component::component_type)(int)json_value_get_number(component_value);
+
+			if (co_type != Component::component_type::COMPONENT_UNKNOWN)
+			{
+				Component* component = CreateComponent(co_type);
+
+				//component->OnLoad(&component_conf);
+			}
+		}
+	}
 
 	return true;
 }
