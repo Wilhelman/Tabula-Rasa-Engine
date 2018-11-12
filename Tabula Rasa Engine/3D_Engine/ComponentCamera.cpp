@@ -42,10 +42,36 @@ bool ComponentCamera::Save(JSON_Object* component_obj) const
 	json_array_append_number(translation_array, frustum.pos.y);
 	json_array_append_number(translation_array, frustum.pos.z);
 
+	json_object_set_boolean(component_obj, "F_Culling", frustum_culling);
 	json_object_set_number(component_obj, "F_Near", frustum.nearPlaneDistance);
 	json_object_set_number(component_obj, "F_Far", frustum.farPlaneDistance);
 	json_object_set_number(component_obj, "F_HorizontalFov", frustum.horizontalFov);
 	json_object_set_number(component_obj, "F_VerticalFov", frustum.verticalFov);
+
+	return true;
+}
+
+bool ComponentCamera::Load(const JSON_Object * component_obj)
+{
+	// Translation
+	JSON_Array* array = json_object_get_array(component_obj, "F_Position");
+	JSON_Value* value = json_array_get_value(array, 0);
+	frustum.pos.x = json_value_get_number(value);
+	value = json_array_get_value(array, 1);
+	frustum.pos.y = json_value_get_number(value);
+	value = json_array_get_value(array, 2);
+	frustum.pos.z = json_value_get_number(value);
+
+	value = json_object_get_value(component_obj, "F_Culling");
+	frustum_culling = json_value_get_boolean(value);
+	value = json_object_get_value(component_obj, "F_Near");
+	frustum.nearPlaneDistance = json_value_get_number(value);
+	value = json_object_get_value(component_obj, "F_Far");
+	frustum.farPlaneDistance = json_value_get_number(value);
+	value = json_object_get_value(component_obj, "F_HorizontalFov");
+	frustum.horizontalFov = json_value_get_number(value);
+	value = json_object_get_value(component_obj, "F_VerticalFov");
+	frustum.verticalFov = json_value_get_number(value);
 
 	return true;
 }

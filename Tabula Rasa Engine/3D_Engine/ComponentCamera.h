@@ -14,6 +14,7 @@ public:
 	~ComponentCamera();
 
 	bool Save(JSON_Object* component_obj)const;
+	bool Load(const JSON_Object* component_obj);
 
 	bool PreUpdate(float dt);
 

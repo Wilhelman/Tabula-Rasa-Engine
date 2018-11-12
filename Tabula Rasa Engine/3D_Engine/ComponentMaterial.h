@@ -20,6 +20,7 @@ public:
 	~ComponentMaterial();
 
 	bool Save(JSON_Object* component_obj)const;
+	bool Load(const JSON_Object* component_obj);
 
 	void SetAmbientColor(float4 ambient_color);
 	const float4 GetAmbientColor()const;

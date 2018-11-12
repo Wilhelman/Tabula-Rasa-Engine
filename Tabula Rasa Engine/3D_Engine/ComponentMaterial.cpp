@@ -23,6 +23,18 @@ bool ComponentMaterial::Save(JSON_Object* component_obj) const
 	return true;
 }
 
+bool ComponentMaterial::Load(const JSON_Object * component_obj)
+{
+	bool ret = true;
+
+	JSON_Value* value = json_object_get_value(component_obj, "path");
+	const char* file_path = json_value_get_string(value);
+
+	// TODO: When resource is done ...
+
+	return ret;
+}
+
 void ComponentMaterial::SetAmbientColor(float4 ambient_color)
 {
 	this->ambient_color = ambient_color;
