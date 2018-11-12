@@ -139,7 +139,7 @@ bool GameObject::Load(JSON_Object * go_obj, std::map<GameObject*, int>& uuid_rel
 			{
 				Component* component = CreateComponent(co_type);
 
-				//component->OnLoad(&component_conf);
+				component->Load(component_obj);
 			}
 		}
 	}

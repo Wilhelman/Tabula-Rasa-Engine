@@ -30,6 +30,7 @@ public:
 	virtual bool Disable();
 
 	virtual bool Save(JSON_Object* component_obj)const;
+	virtual bool Load(const JSON_Object* component_obj);
 
 	int GetUUID()const;
 	GameObject* GetEmbeddedObject() const;

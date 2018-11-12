@@ -38,6 +38,11 @@ bool Component::Save(JSON_Object* component_obj) const
 	return true;
 }
 
+bool Component::Load(const JSON_Object * component_obj)
+{
+	return true;
+}
+
 int Component::GetUUID() const
 {
 	return uuid;
