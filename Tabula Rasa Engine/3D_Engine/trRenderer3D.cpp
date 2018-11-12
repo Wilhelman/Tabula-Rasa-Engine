@@ -505,21 +505,23 @@ void trRenderer3D::Draw()
 		if (texture == nullptr || !texture_2D) // If the texture is missing, we set the ambient color of the mesh
 			glColor4f(ambient_color.w, ambient_color.x, ambient_color.y, ambient_color.z);
 		
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
-		glVertexPointer(3, GL_FLOAT, 0, NULL);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		//texture
-		if (mesh->uvs != nullptr) 
-		{
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
-			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+		if (mesh) {
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
+			glVertexPointer(3, GL_FLOAT, 0, NULL);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
-		}
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->index_buffer);
-		glDrawElements(GL_TRIANGLES, mesh->index_size, GL_UNSIGNED_INT, NULL);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			//texture
+			if (mesh->uvs != nullptr)
+			{
+				glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
+				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+			}
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->index_buffer);
+			glDrawElements(GL_TRIANGLES, mesh->index_size, GL_UNSIGNED_INT, NULL);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		}
 
 		glColor4f(1.f, 1.f, 1.f, 1.f);
 

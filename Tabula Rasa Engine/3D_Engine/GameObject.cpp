@@ -27,7 +27,7 @@ GameObject::GameObject(const char * name, GameObject * parent)
 		this->uuid = 0;
 	
 	this->name = name;
-	if (this->name.compare("Main Camera") == 0)
+	if (this->name.compare("Main Camera") == 0 && App->main_scene->main_camera)
 		this->name = "Main Camera(Not really)";
 
 	this->parent = parent;
@@ -278,7 +278,9 @@ void GameObject::RecalculateBoundingBox()
 		bounding_box.SetNegativeInfinity();
 
 		const Mesh* mesh = mesh_co->GetMesh();
-		bounding_box.Enclose((float3*)mesh->vertices, mesh->vertex_size / 3);
+
+		if(mesh)
+			bounding_box.Enclose((float3*)mesh->vertices, mesh->vertex_size / 3);
 	
 		OBB obb(bounding_box);
 		obb.Transform(transform->GetMatrix());

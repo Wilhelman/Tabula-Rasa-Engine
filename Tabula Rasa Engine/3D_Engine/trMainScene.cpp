@@ -299,7 +299,7 @@ void trMainScene::TestAgainstRay(LineSegment line_segment)
 		const ComponentMesh* mesh_comp = (ComponentMesh*)it_map->second->FindComponentByType(Component::COMPONENT_MESH);
 
 		// Making sure the intersecting gameobject has a mesh component
-		if (mesh_comp != nullptr)
+		if (mesh_comp != nullptr && mesh_comp->GetMesh() != nullptr)
 		{
 			/* Checking if the current minimum distance to the camera is greater than the AABB's hit distance of 
 			   the current intersecting gameobject in the loop. If it's not, we can safely discard this gameobject 
