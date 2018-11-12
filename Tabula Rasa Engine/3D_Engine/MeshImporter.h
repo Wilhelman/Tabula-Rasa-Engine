@@ -31,6 +31,7 @@ public:
 
 	bool SaveMeshFile(const char* file_name, Mesh* mesh_data, std::string& output_file);
 	bool LoadMeshFile(const char* file_name, const char* file_path);
+	bool FillMeshFromFilePath(Mesh** mesh_to_fill, const char* file_path);
 
 private:
 

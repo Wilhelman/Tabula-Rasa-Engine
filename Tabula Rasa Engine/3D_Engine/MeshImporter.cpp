@@ -469,3 +469,52 @@ bool MeshImporter::LoadMeshFile(const char* file_name, const char * file_path)
 
 	return true;
 }
+
+bool MeshImporter::FillMeshFromFilePath(Mesh** mesh_to_fill, const char * file_path)
+{
+	// Open file requested file
+	char* buffer = nullptr;
+	App->file_system->ReadFromFile(file_path, &buffer);
+
+	// Check for errors
+	if (buffer == nullptr)
+	{
+		TR_LOG("Unable to open file...");
+		return false;
+	}
+
+	char* cursor = buffer;
+	uint ranges[3];
+	uint bytes = sizeof(ranges);
+	memcpy(ranges, cursor, bytes);
+
+	Mesh * resource = new Mesh();
+	resource->index_size = ranges[0];
+	resource->vertex_size = ranges[1];
+	resource->size_uv = ranges[2];
+
+	// Load indices
+	cursor += bytes;
+	bytes = sizeof(uint) * resource->index_size;
+	resource->indices = new uint[resource->index_size];
+	memcpy(resource->indices, cursor, bytes);
+
+	// Load vertices
+	cursor += bytes;
+	bytes = sizeof(float) * resource->vertex_size;
+	resource->vertices = new float[resource->vertex_size];
+	memcpy(resource->vertices, cursor, bytes);
+
+	// Load uvs
+	cursor += bytes;
+	bytes = sizeof(float) * resource->size_uv;
+	resource->uvs = new float[resource->size_uv];
+	memcpy(resource->uvs, cursor, bytes);
+	resource->path = file_path;
+
+	*mesh_to_fill = resource;
+
+	RELEASE_ARRAY(buffer);
+
+	return true;
+}

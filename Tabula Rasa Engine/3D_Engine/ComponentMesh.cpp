@@ -1,6 +1,9 @@
 #include "ComponentMesh.h"
 
+#include "trApp.h"
 #include "trRenderer3D.h"
+#include "trFileLoader.h"
+#include "MeshImporter.h"
 
 #include "Glew\include\GL\glew.h"
 #include "SDL\include\SDL_opengl.h"
@@ -29,6 +32,19 @@ bool ComponentMesh::Save(JSON_Object* component_obj) const
 {
 	json_object_set_string(component_obj, "path", mesh->path.c_str());
 	return true;
+}
+
+bool ComponentMesh::Load(const JSON_Object * component_obj)
+{
+	bool ret = true;
+
+	JSON_Value* value = json_object_get_value(component_obj, "path");
+	const char* file_path = json_value_get_string(value);
+	ret = App->file_loader->mesh_importer->FillMeshFromFilePath(&mesh, file_path);
+
+	GenerateAndBindMesh(mesh);
+
+	return ret;
 }
 
 void ComponentMesh::GenerateAndBindMesh(Mesh * mesh)

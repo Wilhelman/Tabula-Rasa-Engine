@@ -34,6 +34,7 @@ public:
 	~ComponentMesh();
 
 	bool Save(JSON_Object* component_obj)const;
+	bool Load(const JSON_Object* component_obj);
 
 	void GenerateAndBindMesh(Mesh* mesh);
 
