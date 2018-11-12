@@ -103,14 +103,22 @@ bool trMainScene::CleanUp()
 	return true;
 }
 
-void trMainScene::ClearScene()
+void trMainScene::ClearScene(bool delete_camera)
 {
 	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++) {
-		if ((*it) != main_camera) {
+		if (delete_camera) {
 			(*it)->to_destroy = true;
 			(*it)->is_active = false; // doing this, renderer will ignore it till is destroyed
 		}
+		else {
+			if ((*it) != main_camera){
+				(*it)->to_destroy = true;
+				(*it)->is_active = false; // doing this, renderer will ignore it till is destroyed
+			}
+		}
 	}
+	if(delete_camera)
+		this->main_camera = nullptr;
 	static_go.clear();
 	dinamic_go.clear();
 
@@ -153,7 +161,7 @@ bool trMainScene::SerializeScene()
 	// Go's stuff
 	JSON_Value* go_value = json_value_init_array();
 	array = json_value_get_array(go_value);
-	json_object_set_value(root_obj, "Game Objects", go_value);
+	json_object_set_value(root_obj, "GameObjects", go_value);
 
 	/// Iterating between all gos
 	for (std::list<GameObject*>::const_iterator it = root->childs.begin(); it != root->childs.end(); it++) {
@@ -174,11 +182,29 @@ bool trMainScene::SerializeScene()
 bool trMainScene::DeSerializeScene(const char * string)
 {
 	JSON_Value* vroot = json_parse_string(string);
-	JSON_Object* root = json_value_get_object(vroot);
+	JSON_Object* root = json_value_get_object(vroot); 
 	
 	//JSON_Object* description = json_object_get_object(root, "");
 	JSON_Value* value = json_object_get_value(root, "Name");
 	scene_name = json_value_get_string(value);
+
+	/// todo load camera state?
+
+	// Get GameObjects Array
+	JSON_Array* array = json_object_get_array(root, "GameObjects");
+	if (array != nullptr) {
+		uint go_size = json_array_get_count(array);
+
+		std::map<GameObject*, int> uuid_relations;
+		for (uint i = 0u; i < go_size; ++i)
+		{
+			GameObject* go = this->CreateGameObject("unnamed for now");
+			JSON_Object* go_obj = json_array_get_object(array, i);
+
+			go->Load(go_obj, uuid_relations);
+		}
+	}
+		
 
 	return true;
 }

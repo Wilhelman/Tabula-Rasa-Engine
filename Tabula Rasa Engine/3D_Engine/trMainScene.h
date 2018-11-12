@@ -33,7 +33,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	void ClearScene();
+	void ClearScene(bool delete_camera = false);
 
 	void Draw();
 

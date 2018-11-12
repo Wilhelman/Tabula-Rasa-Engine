@@ -106,6 +106,20 @@ bool GameObject::Save(JSON_Array* array)const
 	return true;
 }
 
+bool GameObject::Load(JSON_Object * go_obj, std::map<GameObject*, int>& uuid_relations)
+{
+	JSON_Value* go_value = json_object_get_value(go_obj, "UUID");
+	uuid = json_value_get_number(go_value);
+
+	go_value = json_object_get_value(go_obj, "ParentUUID");
+	uuid_relations[this] = json_value_get_number(go_value);
+
+	go_value = json_object_get_value(go_obj, "Name");
+	name = json_value_get_string(go_value);
+
+	return true;
+}
+
 // ---------------------------------------------------------
 Component * GameObject::CreateComponent(Component::component_type type)
 {

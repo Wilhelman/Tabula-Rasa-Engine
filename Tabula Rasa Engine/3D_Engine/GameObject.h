@@ -11,6 +11,7 @@
 
 #include <string>
 #include <list>
+#include <map>
 
 class GameObject
 {
@@ -23,6 +24,7 @@ public:
 	bool Update(float dt);
 
 	bool Save(JSON_Array* array)const;
+	bool Load(JSON_Object* go_obj, std::map<GameObject*, int>& uuid_relations);
 
 	Component* CreateComponent(Component::component_type type);
 	Component* CreateComponent(Component::component_type type, Component* component);

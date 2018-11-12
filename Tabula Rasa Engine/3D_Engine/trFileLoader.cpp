@@ -84,7 +84,7 @@ void trFileLoader::ImportScene(const char * file_path)
 		tmp_str.append(file_path);
 
 		// Clear previous scene
-		App->main_scene->ClearScene();
+		App->main_scene->ClearScene(); // todo make it true
 
 		char* buffer = nullptr;
 		uint size = App->file_system->ReadFromFile(tmp_str.c_str(), &buffer);
@@ -92,6 +92,7 @@ void trFileLoader::ImportScene(const char * file_path)
 		if (buffer != nullptr && size > 0)
 		{
 			App->main_scene->DeSerializeScene(buffer);
+			RELEASE_ARRAY(buffer);
 		}
 		else 
 			TR_LOG("trFileLoader: Error reading scene from path: %s", tmp_str.c_str());
