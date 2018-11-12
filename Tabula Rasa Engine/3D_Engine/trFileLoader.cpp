@@ -4,6 +4,8 @@
 #include "trApp.h"
 #include "trFileSystem.h"
 
+#include "trMainScene.h"
+
 #include "MeshImporter.h"
 #include "MaterialImporter.h"
 
@@ -25,10 +27,15 @@ bool trFileLoader::Start()
 {
 	// Create basic folders
 	App->file_system->MakeNewDir(ASSETS_DIR);
+	App->file_system->MakeNewDir(A_MODELS_DIR);
+	App->file_system->MakeNewDir(A_SCENES_DIR);
+	App->file_system->MakeNewDir(A_TEXTURES_DIR);
+
 	App->file_system->MakeNewDir(SETTINGS_DIR);
+
 	App->file_system->MakeNewDir(LIBRARY_DIR);
-	App->file_system->MakeNewDir(MESH_DIR);
-	App->file_system->MakeNewDir(MATERIAL_DIR);
+	App->file_system->MakeNewDir(L_MESHES_DIR);
+	App->file_system->MakeNewDir(L_MATERIALS_DIR);
 
 	return true;
 }
@@ -69,6 +76,27 @@ void trFileLoader::ImportScene(const char * file_path)
 	// TODO: copy paste FBX file to Assets/
 
 	// Then get the file_path from de Assets continue
+
+	if (file_path != nullptr)
+	{
+		std::string tmp_str(A_SCENES_DIR);
+		tmp_str.append("/");
+		tmp_str.append(file_path);
+
+		// Clear previous scene
+		App->main_scene->ClearScene();
+
+		char* buffer = nullptr;
+		uint size = App->file_system->ReadFromFile(tmp_str.c_str(), &buffer);
+
+		if (buffer != nullptr && size > 0)
+		{
+			App->main_scene->DeSerializeScene(buffer);
+		}
+		else 
+			TR_LOG("trFileLoader: Error reading scene from path: %s", tmp_str.c_str());
+		
+	}
 }
 
 

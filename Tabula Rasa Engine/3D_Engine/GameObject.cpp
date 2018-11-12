@@ -21,7 +21,10 @@ GameObject::GameObject()
 
 GameObject::GameObject(const char * name, GameObject * parent)
 {
-	this->uuid = pcg32_random_r(&App->gen_uuid);
+	if (parent)
+		this->uuid = pcg32_random_r(&App->gen_uuid);
+	else
+		this->uuid = 0;
 	this->name = name;
 	this->parent = parent;
 

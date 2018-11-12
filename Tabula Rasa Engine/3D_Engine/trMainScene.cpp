@@ -36,6 +36,8 @@ bool trMainScene::Awake(JSON_Object* config)
 
 	quadtree.Create(AABB(AABB(float3(-500, -100, -500), float3(500, 100, 500))));
 
+	scene_name = "TR Unnamed Scene";
+
 	return ret;
 }
 
@@ -144,7 +146,7 @@ bool trMainScene::SerializeScene()
 
 	// Scene stuff
 	root_obj = json_value_get_object(root_value);
-	json_object_set_string(root_obj, "Name", "Unnamed Scene");
+	json_object_set_string(root_obj, "Name", scene_name.c_str());
 
 	/// todo save camera editor stuff if needed
 
@@ -165,6 +167,18 @@ bool trMainScene::SerializeScene()
 	json_serialize_to_file(root_value, "Assets/Scenes/scene_test.trScene");
 	json_free_serialized_string(serialized_string);
 	json_value_free(root_value);
+
+	return true;
+}
+
+bool trMainScene::DeSerializeScene(const char * string)
+{
+	JSON_Value* vroot = json_parse_string(string);
+	JSON_Object* root = json_value_get_object(vroot);
+	
+	//JSON_Object* description = json_object_get_object(root, "");
+	JSON_Value* value = json_object_get_value(root, "Name");
+	scene_name = json_value_get_string(value);
 
 	return true;
 }

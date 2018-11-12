@@ -82,7 +82,7 @@ bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 			if (std::string::npos != extension)
 				file_name.erase(extension);
 
-			std::string tmp_str(MATERIAL_DIR);
+			std::string tmp_str(L_MATERIALS_DIR);
 			tmp_str.append("/");
 			tmp_str.append(file_name);
 			tmp_str.append(".dds"); // adding our own format extension

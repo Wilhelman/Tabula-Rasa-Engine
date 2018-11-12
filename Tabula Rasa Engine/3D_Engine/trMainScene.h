@@ -3,6 +3,7 @@
 
 #include "trModule.h"
 #include "Quadtree.h"
+#include <string>
 
 class GameObject;
 class PGrid;
@@ -41,6 +42,7 @@ public:
 	bool Save(JSON_Object* config = nullptr)const;
 
 	bool SerializeScene();
+	bool DeSerializeScene(const char * string);
 
 	GameObject* GetRoot()const;
 
@@ -69,6 +71,7 @@ public:
 	Quadtree quadtree;
 	GameObject* main_camera = nullptr;
 	AABB scene_bb;
+	std::string scene_name;
 	
 
 };

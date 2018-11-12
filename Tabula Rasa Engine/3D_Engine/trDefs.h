@@ -84,10 +84,13 @@ inline const char* const PATH(const char* folder, const char* file)
 
 // Folders
 #define ASSETS_DIR "Assets"
+#define A_SCENES_DIR "Assets/Scenes"
+#define A_MODELS_DIR "Assets/Models"
+#define A_TEXTURES_DIR "Assets/Textures"
 #define SETTINGS_DIR "Settings"
 #define LIBRARY_DIR "Library"
-#define MESH_DIR "/Library/Meshes"
-#define MATERIAL_DIR "/Library/Materials"
+#define L_MESHES_DIR "/Library/Meshes"
+#define L_MATERIALS_DIR "/Library/Materials"
 
 // Default settings
 /// App

@@ -397,7 +397,7 @@ bool MeshImporter::SaveMeshFile(const char* file_name, Mesh* mesh_data, std::str
 
 	// Saving file
 
-	std::string tmp_str(MESH_DIR);
+	std::string tmp_str(L_MESHES_DIR);
 	tmp_str.append("/");
 	tmp_str.append(file_name);
 	tmp_str.append(".trMesh"); // adding our own format extension
@@ -459,7 +459,7 @@ bool MeshImporter::LoadMeshFile(const char* file_name, const char * file_path)
 	ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
 	mesh_comp->SetMesh(resource);
 	Mesh* mesh = (Mesh*)mesh_comp->GetMesh();
-	std::string tmp_str(MESH_DIR);
+	std::string tmp_str(L_MESHES_DIR);
 	tmp_str.append("/");
 	tmp_str.append(file_name);
 	tmp_str.append(".trMesh");
