@@ -195,7 +195,7 @@ bool trMainScene::DeSerializeScene(const char * string)
 	if (array != nullptr) {
 		uint go_size = json_array_get_count(array);
 
-		std::map<GameObject*, int> uuid_relations;
+		std::map<GameObject*, UID> uuid_relations;
 		for (uint i = 0u; i < go_size; ++i)
 		{
 			GameObject* go = this->CreateGameObject("unnamed for now");

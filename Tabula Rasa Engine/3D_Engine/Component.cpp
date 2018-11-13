@@ -43,7 +43,7 @@ bool Component::Load(const JSON_Object * component_obj)
 	return true;
 }
 
-int Component::GetUUID() const
+UID Component::GetUUID() const
 {
 	return uuid;
 }

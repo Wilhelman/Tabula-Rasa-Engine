@@ -24,7 +24,7 @@ public:
 	bool Update(float dt);
 
 	bool Save(JSON_Array* array)const;
-	bool Load(JSON_Object* go_obj, std::map<GameObject*, int>& uuid_relations);
+	bool Load(JSON_Object* go_obj, std::map<GameObject*, UID>& uuid_relations);
 
 	Component* CreateComponent(Component::component_type type);
 	Component* CreateComponent(Component::component_type type, Component* component);
@@ -38,7 +38,7 @@ public:
 	const char* GetName() const;
 	void SetName(const char* name);
 	ComponentTransform* GetTransform()const;
-	int GetUUID()const;
+	UID GetUUID()const;
 
 	void RecalculateBoundingBox();
 
@@ -52,7 +52,7 @@ private:
 	std::string name;
 	GameObject* parent = nullptr;
 	ComponentTransform* transform = nullptr; //Always should have one
-	int uuid = 0;
+	UID uuid = 0u;
 
 public:
 

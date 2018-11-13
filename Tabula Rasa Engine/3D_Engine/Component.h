@@ -32,7 +32,7 @@ public:
 	virtual bool Save(JSON_Object* component_obj)const;
 	virtual bool Load(const JSON_Object* component_obj);
 
-	int GetUUID()const;
+	UID GetUUID()const;
 	GameObject* GetEmbeddedObject() const;
 	bool IsActive()const;
 
@@ -44,7 +44,7 @@ protected:
 	
 	GameObject* embedded_go = nullptr;
 	component_type type = component_type::COMPONENT_UNKNOWN;
-	int uuid = 0;
+	UID uuid = 0u;
 
 };
 

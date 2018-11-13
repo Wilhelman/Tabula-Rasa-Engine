@@ -110,7 +110,7 @@ bool GameObject::Save(JSON_Array* array)const
 	return true;
 }
 
-bool GameObject::Load(JSON_Object * go_obj, std::map<GameObject*, int>& uuid_relations)
+bool GameObject::Load(JSON_Object * go_obj, std::map<GameObject*, UID>& uuid_relations)
 {
 	JSON_Value* go_value = json_object_get_value(go_obj, "UUID");
 	uuid = json_value_get_number(go_value);
@@ -270,7 +270,7 @@ ComponentTransform * GameObject::GetTransform() const
 	return transform;
 }
 
-int GameObject::GetUUID() const
+UID GameObject::GetUUID() const
 {
 	return uuid;
 }
