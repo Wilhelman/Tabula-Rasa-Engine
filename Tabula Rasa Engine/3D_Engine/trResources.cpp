@@ -37,8 +37,8 @@ bool trResources::Start()
 	App->file_system->MakeNewDir(L_MESHES_DIR);
 	App->file_system->MakeNewDir(L_MATERIALS_DIR);
 
-
 	// TODO: Check if there is something in assets directory. If so, import it!
+
 
 	return true;
 }
@@ -51,4 +51,28 @@ bool trResources::CleanUp()
 	RELEASE(material_importer);
 
 	return true;
+}
+
+UID trResources::ImportFile(const char * new_file_in_assets, bool force)
+{
+	UID ret = 0;
+	bool import_ok = false;
+
+	// Find out the type from the extension and send to the correct exporter
+	std::string extension;
+	/**App->fs->SplitFilePath(new_file_in_assets, nullptr, nullptr, &extension);
+
+	Resource::Type type = TypeFromExtension(extension.c_str());
+
+	switch (type) {
+	case Resource::MESH: import_ok = App->tex->Import(new_file_in_assets, "", written_file); break;
+	case Resource::TEXTURE: import_ok = App->scene->Import(new_file_in_assets, written_file); break;
+	}
+	if (import_ok == true) { // If export was successful, create a new resource
+		Resource* res = CreateNewResource(type);
+		res->file = new_file_in_assets;
+		res->exported_file = written_file;
+		ret = res->uid;
+	}*/
+	return ret;
 }
