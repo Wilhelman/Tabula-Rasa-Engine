@@ -34,84 +34,154 @@ void PanelResources::Draw()
 
 	if (ImGui::TreeNodeEx(ASSETS_DIR))
 	{
-		DrawAssets(ASSETS_DIR);
+		DrawAssets(App->file_system->GetAssetsDirectory());
 		ImGui::TreePop();
 	}
 	
 	ImGui::End();
 }
 
-void PanelResources::DrawAssets(std::string dir_name)
+void PanelResources::DrawAssets(trFileSystem::Directory* dir)
 {
 	std::list<std::string> file_list;
 	std::list<std::string> dir_list;
 
-	std::string assets_dir(dir_name);
-	assets_dir.append("/");
-	App->file_system->GetFilesFromDirOld(assets_dir.c_str(), file_list, dir_list);
+	
+	uint dir_size = dir->dirs_vec.size();
 
-	for (std::list<std::string>::iterator it_dir = dir_list.begin(); it_dir != dir_list.end(); it_dir++)
+	for (uint i = 0; i < dir_size; i++)
 	{
-		if (ImGui::TreeNodeEx((*it_dir).c_str()))
+		if (ImGui::TreeNodeEx(dir->dirs_vec[i].name.c_str()))
 		{
-			std::string tmp_dir = assets_dir;
-			tmp_dir.append((*it_dir).c_str());
-			DrawAssets(tmp_dir);
+			DrawAssets(&dir->dirs_vec[i]);
 			ImGui::TreePop();
 		}
 	}
 
-	for (std::list<std::string>::iterator it_file = file_list.begin(); it_file != file_list.end(); it_file++)
-	{
-		if (ImGui::TreeNodeEx((*it_file).c_str(), ImGuiTreeNodeFlags_Leaf))
-		{
-			if (ImGui::IsItemClicked(0)) 
-			{
-				// TODO: show import config window
-			}
+	//for (std::list<std::string>::iterator it_file = file_list.begin(); it_file != file_list.end(); it_file++)
+	//{
+	//	if (ImGui::TreeNodeEx((*it_file).c_str(), ImGuiTreeNodeFlags_Leaf))
+	//	{
+	//		if (ImGui::IsItemClicked(0))
+	//		{
+	//			// TODO: show import config window
+	//		}
 
-		
-			if (ImGui::IsItemClicked(1))  // right click
-				ImGui::OpenPopup("Options");
-			
-			if (ImGui::BeginPopup("Options"))
-			{
-				if (ImGui::MenuItem("Import"))
-				{
-					std::string file_format(".xyz");
-					file_format[3] = (*it_file).c_str()[strlen((*it_file).c_str()) - 1];
-					file_format[2] = (*it_file).c_str()[strlen((*it_file).c_str()) - 2];
-					file_format[1] = (*it_file).c_str()[strlen((*it_file).c_str()) - 3];
-					file_format[0] = (*it_file).c_str()[strlen((*it_file).c_str()) - 4];
 
-					if (file_format.compare(".fbx") == 0 || file_format.compare(".FBX") == 0)
-						App->file_loader->ImportFBX((*it_file).c_str());
-					else if (file_format.compare("cene") == 0 || file_format.compare("CENE") == 0)
-						App->file_loader->ImportScene((*it_file).c_str());
-					else if (file_format.compare(".dds") == 0 || file_format.compare(".DDS") == 0 ||
-						     file_format.compare(".jpg") == 0 || file_format.compare(".JPG") == 0 ||
-						     file_format.compare("jpeg") == 0 || file_format.compare("JPEG") == 0 ||
-						     file_format.compare(".png") == 0 || file_format.compare(".PNG") == 0)
-						     App->file_loader->ImportTexture((*it_file).c_str());
-					else
-						TR_LOG("Resources: Error importing unknown format...");
-				}
-			
-				if (ImGui::MenuItem("Remove"))
-				{
-					// TODO: remove file here
-				}
+	//		if (ImGui::IsItemClicked(1))  // right click
+	//			ImGui::OpenPopup("Options");
 
-				
-			
-				ImGui::EndPopup();
-			}
-			
+	//		if (ImGui::BeginPopup("Options"))
+	//		{
+	//			if (ImGui::MenuItem("Import"))
+	//			{
+	//				std::string file_format(".xyz");
+	//				file_format[3] = (*it_file).c_str()[strlen((*it_file).c_str()) - 1];
+	//				file_format[2] = (*it_file).c_str()[strlen((*it_file).c_str()) - 2];
+	//				file_format[1] = (*it_file).c_str()[strlen((*it_file).c_str()) - 3];
+	//				file_format[0] = (*it_file).c_str()[strlen((*it_file).c_str()) - 4];
 
-			ImGui::TreePop();
-		}
-	}
+	//				if (file_format.compare(".fbx") == 0 || file_format.compare(".FBX") == 0)
+	//					App->file_loader->ImportFBX((*it_file).c_str());
+	//				else if (file_format.compare("cene") == 0 || file_format.compare("CENE") == 0)
+	//					App->file_loader->ImportScene((*it_file).c_str());
+	//				else if (file_format.compare(".dds") == 0 || file_format.compare(".DDS") == 0 ||
+	//					file_format.compare(".jpg") == 0 || file_format.compare(".JPG") == 0 ||
+	//					file_format.compare("jpeg") == 0 || file_format.compare("JPEG") == 0 ||
+	//					file_format.compare(".png") == 0 || file_format.compare(".PNG") == 0)
+	//					App->file_loader->ImportTexture((*it_file).c_str());
+	//				else
+	//					TR_LOG("Resources: Error importing unknown format...");
+	//			}
+
+	//			if (ImGui::MenuItem("Remove"))
+	//			{
+	//				// TODO: remove file here
+	//			}
+
+
+
+	//			ImGui::EndPopup();
+	//		}
+
+
+	//		ImGui::TreePop();
+	//	}
+	//}
 }
+
+
+//void PanelResources::DrawAssets(std::string dir_name)
+//{
+//	std::list<std::string> file_list;
+//	std::list<std::string> dir_list;
+//
+//	std::string assets_dir(dir_name);
+//	assets_dir.append("/");
+//	App->file_system->GetFilesFromDirOld(assets_dir.c_str(), file_list, dir_list);
+//
+//	for (std::list<std::string>::iterator it_dir = dir_list.begin(); it_dir != dir_list.end(); it_dir++)
+//	{
+//		if (ImGui::TreeNodeEx((*it_dir).c_str()))
+//		{
+//			std::string tmp_dir = assets_dir;
+//			tmp_dir.append((*it_dir).c_str());
+//			DrawAssets(tmp_dir);
+//			ImGui::TreePop();
+//		}
+//	}
+//
+//	for (std::list<std::string>::iterator it_file = file_list.begin(); it_file != file_list.end(); it_file++)
+//	{
+//		if (ImGui::TreeNodeEx((*it_file).c_str(), ImGuiTreeNodeFlags_Leaf))
+//		{
+//			if (ImGui::IsItemClicked(0)) 
+//			{
+//				// TODO: show import config window
+//			}
+//
+//		
+//			if (ImGui::IsItemClicked(1))  // right click
+//				ImGui::OpenPopup("Options");
+//			
+//			if (ImGui::BeginPopup("Options"))
+//			{
+//				if (ImGui::MenuItem("Import"))
+//				{
+//					std::string file_format(".xyz");
+//					file_format[3] = (*it_file).c_str()[strlen((*it_file).c_str()) - 1];
+//					file_format[2] = (*it_file).c_str()[strlen((*it_file).c_str()) - 2];
+//					file_format[1] = (*it_file).c_str()[strlen((*it_file).c_str()) - 3];
+//					file_format[0] = (*it_file).c_str()[strlen((*it_file).c_str()) - 4];
+//
+//					if (file_format.compare(".fbx") == 0 || file_format.compare(".FBX") == 0)
+//						App->file_loader->ImportFBX((*it_file).c_str());
+//					else if (file_format.compare("cene") == 0 || file_format.compare("CENE") == 0)
+//						App->file_loader->ImportScene((*it_file).c_str());
+//					else if (file_format.compare(".dds") == 0 || file_format.compare(".DDS") == 0 ||
+//						     file_format.compare(".jpg") == 0 || file_format.compare(".JPG") == 0 ||
+//						     file_format.compare("jpeg") == 0 || file_format.compare("JPEG") == 0 ||
+//						     file_format.compare(".png") == 0 || file_format.compare(".PNG") == 0)
+//						     App->file_loader->ImportTexture((*it_file).c_str());
+//					else
+//						TR_LOG("Resources: Error importing unknown format...");
+//				}
+//			
+//				if (ImGui::MenuItem("Remove"))
+//				{
+//					// TODO: remove file here
+//				}
+//
+//				
+//			
+//				ImGui::EndPopup();
+//			}
+//			
+//
+//			ImGui::TreePop();
+//		}
+//	}
+//}
 
 void PanelResources::FillFilesTree(std::string dir_name)
 {

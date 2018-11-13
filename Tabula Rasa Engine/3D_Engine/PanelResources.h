@@ -15,7 +15,7 @@ public:
 	virtual ~PanelResources();
 
 	void Draw() override;
-	void DrawAssets(std::string dir_name);
+	void DrawAssets(trFileSystem::Directory* dir);
 	void FillFilesTree(std::string dir_name);
 
 private:

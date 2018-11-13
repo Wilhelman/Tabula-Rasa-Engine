@@ -15,8 +15,7 @@ public:
 	{
 		Directory(char* name) { this->name = name; }
 
-		~Directory() { 
-			 }
+		~Directory() {  }
 
 		void Clear()
 		{
@@ -26,7 +25,7 @@ public:
 			files_vec.clear();
 		}
 
-		char* name = nullptr;
+		std::string name;
 		std::vector<Directory> dirs_vec;
 		std::vector<std::string> files_vec;
 	};
@@ -61,8 +60,8 @@ private:
 	PHYSFS_File* OpenFileForReading(const char* file_name) const;
 	void CloseFile(PHYSFS_File* file, const char* file_name) const;
 
-public:
-	Directory* dir = nullptr;
+private:
+	Directory* assets_dir = nullptr;
 
 
 };

@@ -10,7 +10,7 @@ trFileSystem::trFileSystem()
 	this->name = "FileSystem";
 }
 
-trFileSystem::~trFileSystem() { RELEASE(dir); }
+trFileSystem::~trFileSystem() { RELEASE(assets_dir); }
 
 bool trFileSystem::Awake(JSON_Object * config)
 {
@@ -36,7 +36,7 @@ bool trFileSystem::Awake(JSON_Object * config)
 	// Setting game directory to write in it
 	PHYSFS_setWriteDir(".");
 
-	dir = new Directory("Assets");
+	assets_dir = new Directory("Assets");
 	return true;
 }
 
@@ -112,9 +112,9 @@ void trFileSystem::GetFilesFromDirOld(const char* dir_name, std::list<std::strin
 void trFileSystem::GetFilesFromDir(const char* dir_name) const
 {
 	static uint index = 0;
-	std::string assets_dir(dir_name);
-	assets_dir.append("/");
-	char **rc = PHYSFS_enumerateFiles(assets_dir.c_str());
+	std::string assets_name(dir_name);
+	assets_name.append("/");
+	char **rc = PHYSFS_enumerateFiles(assets_name.c_str());
 
 	if (rc == nullptr)
 	{
@@ -123,33 +123,28 @@ void trFileSystem::GetFilesFromDir(const char* dir_name) const
 	}
 	else
 	{
-		std::string directory = assets_dir.c_str();
+		std::string directory = assets_name.c_str();
 
 		for (char** i = rc; *i != nullptr; i++)
 		{
 			if (DoesDirExist((directory + *i).c_str()))
 			{
-				std::string tmp_dir = assets_dir;
+				std::string tmp_dir = assets_name;
 				tmp_dir.append(*i);
 
 				Directory new_dir(*i);
-				dir->dirs_vec.push_back(new_dir);
+				assets_dir->dirs_vec.push_back(new_dir);
 
 				GetFilesFromDir(tmp_dir.c_str());
 			
 				index++;
 			}
 			else
-			{
-				dir->dirs_vec[index].files_vec.push_back(*i);
-				
-			}
-				
+				assets_dir->dirs_vec[index].files_vec.push_back(*i);
 		}
 	} 
 	PHYSFS_freeList(rc);
 }
-
 
 
 bool trFileSystem::AddNewPath(const char * path)
@@ -271,4 +266,9 @@ bool trFileSystem::DeleteFileDir(const char* file_dir_name)
 	}
 
 	return ret;
+}
+
+trFileSystem::Directory* trFileSystem::GetAssetsDirectory() const
+{
+	return assets_dir;
 }
