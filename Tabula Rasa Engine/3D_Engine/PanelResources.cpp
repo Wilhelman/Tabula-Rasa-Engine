@@ -43,17 +43,65 @@ void PanelResources::Draw()
 
 void PanelResources::DrawAssets(trFileSystem::Directory* dir)
 {
-	std::list<std::string> file_list;
-	std::list<std::string> dir_list;
+	uint dirs_size = dir->dirs_vec.size();
+	uint files_size = dir->files_vec.size();
 
-	
-	uint dir_size = dir->dirs_vec.size();
-
-	for (uint i = 0; i < dir_size; i++)
+	for (uint i = 0; i < dirs_size; i++)
 	{
 		if (ImGui::TreeNodeEx(dir->dirs_vec[i].name.c_str()))
 		{
 			DrawAssets(&dir->dirs_vec[i]);
+			ImGui::TreePop();
+		}
+	}
+
+	for (uint i = 0; i < files_size; i++)
+	{
+		if (ImGui::TreeNodeEx(dir->files_vec[i].c_str(), ImGuiTreeNodeFlags_Leaf))
+		{
+			if (ImGui::IsItemClicked(0))
+			{
+				// TODO: show import config window
+			}
+
+
+			//if (ImGui::IsItemClicked(1))  // right click
+			//	ImGui::OpenPopup("Options");
+
+			//if (ImGui::BeginPopup("Options"))
+			//{
+			//	if (ImGui::MenuItem("Import"))
+			//	{
+			//		std::string file_format(".xyz");
+			//		file_format[3] = (*it_file).c_str()[strlen((*it_file).c_str()) - 1];
+			//		file_format[2] = (*it_file).c_str()[strlen((*it_file).c_str()) - 2];
+			//		file_format[1] = (*it_file).c_str()[strlen((*it_file).c_str()) - 3];
+			//		file_format[0] = (*it_file).c_str()[strlen((*it_file).c_str()) - 4];
+
+			//		if (file_format.compare(".fbx") == 0 || file_format.compare(".FBX") == 0)
+			//			App->file_loader->ImportFBX((*it_file).c_str());
+			//		else if (file_format.compare("cene") == 0 || file_format.compare("CENE") == 0)
+			//			App->file_loader->ImportScene((*it_file).c_str());
+			//		else if (file_format.compare(".dds") == 0 || file_format.compare(".DDS") == 0 ||
+			//			file_format.compare(".jpg") == 0 || file_format.compare(".JPG") == 0 ||
+			//			file_format.compare("jpeg") == 0 || file_format.compare("JPEG") == 0 ||
+			//			file_format.compare(".png") == 0 || file_format.compare(".PNG") == 0)
+			//			App->file_loader->ImportTexture((*it_file).c_str());
+			//		else
+			//			TR_LOG("Resources: Error importing unknown format...");
+			//	}
+
+			//	if (ImGui::MenuItem("Remove"))
+			//	{
+			//		// TODO: remove file here
+			//	}
+
+
+
+			//	ImGui::EndPopup();
+			//}
+
+
 			ImGui::TreePop();
 		}
 	}
