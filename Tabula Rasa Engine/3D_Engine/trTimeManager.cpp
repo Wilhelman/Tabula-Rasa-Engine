@@ -1,7 +1,7 @@
 #include "trTimeManager.h"
 
 
-trTimeManager::trTimeManager() { }
+trTimeManager::trTimeManager() { this->name = "TimeManager"; }
 
 trTimeManager::~trTimeManager() { }
 

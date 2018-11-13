@@ -11,6 +11,9 @@
 class ResourceMesh;
 class ResourceTexture;
 
+class MeshImporter;
+class MaterialImporter;
+
 class trResources : public trModule
 {
 public:
@@ -32,6 +35,9 @@ public:
 private:
 	UID last_uid = 1;
 	std::map<UID, Resource*> resources;
+
+	MeshImporter* mesh_importer = nullptr;
+	MaterialImporter* material_importer = nullptr;
 
 };
 

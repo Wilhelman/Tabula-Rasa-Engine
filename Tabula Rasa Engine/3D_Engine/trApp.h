@@ -22,6 +22,7 @@ class trHardware;
 class trFileLoader;
 class trTimeManager;
 class trFileSystem;
+class trResources;
 
 class trApp
 {
@@ -106,6 +107,7 @@ public:
 	trFileLoader*		file_loader = nullptr;
 	trTimeManager*		time_manager = nullptr;
 	trFileSystem*		file_system = nullptr;
+	trResources*		resources = nullptr;
 
 	//LCG*				gen_uuid = nullptr;
 	pcg32_random_t		gen_uuid;

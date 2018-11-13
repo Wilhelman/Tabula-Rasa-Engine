@@ -11,6 +11,7 @@
 
 trFileLoader::trFileLoader()
 {
+	this->name = "FileLoader";
 }
 
 trFileLoader::~trFileLoader()
