@@ -77,21 +77,22 @@ bool trCamera3D::Update(float dt)
 
 	float speed = cam_speed * dt;
 
-	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT && !ImGui::IsMouseHoveringAnyWindow())
 		speed = cam_boost_speed * dt;
 
 	// ----- Camera zoom-in / zoom-out with mouse wheel -----
 
-	ProcessMouseWheelInput(new_pos, speed);
+	if (!ImGui::IsMouseHoveringAnyWindow())
+		ProcessMouseWheelInput(new_pos, speed);
 
 	// ----- Camera focus on geometry -----
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 		dummy_camera->FocusOnAABB(App->main_scene->scene_bb);
-	}
+	
 	// ----- Camera FPS-like rotation with mouse -----
 
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT && !ImGui::IsMouseHoveringAnyWindow())
 	{
 		ProcessKeyboardInput(new_pos, speed);
 
@@ -105,7 +106,8 @@ bool trCamera3D::Update(float dt)
 
 	// ----- Camera orbit around target with mouse and panning -----
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT
-		     && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
+		     && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT
+			 && !ImGui::IsMouseHoveringAnyWindow())
 	{
 		float dx = (float)(-App->input->GetMouseXMotion()) * 0.001f;
 		float dy = (float)(-App->input->GetMouseYMotion()) * 0.001f;
@@ -130,7 +132,7 @@ bool trCamera3D::Update(float dt)
 
 		dummy_camera->LookAt(aim_point);
 	}
-	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
+	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) && !ImGui::IsMouseHoveringAnyWindow())
 	{
 		int dx = -App->input->GetMouseXMotion();
 		int dy = App->input->GetMouseYMotion();
