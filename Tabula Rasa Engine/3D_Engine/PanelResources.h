@@ -4,7 +4,6 @@
 #include "Panel.h"
 #include <list>
 #include <string>
-
 #include "trFileSystem.h"
 
 
@@ -16,7 +15,6 @@ public:
 
 	void Draw() override;
 	void DrawAssets(trFileSystem::Directory* dir);
-	void FillFilesTree(std::string dir_name);
 
 private:
 	struct FilesTree
