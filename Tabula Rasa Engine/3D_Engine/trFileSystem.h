@@ -47,6 +47,8 @@ public:
 
 	bool WriteInFile(const char* file_name, char* buffer, uint size) const;
 	uint ReadFromFile(const char* file_name, char** buffer);
+
+	void GetExtensionFromFile(const char* file_name, std::string& extension);
 	
 	bool MakeNewDir(const char* dir_name);
 	bool DeleteFileDir(const char* file_dir_name);

@@ -238,6 +238,15 @@ uint trFileSystem::ReadFromFile(const char* file_name, char** buffer)
 	return size;
 }
 
+void trFileSystem::GetExtensionFromFile(const char * file_name, std::string & extension)
+{
+	extension = file_name;
+
+	uint point = extension.find_last_of(".");
+	if (point != std::string::npos)
+		extension = extension.substr(point);
+}
+
 bool trFileSystem::MakeNewDir(const char * dir_name)
 {
 	bool ret = true;

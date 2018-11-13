@@ -60,9 +60,9 @@ UID trResources::ImportFile(const char * new_file_in_assets, bool force)
 
 	// Find out the type from the extension and send to the correct exporter
 	std::string extension;
-	/**App->fs->SplitFilePath(new_file_in_assets, nullptr, nullptr, &extension);
+	App->file_system->GetExtensionFromFile(new_file_in_assets, extension);
 
-	Resource::Type type = TypeFromExtension(extension.c_str());
+	/*Resource::Type type = TypeFromExtension(extension.c_str());
 
 	switch (type) {
 	case Resource::MESH: import_ok = App->tex->Import(new_file_in_assets, "", written_file); break;
@@ -76,3 +76,30 @@ UID trResources::ImportFile(const char * new_file_in_assets, bool force)
 	}*/
 	return ret;
 }
+
+/*Resource::Type trResources::TypeFromExtension(const char * extension) const
+{
+	/*Resource::Type ret = Resource::unknown;
+
+	if (extension != nullptr)
+	{
+		if (_stricmp(extension, "wav") == 0)
+			ret = Resource::audio;
+		else if (_stricmp(extension, "ogg") == 0)
+			ret = Resource::audio;
+		else if (_stricmp(extension, "dds") == 0)
+			ret = Resource::texture;
+		else if (_stricmp(extension, "png") == 0)
+			ret = Resource::texture;
+		else if (_stricmp(extension, "jpg") == 0)
+			ret = Resource::texture;
+		else if (_stricmp(extension, "tga") == 0)
+			ret = Resource::texture;
+		else if (_stricmp(extension, "fbx") == 0)
+			ret = Resource::scene;
+		else if (_stricmp(extension, "dae") == 0)
+			ret = Resource::scene;
+	}*/
+
+	return ret;
+}*/
