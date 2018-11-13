@@ -27,7 +27,10 @@ public:
 	bool CleanUp();
 
 	UID Find(const char* file_in_assets) const;
-	UID ImportFile(const char* new_file_in_assets, bool force = false);
+
+	void TryToImportFile(const char* file);
+	UID ImportFile(const char* file_path);
+
 	Resource::Type TypeFromExtension(const char* extension) const;
 	UID GenerateNewUID();
 	const Resource* Get(UID uid) const;

@@ -38,6 +38,7 @@ bool trResources::Start()
 	App->file_system->MakeNewDir(L_MATERIALS_DIR);
 
 	// TODO: Check if there is something in assets directory. If so, import it!
+	// where copy paste the file?
 
 
 	return true;
@@ -53,23 +54,35 @@ bool trResources::CleanUp()
 	return true;
 }
 
-UID trResources::ImportFile(const char * new_file_in_assets, bool force)
+void trResources::TryToImportFile(const char* file) {
+
+
+	// Check if the file have .meta
+	// if NOT
+		// ImportFile() so we generate both meta and resource
+	// else (if have .meta)
+		// prepare the importer of the file readin the .meta info
+
+}
+
+UID trResources::ImportFile(const char * file_path)
 {
 	UID ret = 0;
 	bool import_ok = false;
 
 	// Find out the type from the extension and send to the correct exporter
 	std::string extension;
-	App->file_system->GetExtensionFromFile(new_file_in_assets, extension);
+	App->file_system->GetExtensionFromFile(file_path, extension);
 
 	Resource::Type type = TypeFromExtension(extension.c_str());
 
+	std::string written_file;
 	switch (type) {
 	case Resource::MESH:
-		//import_ok = App->tex->Import(new_file_in_assets, "", written_file); 
+		import_ok = material_importer->Import(file_path, written_file);
 		break;
-	case Resource::TEXTURE: 
-		//import_ok = App->scene->Import(new_file_in_assets, written_file)
+	case Resource::TEXTURE:
+		import_ok = material_importer->Import(file_path, written_file);
 		break;
 	case Resource::SCENE:
 		//import_ok = App->scene->Import(new_file_in_assets, written_file)
