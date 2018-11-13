@@ -2,6 +2,7 @@
 #define __trFILESYSTEM_H__
 
 #include "trModule.h"
+#include <vector>
 
 
 struct PHYSFS_File;
@@ -9,6 +10,27 @@ struct PHYSFS_File;
 
 class trFileSystem : public trModule
 {
+public:
+	struct Directory
+	{
+		Directory(char* name) { this->name = name; }
+
+		~Directory() { 
+			 }
+
+		void Clear()
+		{
+			name = nullptr;
+			dirs_vec.clear();
+			dirs_vec.clear();
+			files_vec.clear();
+		}
+
+		char* name = nullptr;
+		std::vector<Directory> dirs_vec;
+		std::vector<std::string> files_vec;
+	};
+
 public:
 	trFileSystem();
 	~trFileSystem();
@@ -20,13 +42,17 @@ public:
 	bool DoesFileExist(const char* file_name) const;
 	bool DoesDirExist(const char* dir_name) const;
 
-	void GetFilesFromDir(const char* dir_name, std::list<std::string>& file_list, std::list<std::string>& dir_list) const;
+	void GetFilesFromDirOld(const char* dir_name, std::list<std::string>& file_list, std::list<std::string>& dir_list) const;
+
+	void GetFilesFromDir(const char* dir_name) const;
 
 	bool WriteInFile(const char* file_name, char* buffer, uint size) const;
 	uint ReadFromFile(const char* file_name, char** buffer);
 	
 	bool MakeNewDir(const char* dir_name);
 	bool DeleteFileDir(const char* file_dir_name);
+
+	Directory* GetAssetsDirectory() const;
 		
 private:
 
@@ -34,6 +60,11 @@ private:
 	PHYSFS_File* OpenFileForWriting(const char* file_name) const;
 	PHYSFS_File* OpenFileForReading(const char* file_name) const;
 	void CloseFile(PHYSFS_File* file, const char* file_name) const;
+
+public:
+	Directory* dir = nullptr;
+
+
 };
 
 #endif // __trFILESYSTEM_H__

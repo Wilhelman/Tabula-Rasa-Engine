@@ -5,6 +5,9 @@
 #include <list>
 #include <string>
 
+#include "trFileSystem.h"
+
+
 class PanelResources : public Panel
 {
 public:
@@ -13,6 +16,27 @@ public:
 
 	void Draw() override;
 	void DrawAssets(std::string dir_name);
+	void FillFilesTree(std::string dir_name);
+
+private:
+	struct FilesTree
+	{
+		public:
+			FilesTree(FilesTree* name, FilesTree* parent, std::list<FilesTree*> childs)
+			{
+				this->name = name;
+				this->parent = parent;
+				this->childs = childs;
+			}
+
+		public:
+			FilesTree* name = nullptr;
+			FilesTree* parent = nullptr;
+			std::list<FilesTree*> childs;
+	};
+
+	std::list<FilesTree> files_tree_list;
+	trFileSystem::Directory* new_dir = nullptr;
 };
 
 #endif// __PANELABOUT_H__

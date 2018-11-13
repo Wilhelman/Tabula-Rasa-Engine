@@ -10,7 +10,7 @@ trFileSystem::trFileSystem()
 	this->name = "FileSystem";
 }
 
-trFileSystem::~trFileSystem() { }
+trFileSystem::~trFileSystem() { RELEASE(dir); }
 
 bool trFileSystem::Awake(JSON_Object * config)
 {
@@ -36,6 +36,7 @@ bool trFileSystem::Awake(JSON_Object * config)
 	// Setting game directory to write in it
 	PHYSFS_setWriteDir(".");
 
+	dir = new Directory("Assets");
 	return true;
 }
 
@@ -86,7 +87,7 @@ bool trFileSystem::DoesDirExist(const char * dir_name) const
 	return ret;
 }
 
-void trFileSystem::GetFilesFromDir(const char* dir_name, std::list<std::string>& file_list, std::list<std::string>& dir_list) const
+void trFileSystem::GetFilesFromDirOld(const char* dir_name, std::list<std::string>& file_list, std::list<std::string>& dir_list) const
 {
 	char **rc = PHYSFS_enumerateFiles(dir_name);
 
@@ -107,6 +108,49 @@ void trFileSystem::GetFilesFromDir(const char* dir_name, std::list<std::string>&
 
 	PHYSFS_freeList(rc);
 }
+
+void trFileSystem::GetFilesFromDir(const char* dir_name) const
+{
+	static uint index = 0;
+	std::string assets_dir(dir_name);
+	assets_dir.append("/");
+	char **rc = PHYSFS_enumerateFiles(assets_dir.c_str());
+
+	if (rc == nullptr)
+	{
+		TR_LOG("Directory %s not found", dir_name);
+		return;
+	}
+	else
+	{
+		std::string directory = assets_dir.c_str();
+
+		for (char** i = rc; *i != nullptr; i++)
+		{
+			if (DoesDirExist((directory + *i).c_str()))
+			{
+				std::string tmp_dir = assets_dir;
+				tmp_dir.append(*i);
+
+				Directory new_dir(*i);
+				dir->dirs_vec.push_back(new_dir);
+
+				GetFilesFromDir(tmp_dir.c_str());
+			
+				index++;
+			}
+			else
+			{
+				dir->dirs_vec[index].files_vec.push_back(*i);
+				
+			}
+				
+		}
+	} 
+	PHYSFS_freeList(rc);
+}
+
+
 
 bool trFileSystem::AddNewPath(const char * path)
 {

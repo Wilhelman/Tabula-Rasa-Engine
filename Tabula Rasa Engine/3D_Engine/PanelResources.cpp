@@ -1,6 +1,6 @@
 #include "trApp.h"
 #include "PanelResources.h"
-#include "trFileSystem.h"
+
 #include "trFileLoader.h"
 #include "trDefs.h"
 
@@ -12,11 +12,18 @@ PanelResources::PanelResources() : Panel("Assets", SDL_SCANCODE_4)
 	height = 500;
 	active = false;
 
+	std::vector<trFileSystem::Directory> d_vec;
+	std::vector<std::string> f_vec;
+	//new_dir = new trFileSystem::Directory("Assets", d_vec, f_vec);
+
+	App->file_system->GetFilesFromDir("Assets");
 
 }
 
 PanelResources::~PanelResources()
-{}
+{
+	//RELEASE(new_dir);
+}
 
 void PanelResources::Draw()
 {
@@ -25,14 +32,12 @@ void PanelResources::Draw()
 		ImGuiWindowFlags_NoFocusOnAppearing |
 		ImGuiWindowFlags_HorizontalScrollbar);
 
-	if (App->file_system->DoesDirExist(ASSETS_DIR))
+	if (ImGui::TreeNodeEx(ASSETS_DIR))
 	{
-		if (ImGui::TreeNodeEx(ASSETS_DIR))
-		{
-			DrawAssets(ASSETS_DIR);
-			ImGui::TreePop();
-		}
+		DrawAssets(ASSETS_DIR);
+		ImGui::TreePop();
 	}
+	
 	ImGui::End();
 }
 
@@ -43,7 +48,7 @@ void PanelResources::DrawAssets(std::string dir_name)
 
 	std::string assets_dir(dir_name);
 	assets_dir.append("/");
-	App->file_system->GetFilesFromDir(assets_dir.c_str(), file_list, dir_list);
+	App->file_system->GetFilesFromDirOld(assets_dir.c_str(), file_list, dir_list);
 
 	for (std::list<std::string>::iterator it_dir = dir_list.begin(); it_dir != dir_list.end(); it_dir++)
 	{
@@ -105,5 +110,29 @@ void PanelResources::DrawAssets(std::string dir_name)
 
 			ImGui::TreePop();
 		}
+	}
+}
+
+void PanelResources::FillFilesTree(std::string dir_name)
+{
+	std::list<std::string> file_list;
+	std::list<std::string> dir_list;
+
+	std::string assets_dir(dir_name);
+	assets_dir.append("/");
+	App->file_system->GetFilesFromDirOld(assets_dir.c_str(), file_list, dir_list);
+	
+	
+
+	for (std::list<std::string>::iterator it_dir = dir_list.begin(); it_dir != dir_list.end(); it_dir++)
+	{
+		std::string tmp_dir = assets_dir;
+		tmp_dir.append((*it_dir).c_str());
+		FillFilesTree(tmp_dir);
+	}
+
+	for (std::list<std::string>::iterator it_file = file_list.begin(); it_file != file_list.end(); it_file++)
+	{
+		
 	}
 }
