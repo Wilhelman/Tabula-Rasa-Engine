@@ -13,17 +13,22 @@ struct Directory
 
 	~Directory() {  }
 
-	void Clear()
-	{
-		name = nullptr;
-		dirs_vec.clear();
-		dirs_vec.clear();
-		files_vec.clear();
-	}
-
 	std::string name;
 	std::vector<Directory> dirs_vec;
 	std::vector<std::string> files_vec;
+
+	void Clear(Directory* dir)
+	{
+		for (uint i = 0; i < dir->dirs_vec.size(); i++)
+		{
+			dir->dirs_vec[i].name = nullptr;
+			dir->dirs_vec[i].files_vec.clear();
+		
+			Clear(&dir->dirs_vec[i]);
+			
+		}
+	}
+
 };
 
 class trFileSystem : public trModule
@@ -39,7 +44,7 @@ public:
 	bool DoesFileExist(const char* file_name) const;
 	bool DoesDirExist(const char* dir_name) const;
 
-	void RefreshAssets(const char* dir_name) const;
+	void RefreshDirectory(const char* dir_name);
 
 	bool WriteInFile(const char* file_name, char* buffer, uint size) const;
 	uint ReadFromFile(const char* file_name, char** buffer);
@@ -58,8 +63,9 @@ private:
 	PHYSFS_File* OpenFileForReading(const char* file_name) const;
 	void CloseFile(PHYSFS_File* file, const char* file_name) const;
 
-private:
+public:
 	Directory* assets_dir = nullptr;
+	bool assets_dir_clear = false;
 
 
 };

@@ -3,6 +3,7 @@
 
 #include "trFileLoader.h"
 #include "trFileSystem.h"
+#include "trTimeManager.h"
 #include "trDefs.h"
 
 #include "ImGui/imgui.h"
@@ -13,13 +14,10 @@ PanelResources::PanelResources() : Panel("Assets", SDL_SCANCODE_4)
 	height = 500;
 	active = false;
 
-	App->file_system->RefreshAssets("Assets");
+	App->file_system->RefreshDirectory(ASSETS_DIR);
 }
 
-PanelResources::~PanelResources()
-{
-	//RELEASE(new_dir);
-}
+PanelResources::~PanelResources() { }
 
 void PanelResources::Draw()
 {
@@ -35,6 +33,22 @@ void PanelResources::Draw()
 	}
 	
 	ImGui::End();
+
+	/*if (refresh_clock >= REFRESH_TIME)
+	{
+		//App->file_system->GetAssetsDirectory()->Clear(App->file_system->GetAssetsDirectory()); // Test 1
+		
+		//App->file_system->assets_dir = { 0 }; // Test 2
+
+		//RELEASE(App->file_system->assets_dir); // Test 3
+		//App->file_system->assets_dir = new Directory(ASSETS_DIR);
+
+
+		App->file_system->RefreshDirectory(ASSETS_DIR);
+		refresh_clock = 0.0f;
+	}
+
+	refresh_clock += App->time_manager->GetRealTimeDt();*/
 }
 
 void PanelResources::DrawAssets(Directory* dir)

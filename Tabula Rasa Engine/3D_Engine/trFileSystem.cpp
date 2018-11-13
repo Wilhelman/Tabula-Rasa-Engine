@@ -36,7 +36,7 @@ bool trFileSystem::Awake(JSON_Object * config)
 	// Setting game directory to write in it
 	PHYSFS_setWriteDir(".");
 
-	assets_dir = new Directory("Assets");
+	assets_dir = new Directory(ASSETS_DIR);
 	return true;
 }
 
@@ -87,7 +87,7 @@ bool trFileSystem::DoesDirExist(const char * dir_name) const
 	return ret;
 }
 
-void trFileSystem::RefreshAssets(const char* dir_name) const
+void trFileSystem::RefreshDirectory(const char* dir_name)
 {
 	static uint index = 0;
 	std::string assets_name(dir_name);
@@ -113,7 +113,7 @@ void trFileSystem::RefreshAssets(const char* dir_name) const
 				Directory new_dir(*i);
 				assets_dir->dirs_vec.push_back(new_dir);
 
-				RefreshAssets(tmp_dir.c_str());
+				RefreshDirectory(tmp_dir.c_str());
 			
 				index++;
 			}
@@ -122,6 +122,7 @@ void trFileSystem::RefreshAssets(const char* dir_name) const
 		}
 	} 
 	PHYSFS_freeList(rc);
+
 }
 
 

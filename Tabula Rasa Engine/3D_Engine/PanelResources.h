@@ -1,6 +1,8 @@
 #ifndef __PANEL_RESOURCES_H__
 #define __PANEL_RESOURCES_H__
 
+#define REFRESH_TIME 2.0f
+
 #include "Panel.h"
 #include <list>
 #include <string>
@@ -17,21 +19,7 @@ public:
 	void DrawAssets(Directory* dir);
 
 private:
-	struct FilesTree
-	{
-		public:
-			FilesTree(FilesTree* name, FilesTree* parent, std::list<FilesTree*> childs)
-			{
-				this->name = name;
-				this->parent = parent;
-				this->childs = childs;
-			}
-
-		public:
-			FilesTree* name = nullptr;
-			FilesTree* parent = nullptr;
-			std::list<FilesTree*> childs;
-	};
+	float refresh_clock = 0.0f;
 };
 
 #endif// __PANELABOUT_H__
