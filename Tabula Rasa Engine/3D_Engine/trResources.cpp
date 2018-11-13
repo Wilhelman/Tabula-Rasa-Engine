@@ -62,44 +62,47 @@ UID trResources::ImportFile(const char * new_file_in_assets, bool force)
 	std::string extension;
 	App->file_system->GetExtensionFromFile(new_file_in_assets, extension);
 
-	/*Resource::Type type = TypeFromExtension(extension.c_str());
+	Resource::Type type = TypeFromExtension(extension.c_str());
 
 	switch (type) {
-	case Resource::MESH: import_ok = App->tex->Import(new_file_in_assets, "", written_file); break;
-	case Resource::TEXTURE: import_ok = App->scene->Import(new_file_in_assets, written_file); break;
+	case Resource::MESH:
+		//import_ok = App->tex->Import(new_file_in_assets, "", written_file); 
+		break;
+	case Resource::TEXTURE: 
+		//import_ok = App->scene->Import(new_file_in_assets, written_file)
+		break;
+	case Resource::SCENE:
+		//import_ok = App->scene->Import(new_file_in_assets, written_file)
+		break;
 	}
-	if (import_ok == true) { // If export was successful, create a new resource
+
+	/*if (import_ok == true) { // If export was successful, create a new resource
 		Resource* res = CreateNewResource(type);
 		res->file = new_file_in_assets;
 		res->exported_file = written_file;
 		ret = res->uid;
 	}*/
-	return ret;
+	return ret;
+
 }
 
-/*Resource::Type trResources::TypeFromExtension(const char * extension) const
+Resource::Type trResources::TypeFromExtension(const char * extension) const
 {
-	/*Resource::Type ret = Resource::unknown;
+	Resource::Type ret = Resource::UNKNOWN;
 
 	if (extension != nullptr)
 	{
-		if (_stricmp(extension, "wav") == 0)
-			ret = Resource::audio;
-		else if (_stricmp(extension, "ogg") == 0)
-			ret = Resource::audio;
-		else if (_stricmp(extension, "dds") == 0)
-			ret = Resource::texture;
+		if (_stricmp(extension, "dds") == 0)
+			ret = Resource::TEXTURE;
 		else if (_stricmp(extension, "png") == 0)
-			ret = Resource::texture;
+			ret = Resource::TEXTURE;
 		else if (_stricmp(extension, "jpg") == 0)
-			ret = Resource::texture;
+			ret = Resource::TEXTURE;
 		else if (_stricmp(extension, "tga") == 0)
-			ret = Resource::texture;
+			ret = Resource::TEXTURE;
 		else if (_stricmp(extension, "fbx") == 0)
-			ret = Resource::scene;
-		else if (_stricmp(extension, "dae") == 0)
-			ret = Resource::scene;
-	}*/
+			ret = Resource::SCENE;
+	}
 
 	return ret;
-}*/
+}

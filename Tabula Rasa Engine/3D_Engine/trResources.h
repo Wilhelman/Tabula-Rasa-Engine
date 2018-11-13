@@ -7,6 +7,7 @@
 
 #include <map>
 #include <vector>
+#include <string>
 
 class ResourceMesh;
 class ResourceTexture;
@@ -27,6 +28,7 @@ public:
 
 	UID Find(const char* file_in_assets) const;
 	UID ImportFile(const char* new_file_in_assets, bool force = false);
+	Resource::Type TypeFromExtension(const char* extension) const;
 	UID GenerateNewUID();
 	const Resource* Get(UID uid) const;
 	Resource* Get(UID uid);
