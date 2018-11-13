@@ -87,29 +87,7 @@ bool trFileSystem::DoesDirExist(const char * dir_name) const
 	return ret;
 }
 
-void trFileSystem::GetFilesFromDirOld(const char* dir_name, std::list<std::string>& file_list, std::list<std::string>& dir_list) const
-{
-	char **rc = PHYSFS_enumerateFiles(dir_name);
-
-	if (rc == nullptr)
-		TR_LOG("Directory %s not found", dir_name);
-	else
-	{
-		std::string directory = dir_name;
-
-		for (char** i = rc; *i != nullptr; i++)
-		{
-			if (DoesDirExist((directory + *i).c_str()))
-				dir_list.push_back(*i);
-			else
-				file_list.push_back(*i);
-		}
-	}
-
-	PHYSFS_freeList(rc);
-}
-
-void trFileSystem::GetFilesFromDir(const char* dir_name) const
+void trFileSystem::RefreshAssets(const char* dir_name) const
 {
 	static uint index = 0;
 	std::string assets_name(dir_name);
@@ -135,7 +113,7 @@ void trFileSystem::GetFilesFromDir(const char* dir_name) const
 				Directory new_dir(*i);
 				assets_dir->dirs_vec.push_back(new_dir);
 
-				GetFilesFromDir(tmp_dir.c_str());
+				RefreshAssets(tmp_dir.c_str());
 			
 				index++;
 			}
@@ -277,7 +255,7 @@ bool trFileSystem::DeleteFileDir(const char* file_dir_name)
 	return ret;
 }
 
-trFileSystem::Directory* trFileSystem::GetAssetsDirectory() const
+Directory* trFileSystem::GetAssetsDirectory() const
 {
 	return assets_dir;
 }

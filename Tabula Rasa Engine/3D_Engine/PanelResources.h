@@ -4,8 +4,8 @@
 #include "Panel.h"
 #include <list>
 #include <string>
-#include "trFileSystem.h"
 
+struct Directory;
 
 class PanelResources : public Panel
 {
@@ -14,7 +14,7 @@ public:
 	virtual ~PanelResources();
 
 	void Draw() override;
-	void DrawAssets(trFileSystem::Directory* dir);
+	void DrawAssets(Directory* dir);
 
 private:
 	struct FilesTree
@@ -32,9 +32,6 @@ private:
 			FilesTree* parent = nullptr;
 			std::list<FilesTree*> childs;
 	};
-
-	std::list<FilesTree> files_tree_list;
-	trFileSystem::Directory* new_dir = nullptr;
 };
 
 #endif// __PANELABOUT_H__

@@ -2,6 +2,7 @@
 #include "PanelResources.h"
 
 #include "trFileLoader.h"
+#include "trFileSystem.h"
 #include "trDefs.h"
 
 #include "ImGui/imgui.h"
@@ -12,12 +13,7 @@ PanelResources::PanelResources() : Panel("Assets", SDL_SCANCODE_4)
 	height = 500;
 	active = false;
 
-	std::vector<trFileSystem::Directory> d_vec;
-	std::vector<std::string> f_vec;
-	//new_dir = new trFileSystem::Directory("Assets", d_vec, f_vec);
-
-	App->file_system->GetFilesFromDir("Assets");
-
+	App->file_system->RefreshAssets("Assets");
 }
 
 PanelResources::~PanelResources()
@@ -41,7 +37,7 @@ void PanelResources::Draw()
 	ImGui::End();
 }
 
-void PanelResources::DrawAssets(trFileSystem::Directory* dir)
+void PanelResources::DrawAssets(Directory* dir)
 {
 	uint dirs_size = dir->dirs_vec.size();
 	uint files_size = dir->files_vec.size();

@@ -7,29 +7,27 @@
 
 struct PHYSFS_File;
 
+struct Directory
+{
+	Directory(char* name) { this->name = name; }
+
+	~Directory() {  }
+
+	void Clear()
+	{
+		name = nullptr;
+		dirs_vec.clear();
+		dirs_vec.clear();
+		files_vec.clear();
+	}
+
+	std::string name;
+	std::vector<Directory> dirs_vec;
+	std::vector<std::string> files_vec;
+};
 
 class trFileSystem : public trModule
 {
-public:
-	struct Directory
-	{
-		Directory(char* name) { this->name = name; }
-
-		~Directory() {  }
-
-		void Clear()
-		{
-			name = nullptr;
-			dirs_vec.clear();
-			dirs_vec.clear();
-			files_vec.clear();
-		}
-
-		std::string name;
-		std::vector<Directory> dirs_vec;
-		std::vector<std::string> files_vec;
-	};
-
 public:
 	trFileSystem();
 	~trFileSystem();
@@ -41,9 +39,7 @@ public:
 	bool DoesFileExist(const char* file_name) const;
 	bool DoesDirExist(const char* dir_name) const;
 
-	void GetFilesFromDirOld(const char* dir_name, std::list<std::string>& file_list, std::list<std::string>& dir_list) const;
-
-	void GetFilesFromDir(const char* dir_name) const;
+	void RefreshAssets(const char* dir_name) const;
 
 	bool WriteInFile(const char* file_name, char* buffer, uint size) const;
 	uint ReadFromFile(const char* file_name, char** buffer);
