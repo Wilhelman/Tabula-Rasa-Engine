@@ -102,7 +102,7 @@ void trFileSystem::RefreshDirectory(const char* dir_name)
 
 	if (rc == nullptr)
 	{
-		TR_LOG("Directory %s not found", dir_name);
+		//TR_LOG("Directory %s not found", dir_name);
 		return;
 	}
 	else

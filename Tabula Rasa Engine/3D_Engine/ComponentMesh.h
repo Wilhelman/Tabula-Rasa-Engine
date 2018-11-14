@@ -41,7 +41,7 @@ public:
 	void SetMesh(Mesh* mesh);
 	const Mesh* GetMesh() const;
 
-private:
+public:
 
 	Mesh* mesh = nullptr;
 

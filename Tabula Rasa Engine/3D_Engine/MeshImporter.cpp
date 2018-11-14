@@ -66,7 +66,7 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 		scene_vertices.clear();
 		cursor_data = nullptr;
 		material_data = nullptr;
-		ImportNodesRecursively(scene->mRootNode, scene, /*App->main_scene->GetRoot(),*/ (char*)path);
+		ImportNodesRecursively(scene->mRootNode, scene, (char*)path, App->main_scene->GetRoot());
 
 		// Calculating global scene AABB for camera focus on load
 		App->main_scene->GetRoot()->RecalculateBoundingBox();
@@ -99,6 +99,18 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 			}
 		}
 
+		std::string tmp = path;
+		// Let's get the file name to print it in inspector:
+		const size_t last_slash = tmp.find_last_of("\\/");
+		if (std::string::npos != last_slash)
+			tmp.erase(0, last_slash + 1);
+		const size_t extension = tmp.rfind('.');
+		if (std::string::npos != extension)
+			tmp.erase(extension);
+		tmp.append("Scene");
+		App->main_scene->scene_name = tmp;
+		App->main_scene->SerializeScene();
+
 		aiReleaseImport(scene);
 
 		return true;
@@ -118,10 +130,14 @@ bool MeshImporter::Import(const void * buffer, uint size, std::string & output_f
 
 
 
-void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * scene, char* file_path)
+void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * scene, char* file_path, GameObject * parent_go)
 {
+	GameObject* new_go = nullptr;
+
 	if (node->mNumMeshes > 0) //if this node have a mesh
 	{
+		new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
+
 		std::string tmp = "";
 		if (file_path != nullptr) {
 			tmp = file_path;
@@ -132,6 +148,7 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 			const size_t extension = tmp.rfind('.');
 			if (std::string::npos != extension)
 				tmp.erase(extension);
+			new_go->SetName(tmp.c_str());
 			file_name = tmp;
 			file_path = nullptr;
 		}
@@ -143,6 +160,8 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		node->mTransformation.Decompose(scaling, rotation, translation);
 		Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
 		float3 quat_to_euler = rot.ToEulerXYZ(); // transforming it to euler to show it in inspector
+
+		new_go->GetTransform()->Setup(float3(translation.x, translation.y, translation.z), float3(scaling.x, scaling.y, scaling.z), rot);
 
 		Mesh* mesh_data = new Mesh(); // our mesh
 
@@ -203,14 +222,17 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 		std::string output_file;
 
-		SaveMeshFile(node->mName.C_Str(), mesh_data, output_file);
+		ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
+		mesh_comp->SetMesh(mesh_data);
 
-		LoadMeshFile(node->mName.C_Str(), output_file.c_str());
+		SaveMeshFile(node->mName.C_Str(), mesh_comp->mesh, output_file);
 
-		RELEASE(mesh_data);
+		//LoadMeshFile(node->mName.C_Str(), output_file.c_str());
+
+		//RELEASE(mesh_data);
 	}
 	for (uint i = 0; i < node->mNumChildren; i++)
-		ImportNodesRecursively(node->mChildren[i], scene, file_path);
+		ImportNodesRecursively(node->mChildren[i], scene, file_path,new_go);
 }
 
 /* SAVE ZONE
@@ -367,7 +389,7 @@ ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* 
 }
 
 
-bool MeshImporter::SaveMeshFile(const char* file_name, Mesh* mesh_data, std::string& output_file)
+bool MeshImporter::SaveMeshFile(const char* file_name,Mesh* mesh_data, std::string& output_file)
 {
 	uint size_indices = sizeof(uint) * mesh_data->index_size;
 	uint size_vertices = sizeof(float) * (mesh_data->vertex_size);
@@ -401,7 +423,9 @@ bool MeshImporter::SaveMeshFile(const char* file_name, Mesh* mesh_data, std::str
 	tmp_str.append("/");
 	tmp_str.append(file_name);
 	tmp_str.append(".trMesh"); // adding our own format extension
-	
+
+	mesh_data->path = tmp_str;
+
 	App->file_system->WriteInFile(tmp_str.c_str(), data, size);
 	output_file = tmp_str;
 
