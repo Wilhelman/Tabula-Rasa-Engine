@@ -123,15 +123,17 @@ Resource::Type trResources::TypeFromExtension(const char * extension) const
 
 	if (extension != nullptr)
 	{
-		if (_stricmp(extension, "dds") == 0)
+		if (_stricmp(extension, ".dds") == 0)
 			ret = Resource::TEXTURE;
-		else if (_stricmp(extension, "png") == 0)
+		else if (_stricmp(extension, ".png") == 0)
 			ret = Resource::TEXTURE;
-		else if (_stricmp(extension, "jpg") == 0)
+		else if (_stricmp(extension, ".jpg") == 0)
 			ret = Resource::TEXTURE;
-		else if (_stricmp(extension, "tga") == 0)
+		else if (_stricmp(extension, ".tga") == 0)
 			ret = Resource::TEXTURE;
-		else if (_stricmp(extension, "fbx") == 0)
+		else if (_stricmp(extension, ".fbx") == 0)
+			ret = Resource::SCENE;
+		else if (_stricmp(extension, ".FBX") == 0)
 			ret = Resource::SCENE;
 	}
 

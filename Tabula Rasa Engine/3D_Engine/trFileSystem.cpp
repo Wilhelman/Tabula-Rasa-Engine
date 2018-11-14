@@ -37,6 +37,9 @@ bool trFileSystem::Awake(JSON_Object * config)
 	PHYSFS_setWriteDir(".");
 
 	assets_dir = new Directory(ASSETS_DIR);
+
+	RefreshDirectory(ASSETS_DIR);
+
 	return true;
 }
 

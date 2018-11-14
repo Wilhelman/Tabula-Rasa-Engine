@@ -34,6 +34,7 @@ public:
 	bool FillMeshFromFilePath(Mesh** mesh_to_fill, const char* file_path);
 
 private:
+	GameObject* imported_root_go = nullptr;
 
 	//used as static
 	ComponentMaterial* material_data = nullptr;

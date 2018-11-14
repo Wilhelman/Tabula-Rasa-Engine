@@ -44,6 +44,8 @@ public:
 	bool SerializeScene();
 	bool DeSerializeScene(const char * string);
 
+	GameObject* FindGoByUUID(UID uid, GameObject* go);
+
 	GameObject* GetRoot()const;
 
 	void InsertGoInQuadtree(GameObject* go);

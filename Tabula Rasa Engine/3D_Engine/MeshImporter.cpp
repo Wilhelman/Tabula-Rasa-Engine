@@ -53,22 +53,24 @@ MeshImporter::~MeshImporter()
 
 bool MeshImporter::Import(const char * path, std::string & output_file)
 {
-	TR_LOG("trFileLoader: Start importing a file with path: %s", path);
+	std::string real_path = A_MODELS_DIR;
+	real_path.append("/");
+	real_path.append(path);
+
+	TR_LOG("trFileLoader: Start importing a file with path: %s", real_path);
 
 	//TODO CHECK PATH
-	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
+	const aiScene* scene = aiImportFile(real_path.c_str(), aiProcessPreset_TargetRealtime_MaxQuality);
 
 	if (scene != nullptr) 
 	{
-		App->main_scene->ClearScene();
 		// Removing and cleaning the last AABB
 		scene_num_vertex = 0u;
 		scene_vertices.clear();
 		cursor_data = nullptr;
 		material_data = nullptr;
-		GameObject* GO_to_destroy = App->main_scene->CreateGameObject("to_destroy",nullptr);
 
-		ImportNodesRecursively(scene->mRootNode, scene, (char*)path, GO_to_destroy);
+		ImportNodesRecursively(scene->mRootNode, scene, (char*)real_path.c_str(), App->main_scene->GetRoot());
 
 		// Calculating global scene AABB for camera focus on load
 		/*App->main_scene->GetRoot()->RecalculateBoundingBox();
@@ -101,7 +103,7 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 			}
 		}*/
 
-		std::string tmp = path;
+		std::string tmp = real_path;
 		// Let's get the file name to print it in inspector:
 		const size_t last_slash = tmp.find_last_of("\\/");
 		if (std::string::npos != last_slash)
@@ -112,14 +114,14 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 		App->main_scene->scene_name = tmp;
 		App->main_scene->SerializeScene();
 
-		GO_to_destroy->to_destroy = true;
+		imported_root_go->to_destroy = true;
 
 		aiReleaseImport(scene);
 
 		return true;
 	}
 
-	TR_LOG("trFileLoader: Error importing a file: %s", path);
+	TR_LOG("trFileLoader: Error importing a file: %s", real_path.c_str());
 
 	aiReleaseImport(scene);
 
@@ -135,11 +137,13 @@ bool MeshImporter::Import(const void * buffer, uint size, std::string & output_f
 
 void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * scene, char* file_path, GameObject * parent_go)
 {
-	GameObject* new_go = nullptr;
+	GameObject* new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
+	if (parent_go == App->main_scene->GetRoot())
+		imported_root_go = new_go;
 
 	if (node->mNumMeshes > 0) //if this node have a mesh
 	{
-		new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
+		//new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
 
 		std::string tmp = "";
 		if (file_path != nullptr) {
@@ -239,7 +243,7 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		//RELEASE(mesh_data);
 	}
 	for (uint i = 0; i < node->mNumChildren; i++)
-		ImportNodesRecursively(node->mChildren[i], scene, file_path,(new_go)?new_go:parent_go);
+		ImportNodesRecursively(node->mChildren[i], scene, file_path,new_go);
 }
 
 /* SAVE ZONE

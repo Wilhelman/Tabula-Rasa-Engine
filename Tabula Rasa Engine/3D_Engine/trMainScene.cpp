@@ -195,13 +195,14 @@ bool trMainScene::DeSerializeScene(const char * string)
 	scene_name = json_value_get_string(value);
 
 	/// todo load camera state?
+	std::map<GameObject*, UID> uuid_relations;
 
 	// Get GameObjects Array
 	JSON_Array* array = json_object_get_array(root, "GameObjects");
 	if (array != nullptr) {
 		uint go_size = json_array_get_count(array);
 
-		std::map<GameObject*, UID> uuid_relations;
+		
 		for (uint i = 0u; i < go_size; ++i)
 		{
 			GameObject* go = this->CreateGameObject("unnamed for now");
@@ -212,9 +213,35 @@ bool trMainScene::DeSerializeScene(const char * string)
 	}
 
 	// TODO CALCULATE SCENE AABB LIKE IN MESH IMPORTER
+
+	for (std::map<GameObject*, UID>::iterator it = uuid_relations.begin(); it != uuid_relations.end(); ++it)
+	{
+		uint parent_id = it->second;
+		GameObject* go = it->first;
+
+		if (parent_id > 0)
+		{
+			GameObject* parent_go = FindGoByUUID(parent_id, this->GetRoot());
+			if (parent_go != nullptr)
+				go->SetParent(parent_go);
+		}
+	}
 		
 
 	return true;
+}
+
+GameObject * trMainScene::FindGoByUUID(UID uid, GameObject* go)
+{
+	if (uid == go->GetUUID())
+		return go;
+
+	GameObject* ret = nullptr;
+
+	for (std::list<GameObject*>::const_iterator it = go->childs.begin(); it != go->childs.end() && ret == nullptr; ++it)
+		ret = FindGoByUUID(uid, *it);
+
+	return ret;
 }
 
 GameObject * trMainScene::GetRoot() const

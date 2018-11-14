@@ -80,12 +80,10 @@ void PanelHierarchy::DrawGameObject(GameObject * game_object)
 		}
 
 		std::list<GameObject*>::const_iterator it = game_object->childs.begin();
-		while (it != game_object->childs.end()) {
+		while (it != game_object->childs.end() && !game_object->to_destroy) {
 			DrawGameObject(*it);
 			it++;
 		}
-
-
 
 		ImGui::TreePop();
 	}
