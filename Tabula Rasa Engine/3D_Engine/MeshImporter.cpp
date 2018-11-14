@@ -108,8 +108,6 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 		if (std::string::npos != extension)
 			tmp.erase(extension);
 		App->main_scene->scene_name = tmp;
-		// Calculating global scene AABB for camera focus on load
-		App->main_scene->GetRoot()->RecalculateBoundingBox();
 		App->main_scene->SerializeScene();
 
 		aiReleaseImport(scene);

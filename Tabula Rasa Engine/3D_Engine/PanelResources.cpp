@@ -13,6 +13,7 @@ PanelResources::PanelResources() : Panel("Assets", SDL_SCANCODE_4)
 	width = 500;
 	height = 500;
 	active = false;
+	refresh_clock = REFRESH_TIME;
 }
 
 PanelResources::~PanelResources() { }

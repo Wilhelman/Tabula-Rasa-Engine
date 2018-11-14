@@ -165,7 +165,8 @@ bool trMainScene::SerializeScene()
 
 	/// Iterating between all gos
 	for (std::list<GameObject*>::const_iterator it = root->childs.begin(); it != root->childs.end(); it++) {
-		(*it)->Save(array);
+		if(!(*it)->to_destroy)
+			(*it)->Save(array);
 	}
 
 	char *serialized_string = NULL;
@@ -209,6 +210,8 @@ bool trMainScene::DeSerializeScene(const char * string)
 			go->Load(go_obj, uuid_relations);
 		}
 	}
+
+	// TODO CALCULATE SCENE AABB LIKE IN MESH IMPORTER
 		
 
 	return true;

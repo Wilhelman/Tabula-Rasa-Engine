@@ -57,11 +57,11 @@ bool trResources::CleanUp()
 
 void trResources::CheckForChangesInAssets(Directory* current_dir)
 {
-	//for (uint i = 0u; i < current_dir->files_vec.size(); i++)
-		//TryToImportFile(current_dir->files_vec[i].c_str());
+	for (uint i = 0u; i < current_dir->files_vec.size(); i++)
+		TryToImportFile(current_dir->files_vec[i].c_str());
 
-	//for (uint i = 0u; i < current_dir->dirs_vec.size(); i++)
-		//CheckForChangesInAssets(&current_dir->dirs_vec[i]);
+	for (uint i = 0u; i < current_dir->dirs_vec.size(); i++)
+		CheckForChangesInAssets(&current_dir->dirs_vec[i]);
 }
 
 void trResources::TryToImportFile(const char* file) {
@@ -70,7 +70,7 @@ void trResources::TryToImportFile(const char* file) {
 	file_with_meta.append(".meta");
 
 	if (!App->file_system->DoesFileExist(file_with_meta.c_str())) {
-		//ImportFile(file);
+		ImportFile(file);
 	}
 	else {
 
@@ -103,7 +103,7 @@ UID trResources::ImportFile(const char * file_path)
 		import_ok = material_importer->Import(file_path, written_file);
 		break;
 	case Resource::SCENE:
-		//import_ok = App->scene->Import(new_file_in_assets, written_file)
+		import_ok = mesh_importer->Import(file_path, written_file);
 		break;
 	}
 
