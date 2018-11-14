@@ -212,7 +212,6 @@ bool trRenderer3D::PreUpdate(float dt)
 	ComponentCamera* main_camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentByType(Component::component_type::COMPONENT_CAMERA);
 	// Quadtree update
 	App->main_scene->quadtree.CollectsGOs(main_camera_co->frustum, meshable_go);
-	//CollectGameObjectWithMesh(App->main_scene->GetRoot());
 
 	if (main_camera_co->frustum_culling) {
 
@@ -561,32 +560,15 @@ void trRenderer3D::DrawZBuffer()
 	delete[] first_data;
 }
 
-math::float4x4 trRenderer3D::Perspective(float fovy, float aspect, float n, float f) const
-{
-	math::float4x4 Perspective;
-
-	float coty = 1.0f / tan(fovy * math::pi / 360.0f);
-
-	for (uint i = 0; i < 4; i++) {
-		for (uint j = 0; j < 4; j++)
-			Perspective[i][j] = 0.0f;
-	}
-
-	Perspective[0][0] = coty / aspect;
-	Perspective[1][1] = coty;
-	Perspective[2][2] = (n + f) / (n - f);
-	Perspective[2][3] = -1.0f;
-	Perspective[3][2] = 2.0f * n * f / (n - f);
-
-	return Perspective;
-}
-
 void trRenderer3D::CollectActiveGameObjects()
 {
 	for (uint i = 0u; i < meshable_go.size(); i++)
 	{
-		if(meshable_go.at(i)->is_active && !meshable_go.at(i)->to_destroy)
-			drawable_go.push_back(meshable_go.at(i));
+		if (meshable_go.at(i)->is_active && !meshable_go.at(i)->to_destroy) {
+			ComponentMesh* mesh_co = (ComponentMesh*)meshable_go.at(i)->FindComponentByType(Component::component_type::COMPONENT_MESH);
+			if (mesh_co && mesh_co->GetMesh())
+				drawable_go.push_back(meshable_go.at(i));
+		}
 	}
 }
 
@@ -594,7 +576,10 @@ void trRenderer3D::CollectActiveInCameraGameObjects()
 {
 	for (uint i = 0u; i < meshable_go.size(); i++)
 	{
-		if (meshable_go.at(i)->is_active && meshable_go.at(i)->in_camera && !meshable_go.at(i)->to_destroy)
-			drawable_go.push_back(meshable_go.at(i));
+		if (meshable_go.at(i)->is_active && meshable_go.at(i)->in_camera && !meshable_go.at(i)->to_destroy) {
+			ComponentMesh* mesh_co = (ComponentMesh*)meshable_go.at(i)->FindComponentByType(Component::component_type::COMPONENT_MESH);
+			if(mesh_co && mesh_co->GetMesh())
+				drawable_go.push_back(meshable_go.at(i));
+		}
 	}
 }

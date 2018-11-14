@@ -86,7 +86,7 @@ bool ComponentTransform::Load(const JSON_Object * component_obj)
 	return true;
 }
 
-void ComponentTransform::Setup(const float3 & translation, const float3 & scale, const Quat & rotation)
+void ComponentTransform::Setup(const float3 & translation, const float3 & scale, const Quat & rotation, bool importing)
 {
 	this->position = translation;
 	this->scale = scale;
@@ -96,7 +96,7 @@ void ComponentTransform::Setup(const float3 & translation, const float3 & scale,
 
 	embedded_go->RecalculateBoundingBox();
 	
-	if (embedded_go->is_static) {
+	if (embedded_go->is_static && !importing) {
 		App->main_scene->EraseGoInQuadtree(embedded_go);
 		embedded_go->is_static = false;
 	}

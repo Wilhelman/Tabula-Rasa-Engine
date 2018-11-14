@@ -91,11 +91,6 @@ void PanelResources::DrawAssets(Directory* dir)
 					else
 						TR_LOG("Resources: Error importing unknown format...");
 				}
-
-				if (ImGui::MenuItem("Remove"))
-				{
-					// TODO: remove file here
-				}
 				ImGui::EndPopup();
 			}
 			ImGui::TreePop();

@@ -66,10 +66,12 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 		scene_vertices.clear();
 		cursor_data = nullptr;
 		material_data = nullptr;
-		ImportNodesRecursively(scene->mRootNode, scene, (char*)path, App->main_scene->GetRoot());
+		GameObject* GO_to_destroy = App->main_scene->CreateGameObject("to_destroy",nullptr);
+
+		ImportNodesRecursively(scene->mRootNode, scene, (char*)path, GO_to_destroy);
 
 		// Calculating global scene AABB for camera focus on load
-		App->main_scene->GetRoot()->RecalculateBoundingBox();
+		/*App->main_scene->GetRoot()->RecalculateBoundingBox();
 		scene_bb.SetNegativeInfinity();
 		bool mesh_find = false;
 
@@ -97,7 +99,7 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 			if ((*it)->is_static) {
 				App->main_scene->InsertGoInQuadtree((*it));
 			}
-		}
+		}*/
 
 		std::string tmp = path;
 		// Let's get the file name to print it in inspector:
@@ -109,6 +111,8 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 			tmp.erase(extension);
 		App->main_scene->scene_name = tmp;
 		App->main_scene->SerializeScene();
+
+		GO_to_destroy->to_destroy = true;
 
 		aiReleaseImport(scene);
 
@@ -161,7 +165,7 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
 		float3 quat_to_euler = rot.ToEulerXYZ(); // transforming it to euler to show it in inspector
 
-		new_go->GetTransform()->Setup(float3(translation.x, translation.y, translation.z), float3(scaling.x, scaling.y, scaling.z), rot);
+		new_go->GetTransform()->Setup(float3(translation.x, translation.y, translation.z), float3(scaling.x, scaling.y, scaling.z), rot, true);
 
 		Mesh* mesh_data = new Mesh(); // our mesh
 
@@ -235,7 +239,7 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		//RELEASE(mesh_data);
 	}
 	for (uint i = 0; i < node->mNumChildren; i++)
-		ImportNodesRecursively(node->mChildren[i], scene, file_path,new_go);
+		ImportNodesRecursively(node->mChildren[i], scene, file_path,(new_go)?new_go:parent_go);
 }
 
 /* SAVE ZONE

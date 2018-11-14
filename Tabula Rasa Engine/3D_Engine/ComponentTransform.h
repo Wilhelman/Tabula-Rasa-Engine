@@ -15,7 +15,7 @@ public:
 	bool Save(JSON_Object* component_obj)const;
 	bool Load(const JSON_Object* component_obj);
 
-	void Setup(const float3& translation, const float3& scale, const Quat& rotation);
+	void Setup(const float3& translation, const float3& scale, const Quat& rotation, bool importing = false);
 	const float3& GetTranslation()const;
 	const float3& GetScale()const;
 	const Quat& GetRotation()const;

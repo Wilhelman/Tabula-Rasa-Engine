@@ -224,9 +224,11 @@ GameObject * trMainScene::GetRoot() const
 
 void trMainScene::InsertGoInQuadtree(GameObject * go) // This GO is now static
 {
-	if (go != main_camera && !go->to_destroy) {
-		static_go.push_back(go);
-		quadtree.Insert(go);
+	if (go != main_camera) {
+		if (!go->to_destroy) {
+			static_go.push_back(go);
+			quadtree.Insert(go);
+		}
 		for (std::list<GameObject*>::iterator it = dinamic_go.begin(); it != dinamic_go.end(); it++) {
 			if ((*it) == go) {
 				dinamic_go.erase(it);
@@ -240,7 +242,8 @@ void trMainScene::InsertGoInQuadtree(GameObject * go) // This GO is now static
 void trMainScene::EraseGoInQuadtree(GameObject * go) // This go is now dinamic
 {
 	if (go != main_camera) {
-		dinamic_go.push_back(go);
+		if(!go->to_destroy)
+			dinamic_go.push_back(go);
 		for (std::list<GameObject*>::iterator it = static_go.begin(); it != static_go.end(); it++) {
 			if (go == (*it)) {
 				static_go.erase(it);

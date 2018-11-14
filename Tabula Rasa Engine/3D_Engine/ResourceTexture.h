@@ -33,6 +33,7 @@ public:
 public:
 	uint width = 0;
 	uint height = 0;
+
 	uint depth = 0;
 	uint bpp = 0;
 	uint mips = 0;

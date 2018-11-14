@@ -38,7 +38,8 @@ protected:
 protected:
 
 	UID uid = 0;
-	std::string file;
+	std::string file_name;
+	std::string imported_file;
 	std::string exported_file;
 
 	Type type = UNKNOWN;

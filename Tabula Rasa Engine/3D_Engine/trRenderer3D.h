@@ -54,8 +54,6 @@ public:
 	void Draw();
 	void DrawZBuffer();
 
-	math::float4x4 Perspective(float fovy, float aspect, float n, float f) const;
-
 public:
 
 	Light lights[MAX_LIGHTS];
