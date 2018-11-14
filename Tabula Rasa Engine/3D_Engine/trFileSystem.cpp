@@ -87,9 +87,20 @@ bool trFileSystem::DoesDirExist(const char * dir_name) const
 	return ret;
 }
 
+void trFileSystem::ClearAssetsDir(Directory* dir_to_clean)
+{
+	dir_to_clean->files_vec.clear();
+
+	for (uint i = 0u; i < dir_to_clean->dirs_vec.size(); i++)
+	{
+		ClearAssetsDir(&dir_to_clean->dirs_vec[i]);
+	}
+
+	dir_to_clean->dirs_vec.clear();
+}
+
 void trFileSystem::RefreshDirectory(const char* dir_name)
 {
-	static uint index = 0;
 	std::string assets_name(dir_name);
 	assets_name.append("/");
 	char **rc = PHYSFS_enumerateFiles(assets_name.c_str());
@@ -115,10 +126,10 @@ void trFileSystem::RefreshDirectory(const char* dir_name)
 
 				RefreshDirectory(tmp_dir.c_str());
 			
-				index++;
+				assets_index++;
 			}
 			else
-				assets_dir->dirs_vec[index].files_vec.push_back(*i);
+				assets_dir->dirs_vec[assets_index].files_vec.push_back(*i);
 		}
 	} 
 	PHYSFS_freeList(rc);

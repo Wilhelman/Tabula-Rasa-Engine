@@ -17,18 +17,6 @@ struct Directory
 	std::vector<Directory> dirs_vec;
 	std::vector<std::string> files_vec;
 
-	void Clear(Directory* dir)
-	{
-		for (uint i = 0; i < dir->dirs_vec.size(); i++)
-		{
-			dir->dirs_vec[i].name = nullptr;
-			dir->dirs_vec[i].files_vec.clear();
-		
-			Clear(&dir->dirs_vec[i]);
-			
-		}
-	}
-
 };
 
 class trFileSystem : public trModule
@@ -44,6 +32,7 @@ public:
 	bool DoesFileExist(const char* file_name) const;
 	bool DoesDirExist(const char* dir_name) const;
 
+	void ClearAssetsDir(Directory* dir_to_clean);
 	void RefreshDirectory(const char* dir_name);
 
 	bool WriteInFile(const char* file_name, char* buffer, uint size) const;
@@ -65,6 +54,7 @@ private:
 
 public:
 	Directory* assets_dir = nullptr;
+	uint assets_index = 0u;
 	bool assets_dir_clear = false;
 
 
