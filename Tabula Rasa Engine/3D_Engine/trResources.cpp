@@ -40,6 +40,7 @@ bool trResources::Start()
 	// TODO: Check if there is something in assets directory. If so, import it!
 	// where copy paste the file?
 
+	CheckForChangesInAssets(App->file_system->assets_dir); // todo: this have to be done each x time
 
 	return true;
 }
@@ -54,9 +55,26 @@ bool trResources::CleanUp()
 	return true;
 }
 
+void trResources::CheckForChangesInAssets(Directory* current_dir)
+{
+	for (uint i = 0u; i < current_dir->files_vec.size(); i++)
+		TryToImportFile(current_dir->files_vec[i].c_str());
+
+	for (uint i = 0u; i < current_dir->dirs_vec.size(); i++)
+		CheckForChangesInAssets(&current_dir->dirs_vec[i]);
+}
+
 void trResources::TryToImportFile(const char* file) {
 
+	std::string file_with_meta = file;
+	file_with_meta.append(".meta");
 
+	if (!App->file_system->DoesFileExist(file_with_meta.c_str())) {
+		//ImportFile(file);
+	}
+	else {
+
+	}
 	// Check if the file have .meta
 	// if NOT
 		// ImportFile() so we generate both meta and resource

@@ -15,6 +15,8 @@ class ResourceTexture;
 class MeshImporter;
 class MaterialImporter;
 
+class Directory;
+
 class trResources : public trModule
 {
 public:
@@ -28,6 +30,7 @@ public:
 
 	UID Find(const char* file_in_assets) const;
 
+	void CheckForChangesInAssets(Directory* current_dir);
 	void TryToImportFile(const char* file);
 	UID ImportFile(const char* file_path);
 
