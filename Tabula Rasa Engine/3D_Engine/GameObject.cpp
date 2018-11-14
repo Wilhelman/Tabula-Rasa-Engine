@@ -12,9 +12,6 @@
 
 #include "Event.h"
 
-#include <algorithm>
-#include "pcg/pcg_variants.h"
-
 // ---------------------------------------------------------
 GameObject::GameObject()
 {}
@@ -22,7 +19,7 @@ GameObject::GameObject()
 GameObject::GameObject(const char * name, GameObject * parent)
 {
 	if (parent)
-		this->uuid = pcg32_random_r(&App->gen_uuid);
+		this->uuid = App->GenerateNewUUID();
 	else
 		this->uuid = 0;
 	

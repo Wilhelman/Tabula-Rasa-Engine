@@ -112,7 +112,7 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 		if (std::string::npos != extension)
 			tmp.erase(extension);
 		App->main_scene->scene_name = tmp;
-		App->main_scene->SerializeScene();
+		App->main_scene->SerializeScene(output_file);
 
 		imported_root_go->to_destroy = true;
 

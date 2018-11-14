@@ -20,16 +20,20 @@ public:
 
 public:
 	Resource(UID uid, Resource::Type type);
-	virtual ~Resource();
+	virtual ~Resource() {}
 	Resource::Type GetType() const;
 	UID GetUID() const;
-	const char* GetFile() const;
+	const char* GetFileName() const;
+	const char* GetImportedFile() const;
 	const char* GetExportedFile() const;
+	void SetFileName(const char* file_name);
+	void SetImportedPath(const char* imported_path);
+	void SetExportedPath(const char* exported_path);
 	bool IsLoadedToMemory() const;
-	bool LoadToMemory();
+	uint LoadToMemory();
 	uint CountReferences() const;
-	virtual void Save(Config& config) const;
-	virtual void Load(const Config& config);
+	//virtual void Save(Config& config) const;
+	//virtual void Load(const Config& config);
 
 protected:
 
@@ -39,11 +43,11 @@ protected:
 
 	UID uid = 0;
 	std::string file_name;
-	std::string imported_file;
-	std::string exported_file;
+	std::string imported_path;
+	std::string exported_path;
 
 	Type type = UNKNOWN;
-	uint loaded = 0;
+	uint references = 0u;
 };
 
 #endif // __Resource_H__

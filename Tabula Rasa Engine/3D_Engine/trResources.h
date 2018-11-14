@@ -35,10 +35,10 @@ public:
 	UID ImportFile(const char* file_path);
 
 	Resource::Type TypeFromExtension(const char* extension) const;
-	UID GenerateNewUID();
+
 	const Resource* Get(UID uid) const;
 	Resource* Get(UID uid);
-	Resource* CreateNewResource(Resource::Type type, UID force_uid = 0);
+	Resource* CreateNewResource(Resource::Type type);
 
 private:
 	UID last_uid = 1;

@@ -41,7 +41,7 @@ public:
 	bool Load(const JSON_Object* config = nullptr);
 	bool Save(JSON_Object* config = nullptr)const;
 
-	bool SerializeScene();
+	bool SerializeScene(std::string& output_file);
 	bool DeSerializeScene(const char * string);
 
 	GameObject* FindGoByUUID(UID uid, GameObject* go);

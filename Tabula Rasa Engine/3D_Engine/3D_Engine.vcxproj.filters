@@ -330,6 +330,9 @@
     <ClCompile Include="ResourceTexture.cpp">
       <Filter>Core\Modules\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceScene.cpp">
+      <Filter>Core\Modules\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -837,6 +840,9 @@
       <Filter>Core\Modules\Resources</Filter>
     </ClInclude>
     <ClInclude Include="ResourceTexture.h">
+      <Filter>Core\Modules\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceScene.h">
       <Filter>Core\Modules\Resources</Filter>
     </ClInclude>
   </ItemGroup>

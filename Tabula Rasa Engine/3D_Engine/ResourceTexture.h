@@ -20,7 +20,7 @@ public:
 	};
 
 public:
-	ResourceTexture(UID id);
+	ResourceTexture();
 	virtual ~ResourceTexture();
 
 	const char* GetFormatStr() const;

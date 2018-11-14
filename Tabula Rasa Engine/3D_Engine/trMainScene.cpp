@@ -143,7 +143,7 @@ bool trMainScene::Save(JSON_Object* config)const
 	return true;
 }
 
-bool trMainScene::SerializeScene()
+bool trMainScene::SerializeScene(std::string& output_file)
 {
 	// TODO save all gos
 	JSON_Value* root_value = nullptr;
@@ -179,6 +179,7 @@ bool trMainScene::SerializeScene()
 	final_path.append(scene_name.c_str());
 	final_path.append(".trScene");
 	json_serialize_to_file(root_value, final_path.c_str());
+	output_file = final_path;
 	json_free_serialized_string(serialized_string);
 	json_value_free(root_value);
 

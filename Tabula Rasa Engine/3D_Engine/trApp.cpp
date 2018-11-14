@@ -16,6 +16,9 @@
 
 #include "trMainScene.h"
 
+#include <algorithm>
+#include "pcg/pcg_variants.h"
+
 
 // Constructor
 trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
@@ -365,6 +368,11 @@ const char * trApp::GetVersion() const
 	return version.c_str();
 }
 
+UID trApp::GenerateNewUUID()
+{
+	return pcg32_random_r(&gen_uuid);;
+}
+
 void trApp::SetFpsCap(uint max_framerate)
 {
 	if (max_framerate > 0)
@@ -377,7 +385,7 @@ void trApp::SwitchRunTime()
 {
 	run_time = !run_time;
 	if (run_time) {
-		App->main_scene->SerializeScene();
+		App->main_scene->SerializeScene(std::string());
 	}
 }
 

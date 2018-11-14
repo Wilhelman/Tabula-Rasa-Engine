@@ -56,6 +56,7 @@ public:
 	const char* GetOrganization() const;
 	uint GetFpsCap() const;
 	const char* GetVersion()const;
+	UID GenerateNewUUID();
 
 	// Usefull requests
 	void RequestBrowser(const char* url)const;
@@ -109,9 +110,6 @@ public:
 	trFileSystem*		file_system = nullptr;
 	trResources*		resources = nullptr;
 
-	//LCG*				gen_uuid = nullptr;
-	pcg32_random_t		gen_uuid;
-
 private:
 
 	std::list<trModule*>modules;
@@ -137,6 +135,10 @@ private:
 	int					last_fps = 0;
 	int					capped_ms = 0;
 	bool				cap_fps = true;
+
+	// UUID
+	//LCG*				gen_uuid = nullptr;
+	pcg32_random_t		gen_uuid;
 
 };
 

@@ -78,6 +78,7 @@
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceMesh.cpp" />
+    <ClCompile Include="ResourceScene.cpp" />
     <ClCompile Include="ResourceTexture.cpp" />
     <ClCompile Include="trFileSystem.cpp" />
     <ClCompile Include="trApp.cpp" />
@@ -248,6 +249,7 @@
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceMesh.h" />
+    <ClInclude Include="ResourceScene.h" />
     <ClInclude Include="ResourceTexture.h" />
     <ClInclude Include="trFileSystem.h" />
     <ClInclude Include="trApp.h" />

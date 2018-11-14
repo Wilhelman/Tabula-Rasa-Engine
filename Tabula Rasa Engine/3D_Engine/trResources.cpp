@@ -1,10 +1,13 @@
 #include "trApp.h"
 
 #include "trResources.h"
+#include "ResourceScene.h"
+
 #include "trFileSystem.h"
 
 #include "MeshImporter.h"
 #include "MaterialImporter.h"
+
 
 trResources::trResources()
 {
@@ -52,6 +55,11 @@ bool trResources::CleanUp()
 	RELEASE(mesh_importer);
 	RELEASE(material_importer);
 
+	for (std::map<UID, Resource*>::iterator it = resources.begin(); it != resources.end(); ++it)
+		RELEASE(it->second);
+
+	resources.clear();
+
 	return true;
 }
 
@@ -83,38 +91,45 @@ void trResources::TryToImportFile(const char* file) {
 
 }
 
-UID trResources::ImportFile(const char * file_path)
+UID trResources::ImportFile(const char * file_name)
 {
 	UID ret = 0;
 	bool import_ok = false;
 
 	// Find out the type from the extension and send to the correct exporter
 	std::string extension;
-	App->file_system->GetExtensionFromFile(file_path, extension);
+	App->file_system->GetExtensionFromFile(file_name, extension);
 
 	Resource::Type type = TypeFromExtension(extension.c_str());
 
-	std::string written_file;
+	std::string imported_path;
+	std::string exported_path;
 	switch (type) {
 	case Resource::MESH:
-		import_ok = material_importer->Import(file_path, written_file);
+		import_ok = material_importer->Import(file_name, exported_path);
 		break;
 	case Resource::TEXTURE:
-		import_ok = material_importer->Import(file_path, written_file);
+		import_ok = material_importer->Import(file_name, exported_path);
 		break;
 	case Resource::SCENE:
-		import_ok = mesh_importer->Import(file_path, written_file);
+		import_ok = mesh_importer->Import(file_name, exported_path);
+		if (import_ok) {
+			imported_path = A_MODELS_DIR;
+			imported_path.append("/");
+			imported_path.append(file_name);
+		}
 		break;
 	}
 
-	/*if (import_ok == true) { // If export was successful, create a new resource
+	if (import_ok == true) { // If export was successful, create a new resource
 		Resource* res = CreateNewResource(type);
-		res->file = new_file_in_assets;
-		res->exported_file = written_file;
-		ret = res->uid;
-	}*/
-	return ret;
+		res->SetFileName(file_name);
+		res->SetImportedPath(imported_path.c_str());
+		res->SetExportedPath(exported_path.c_str());
+		ret = res->GetUID();
+	}
 
+	return ret;
 }
 
 Resource::Type trResources::TypeFromExtension(const char * extension) const
@@ -135,6 +150,34 @@ Resource::Type trResources::TypeFromExtension(const char * extension) const
 			ret = Resource::SCENE;
 		else if (_stricmp(extension, ".FBX") == 0)
 			ret = Resource::SCENE;
+	}
+
+	return ret;
+}
+
+Resource * trResources::CreateNewResource(Resource::Type type)
+{
+	Resource* ret = nullptr;
+	uint res_uid = 0u;
+	// force?
+	res_uid = App->GenerateNewUUID();
+
+	switch (type)
+	{
+	case Resource::TEXTURE:
+		//ret = (Resource*) new ResourceTexture();
+		break;
+	case Resource::MESH:
+		//ret = (Resource*) new ResourceMesh();
+		break;
+	case Resource::SCENE:
+		ret = (Resource*) new ResourceScene(res_uid);
+		break;
+	}
+
+	if (ret != nullptr)
+	{
+		resources[res_uid] = ret;
 	}
 
 	return ret;

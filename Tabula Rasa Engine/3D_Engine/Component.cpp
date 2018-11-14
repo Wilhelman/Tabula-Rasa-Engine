@@ -8,7 +8,7 @@ Component::Component(GameObject * embedded_go, component_type type)
 {
 	this->embedded_go = embedded_go;
 	this->type = type;
-	this->uuid = pcg32_random_r(&App->gen_uuid);
+	this->uuid = App->GenerateNewUUID();
 }
 
 // ---------------------------------------------------------
