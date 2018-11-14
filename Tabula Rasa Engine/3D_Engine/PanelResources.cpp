@@ -13,8 +13,6 @@ PanelResources::PanelResources() : Panel("Assets", SDL_SCANCODE_4)
 	width = 500;
 	height = 500;
 	active = false;
-
-	App->file_system->RefreshDirectory(ASSETS_DIR);
 }
 
 PanelResources::~PanelResources() { }

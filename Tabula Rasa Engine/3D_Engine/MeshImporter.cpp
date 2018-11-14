@@ -107,7 +107,6 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 		const size_t extension = tmp.rfind('.');
 		if (std::string::npos != extension)
 			tmp.erase(extension);
-		tmp.append("Scene");
 		App->main_scene->scene_name = tmp;
 		App->main_scene->SerializeScene();
 
@@ -148,10 +147,11 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 			const size_t extension = tmp.rfind('.');
 			if (std::string::npos != extension)
 				tmp.erase(extension);
-			new_go->SetName(tmp.c_str());
 			file_name = tmp;
 			file_path = nullptr;
 		}
+
+		new_go->SetName(node->mName.C_Str());
 
 		// Calculate the position, scale and rotation
 		aiVector3D translation;
