@@ -84,15 +84,22 @@ void trMainScene::DrawDebug()
 		DebugDraw(quad_aabbs[i], White);
 
 	// Draw gameobjects AABBs
-	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++) {
-		DebugDraw((*it)->bounding_box, Red);
-	}
+	RecursiveDrawGoAABB(root);
 
 	if (main_camera != nullptr) {
 		ComponentCamera* camera_co = (ComponentCamera*)main_camera->FindComponentByType(Component::Component::COMPONENT_CAMERA);
 		DebugDraw(camera_co->frustum);
 		DebugDraw(App->camera->pick_ray, Blue);
 	}
+}
+
+void trMainScene::RecursiveDrawGoAABB(GameObject * go)
+{
+	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++)
+		DebugDraw((*it)->bounding_box, Red);
+
+	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++)
+		RecursiveDrawGoAABB((*it));
 }
 
 // Called before quitting
@@ -213,8 +220,6 @@ bool trMainScene::DeSerializeScene(const char * string)
 		}
 	}
 
-	// TODO CALCULATE SCENE AABB LIKE IN MESH IMPORTER
-
 	for (std::map<GameObject*, UID>::iterator it = uuid_relations.begin(); it != uuid_relations.end(); ++it)
 	{
 		uint parent_id = it->second;
@@ -228,6 +233,37 @@ bool trMainScene::DeSerializeScene(const char * string)
 		}
 	}
 		
+
+	App->main_scene->GetRoot()->RecalculateBoundingBox();
+	scene_bb.SetNegativeInfinity();
+	bool mesh_find = false;
+
+	for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++)
+	{
+		if (!(*it)->to_destroy && (*it)->FindComponentByType(ComponentMesh::COMPONENT_MESH) != nullptr)
+		{
+			AABB current_bb = (*it)->bounding_box;
+			scene_bb.Enclose(current_bb);
+
+			if (!mesh_find) mesh_find = true;
+		}
+	}
+
+	if (!mesh_find)
+		scene_bb = App->camera->dummy_camera->default_aabb;
+
+	App->main_scene->scene_bb = scene_bb;
+	App->camera->dummy_camera->FocusOnAABB(scene_bb);
+
+	// TODO U KNOW WHAT TO DO RECURSIVE INTENSIFIES
+	for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++)
+		(*it)->is_static = true;
+
+	for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++) {
+		if ((*it)->is_static) {
+			App->main_scene->InsertGoInQuadtree((*it));
+		}
+	}
 
 	return true;
 }

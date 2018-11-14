@@ -141,11 +141,12 @@ bool GameObject::Load(JSON_Object * go_obj, std::map<GameObject*, UID>& uuid_rel
 		}
 	}
 
-	float3 position = float3::zero;
+	/*float3 position = float3::zero;
 	float3 scale = float3::zero;
 	Quat rotation = Quat::identity;
 	this->transform->GetLocalPosition(&position, &scale, &rotation);
-	this->GetTransform()->Setup(position, scale, rotation);
+	this->GetTransform()->Setup(position, scale, rotation);*/
+	this->RecalculateBoundingBox();
 
 	return true;
 }

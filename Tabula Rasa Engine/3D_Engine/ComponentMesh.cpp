@@ -4,6 +4,7 @@
 #include "trRenderer3D.h"
 #include "trFileLoader.h"
 #include "MeshImporter.h"
+#include "GameObject.h"
 
 #include "Glew\include\GL\glew.h"
 #include "SDL\include\SDL_opengl.h"
@@ -70,6 +71,8 @@ void ComponentMesh::GenerateAndBindMesh(Mesh * mesh)
 void ComponentMesh::SetMesh(Mesh * mesh)
 {
 	this->mesh = mesh;
+	embedded_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
+	embedded_go->bounding_box.Enclose((float3*)this->mesh->vertices, this->mesh->vertex_size / 3);
 	GenerateAndBindMesh(mesh);
 }
 

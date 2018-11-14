@@ -29,6 +29,7 @@ public:
 	bool PostUpdate(float dt);
 
 	void DrawDebug();
+	void RecursiveDrawGoAABB(GameObject* go);
 
 	// Called before quitting
 	bool CleanUp();
