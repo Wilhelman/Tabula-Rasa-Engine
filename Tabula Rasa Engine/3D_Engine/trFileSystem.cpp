@@ -87,16 +87,11 @@ bool trFileSystem::DoesDirExist(const char * dir_name) const
 	return ret;
 }
 
-void trFileSystem::ClearAssetsDir(Directory* dir_to_clean)
+void trFileSystem::ClearAssetsDir()
 {
-	dir_to_clean->files_vec.clear();
-
-	for (uint i = 0u; i < dir_to_clean->dirs_vec.size(); i++)
-	{
-		ClearAssetsDir(&dir_to_clean->dirs_vec[i]);
-	}
-
-	dir_to_clean->dirs_vec.clear();
+	assets_dir->files_vec.clear();
+	assets_dir->dirs_vec.clear();
+	assets_index = 0u;
 }
 
 void trFileSystem::RefreshDirectory(const char* dir_name)

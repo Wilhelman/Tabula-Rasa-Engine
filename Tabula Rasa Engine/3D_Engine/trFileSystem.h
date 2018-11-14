@@ -32,7 +32,7 @@ public:
 	bool DoesFileExist(const char* file_name) const;
 	bool DoesDirExist(const char* dir_name) const;
 
-	void ClearAssetsDir(Directory* dir_to_clean);
+	void ClearAssetsDir();
 	void RefreshDirectory(const char* dir_name);
 
 	bool WriteInFile(const char* file_name, char* buffer, uint size) const;

@@ -36,17 +36,7 @@ void PanelResources::Draw()
 
 	if (refresh_clock >= REFRESH_TIME)
 	{
-		//App->file_system->GetAssetsDirectory()->Clear(App->file_system->GetAssetsDirectory()); // Test 1
-		
-		//App->file_system->assets_dir = { 0 }; // Test 2
-
-		//RELEASE(App->file_system->assets_dir); // Test 3
-		//App->file_system->assets_dir = new Directory(ASSETS_DIR);
-
-		App->file_system->ClearAssetsDir(App->file_system->assets_dir);
-		RELEASE(App->file_system->assets_dir);
-		App->file_system->assets_dir = new Directory(ASSETS_DIR);
-		App->file_system->assets_index = 0u;
+		App->file_system->ClearAssetsDir();
 		App->file_system->RefreshDirectory(ASSETS_DIR);
 		refresh_clock = 0.0f;
 	}
