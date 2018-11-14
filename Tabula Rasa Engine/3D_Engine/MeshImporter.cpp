@@ -108,6 +108,8 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 		if (std::string::npos != extension)
 			tmp.erase(extension);
 		App->main_scene->scene_name = tmp;
+		// Calculating global scene AABB for camera focus on load
+		App->main_scene->GetRoot()->RecalculateBoundingBox();
 		App->main_scene->SerializeScene();
 
 		aiReleaseImport(scene);
@@ -224,6 +226,9 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 		ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
 		mesh_comp->SetMesh(mesh_data);
+
+		new_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
+		new_go->bounding_box.Enclose((float3*)mesh_comp->GetMesh()->vertices, mesh_comp->GetMesh()->vertex_size / 3);
 
 		SaveMeshFile(node->mName.C_Str(), mesh_comp->mesh, output_file);
 
