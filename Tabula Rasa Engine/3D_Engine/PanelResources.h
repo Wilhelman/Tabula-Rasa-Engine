@@ -8,6 +8,7 @@
 #include <vector>
 
 struct Directory;
+struct File;
 
 class PanelResources : public Panel
 {
@@ -19,7 +20,7 @@ public:
 	void DrawAssets(Directory* dir);
 
 private:
-	void GetDirectoryFiles(Directory* dir_to_compare, std::vector<uint64_t>& compare_files_vec);
+	void GetDirectoryFiles(Directory* dir_to_compare, std::vector<File>& compare_files_vec);
 
 private:
 	float refresh_clock = 0.0f;

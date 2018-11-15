@@ -17,6 +17,7 @@ struct File
 	}
 
 	std::string name;
+	std::string path;
 	int64_t last_modified = 0;
 };
 

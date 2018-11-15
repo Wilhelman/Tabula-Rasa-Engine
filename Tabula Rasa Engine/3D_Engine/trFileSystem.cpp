@@ -29,8 +29,6 @@ bool trFileSystem::Awake(JSON_Object * config)
 
 	TR_LOG("trFileSystem: setting search directories...\n");
 
-	// Setting game directory to write in it
-	PHYSFS_setWriteDir(".");
 
 	// Setting search directories
 	AddNewPath(".");
@@ -39,6 +37,9 @@ bool trFileSystem::Awake(JSON_Object * config)
 
 	AddNewPath("./Library/", "Library");
 	AddNewPath("./Settings/", "Settings");
+
+	// Setting game directory to write in it
+	PHYSFS_setWriteDir(".");
 
 	assets_dir = new Directory(ASSETS_DIR);
 
@@ -132,7 +133,8 @@ void trFileSystem::RefreshDirectory(const char* dir_name)
 			}
 			else
 			{
-				File new_file(*i, GetLastModifiedTime((directory + *i).c_str()));
+				File new_file(*i, PHYSFS_getLastModTime((directory + *i).c_str()));
+				new_file.path = directory;
 
 				if (directory.compare("Assets/") == 0)
 					assets_dir->files_vec.push_back(new_file);

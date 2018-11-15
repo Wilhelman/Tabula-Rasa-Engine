@@ -9,6 +9,8 @@
 #include "ComponentMesh.h"
 #include "trEditor.h" //TODO: check this
 
+#include "trFileSystem.h"
+
 #include "ResourceMesh.h"
 
 #include "GameObject.h"
@@ -50,6 +52,11 @@ bool trMainScene::Start()
 
 	App->camera->dummy_camera->LookAt(float3(0.f, 0.f, 0.f));
 
+	/*char* buffer = nullptr;
+	App->file_system->ReadFromFile("test.txt", &buffer);
+*/
+	bool ret = false;
+	ret = App->file_system->DoesFileExist("test.txt");
 	grid = new PGrid();
 	grid->axis = true;
 
