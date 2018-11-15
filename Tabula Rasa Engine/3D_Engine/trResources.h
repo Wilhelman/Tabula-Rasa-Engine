@@ -20,6 +20,13 @@ class Directory;
 class trResources : public trModule
 {
 public:
+	enum FileState {
+		UNKNOWN,
+
+		META_0,
+		META_1_FILE_0
+	};
+public:
 	trResources();
 	~trResources();
 
@@ -32,14 +39,16 @@ public:
 
 	void CheckForChangesInAssets(Directory* current_dir);
 	void TryToImportFile(const char* file);
-	UID ImportFile(const char* file_path);
+	UID ImportFile(const char* file_path, UID forced_uid = 0u);
+
 	void CreateMetaFileFrom(Resource* resource, const char* file_name);
-	bool MetaFileIsCorrect(const char* meta_file);
+	bool GenerateResourceFromMeta(const char* meta_file);
 
 	Resource::Type TypeFromExtension(const char* extension) const;
 
 	Resource* Get(UID uid);
-	Resource* CreateNewResource(Resource::Type type, UID uid_to_force = 0u);
+	Resource* CreateNewResource(Resource::Type type, UID uid_to_force = 0u, 
+		const char* file_name = nullptr, const char* imported_path = nullptr, const char* exported_path = nullptr);
 
 private:
 	UID last_uid = 1;

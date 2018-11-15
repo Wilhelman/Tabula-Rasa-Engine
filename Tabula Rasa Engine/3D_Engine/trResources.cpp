@@ -82,20 +82,23 @@ void trResources::TryToImportFile(const char* file) {
 	if (!App->file_system->DoesFileExist(file_with_meta.c_str())) {
 		ImportFile(file);
 	}
-	else {
-		if (MetaFileIsCorrect(file_with_meta.c_str())) {
+	else { /// If have the resource have a meta file, try to generate the resource
+		char* buffer = nullptr;
+		uint size = App->file_system->ReadFromFile(file_with_meta.c_str(), &buffer);
 
+		if (buffer != nullptr && size > 0)
+		{
+			GenerateResourceFromMeta(buffer);
+			RELEASE_ARRAY(buffer);
+		}
+		else {
+			ImportFile(file);
 		}
 	}
-	// Check if the file have .meta
-	// if NOT
-	// ImportFile() so we generate both meta and resource
-	// else (if have .meta)
-	// prepare the importer of the file readin the .meta info
 
 }
 
-UID trResources::ImportFile(const char * file_name)
+UID trResources::ImportFile(const char * file_name, UID forced_uid)
 {
 	UID ret = 0;
 	bool import_ok = false;
@@ -108,12 +111,11 @@ UID trResources::ImportFile(const char * file_name)
 
 	std::string imported_path;
 	std::string exported_path;
-	UID uid_to_force = 0u;
 
 	//	----------------------------	TODO SOLVE ALL PATHS STUFF!---------------------
 	switch (type) {
 	case Resource::TEXTURE:
-		import_ok = material_importer->Import(file_name, exported_path, uid_to_force);
+		import_ok = material_importer->Import(file_name, exported_path, forced_uid);
 		if (import_ok) { // <- todo this sucks
 			imported_path = A_TEXTURES_DIR;
 			imported_path.append("/");
@@ -132,11 +134,11 @@ UID trResources::ImportFile(const char * file_name)
 
 	if (import_ok == true) { // If export was successful, create a new resource
 
-		Resource* res = (uid_to_force != 0u) ? CreateNewResource(type, uid_to_force): CreateNewResource(type);
-
+		Resource* res = (forced_uid != 0u) ? CreateNewResource(type, forced_uid): CreateNewResource(type);
 		res->SetFileName(file_name);
 		res->SetImportedPath(imported_path.c_str());
 		res->SetExportedPath(exported_path.c_str());
+
 		ret = res->GetUID();
 
 		// Create .meta file
@@ -188,9 +190,44 @@ void trResources::CreateMetaFileFrom(Resource * resource, const char * file_name
 	json_value_free(root_value);
 }
 
-bool trResources::MetaFileIsCorrect(const char * meta_file)
+bool trResources::GenerateResourceFromMeta(const char * buffer)
 {
-	return false;
+	bool ret = false;
+
+	JSON_Value* vroot = json_parse_string(buffer);
+	JSON_Object* root = json_value_get_object(vroot);
+
+	JSON_Value* value = json_object_get_value(root, "LastUpdate");
+	int last_file_update = json_value_get_number(value); // TODO: this is not an int
+
+	value = json_object_get_value(root, "UUID");
+	UID resource_uid = json_value_get_number(value);
+
+	if (last_file_update == 0/*TODO last_mod_from imported file*/) { /// If the imported resource is not modified
+
+		std::string resource_path = std::to_string(resource_uid); //todo set better the path from type of resource
+
+		if (App->file_system->DoesFileExist(resource_path.c_str())) { /// If the saved resource exist
+
+			std::string extension;
+			App->file_system->GetExtensionFromFile(buffer, extension); //TODO THIS FILE_NAME IS WRONG
+			Resource::Type type = TypeFromExtension(extension.c_str());
+
+			Resource* res = CreateNewResource(type, resource_uid/*TODO ADD HERE ALL ABOVE PATHS*/);
+			res->SetFileName(buffer); // TODO THIS FILE_NAME IS WRONG
+			res->SetImportedPath(buffer); //TODO THIS FILE_NAME IS WRONG
+			res->SetExportedPath(resource_path.c_str());
+			ret = true;
+		}
+		else {	/// Import the resource forcing with the uuid of the meta file (and the options)
+			ImportFile(buffer/*WRONG*/, resource_uid);
+		}
+
+	}
+	else {
+		ImportFile(buffer/*WRONG*/);
+	}
+	return ret;
 }
 
 Resource::Type trResources::TypeFromExtension(const char * extension) const
@@ -224,7 +261,8 @@ Resource * trResources::Get(UID uid)
 	return nullptr;
 }
 
-Resource * trResources::CreateNewResource(Resource::Type type, UID uid_to_force)
+Resource * trResources::CreateNewResource(Resource::Type type, UID uid_to_force,
+	const char* file_name, const char* imported_path, const char* exported_path)
 {
 	Resource* ret = nullptr;
 	uint res_uid = 0u;
@@ -246,6 +284,9 @@ Resource * trResources::CreateNewResource(Resource::Type type, UID uid_to_force)
 
 	if (ret != nullptr)
 	{
+		if (file_name) ret->SetFileName(file_name);
+		if (imported_path) ret->SetImportedPath(imported_path);
+		if (exported_path) ret->SetExportedPath(exported_path);
 		resources[res_uid] = ret;
 	}
 

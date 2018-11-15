@@ -84,7 +84,8 @@ bool MaterialImporter::Import(const char * file_path, std::string & output_file,
 			TR_LOG("Import texture with path [%s]: SUCCESS!", final_path.c_str());
 
 			// Generate UUID for the resource
-			uid_to_force = App->GenerateNewUUID();
+			if(uid_to_force == 0u)
+				uid_to_force = App->GenerateNewUUID();
 
 			// Saving file
 			// TODO
