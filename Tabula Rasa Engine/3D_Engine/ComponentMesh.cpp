@@ -7,6 +7,7 @@
 #include "MeshImporter.h"
 #include "GameObject.h"
 #include "Resource.h"
+#include "ResourceMesh.h"
 #include "trOpenGL.h"
 
 ComponentMesh::ComponentMesh(GameObject * embedded_game_object) : 
@@ -41,8 +42,7 @@ bool ComponentMesh::Load(const JSON_Object * component_obj)
 
 	JSON_Value* value = json_object_get_value(component_obj, "path");
 	const char* file_path = json_value_get_string(value);
-	resource = App->file_loader->mesh_importer->GenerateResourceFromFile(file_path);
-
+	SetResource(App->file_loader->mesh_importer->GenerateResourceFromFile(file_path));
 
 	return ret;
 }
@@ -50,9 +50,12 @@ bool ComponentMesh::Load(const JSON_Object * component_obj)
 bool ComponentMesh::SetResource(UID resource)
 {
 	// needed?
-	//embedded_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
-	//embedded_go->bounding_box.Enclose((float3*)this->mesh->vertices, this->mesh->vertex_size / 3);
-
 	this->resource = resource;
+	ResourceMesh* res = (ResourceMesh*)this->GetResource();
+	embedded_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
+	embedded_go->bounding_box.Enclose((float3*)res->vertices, res->vertex_size / 3);
+	res->GenerateAndBindMesh();
+
+	
 	return true;
 }

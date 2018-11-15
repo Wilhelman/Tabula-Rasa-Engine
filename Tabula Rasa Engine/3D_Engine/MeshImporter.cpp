@@ -323,7 +323,7 @@ bool MeshImporter::SaveMeshFile(const char* file_name, ResourceMesh* mesh_data, 
 	tmp_str.append(file_name);
 	tmp_str.append(".trMesh"); // adding our own format extension
 
-	mesh_data->path = tmp_str;
+	mesh_data->SetExportedPath(tmp_str.c_str());
 
 	App->file_system->WriteInFile(tmp_str.c_str(), data, size);
 	output_file = tmp_str;

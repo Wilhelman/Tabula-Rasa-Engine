@@ -275,8 +275,6 @@ bool trMainScene::DeSerializeScene(const char * string)
 	
 	RecursiveSetupGo(GetRoot());
 
-	
-
 	return true;
 }
 
@@ -384,10 +382,11 @@ void trMainScene::TestAgainstRay(LineSegment line_segment)
 	for (std::map<float, GameObject*>::iterator it_map = intersect_map.begin(); it_map != intersect_map.end(); it_map++)
 	{
 		const ComponentMesh* mesh_comp = (ComponentMesh*)it_map->second->FindComponentByType(Component::COMPONENT_MESH);
-		ResourceMesh* mesh = (ResourceMesh*)mesh_comp->GetResource();
+		
 		// Making sure the intersecting gameobject has a mesh component
-		if (mesh_comp != nullptr && mesh != nullptr)
+		if (mesh_comp != nullptr && mesh_comp->GetResource() != nullptr)
 		{
+			ResourceMesh* mesh = (ResourceMesh*)mesh_comp->GetResource();
 			/* Checking if the current minimum distance to the camera is greater than the AABB's hit distance of 
 			   the current intersecting gameobject in the loop. If it's not, we can safely discard this gameobject 
 			   as it's further away from the previous one. This way, we prevent the program from calculating all 
