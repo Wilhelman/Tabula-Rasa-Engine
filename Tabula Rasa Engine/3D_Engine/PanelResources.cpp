@@ -35,8 +35,10 @@ void PanelResources::Draw()
 
 	if (refresh_clock >= REFRESH_TIME)
 	{
+		// assets_dir_backup = assets_dir;
 		App->file_system->ClearAssetsDir();
 		App->file_system->RefreshDirectory(ASSETS_DIR);
+		// compare files betwwen both dirs looking at last_mod time
 		refresh_clock = 0.0f;
 	}
 
@@ -59,7 +61,7 @@ void PanelResources::DrawAssets(Directory* dir)
 
 	for (uint i = 0; i < files_size; i++)
 	{
-		if (ImGui::TreeNodeEx(dir->files_vec[i].c_str(), ImGuiTreeNodeFlags_Leaf))
+		if (ImGui::TreeNodeEx(dir->files_vec[i].name.c_str(), ImGuiTreeNodeFlags_Leaf))
 		{
 			if (ImGui::IsItemClicked(0))
 			{
@@ -73,7 +75,7 @@ void PanelResources::DrawAssets(Directory* dir)
 				if (ImGui::MenuItem("Import"))
 				{
 					std::string file_format(".xyz");
-					const char* curr_file = dir->files_vec[i].c_str();
+					const char* curr_file = dir->files_vec[i].name.c_str();
 					file_format[3] = curr_file[strlen(curr_file) - 1];
 					file_format[2] = curr_file[strlen(curr_file) - 2];
 					file_format[1] = curr_file[strlen(curr_file) - 3];

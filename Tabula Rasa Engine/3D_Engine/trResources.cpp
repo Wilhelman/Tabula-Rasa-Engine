@@ -67,7 +67,7 @@ bool trResources::CleanUp()
 void trResources::CheckForChangesInAssets(Directory* current_dir)
 {
 	for (uint i = 0u; i < current_dir->files_vec.size(); i++)
-		TryToImportFile(current_dir->files_vec[i].c_str());
+		TryToImportFile(current_dir->files_vec[i].name.c_str());
 
 	for (uint i = 0u; i < current_dir->dirs_vec.size(); i++)
 		CheckForChangesInAssets(&current_dir->dirs_vec[i]);

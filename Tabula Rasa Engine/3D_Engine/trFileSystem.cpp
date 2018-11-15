@@ -127,11 +127,14 @@ void trFileSystem::RefreshDirectory(const char* dir_name)
 				assets_index++;
 			}
 			else
-				assets_dir->dirs_vec[assets_index].files_vec.push_back(*i);
+			{
+				File new_file(*i, GetLastModifiedTime(*i));
+				assets_dir->dirs_vec[assets_index].files_vec.push_back(new_file);
+			}
+			
 		}
 	} 
 	PHYSFS_freeList(rc);
-
 }
 
 
@@ -263,6 +266,17 @@ bool trFileSystem::DeleteFileDir(const char* file_dir_name)
 	}
 
 	return ret;
+}
+
+int64_t trFileSystem::GetLastModifiedTime(const char* file_name) const
+{
+	PHYSFS_Stat* stat = nullptr;
+	int64_t last_modified = 0;
+
+	if (PHYSFS_stat(file_name, stat) != 0 && stat != nullptr)
+		last_modified = stat->modtime;
+	
+	return last_modified;
 }
 
 Directory* trFileSystem::GetAssetsDirectory() const

@@ -7,6 +7,19 @@
 
 struct PHYSFS_File;
 
+
+struct File
+{
+	File(char* name, int64_t last_modified) 
+	{ 
+		this->name = name; 
+		this->last_modified = last_modified;
+	}
+
+	std::string name;
+	int64_t last_modified = 0;
+};
+
 struct Directory
 {
 	Directory(char* name) { this->name = name; }
@@ -15,7 +28,7 @@ struct Directory
 
 	std::string name;
 	std::vector<Directory> dirs_vec;
-	std::vector<std::string> files_vec;
+	std::vector<File> files_vec;
 
 };
 
@@ -43,6 +56,8 @@ public:
 	bool MakeNewDir(const char* dir_name);
 	bool DeleteFileDir(const char* file_dir_name);
 
+	int64_t GetLastModifiedTime(const char* file_name) const;
+
 	Directory* GetAssetsDirectory() const;
 		
 private:
@@ -54,6 +69,7 @@ private:
 
 public:
 	Directory* assets_dir = nullptr;
+	Directory* assets_dir_backup = nullptr;
 	uint assets_index = 0u;
 	bool assets_dir_clear = false;
 
