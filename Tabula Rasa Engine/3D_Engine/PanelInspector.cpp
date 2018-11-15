@@ -15,6 +15,8 @@
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
 
+#include "ResourceMesh.h"
+
 
 
 PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
@@ -142,7 +144,7 @@ void PanelInspector::Draw()
 			case Component::component_type::COMPONENT_MESH: 
 			{
 				ComponentMesh* mesh_co = (ComponentMesh*)(*it);
-				const Mesh* mesh = mesh_co->GetMesh();
+				ResourceMesh* mesh = (ResourceMesh*)mesh_co->GetResource();
 				if (ImGui::CollapsingHeader("MESH COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
 					if (mesh != nullptr) {
 						ImGui::Text("Triangles: %i", mesh->face_size);

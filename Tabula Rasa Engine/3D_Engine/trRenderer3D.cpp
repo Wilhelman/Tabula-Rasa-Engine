@@ -12,6 +12,8 @@
 #include "ComponentMesh.h"
 #include "ComponentCamera.h"
 
+#include "ResourceMesh.h"
+
 #include "trOpenGL.h"
 
 #define N_PLANE 0.125f
@@ -482,7 +484,7 @@ void trRenderer3D::Draw()
 		glMultMatrixf((GLfloat*)(*it)->GetTransform()->GetMatrix().Transposed().ptr());
 
 		ComponentMesh* mesh_co = (ComponentMesh*)(*it)->FindComponentByType(Component::component_type::COMPONENT_MESH);
-		const Mesh* mesh = mesh_co->GetMesh();
+		ResourceMesh* mesh = (ResourceMesh*)mesh_co->GetResource();
 
 		ComponentMaterial* material_co = (ComponentMaterial*)(*it)->FindComponentByType(Component::component_type::COMPONENT_MATERIAL);
 		const Texture* texture = nullptr;
@@ -561,7 +563,8 @@ void trRenderer3D::CollectActiveGameObjects()
 	{
 		if (meshable_go.at(i)->is_active && !meshable_go.at(i)->to_destroy) {
 			ComponentMesh* mesh_co = (ComponentMesh*)meshable_go.at(i)->FindComponentByType(Component::component_type::COMPONENT_MESH);
-			if (mesh_co && mesh_co->GetMesh())
+			ResourceMesh* mesh = (ResourceMesh*)mesh_co->GetResource();
+			if (mesh_co && mesh)
 				drawable_go.push_back(meshable_go.at(i));
 		}
 	}
@@ -573,7 +576,8 @@ void trRenderer3D::CollectActiveInCameraGameObjects()
 	{
 		if (meshable_go.at(i)->is_active && meshable_go.at(i)->in_camera && !meshable_go.at(i)->to_destroy) {
 			ComponentMesh* mesh_co = (ComponentMesh*)meshable_go.at(i)->FindComponentByType(Component::component_type::COMPONENT_MESH);
-			if(mesh_co && mesh_co->GetMesh())
+			ResourceMesh* mesh = (ResourceMesh*)mesh_co->GetResource();
+			if(mesh_co && mesh)
 				drawable_go.push_back(meshable_go.at(i));
 		}
 	}

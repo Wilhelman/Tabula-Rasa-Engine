@@ -8,6 +8,8 @@
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
 
+#include "ResourceMesh.h"
+
 #include "trMainScene.h"
 
 #include "Event.h"
@@ -281,7 +283,7 @@ void GameObject::RecalculateBoundingBox()
 	if (mesh_co != nullptr) {
 		bounding_box.SetNegativeInfinity();
 
-		const Mesh* mesh = mesh_co->GetMesh();
+		ResourceMesh* mesh = (ResourceMesh*)mesh_co->GetResource();
 
 		if(mesh)
 			bounding_box.Enclose((float3*)mesh->vertices, mesh->vertex_size / 3);

@@ -9,6 +9,8 @@
 #include "ComponentMesh.h"
 #include "trEditor.h" //TODO: check this
 
+#include "ResourceMesh.h"
+
 #include "GameObject.h"
 #include "DebugDraw.h"
 #include <iostream> 
@@ -382,9 +384,9 @@ void trMainScene::TestAgainstRay(LineSegment line_segment)
 	for (std::map<float, GameObject*>::iterator it_map = intersect_map.begin(); it_map != intersect_map.end(); it_map++)
 	{
 		const ComponentMesh* mesh_comp = (ComponentMesh*)it_map->second->FindComponentByType(Component::COMPONENT_MESH);
-
+		ResourceMesh* mesh = (ResourceMesh*)mesh_comp->GetResource();
 		// Making sure the intersecting gameobject has a mesh component
-		if (mesh_comp != nullptr && mesh_comp->GetMesh() != nullptr)
+		if (mesh_comp != nullptr && mesh != nullptr)
 		{
 			/* Checking if the current minimum distance to the camera is greater than the AABB's hit distance of 
 			   the current intersecting gameobject in the loop. If it's not, we can safely discard this gameobject 
@@ -397,7 +399,6 @@ void trMainScene::TestAgainstRay(LineSegment line_segment)
 				segment_local_space.Transform(it_map->second->GetTransform()->GetMatrix().Inverted());
 
 				Triangle tri;
-				const Mesh* mesh = mesh_comp->GetMesh();
 				uint index_counter = 0;
 
 				while (index_counter < mesh->index_size)

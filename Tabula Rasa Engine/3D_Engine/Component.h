@@ -40,7 +40,7 @@ public:
 
 	const component_type GetType()const;
 
-	virtual bool SetResource(UID Resource);
+	virtual bool SetResource(UID res);
 	virtual const Resource* GetResource() const;
 	UID GetResourceUID() const;
 

@@ -65,6 +65,12 @@ const Component::component_type Component::GetType() const
 	return type;
 }
 
+bool Component::SetResource(UID res)
+{
+	this->resource = res;
+	return true;
+}
+
 const Resource * Component::GetResource() const
 {
 	return App->resources->Get(resource);

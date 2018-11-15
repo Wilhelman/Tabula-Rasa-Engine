@@ -388,7 +388,7 @@ bool MeshImporter::LoadMeshFile(const char* file_name, const char * file_path)
 	tmp_str.append(file_name);
 	tmp_str.append(".trMesh");
 
-	resource->SetExportedPath = tmp_str;
+	resource->SetExportedPath(tmp_str.c_str());
 
 	RELEASE_ARRAY(buffer);
 
