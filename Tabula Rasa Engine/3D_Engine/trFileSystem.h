@@ -1,12 +1,13 @@
 #ifndef __trFILESYSTEM_H__
 #define __trFILESYSTEM_H__
 
+#define REFRESH_TIME 2.0f
+
 #include "trModule.h"
 #include <vector>
 
 
 struct PHYSFS_File;
-
 
 struct File
 {
@@ -42,6 +43,7 @@ public:
 
 	bool Awake(JSON_Object* config = nullptr);
 	bool Start();
+	bool Update(float dt);
 	bool CleanUp();
 
 	bool DoesFileExist(const char* file_name) const;
@@ -68,15 +70,13 @@ private:
 	PHYSFS_File* OpenFileForWriting(const char* file_name) const;
 	PHYSFS_File* OpenFileForReading(const char* file_name) const;
 	void CloseFile(PHYSFS_File* file, const char* file_name) const;
+	void GetDirectoryFiles(Directory* dir_to_compare, std::vector<File>& compare_files_vec);
 
-public:
-
+private:
+	float refresh_clock = 0;
+	uint assets_index = 0u;
 	Directory* assets_dir = nullptr;
 	Directory assets_dir_backup;
-	uint assets_index = 0u;
-	bool assets_dir_clear = false;
-
-
 };
 
 #endif // __trFILESYSTEM_H__

@@ -33,39 +33,39 @@ void PanelResources::Draw()
 	
 	ImGui::End();
 
-	if (refresh_clock >= REFRESH_TIME) // TODO: move all this to filesystem
-	{
-		App->file_system->assets_dir_backup = *App->file_system->GetAssetsDirectory();
+	//if (refresh_clock >= REFRESH_TIME) // TODO: move all this to filesystem
+	//{
+	//	App->file_system->assets_dir_backup = *App->file_system->GetAssetsDirectory();
 
-		App->file_system->ClearAssetsDir();
-		App->file_system->RefreshDirectory(ASSETS_DIR);
+	//	App->file_system->ClearAssetsDir();
+	//	App->file_system->RefreshDirectory(ASSETS_DIR);
 
-		std::vector<File> assets_last_mod;
-		GetDirectoryFiles(App->file_system->GetAssetsDirectory(), assets_last_mod);
+	//	std::vector<File> assets_last_mod;
+	//	GetDirectoryFiles(App->file_system->GetAssetsDirectory(), assets_last_mod);
 
-		std::vector<File> assets_backup_last_mod;
-		GetDirectoryFiles(&App->file_system->assets_dir_backup, assets_backup_last_mod);
+	//	std::vector<File> assets_backup_last_mod;
+	//	GetDirectoryFiles(&App->file_system->assets_dir_backup, assets_backup_last_mod);
 
-		for (uint i = 0u; i < assets_backup_last_mod.size(); i++)
-		{
-			for (uint j = 0u; j < assets_last_mod.size(); j++)
-			{
-				if (assets_backup_last_mod[j].name == assets_last_mod[i].name)
-				{
-					if (assets_backup_last_mod[j].last_modified != assets_last_mod[i].last_modified)
-					{
-						int a = 0;
-						// TODO: send event warning that file has been modified
-					}
-					
-				}
-			}
-		}
+	//	for (uint i = 0u; i < assets_backup_last_mod.size(); i++)
+	//	{
+	//		for (uint j = 0u; j < assets_last_mod.size(); j++)
+	//		{
+	//			if (assets_backup_last_mod[j].name == assets_last_mod[i].name)
+	//			{
+	//				if (assets_backup_last_mod[j].last_modified != assets_last_mod[i].last_modified)
+	//				{
+	//					int a = 0;
+	//					// TODO: send event warning that file has been modified
+	//				}
+	//				
+	//			}
+	//		}
+	//	}
 
-		refresh_clock = 0.0f;
-	}
+	//	refresh_clock = 0.0f;
+	//}
 
-	refresh_clock += App->time_manager->GetRealTimeDt();
+	//refresh_clock += App->time_manager->GetRealTimeDt();
 }
 
 void PanelResources::GetDirectoryFiles(Directory* dir_to_compare, std::vector<File>& compare_files_vec)

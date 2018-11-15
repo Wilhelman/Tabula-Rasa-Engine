@@ -1,6 +1,7 @@
 #include "trApp.h"
 #include "trFileSystem.h"
 #include "trLog.h"
+#include "trTimeManager.h"
 #include "PhysFS/include/physfs.h"
 
 #pragma comment( lib, "PhysFS/libx86/physfs.lib" )
@@ -50,6 +51,45 @@ bool trFileSystem::Awake(JSON_Object * config)
 
 bool trFileSystem::Start()
 {
+	refresh_clock = REFRESH_TIME;
+	return true;
+}
+
+bool trFileSystem::Update(float dt)
+{
+	if (refresh_clock >= REFRESH_TIME)
+	{
+		assets_dir_backup = *assets_dir;
+
+		ClearAssetsDir();
+		RefreshDirectory(ASSETS_DIR);
+
+		std::vector<File> assets_last_mod;
+		GetDirectoryFiles(assets_dir, assets_last_mod);
+
+		std::vector<File> assets_backup_last_mod;
+		GetDirectoryFiles(&assets_dir_backup, assets_backup_last_mod);
+
+		for (uint i = 0u; i < assets_backup_last_mod.size(); i++)
+		{
+			for (uint j = 0u; j < assets_last_mod.size(); j++)
+			{
+				if (assets_backup_last_mod[j].name == assets_last_mod[i].name)
+				{
+					if (assets_backup_last_mod[j].last_modified != assets_last_mod[i].last_modified)
+					{
+						int a = 0;
+						// TODO: send event warning that file has been modified
+					}
+
+				}
+			}
+		}
+		refresh_clock = 0.0f;
+	}
+
+	refresh_clock += App->time_manager->GetRealTimeDt();
+
 	return true;
 }
 
@@ -193,6 +233,15 @@ void trFileSystem::CloseFile(PHYSFS_File* file, const char* file_name) const
 		TR_LOG("trFileSystem: success on closing file %s\n", file_name);
 	else
 		TR_LOG("trFileSystem: could not close file %s: %s\n", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+}
+
+void trFileSystem::GetDirectoryFiles(Directory * dir_to_compare, std::vector<File>& compare_files_vec)
+{
+	for (uint i = 0u; i < dir_to_compare->files_vec.size(); i++)
+		compare_files_vec.push_back(dir_to_compare->files_vec[i]);
+
+	for (uint j = 0u; j < dir_to_compare->dirs_vec.size(); j++)
+		GetDirectoryFiles(&dir_to_compare->dirs_vec[j], compare_files_vec);
 }
 
 bool trFileSystem::WriteInFile(const char* file_name, char* buffer, uint size) const

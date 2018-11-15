@@ -45,7 +45,7 @@ bool trResources::Start()
 	// TODO: Check if there is something in assets directory. If so, import it!
 	// where copy paste the file?
 
-	CheckForChangesInAssets(App->file_system->assets_dir); // todo: this have to be done each x time
+	CheckForChangesInAssets(App->file_system->GetAssetsDirectory()); // todo: this have to be done each x time
 
 	return true;
 }
