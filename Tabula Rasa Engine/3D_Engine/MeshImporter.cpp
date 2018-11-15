@@ -182,7 +182,6 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr) {
 			if (material_data == nullptr) {
 				material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], nullptr);
-
 			}
 			else {
 

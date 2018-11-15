@@ -3,6 +3,7 @@
 #include "trResources.h"
 #include "ResourceScene.h"
 #include "ResourceMesh.h"
+#include "ResourceTexture.h"
 
 #include "trFileSystem.h"
 
@@ -86,9 +87,9 @@ void trResources::TryToImportFile(const char* file) {
 	}
 	// Check if the file have .meta
 	// if NOT
-		// ImportFile() so we generate both meta and resource
+	// ImportFile() so we generate both meta and resource
 	// else (if have .meta)
-		// prepare the importer of the file readin the .meta info
+	// prepare the importer of the file readin the .meta info
 
 }
 
@@ -105,16 +106,19 @@ UID trResources::ImportFile(const char * file_name)
 
 	std::string imported_path;
 	std::string exported_path;
+	// TODO SOLVE ALL PATHS STUFF!
 	switch (type) {
-	case Resource::MESH:
-		import_ok = material_importer->Import(file_name, exported_path);
-		break;
 	case Resource::TEXTURE:
 		import_ok = material_importer->Import(file_name, exported_path);
+		if (import_ok) { // <- todo this sucks
+			imported_path = A_TEXTURES_DIR;
+			imported_path.append("/");
+			imported_path.append(file_name);
+		}
 		break;
 	case Resource::SCENE:
 		import_ok = mesh_importer->Import(file_name, exported_path);
-		if (import_ok) {
+		if (import_ok) { // <- todo this sucks
 			imported_path = A_MODELS_DIR;
 			imported_path.append("/");
 			imported_path.append(file_name);
@@ -128,9 +132,54 @@ UID trResources::ImportFile(const char * file_name)
 		res->SetImportedPath(imported_path.c_str());
 		res->SetExportedPath(exported_path.c_str());
 		ret = res->GetUID();
+
+		// Create .meta file
+		CreateMetaFileFrom(res, file_name);
 	}
 
 	return ret;
+}
+
+void trResources::CreateMetaFileFrom(Resource * resource, const char * file_name)
+{
+	// TODO save all gos
+	JSON_Value* root_value = nullptr;
+	JSON_Object* root_obj = nullptr;
+	JSON_Array* array = nullptr;
+
+	root_value = json_value_init_object();
+
+	// Scene stuff
+	root_obj = json_value_get_object(root_value);
+
+	// if file is not a scene, dont do array, just save one uuid
+	json_object_set_string(root_obj, "ExportedFile", resource->GetExportedFile());
+
+	json_object_set_number(root_obj, "LastUpdate", 0/*TODO GET THE LAST MOD FROM PHYSFS*/);
+
+	/*// ARRAY JSON
+	JSON_Value* go_value = json_value_init_array();
+	array = json_value_get_array(go_value);
+	json_object_set_value(root_obj, "GameObjects", go_value);
+
+	/// Iterating between all gos
+	for (std::list<GameObject*>::const_iterator it = root->childs.begin(); it != root->childs.end(); it++) {
+	if (!(*it)->to_destroy)
+	(*it)->Save(array);
+	}*/
+
+	char *serialized_string = NULL;
+
+	serialized_string = json_serialize_to_string_pretty(root_value);
+	puts(serialized_string);
+
+	std::string final_path = resource->GetImportedFile();
+	final_path.append(".meta");
+
+	json_serialize_to_file(root_value, final_path.c_str());
+
+	json_free_serialized_string(serialized_string);
+	json_value_free(root_value);
 }
 
 Resource::Type trResources::TypeFromExtension(const char * extension) const
@@ -174,7 +223,7 @@ Resource * trResources::CreateNewResource(Resource::Type type)
 	switch (type)
 	{
 	case Resource::TEXTURE:
-		//ret = (Resource*) new ResourceTexture();
+		ret = (Resource*) new ResourceTexture(res_uid);
 		break;
 	case Resource::MESH:
 		ret = (Resource*) new ResourceMesh(res_uid);

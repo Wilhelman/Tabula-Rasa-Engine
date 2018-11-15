@@ -20,15 +20,15 @@ public:
 	};
 
 public:
-	ResourceTexture();
-	virtual ~ResourceTexture();
+	ResourceTexture(UID uid);
+	~ResourceTexture();
 
 	const char* GetFormatStr() const;
 
 	bool LoadInMemory() override;
 
-	void Save(Config& config) const override;
-	void Load(const Config& config) override;
+	//void Save(Config& config) const override;
+	//void Load(const Config& config) override;
 
 public:
 	uint width = 0;

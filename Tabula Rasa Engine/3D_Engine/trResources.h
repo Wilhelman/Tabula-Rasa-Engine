@@ -33,6 +33,7 @@ public:
 	void CheckForChangesInAssets(Directory* current_dir);
 	void TryToImportFile(const char* file);
 	UID ImportFile(const char* file_path);
+	void CreateMetaFileFrom(Resource* resource, const char* file_name);
 
 	Resource::Type TypeFromExtension(const char* extension) const;
 

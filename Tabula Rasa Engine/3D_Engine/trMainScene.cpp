@@ -169,7 +169,6 @@ bool trMainScene::Save(JSON_Object* config)const
 
 bool trMainScene::SerializeScene(std::string& output_file)
 {
-	// TODO save all gos
 	JSON_Value* root_value = nullptr;
 	JSON_Object* root_obj = nullptr;
 	JSON_Array* array = nullptr;

@@ -37,12 +37,16 @@ MaterialImporter::~MaterialImporter()
 
 bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 {
+	// TODO : solve this
+	std::string final_path = A_TEXTURES_DIR;
+	final_path.append("/"); final_path.append(file_path);
+
 	char* buffer = nullptr;
 
-	uint file_size = App->file_system->ReadFromFile(file_path, &buffer);
+	uint file_size = App->file_system->ReadFromFile(final_path.c_str(), &buffer);
 
 	if (buffer == nullptr) {
-		TR_LOG("Texture error loading file with path %s", file_path);
+		TR_LOG("Texture error loading file with path %s", final_path.c_str());
 		return false;
 	}
 
@@ -54,7 +58,7 @@ bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 	ilBindImage(img_id);
 
 	if (!ilLoadL(IL_TYPE_UNKNOWN, buffer, file_size)) {
-		TR_LOG("Texture error loading file with path %s", file_path);
+		TR_LOG("Texture error loading file with path %s", final_path.c_str());
 		return false;
 	}
 
@@ -73,8 +77,8 @@ bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 		if (ilSaveL(IL_DDS, data, size) > 0)
 		{
 			// Saving file
-			std::string file_name = file_path;
-			// Let's get the file name to print it in inspector:
+			// TODO
+			std::string file_name = final_path.c_str();
 			const size_t last_slash = file_name.find_last_of("\\/");
 			if (std::string::npos != last_slash)
 				file_name.erase(0, last_slash + 1);
