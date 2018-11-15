@@ -2,12 +2,7 @@
 #include "trApp.h"
 #include "trRenderer3D.h"
 
-#include "Glew\include\GL\glew.h"
-#include "SDL\include\SDL_opengl.h"
-
-#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
-#pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
-#pragma comment (lib, "Glew/libx86/glew32.lib")
+#include "trOpenGL.h"
 
 void DebugDraw(const AABB & aabb, Color color, const float4x4 & transform)
 {

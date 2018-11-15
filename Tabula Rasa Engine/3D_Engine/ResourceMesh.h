@@ -1,45 +1,38 @@
-#ifndef __RESOURCE_TEXTURE_H__
-#define __RESOURCE_TEXTURE_H__
+#ifndef __RESOURCE_MESH_H__
+#define __RESOURCE_MESH_H__
 
 #include "Resource.h"
 
-class ResourceTexture : public Resource
+class ResourceMesh : public Resource
 {
 
 public:
+	ResourceMesh(UID uid);
+	~ResourceMesh();
 
-	enum Format {
-		UNKNOWN,
-
-		COLOR_INDEX,
-		RGB,
-		RGBA,
-		BGR,
-		BGRA,
-		LUMINANCE
-	};
-
-public:
-	ResourceTexture();
-	virtual ~ResourceTexture();
-
-	const char* GetFormatStr() const;
+	void GenerateAndBindMesh();
 
 	bool LoadInMemory() override;
 
-	void Save(Config& config) const override;
-	void Load(const Config& config) override;
+	//void Save(Config& config) const override;
+	//void Load(const Config& config) override;
 
 public:
-	uint width = 0;
-	uint height = 0;
-	uint depth = 0;
-	uint bpp = 0;
-	uint mips = 0;
-	uint bytes = 0;
-	uint gpu_id = 0;
+	std::string path;
 
-	Format format = unknown;
+	uint index_buffer = 0u;
+	uint index_size = 0u;
+	uint* indices = nullptr;
+
+	uint face_size = 0u;
+
+	uint vertex_buffer = 0u;
+	uint vertex_size = 0u;
+	float* vertices = nullptr;
+
+	uint uv_buffer = 0u;
+	uint size_uv = 0u;
+	float* uvs = nullptr;
 };
 
-#endif // __RESOURCE_TEXTURE_H__
+#endif // __RESOURCE_MESH_H__

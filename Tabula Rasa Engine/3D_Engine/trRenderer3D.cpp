@@ -12,12 +12,7 @@
 #include "ComponentMesh.h"
 #include "ComponentCamera.h"
 
-#include "Glew\include\GL\glew.h"
-#include "SDL\include\SDL_opengl.h"
-
-#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
-#pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
-#pragma comment (lib, "Glew/libx86/glew32.lib")
+#include "trOpenGL.h"
 
 #define N_PLANE 0.125f
 #define F_PLANE 1024.0f
