@@ -37,6 +37,11 @@ MaterialImporter::~MaterialImporter()
 
 bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 {
+	return false;
+}
+
+bool MaterialImporter::Import(const char * file_path, std::string & output_file, UID& uid_to_force)
+{
 	// TODO : solve this
 	std::string final_path = A_TEXTURES_DIR;
 	final_path.append("/"); final_path.append(file_path);
@@ -76,6 +81,11 @@ bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 
 		if (ilSaveL(IL_DDS, data, size) > 0)
 		{
+			TR_LOG("Import texture with path [%s]: SUCCESS!", final_path.c_str());
+
+			// Generate UUID for the resource
+			uid_to_force = App->GenerateNewUUID();
+
 			// Saving file
 			// TODO
 			std::string file_name = final_path.c_str();
@@ -88,7 +98,7 @@ bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 
 			std::string tmp_str(L_MATERIALS_DIR);
 			tmp_str.append("/");
-			tmp_str.append(file_name);
+			tmp_str.append(std::to_string(uid_to_force));
 			tmp_str.append(".dds"); // adding our own format extension
 
 			App->file_system->WriteInFile(tmp_str.c_str(), (char*)data, size);
@@ -99,11 +109,6 @@ bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 	}
 
 	return true;
-}
-
-bool MaterialImporter::Import(const void * buffer, uint size, std::string & output_file)
-{
-	return false;
 }
 
 Texture* MaterialImporter::LoadImageFromPath(const char * path)

@@ -14,8 +14,9 @@ public:
 	MaterialImporter();
 	~MaterialImporter();
 
-	bool Import(const char* path, std::string& output_file);
-	bool Import(const void* buffer, uint size, std::string& output_file);
+	bool Import(const char* file_path, std::string& output_file); // TODO SOLVE THIS
+
+	bool Import(const char* path, std::string& output_file, UID& uid_to_force);
 
 	Texture* LoadImageFromPath(const char* path);
 

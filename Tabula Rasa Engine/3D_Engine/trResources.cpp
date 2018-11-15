@@ -83,7 +83,9 @@ void trResources::TryToImportFile(const char* file) {
 		ImportFile(file);
 	}
 	else {
+		if (MetaFileIsCorrect(file_with_meta.c_str())) {
 
+		}
 	}
 	// Check if the file have .meta
 	// if NOT
@@ -106,10 +108,12 @@ UID trResources::ImportFile(const char * file_name)
 
 	std::string imported_path;
 	std::string exported_path;
-	// TODO SOLVE ALL PATHS STUFF!
+	UID uid_to_force = 0u;
+
+	//	----------------------------	TODO SOLVE ALL PATHS STUFF!---------------------
 	switch (type) {
 	case Resource::TEXTURE:
-		import_ok = material_importer->Import(file_name, exported_path);
+		import_ok = material_importer->Import(file_name, exported_path, uid_to_force);
 		if (import_ok) { // <- todo this sucks
 			imported_path = A_TEXTURES_DIR;
 			imported_path.append("/");
@@ -127,7 +131,9 @@ UID trResources::ImportFile(const char * file_name)
 	}
 
 	if (import_ok == true) { // If export was successful, create a new resource
-		Resource* res = CreateNewResource(type);
+
+		Resource* res = (uid_to_force != 0u) ? CreateNewResource(type, uid_to_force): CreateNewResource(type);
+
 		res->SetFileName(file_name);
 		res->SetImportedPath(imported_path.c_str());
 		res->SetExportedPath(exported_path.c_str());
@@ -153,7 +159,7 @@ void trResources::CreateMetaFileFrom(Resource * resource, const char * file_name
 	root_obj = json_value_get_object(root_value);
 
 	// if file is not a scene, dont do array, just save one uuid
-	json_object_set_string(root_obj, "ExportedFile", resource->GetExportedFile());
+	json_object_set_number(root_obj, "UUID", resource->GetUID());
 
 	json_object_set_number(root_obj, "LastUpdate", 0/*TODO GET THE LAST MOD FROM PHYSFS*/);
 
@@ -180,6 +186,11 @@ void trResources::CreateMetaFileFrom(Resource * resource, const char * file_name
 
 	json_free_serialized_string(serialized_string);
 	json_value_free(root_value);
+}
+
+bool trResources::MetaFileIsCorrect(const char * meta_file)
+{
+	return false;
 }
 
 Resource::Type trResources::TypeFromExtension(const char * extension) const
@@ -213,12 +224,12 @@ Resource * trResources::Get(UID uid)
 	return nullptr;
 }
 
-Resource * trResources::CreateNewResource(Resource::Type type)
+Resource * trResources::CreateNewResource(Resource::Type type, UID uid_to_force)
 {
 	Resource* ret = nullptr;
 	uint res_uid = 0u;
-	// force?
-	res_uid = App->GenerateNewUUID();
+	
+	res_uid = (uid_to_force != 0u) ? uid_to_force : App->GenerateNewUUID();
 
 	switch (type)
 	{

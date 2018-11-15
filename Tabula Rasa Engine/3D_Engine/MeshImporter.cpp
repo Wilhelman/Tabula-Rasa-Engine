@@ -131,13 +131,6 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 	return false;
 }
 
-bool MeshImporter::Import(const void * buffer, uint size, std::string & output_file)
-{
-	return false;
-}
-
-
-
 void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * scene, char* file_path, GameObject * parent_go)
 {
 	GameObject* new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
@@ -266,8 +259,9 @@ ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* 
 		//ComponentMaterial* material_comp = (ComponentMaterial*)go->CreateComponent(Component::component_type::COMPONENT_MATERIAL);
 
 		std::string output_path;
-		if (App->file_loader->material_importer->Import(posible_path.c_str(), output_path)) {
-
+		UID uid_to_force = 0u;
+		if (App->file_loader->material_importer->Import(posible_path.c_str(), output_path, uid_to_force)) {
+			//todo generate resource
 		}
 
 	//	material_comp->SetTexture(App->file_loader->material_importer->LoadImageFromPath(posible_path.c_str()));

@@ -34,11 +34,12 @@ public:
 	void TryToImportFile(const char* file);
 	UID ImportFile(const char* file_path);
 	void CreateMetaFileFrom(Resource* resource, const char* file_name);
+	bool MetaFileIsCorrect(const char* meta_file);
 
 	Resource::Type TypeFromExtension(const char* extension) const;
 
 	Resource* Get(UID uid);
-	Resource* CreateNewResource(Resource::Type type);
+	Resource* CreateNewResource(Resource::Type type, UID uid_to_force = 0u);
 
 private:
 	UID last_uid = 1;
