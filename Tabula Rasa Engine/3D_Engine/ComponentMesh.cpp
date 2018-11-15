@@ -1,11 +1,12 @@
 #include "ComponentMesh.h"
 
 #include "trApp.h"
+#include "trResources.h"
 #include "trRenderer3D.h"
 #include "trFileLoader.h"
 #include "MeshImporter.h"
 #include "GameObject.h"
-
+#include "Resource.h"
 #include "trOpenGL.h"
 
 ComponentMesh::ComponentMesh(GameObject * embedded_game_object) : 
@@ -27,7 +28,8 @@ ComponentMesh::~ComponentMesh()
 bool ComponentMesh::Save(JSON_Object* component_obj) const
 {
 	//todo: get resource path etc
-	//json_object_set_string(component_obj, "path", mesh->path.c_str());
+	const Resource* res = this->GetResource();
+	json_object_set_string(component_obj, "path", res->GetExportedFile());
 	return true;
 }
 
@@ -37,9 +39,9 @@ bool ComponentMesh::Load(const JSON_Object * component_obj)
 
 	// todo get resource path and set.
 
-	//JSON_Value* value = json_object_get_value(component_obj, "path");
-	//const char* file_path = json_value_get_string(value);
-	//ret = App->file_loader->mesh_importer->FillMeshFromFilePath(&mesh, file_path);
+	JSON_Value* value = json_object_get_value(component_obj, "path");
+	const char* file_path = json_value_get_string(value);
+	resource = App->file_loader->mesh_importer->GenerateResourceFromFile(file_path);
 
 
 	return ret;

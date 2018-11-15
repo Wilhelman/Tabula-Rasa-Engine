@@ -2,6 +2,7 @@
 
 #include "trResources.h"
 #include "ResourceScene.h"
+#include "ResourceMesh.h"
 
 #include "trFileSystem.h"
 
@@ -176,7 +177,7 @@ Resource * trResources::CreateNewResource(Resource::Type type)
 		//ret = (Resource*) new ResourceTexture();
 		break;
 	case Resource::MESH:
-		//ret = (Resource*) new ResourceMesh();
+		ret = (Resource*) new ResourceMesh(res_uid);
 		break;
 	case Resource::SCENE:
 		ret = (Resource*) new ResourceScene(res_uid);
