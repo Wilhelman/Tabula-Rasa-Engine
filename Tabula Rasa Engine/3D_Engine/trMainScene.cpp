@@ -102,6 +102,21 @@ void trMainScene::RecursiveDrawGoAABB(GameObject * go)
 		RecursiveDrawGoAABB((*it));
 }
 
+void trMainScene::RecursiveSetupGo(GameObject * go)
+{
+	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++)
+		(*it)->is_static = true;
+
+	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++) {
+		if ((*it)->is_static) {
+			App->main_scene->InsertGoInQuadtree((*it));
+		}
+	}
+
+	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++)
+		RecursiveSetupGo((*it));
+}
+
 // Called before quitting
 bool trMainScene::CleanUp()
 {
@@ -255,15 +270,10 @@ bool trMainScene::DeSerializeScene(const char * string)
 	App->main_scene->scene_bb = scene_bb;
 	App->camera->dummy_camera->FocusOnAABB(scene_bb);
 
-	// TODO U KNOW WHAT TO DO RECURSIVE INTENSIFIES
-	for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++)
-		(*it)->is_static = true;
+	
+	RecursiveSetupGo(GetRoot());
 
-	for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++) {
-		if ((*it)->is_static) {
-			App->main_scene->InsertGoInQuadtree((*it));
-		}
-	}
+	
 
 	return true;
 }

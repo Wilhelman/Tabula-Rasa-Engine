@@ -31,6 +31,8 @@ public:
 	void DrawDebug();
 	void RecursiveDrawGoAABB(GameObject* go);
 
+	void RecursiveSetupGo(GameObject* go);
+
 	// Called before quitting
 	bool CleanUp();
 
