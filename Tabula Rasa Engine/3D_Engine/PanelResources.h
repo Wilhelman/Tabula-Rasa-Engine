@@ -4,8 +4,8 @@
 #define REFRESH_TIME 2.0f
 
 #include "Panel.h"
-#include <list>
 #include <string>
+#include <vector>
 
 struct Directory;
 
@@ -17,6 +17,9 @@ public:
 
 	void Draw() override;
 	void DrawAssets(Directory* dir);
+
+private:
+	void GetDirectoryFiles(Directory* dir_to_compare, std::vector<uint64_t>& compare_files_vec);
 
 private:
 	float refresh_clock = 0.0f;

@@ -29,12 +29,16 @@ bool trFileSystem::Awake(JSON_Object * config)
 
 	TR_LOG("trFileSystem: setting search directories...\n");
 
-	// Setting search directories
-	AddNewPath(".");
-	AddNewPath("../Game");
-
 	// Setting game directory to write in it
 	PHYSFS_setWriteDir(".");
+
+	// Setting search directories
+	AddNewPath(".");
+	AddNewPath("./Assets/", "Assets");
+	AddNewPath("./Assets/Models/", "Models");
+
+	AddNewPath("./Library/", "Library");
+	AddNewPath("./Settings/", "Settings");
 
 	assets_dir = new Directory(ASSETS_DIR);
 
@@ -128,8 +132,12 @@ void trFileSystem::RefreshDirectory(const char* dir_name)
 			}
 			else
 			{
-				File new_file(*i, GetLastModifiedTime(*i));
-				assets_dir->dirs_vec[assets_index].files_vec.push_back(new_file);
+				File new_file(*i, GetLastModifiedTime((directory + *i).c_str()));
+
+				if (directory.compare("Assets/") == 0)
+					assets_dir->files_vec.push_back(new_file);
+				else
+					assets_dir->dirs_vec[assets_index].files_vec.push_back(new_file);
 			}
 			
 		}
@@ -138,11 +146,11 @@ void trFileSystem::RefreshDirectory(const char* dir_name)
 }
 
 
-bool trFileSystem::AddNewPath(const char * path)
+bool trFileSystem::AddNewPath(const char * path, char* mount)
 {
 	bool ret = false;
 
-	if (PHYSFS_mount(path, nullptr, 1) != 0)
+	if (PHYSFS_mount(path, mount, 1) != 0)
 	{
 		ret = true;
 		TR_LOG("trFileSystem: archive/dir successfully added to the search path.\n");
@@ -273,7 +281,7 @@ int64_t trFileSystem::GetLastModifiedTime(const char* file_name) const
 	PHYSFS_Stat* stat = nullptr;
 	int64_t last_modified = 0;
 
-	if (PHYSFS_stat(file_name, stat) != 0 && stat != nullptr)
+	if (PHYSFS_stat(file_name, stat) != 0)
 		last_modified = stat->modtime;
 	
 	return last_modified;

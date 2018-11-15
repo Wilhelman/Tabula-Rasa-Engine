@@ -22,6 +22,7 @@ struct File
 
 struct Directory
 {
+	Directory() { }
 	Directory(char* name) { this->name = name; }
 
 	~Directory() {  }
@@ -62,14 +63,15 @@ public:
 		
 private:
 
-	bool AddNewPath(const char* path);
+	bool AddNewPath(const char* path, char* mount = nullptr);
 	PHYSFS_File* OpenFileForWriting(const char* file_name) const;
 	PHYSFS_File* OpenFileForReading(const char* file_name) const;
 	void CloseFile(PHYSFS_File* file, const char* file_name) const;
 
 public:
+
 	Directory* assets_dir = nullptr;
-	Directory* assets_dir_backup = nullptr;
+	Directory assets_dir_backup;
 	uint assets_index = 0u;
 	bool assets_dir_clear = false;
 
