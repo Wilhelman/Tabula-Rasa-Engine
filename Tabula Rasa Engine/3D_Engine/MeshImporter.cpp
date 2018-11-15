@@ -18,6 +18,9 @@
 
 #include "DebugDraw.h"
 
+#include "trResources.h"
+#include "ResourceMesh.h"
+
 #include "MathGeoLib/MathGeoLib.h"
 
 #include "MaterialImporter.h"
@@ -171,7 +174,7 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 		new_go->GetTransform()->Setup(float3(translation.x, translation.y, translation.z), float3(scaling.x, scaling.y, scaling.z), rot, true);
 
-		Mesh* mesh_data = new Mesh(); // our mesh
+		ResourceMesh* mesh_data = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); // our mesh
 
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
 
@@ -231,9 +234,9 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		std::string output_file;
 
 		ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
-		mesh_comp->SetMesh(mesh_data);
+		mesh_comp->SetResource(mesh_data->GetUID());
 
-		SaveMeshFile(node->mName.C_Str(), mesh_comp->mesh, output_file);
+		SaveMeshFile(node->mName.C_Str(), mesh_data, output_file);
 
 		//LoadMeshFile(node->mName.C_Str(), output_file.c_str());
 
@@ -285,7 +288,7 @@ ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* 
 }
 
 
-bool MeshImporter::SaveMeshFile(const char* file_name,Mesh* mesh_data, std::string& output_file)
+bool MeshImporter::SaveMeshFile(const char* file_name, ResourceMesh* mesh_data, std::string& output_file)
 {
 	uint size_indices = sizeof(uint) * mesh_data->index_size;
 	uint size_vertices = sizeof(float) * (mesh_data->vertex_size);
@@ -349,7 +352,8 @@ bool MeshImporter::LoadMeshFile(const char* file_name, const char * file_path)
 	uint bytes = sizeof(ranges);
 	memcpy(ranges, cursor, bytes);
 
-	Mesh * resource = new Mesh();
+	ResourceMesh* resource = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); // our mesh
+
 	resource->index_size = ranges[0];
 	resource->vertex_size = ranges[1];
 	resource->size_uv = ranges[2];
@@ -377,20 +381,21 @@ bool MeshImporter::LoadMeshFile(const char* file_name, const char * file_path)
 	new_go->bounding_box.Enclose((float3*)resource->vertices, resource->vertex_size / 3);
 
 	ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
-	mesh_comp->SetMesh(resource);
-	Mesh* mesh = (Mesh*)mesh_comp->GetMesh();
+	mesh_comp->SetResource(resource->GetUID());
+
 	std::string tmp_str(L_MESHES_DIR);
 	tmp_str.append("/");
 	tmp_str.append(file_name);
 	tmp_str.append(".trMesh");
-	mesh->path = tmp_str;
+
+	resource->SetExportedPath = tmp_str;
 
 	RELEASE_ARRAY(buffer);
 
 	return true;
 }
 
-bool MeshImporter::FillMeshFromFilePath(Mesh** mesh_to_fill, const char * file_path)
+UID MeshImporter::GenerateResourceFromFile(const char * file_path)
 {
 	// Open file requested file
 	char* buffer = nullptr;
@@ -408,7 +413,7 @@ bool MeshImporter::FillMeshFromFilePath(Mesh** mesh_to_fill, const char * file_p
 	uint bytes = sizeof(ranges);
 	memcpy(ranges, cursor, bytes);
 
-	Mesh * resource = new Mesh();
+	ResourceMesh* resource = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); // our mesh
 	resource->index_size = ranges[0];
 	resource->vertex_size = ranges[1];
 	resource->size_uv = ranges[2];
@@ -432,9 +437,8 @@ bool MeshImporter::FillMeshFromFilePath(Mesh** mesh_to_fill, const char * file_p
 	memcpy(resource->uvs, cursor, bytes);
 	resource->path = file_path;
 
-	*mesh_to_fill = resource;
 
 	RELEASE_ARRAY(buffer);
 
-	return true;
+	return resource->GetUID();
 }

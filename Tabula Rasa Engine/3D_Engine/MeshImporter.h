@@ -11,7 +11,7 @@ class ComponentMaterial;
 class aiScene;
 class aiNode;
 class aiMaterial;
-class Mesh;
+class ResourceMesh;
 
 class MeshImporter : public Importer
 {
@@ -29,9 +29,9 @@ public:
 	void ImportNodesRecursively(const aiNode* node, const aiScene* scene, char* file_path, GameObject * parent_go);
 	ComponentMaterial* LoadTexture(aiMaterial* material, GameObject* go);
 
-	bool SaveMeshFile(const char* file_name, Mesh* mesh_data, std::string& output_file);
+	bool SaveMeshFile(const char* file_name, ResourceMesh* mesh_data, std::string& output_file);
 	bool LoadMeshFile(const char* file_name, const char* file_path);
-	bool FillMeshFromFilePath(Mesh** mesh_to_fill, const char* file_path);
+	UID GenerateResourceFromFile(const char* file_path);
 
 private:
 	GameObject* imported_root_go = nullptr;
