@@ -230,6 +230,7 @@
     <ClInclude Include="MathGeoLib\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Time\Clock.h" />
     <ClInclude Include="MeshImporter.h" />
+    <ClInclude Include="trOpenGL.h" />
     <ClInclude Include="PanelHierarchy.h" />
     <ClInclude Include="mmgr\mmgr.h" />
     <ClInclude Include="mmgr\nommgr.h" />

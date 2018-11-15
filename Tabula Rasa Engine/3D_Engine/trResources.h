@@ -36,7 +36,6 @@ public:
 
 	Resource::Type TypeFromExtension(const char* extension) const;
 
-	const Resource* Get(UID uid) const;
 	Resource* Get(UID uid);
 	Resource* CreateNewResource(Resource::Type type);
 

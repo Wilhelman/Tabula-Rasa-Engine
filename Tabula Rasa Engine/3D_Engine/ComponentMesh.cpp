@@ -6,32 +6,28 @@
 #include "MeshImporter.h"
 #include "GameObject.h"
 
-#include "Glew\include\GL\glew.h"
-#include "SDL\include\SDL_opengl.h"
-
-#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
-#pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
-#pragma comment (lib, "Glew/libx86/glew32.lib")
+#include "trOpenGL.h"
 
 ComponentMesh::ComponentMesh(GameObject * embedded_game_object) : 
 	Component(embedded_game_object, Component::component_type::COMPONENT_MESH)
 {
 }
 
-ComponentMesh::ComponentMesh(GameObject * embedded_game_object, Mesh* mesh) : 
-	Component(embedded_game_object, Component::component_type::COMPONENT_MESH), 
-	mesh(mesh)
+ComponentMesh::ComponentMesh(GameObject * embedded_game_object, UID resource) : 
+	Component(embedded_game_object, Component::component_type::COMPONENT_MESH)
 {
+	this->resource = resource;
 }
 
 ComponentMesh::~ComponentMesh()
 {
-	RELEASE(mesh);
+	// TODO IF RESOURCE != 0 DO SOMETHING TO DOWN THE REFERENCES
 }
 
 bool ComponentMesh::Save(JSON_Object* component_obj) const
 {
-	json_object_set_string(component_obj, "path", mesh->path.c_str());
+	//todo: get resource path etc
+	//json_object_set_string(component_obj, "path", mesh->path.c_str());
 	return true;
 }
 
@@ -39,57 +35,22 @@ bool ComponentMesh::Load(const JSON_Object * component_obj)
 {
 	bool ret = true;
 
-	JSON_Value* value = json_object_get_value(component_obj, "path");
-	const char* file_path = json_value_get_string(value);
-	ret = App->file_loader->mesh_importer->FillMeshFromFilePath(&mesh, file_path);
+	// todo get resource path and set.
 
-	GenerateAndBindMesh(mesh);
+	//JSON_Value* value = json_object_get_value(component_obj, "path");
+	//const char* file_path = json_value_get_string(value);
+	//ret = App->file_loader->mesh_importer->FillMeshFromFilePath(&mesh, file_path);
+
 
 	return ret;
 }
 
-void ComponentMesh::GenerateAndBindMesh(Mesh * mesh)
+bool ComponentMesh::SetResource(UID resource)
 {
-	glGenBuffers(1, (GLuint*) &(mesh->vertex_buffer));
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->vertex_size, mesh->vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	// needed?
+	//embedded_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
+	//embedded_go->bounding_box.Enclose((float3*)this->mesh->vertices, this->mesh->vertex_size / 3);
 
-	if (mesh->uvs != nullptr) {
-		glGenBuffers(1, (GLuint*) &(mesh->uv_buffer));
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * mesh->size_uv , mesh->uvs, GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
-	glGenBuffers(1, (GLuint*) &(mesh->index_buffer));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->index_buffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->index_size, mesh->indices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
-
-void ComponentMesh::SetMesh(Mesh * mesh)
-{
-	this->mesh = mesh;
-	embedded_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
-	embedded_go->bounding_box.Enclose((float3*)this->mesh->vertices, this->mesh->vertex_size / 3);
-	GenerateAndBindMesh(mesh);
-}
-
-const Mesh * ComponentMesh::GetMesh() const
-{
-	return mesh;
-}
-
-Mesh::~Mesh()
-{
-	if (indices != nullptr) { delete[] indices; indices = nullptr; }
-	if (vertices != nullptr) { delete[] vertices; vertices = nullptr; }
-	if (uvs != nullptr) { delete[] uvs; uvs = nullptr; }
-
-	path.clear();
-
-	glDeleteBuffers(1, (GLuint*)&index_buffer);
-	glDeleteBuffers(1, (GLuint*)&vertex_buffer);
-	glDeleteBuffers(1, (GLuint*)&uv_buffer);
+	this->resource = resource;
+	return true;
 }

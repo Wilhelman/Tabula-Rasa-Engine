@@ -5,6 +5,8 @@
 #include "ParsonJson/parson.h"
 
 class GameObject;
+class Resource;
+
 
 class Component
 {
@@ -38,6 +40,10 @@ public:
 
 	const component_type GetType()const;
 
+	virtual bool SetResource(UID Resource);
+	virtual const Resource* GetResource() const;
+	UID GetResourceUID() const;
+
 protected:
 
 	bool active = false;
@@ -45,6 +51,7 @@ protected:
 	GameObject* embedded_go = nullptr;
 	component_type type = component_type::COMPONENT_UNKNOWN;
 	UID uuid = 0u;
+	UID resource = 0u;
 
 };
 

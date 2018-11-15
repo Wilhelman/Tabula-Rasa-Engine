@@ -3,6 +3,8 @@
 #include <algorithm>
 #include "pcg/pcg_variants.h"
 
+#include "trResources.h"
+
 // ---------------------------------------------------------
 Component::Component(GameObject * embedded_go, component_type type)
 {
@@ -61,5 +63,15 @@ bool Component::IsActive() const
 const Component::component_type Component::GetType() const
 {
 	return type;
+}
+
+const Resource * Component::GetResource() const
+{
+	return App->resources->Get(resource);
+}
+
+UID Component::GetResourceUID() const
+{
+	return resource;
 }
 

@@ -155,6 +155,14 @@ Resource::Type trResources::TypeFromExtension(const char * extension) const
 	return ret;
 }
 
+Resource * trResources::Get(UID uid)
+{
+	std::map<UID, Resource*>::iterator it = resources.find(uid);
+	if (it != resources.end())
+		return it->second;
+	return nullptr;
+}
+
 Resource * trResources::CreateNewResource(Resource::Type type)
 {
 	Resource* ret = nullptr;

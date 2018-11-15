@@ -845,6 +845,9 @@
     <ClInclude Include="ResourceScene.h">
       <Filter>Core\Modules\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="trOpenGL.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assimp\include\color4.inl">
