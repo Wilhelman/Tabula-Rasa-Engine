@@ -45,7 +45,7 @@ bool ResourceMesh::LoadInMemory()
 	return true;
 }
 
-bool ResourceMesh::UnLoadMemory()
+bool ResourceMesh::ReleaseMemory()
 {
 	glDeleteBuffers(1, (GLuint*)&index_buffer);
 	glDeleteBuffers(1, (GLuint*)&vertex_buffer);

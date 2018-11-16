@@ -33,12 +33,12 @@ public:
 	uint LoadToMemory();
 	
 	uint CountReferences() const;
-	void UnReference();
+	void Release();
 
 protected:
 
 	virtual bool LoadInMemory() = 0;
-	virtual bool UnLoadMemory() = 0;
+	virtual bool ReleaseMemory() = 0;
 
 protected:
 

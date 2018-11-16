@@ -13,10 +13,7 @@ public:
 	void GenerateAndBindMesh();
 
 	bool LoadInMemory() override;
-	bool UnLoadMemory() override;
-
-	//void Save(Config& config) const override;
-	//void Load(const Config& config) override;
+	bool ReleaseMemory() override;
 
 public:
 	std::string path;

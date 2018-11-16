@@ -25,7 +25,7 @@ ComponentMesh::~ComponentMesh()
 {
 	Resource* res = (Resource*)GetResource();
 	if(res)
-		res->UnReference();
+		res->Release();
 }
 
 bool ComponentMesh::Save(JSON_Object* component_obj) const
@@ -52,7 +52,7 @@ bool ComponentMesh::Load(const JSON_Object * component_obj)
 bool ComponentMesh::SetResource(UID resource)
 {
 	if (Resource* res = (Resource*)GetResource()) {
-		res->UnReference();
+		res->Release();
 	}
 
 	this->resource = resource;

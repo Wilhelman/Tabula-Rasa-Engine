@@ -11,7 +11,7 @@ public:
 	~ResourceScene();
 
 	bool LoadInMemory() override;
-	bool UnLoadMemory() override;
+	bool ReleaseMemory() override;
 
 };
 

@@ -13,7 +13,7 @@ bool ResourceScene::LoadInMemory()
 	return false;
 }
 
-bool ResourceScene::UnLoadMemory()
+bool ResourceScene::ReleaseMemory()
 {
 	return false;
 }

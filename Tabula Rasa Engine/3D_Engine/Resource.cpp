@@ -68,7 +68,7 @@ uint Resource::CountReferences() const
 	return references;
 }
 
-void Resource::UnReference()
+void Resource::Release()
 {
 	references--;
 	if (references <= 0) {

@@ -19,7 +19,7 @@ bool ResourceTexture::LoadInMemory()
 	return false;
 }
 
-bool ResourceTexture::UnLoadMemory()
+bool ResourceTexture::ReleaseMemory()
 {
 	return false;
 }

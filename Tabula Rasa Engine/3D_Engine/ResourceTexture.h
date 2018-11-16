@@ -26,7 +26,7 @@ public:
 	const char* GetFormatStr() const;
 
 	bool LoadInMemory() override;
-	bool UnLoadMemory() override;
+	bool ReleaseMemory() override;
 
 public:
 	uint width = 0;
