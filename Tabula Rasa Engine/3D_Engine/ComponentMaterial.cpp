@@ -18,7 +18,7 @@ ComponentMaterial::~ComponentMaterial()
 
 bool ComponentMaterial::Save(JSON_Object* component_obj) const
 {
-	json_object_set_string(component_obj, "path", texture->path.c_str());
+	//json_object_set_string(component_obj, "path", texture->path.c_str());
 
 	return true;
 }
@@ -27,8 +27,8 @@ bool ComponentMaterial::Load(const JSON_Object * component_obj)
 {
 	bool ret = true;
 
-	JSON_Value* value = json_object_get_value(component_obj, "path");
-	const char* file_path = json_value_get_string(value);
+	//JSON_Value* value = json_object_get_value(component_obj, "path");
+	//const char* file_path = json_value_get_string(value);
 
 	// TODO: When resource is done ...
 

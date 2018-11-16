@@ -73,38 +73,15 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 		cursor_data = nullptr;
 		material_data = nullptr;
 
+		// start better way
+		/*std::vector<UID> meshes;
+		std::vector<UID> materials;
+		//First lets import all the fbx materials and get the uids
+		GetMaterials(scene, real_path.c_str(), materials);*/
+
+		// end better way
+
 		ImportNodesRecursively(scene->mRootNode, scene, (char*)real_path.c_str(), App->main_scene->GetRoot());
-
-		// Calculating global scene AABB for camera focus on load
-		/*App->main_scene->GetRoot()->RecalculateBoundingBox();
-		scene_bb.SetNegativeInfinity();
-		bool mesh_find = false;
-
-		for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++)
-		{
-			if (!(*it)->to_destroy && (*it)->FindComponentByType(ComponentMesh::COMPONENT_MESH) != nullptr)
-			{
-				AABB current_bb = (*it)->bounding_box;
-				scene_bb.Enclose(current_bb);
-				
-				if (!mesh_find) mesh_find = true;
-			}
-		}
-
-		if (!mesh_find)
-			scene_bb = App->camera->dummy_camera->default_aabb;
-
-		App->main_scene->scene_bb = scene_bb;
-		App->camera->dummy_camera->FocusOnAABB(scene_bb);
-
-		for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++)
-			(*it)->is_static = true;
-
-		for (std::list<GameObject*>::iterator it = App->main_scene->GetRoot()->childs.begin(); it != App->main_scene->GetRoot()->childs.end(); it++) {
-			if ((*it)->is_static) {
-				App->main_scene->InsertGoInQuadtree((*it));
-			}
-		}*/
 
 		std::string tmp = real_path;
 		// Let's get the file name to print it in inspector:
@@ -134,6 +111,7 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * scene, char* file_path, GameObject * parent_go)
 {
 	GameObject* new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
+
 	if (parent_go == App->main_scene->GetRoot())
 		imported_root_go = new_go;
 
@@ -174,7 +152,7 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		// Getting texture material if needed	
 		if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr) {
 			if (material_data == nullptr) {
-				material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], nullptr);
+				material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go);
 			}
 			else {
 
@@ -256,18 +234,13 @@ ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* 
 		std::string posible_path = "assets/textures/";
 		posible_path = posible_path + texture_file_name;
 		TR_LOG("trFileLoader: Search in - %s", posible_path.c_str());
-		//ComponentMaterial* material_comp = (ComponentMaterial*)go->CreateComponent(Component::component_type::COMPONENT_MATERIAL);
+		ComponentMaterial* material_comp = (ComponentMaterial*)go->CreateComponent(Component::component_type::COMPONENT_MATERIAL);
 
-		std::string output_path;
-		UID uid_to_force = 0u;
-		//File file_to_import;
-		//App->resources->TryToImportFile()
-		if (App->file_loader->material_importer->Import(posible_path.c_str(), texture_file_name.c_str(), output_path, uid_to_force)) {
-			//todo generate resource
-			ResourceMesh* mesh_data = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); // our mesh
-		}
+		File texture_file = App->file_system->GetFileByName(texture_file_name.c_str());
 
-	//	material_comp->SetTexture(App->file_loader->material_importer->LoadImageFromPath(posible_path.c_str()));
+		App->resources->TryToImportFile(&texture_file);
+
+		//material_comp->SetTexture(App->file_loader->material_importer->LoadImageFromPath(posible_path.c_str()));
 
 		// Material color of the mesh
 		aiColor4D tmp_color;
@@ -393,6 +366,15 @@ bool MeshImporter::LoadMeshFile(const char* file_name, const char * file_path)
 
 UID MeshImporter::GenerateResourceFromFile(const char * file_path)
 {
+	ResourceMesh* resource = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); // our mesh
+	if (resource == nullptr) { // resource already created!
+		std::string tmp = file_path;
+		const size_t last_slash = tmp.find_last_of("\\/");
+		if (std::string::npos != last_slash)
+			tmp.erase(0, last_slash + 1);
+
+		return App->resources->Find(tmp.c_str());
+	}
 	// Open file requested file
 	char* buffer = nullptr;
 	App->file_system->ReadFromFile(file_path, &buffer);
@@ -409,7 +391,6 @@ UID MeshImporter::GenerateResourceFromFile(const char * file_path)
 	uint bytes = sizeof(ranges);
 	memcpy(ranges, cursor, bytes);
 
-	ResourceMesh* resource = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); // our mesh
 	resource->index_size = ranges[0];
 	resource->vertex_size = ranges[1];
 	resource->size_uv = ranges[2];
@@ -437,4 +418,16 @@ UID MeshImporter::GenerateResourceFromFile(const char * file_path)
 	RELEASE_ARRAY(buffer);
 
 	return resource->GetUID();
+}
+
+void MeshImporter::GetMaterials(const aiScene * scene, const char * file, std::vector<UID>& materials)
+{
+	materials.reserve(scene->mNumMaterials);
+
+	for (unsigned i = 0; i < scene->mNumMaterials; ++i)
+	{
+
+
+		//materials.push_back(ResourceMaterial::Import(scene->mMaterials[i], file));
+	}
 }

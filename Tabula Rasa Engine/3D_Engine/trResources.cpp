@@ -64,6 +64,17 @@ bool trResources::CleanUp()
 	return true;
 }
 
+UID trResources::Find(const char * file_in_assets) const
+{
+	for (std::map<UID, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
+	{
+		std::string file_name = it->second->GetFileName();
+		if (file_name.compare(file_in_assets) == 0)
+			return it->first;
+	}
+	return 0;
+}
+
 void trResources::CheckForChangesInAssets(Directory* current_dir)
 {
 	for (uint i = 0u; i < current_dir->files_vec.size(); i++) {
@@ -198,7 +209,6 @@ bool trResources::GenerateResourceFromFile(const char * buffer, File* file)
 
 	value = json_object_get_value(root, "UUID");
 	UID resource_uid = json_value_get_number(value);
-	
 
 	if (last_file_update == file->last_modified) { /// If the imported resource is not modified
 
@@ -269,7 +279,12 @@ Resource * trResources::CreateNewResource(Resource::Type type, UID uid_to_force,
 	Resource* ret = nullptr;
 	uint res_uid = 0u;
 	
-	res_uid = (uid_to_force != 0u) ? uid_to_force : App->GenerateNewUUID();
+	if (uid_to_force != 0u) {
+		res_uid = uid_to_force;
+	}
+	else {
+		res_uid = App->GenerateNewUUID();
+	}
 
 	if (Get(res_uid) != nullptr) //the resource is already done
 		return nullptr;

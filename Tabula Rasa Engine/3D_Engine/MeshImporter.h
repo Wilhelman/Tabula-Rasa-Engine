@@ -32,6 +32,8 @@ public:
 	bool LoadMeshFile(const char* file_name, const char* file_path);
 	UID GenerateResourceFromFile(const char* file_path);
 
+	void GetMaterials(const aiScene* scene, const char* file, std::vector<UID>& materials);
+
 private:
 	GameObject* imported_root_go = nullptr;
 
