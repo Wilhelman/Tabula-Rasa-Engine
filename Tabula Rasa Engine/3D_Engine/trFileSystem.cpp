@@ -251,9 +251,9 @@ bool trFileSystem::CopyFileFrom(const char* src_file_path)
 {
 	bool ret = false;
 
-	std::ifstream output_file(src_file_path, std::ifstream::in);
+	// Opening file for reading
+	std::ifstream output_file(src_file_path, std::ifstream::binary);
 
-	// Getting size of the file
 	if (output_file)
 	{
 		ret = true;
@@ -262,43 +262,94 @@ bool trFileSystem::CopyFileFrom(const char* src_file_path)
 		int length = output_file.tellg();
 		output_file.seekg(0, output_file.beg);
 
+		// Reading file
 		char* buffer = new char[length];
 		output_file.read(buffer, length);
 
-		output_file.close();
-
-		std::string file_name(src_file_path);
-		const size_t last_slash = file_name.find_last_of("\\/");
-
-		if (std::string::npos != last_slash)
-			file_name.erase(0, last_slash + 1);
-
-		std::string extension;
-		GetExtensionFromFile(file_name.c_str(), extension);
-
-		bool accepted_file = false;
-		std::string new_path;
-
-		if (extension.compare(".fbx") == 0 || extension.compare(".FBX") == 0)
+		if (buffer != nullptr)
 		{
-			accepted_file = true;
-			new_path = A_MODELS_DIR;
-			new_path.append("/");
-			new_path.append(file_name.c_str());
+			output_file.close();
+
+			// Getting file name
+			std::string file_name(src_file_path);
+			const size_t last_slash = file_name.find_last_of("\\/");
+
+			if (std::string::npos != last_slash)
+				file_name.erase(0, last_slash + 1);
+
+			// Getting file extension
+			std::string extension;
+			GetExtensionFromFile(file_name.c_str(), extension);
+
+			// Checking if file already exists in assets
+			std::vector<File> files_vec;
+			GetDirectoryFiles(assets_dir, files_vec);
+
+			bool existing_file = false;
+			bool overwrite_file = false;
+
+			for (uint i = 0; i < files_vec.size(); i++)
+			{
+				if (files_vec[i].name.compare(file_name) == 0)
+				{
+					existing_file = true;
+					break;
+				}
+			}
+
+			// If file exists asking users if they want to overwrite it
+			if (existing_file)
+			{
+				// TODO: pop-up warning of overwritting file
+				// change overwrite_file var depending on user answer
+			}
+			
+			// If file does not exist or if it does but users want to overwrite it we generate the file
+			if (!existing_file || overwrite_file)
+			{
+				// Checking file type for copying in correct folder
+				bool accepted_file = false;
+				std::string new_path;
+
+				if (extension.compare(".fbx") == 0 || extension.compare(".FBX") == 0)
+				{
+					accepted_file = true;
+					new_path = A_MODELS_DIR;
+				}
+				else if (extension.compare(".png") == 0 || extension.compare(".PNG") == 0 ||
+					extension.compare(".jpg") == 0 || extension.compare(".JPG") == 0 ||
+					extension.compare(".jpeg") == 0 || extension.compare(".JPEG") == 0 ||
+					extension.compare(".dds") == 0 || extension.compare(".DDS") == 0)
+				{
+					accepted_file = true;
+					new_path = A_TEXTURES_DIR;
+				}
+
+				// If file format is accepted we copy the file into assets
+				if (accepted_file)
+				{
+					new_path.append("/");
+					new_path.append(file_name.c_str());
+					WriteInFile(new_path.c_str(), buffer, length);
+					// TODO: call App->resources->CheckForChangesInAssets(assets_dir);
+				}
+				else
+				{
+					// TODO: pop-up of format error in file
+				}
+			}
 		}
-
-		// TODO: other file cases here
-
-		if (accepted_file)
-			WriteInFile(new_path.c_str(), buffer, length);
-
+		else
+		{
+			output_file.close();
+			ret = false;
+		}
 			
 		delete[] buffer;
 	}
 
 	return ret;
 }
-
 
 
 bool trFileSystem::WriteInFile(const char* file_name, char* buffer, uint size) const
