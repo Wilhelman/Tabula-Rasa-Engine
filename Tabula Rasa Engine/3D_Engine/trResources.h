@@ -35,7 +35,7 @@ public:
 	void TryToImportFile(File* file);
 	UID ImportFile(File* file_path, UID forced_uid = 0u);
 
-	void CreateMetaFileFrom(Resource* resource, const char* file_name);
+	void CreateMetaFileFrom(Resource* resource, File* file_name);
 	bool GenerateResourceFromFile(const char* meta_file, File* file);
 
 	Resource::Type TypeFromExtension(const char* extension) const;

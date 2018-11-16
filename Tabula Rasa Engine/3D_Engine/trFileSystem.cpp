@@ -57,7 +57,7 @@ bool trFileSystem::Start()
 
 bool trFileSystem::Update(float dt)
 {
-	if (refresh_clock >= REFRESH_TIME)
+	/*if (refresh_clock >= REFRESH_TIME)
 	{
 		assets_dir_backup = *assets_dir;
 
@@ -88,7 +88,7 @@ bool trFileSystem::Update(float dt)
 		refresh_clock = 0.0f;
 	}
 
-	refresh_clock += App->time_manager->GetRealTimeDt();
+	refresh_clock += App->time_manager->GetRealTimeDt();*/
 
 	return true;
 }
@@ -124,12 +124,13 @@ bool trFileSystem::DoesDirExist(const char * dir_name) const
 {
 	bool ret = true;
 
-	if (PHYSFS_isDirectory(dir_name) != 0)
-		TR_LOG("trFileSystem: directory %s found\n", dir_name);
+	if (PHYSFS_isDirectory(dir_name) != 0) {
+		//TR_LOG("trFileSystem: directory %s found\n", dir_name);
+	}
 	else
 	{
 		ret = false;
-		TR_LOG("trFileSystem: directory %s not found\n", dir_name);
+		//TR_LOG("trFileSystem: directory %s not found\n", dir_name);
 	}
 
 	return ret;
@@ -327,15 +328,9 @@ bool trFileSystem::DeleteFileDir(const char* file_dir_name)
 	return ret;
 }
 
-int64_t trFileSystem::GetLastModifiedTime(const char* file_name) const
+int trFileSystem::GetLastModifiedTime(const char* file_name) const
 {
-	PHYSFS_Stat* stat = nullptr;
-	int64_t last_modified = 0;
-
-	if (PHYSFS_stat(file_name, stat) != 0)
-		last_modified = stat->modtime;
-	
-	return last_modified;
+	return PHYSFS_getLastModTime(file_name);
 }
 
 Directory* trFileSystem::GetAssetsDirectory() const

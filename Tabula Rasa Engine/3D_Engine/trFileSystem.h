@@ -60,7 +60,7 @@ public:
 	bool MakeNewDir(const char* dir_name);
 	bool DeleteFileDir(const char* file_dir_name);
 
-	int64_t GetLastModifiedTime(const char* file_name) const;
+	int GetLastModifiedTime(const char* file_name) const;
 
 	Directory* GetAssetsDirectory() const;
 		

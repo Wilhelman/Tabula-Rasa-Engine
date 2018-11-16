@@ -46,7 +46,6 @@ bool trResources::Start()
 	// where copy paste the file?
 
 	CheckForChangesInAssets(App->file_system->GetAssetsDirectory()); // todo: this have to be done each x time
-
 	return true;
 }
 
@@ -67,17 +66,23 @@ bool trResources::CleanUp()
 
 void trResources::CheckForChangesInAssets(Directory* current_dir)
 {
-	for (uint i = 0u; i < current_dir->files_vec.size(); i++)
-		TryToImportFile(&current_dir->files_vec[i]);
+	for (uint i = 0u; i < current_dir->files_vec.size(); i++) {
+		std::string extension;
+		App->file_system->GetExtensionFromFile(current_dir->files_vec[i].name.c_str(), extension);
+		Resource::Type type = TypeFromExtension(extension.c_str());
+		if(type != Resource::Type::UNKNOWN)
+			TryToImportFile(&current_dir->files_vec[i]);
+	}
 
 	for (uint i = 0u; i < current_dir->dirs_vec.size(); i++)
 		CheckForChangesInAssets(&current_dir->dirs_vec[i]);
+
+	int a = 0;
 }
 
 void trResources::TryToImportFile(File* file) {
 
-	std::string file_with_meta = file->name;
-	file_with_meta.append(".meta");
+	std::string file_with_meta = file->path; file_with_meta.append(file->name.c_str()); file_with_meta.append(".meta");
 
 	if (!App->file_system->DoesFileExist(file_with_meta.c_str())) {
 		ImportFile(file);
@@ -109,7 +114,6 @@ UID trResources::ImportFile(File* file, UID forced_uid)
 
 	Resource::Type type = TypeFromExtension(extension.c_str());
 
-	
 	std::string exported_path;
 
 	switch (type) {
@@ -125,20 +129,20 @@ UID trResources::ImportFile(File* file, UID forced_uid)
 
 		Resource* res = (forced_uid != 0u) ? CreateNewResource(type, forced_uid): CreateNewResource(type);
 		res->SetFileName(file->name.c_str());
-		std::string imported_path = file->path; imported_path.append("/"); imported_path.append(file->name.c_str());
+		std::string imported_path = file->path;imported_path.append(file->name.c_str());
 		res->SetImportedPath(imported_path.c_str());
 		res->SetExportedPath(exported_path.c_str());
 
 		ret = res->GetUID();
 
 		// Create .meta file
-		CreateMetaFileFrom(res, file->name.c_str());
+		CreateMetaFileFrom(res, file);
 	}
 
 	return ret;
 }
 
-void trResources::CreateMetaFileFrom(Resource * resource, const char * file_name)
+void trResources::CreateMetaFileFrom(Resource * resource, File* file)
 {
 	// TODO save all gos
 	JSON_Value* root_value = nullptr;
@@ -152,8 +156,11 @@ void trResources::CreateMetaFileFrom(Resource * resource, const char * file_name
 
 	// if file is not a scene, dont do array, just save one uuid
 	json_object_set_number(root_obj, "UUID", resource->GetUID());
+	json_object_set_string(root_obj, "UUID_path", resource->GetExportedFile());
 
-	json_object_set_number(root_obj, "LastUpdate", 0/*TODO GET THE LAST MOD FROM PHYSFS*/);
+	std::string file_path = file->path; file_path.append(file->name.c_str());
+
+	json_object_set_number(root_obj, "LastUpdate", file->last_modified);
 
 	/*// ARRAY JSON
 	JSON_Value* go_value = json_value_init_array();
@@ -192,18 +199,23 @@ bool trResources::GenerateResourceFromFile(const char * buffer, File* file)
 
 	value = json_object_get_value(root, "UUID");
 	UID resource_uid = json_value_get_number(value);
+	
 
 	if (last_file_update == file->last_modified) { /// If the imported resource is not modified
 
-		std::string resource_path = file->path; resource_path.append("/"); resource_path.append(std::to_string(resource_uid));
-			
-		if (App->file_system->DoesFileExist(resource_path.c_str())) { /// If the saved resource exist
+		std::string extension;
+		App->file_system->GetExtensionFromFile(file->name.c_str(), extension);
+
+		value = json_object_get_value(root, "UUID_path");
+		std::string resource_path = json_value_get_string(value);
+
+		if (App->file_system->DoesFileExist(resource_path.c_str())) { /// If the saved resource exist 
 
 			std::string extension;
-			App->file_system->GetExtensionFromFile(file->name.c_str(), extension); //TODO THIS FILE_NAME IS WRONG
+			App->file_system->GetExtensionFromFile(file->name.c_str(), extension);
 			Resource::Type type = TypeFromExtension(extension.c_str());
 
-			std::string imported_path = file->path; imported_path.append("/"); imported_path.append(file->name.c_str());
+			std::string imported_path = file->path; imported_path.append(file->name.c_str());
 
 			Resource* res = CreateNewResource(type, resource_uid, file->name.c_str(), imported_path.c_str(), resource_path.c_str());
 
@@ -259,6 +271,9 @@ Resource * trResources::CreateNewResource(Resource::Type type, UID uid_to_force,
 	uint res_uid = 0u;
 	
 	res_uid = (uid_to_force != 0u) ? uid_to_force : App->GenerateNewUUID();
+
+	if (Get(res_uid) != nullptr) //the resource is already done
+		return nullptr;
 
 	switch (type)
 	{
