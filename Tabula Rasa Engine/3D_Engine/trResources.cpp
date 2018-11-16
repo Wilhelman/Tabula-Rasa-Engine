@@ -88,7 +88,7 @@ void trResources::TryToImportFile(File* file) {
 
 		if (buffer != nullptr && size > 0)
 		{
-			GenerateResourceFromMeta(buffer);
+			GenerateResourceFromFile(buffer, file);
 			RELEASE_ARRAY(buffer);
 		}
 		else {
@@ -112,7 +112,6 @@ UID trResources::ImportFile(File* file, UID forced_uid)
 	
 	std::string exported_path;
 
-	//	----------------------------	TODO SOLVE ALL PATHS STUFF!---------------------
 	switch (type) {
 	case Resource::TEXTURE:
 		import_ok = material_importer->Import(file->path.c_str(),file->name.c_str(), exported_path, forced_uid);
@@ -181,7 +180,7 @@ void trResources::CreateMetaFileFrom(Resource * resource, const char * file_name
 	json_value_free(root_value);
 }
 
-bool trResources::GenerateResourceFromMeta(const char * buffer)
+bool trResources::GenerateResourceFromFile(const char * buffer, File* file)
 {
 	bool ret = false;
 
@@ -189,35 +188,36 @@ bool trResources::GenerateResourceFromMeta(const char * buffer)
 	JSON_Object* root = json_value_get_object(vroot);
 
 	JSON_Value* value = json_object_get_value(root, "LastUpdate");
-	int last_file_update = json_value_get_number(value); // TODO: this is not an int
+	int last_file_update = json_value_get_number(value);
 
 	value = json_object_get_value(root, "UUID");
 	UID resource_uid = json_value_get_number(value);
 
-	if (last_file_update == 0/*TODO last_mod_from imported file*/) { /// If the imported resource is not modified
+	if (last_file_update == file->last_modified) { /// If the imported resource is not modified
 
-		std::string resource_path = std::to_string(resource_uid); //todo set better the path from type of resource
-
+		std::string resource_path = file->path; resource_path.append("/"); resource_path.append(std::to_string(resource_uid));
+			
 		if (App->file_system->DoesFileExist(resource_path.c_str())) { /// If the saved resource exist
 
 			std::string extension;
-			App->file_system->GetExtensionFromFile(buffer, extension); //TODO THIS FILE_NAME IS WRONG
+			App->file_system->GetExtensionFromFile(file->name.c_str(), extension); //TODO THIS FILE_NAME IS WRONG
 			Resource::Type type = TypeFromExtension(extension.c_str());
 
-			Resource* res = CreateNewResource(type, resource_uid/*TODO ADD HERE ALL ABOVE PATHS*/);
-			res->SetFileName(buffer); // TODO THIS FILE_NAME IS WRONG
-			res->SetImportedPath(buffer); //TODO THIS FILE_NAME IS WRONG
-			res->SetExportedPath(resource_path.c_str());
+			std::string imported_path = file->path; imported_path.append("/"); imported_path.append(file->name.c_str());
+
+			Resource* res = CreateNewResource(type, resource_uid, file->name.c_str(), imported_path.c_str(), resource_path.c_str());
+
 			ret = true;
 		}
 		else {	/// Import the resource forcing with the uuid of the meta file (and the options)
-			ImportFile(buffer/*WRONG*/, resource_uid);
+			ImportFile(file, resource_uid);
 		}
 
 	}
 	else {
-		ImportFile(buffer/*WRONG*/);
+		ImportFile(file, resource_uid);
 	}
+
 	return ret;
 }
 

@@ -242,25 +242,25 @@ ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* 
 {
 	// Getting the texture path
 	aiString tmp_path;
-	std::string texture_path;
+	std::string texture_file_name;
 	material->GetTexture(aiTextureType_DIFFUSE, 0, &tmp_path);
-	texture_path = tmp_path.data;
+	texture_file_name = tmp_path.data;
 
 	// Let's get ONLY the file name:
-	const size_t last_slash = texture_path.find_last_of("\\/");
+	const size_t last_slash = texture_file_name.find_last_of("\\/");
 	if (std::string::npos != last_slash)
-		texture_path.erase(0, last_slash + 1);
+		texture_file_name.erase(0, last_slash + 1);
 
 	// Let's search the texture in our path assets/textures
-	if (!texture_path.empty()) {
+	if (!texture_file_name.empty()) {
 		std::string posible_path = "assets/textures/";
-		posible_path = posible_path + texture_path;
+		posible_path = posible_path + texture_file_name;
 		TR_LOG("trFileLoader: Search in - %s", posible_path.c_str());
 		//ComponentMaterial* material_comp = (ComponentMaterial*)go->CreateComponent(Component::component_type::COMPONENT_MATERIAL);
 
 		std::string output_path;
 		UID uid_to_force = 0u;
-		if (App->file_loader->material_importer->Import(posible_path.c_str(), output_path, uid_to_force)) {
+		if (App->file_loader->material_importer->Import(posible_path.c_str(), texture_file_name.c_str(), output_path, uid_to_force)) {
 			//todo generate resource
 		}
 

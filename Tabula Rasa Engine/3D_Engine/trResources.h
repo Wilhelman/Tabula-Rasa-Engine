@@ -21,13 +21,6 @@ class File;
 class trResources : public trModule
 {
 public:
-	enum FileState {
-		UNKNOWN,
-
-		META_0,
-		META_1_FILE_0
-	};
-public:
 	trResources();
 	~trResources();
 
@@ -43,7 +36,7 @@ public:
 	UID ImportFile(File* file_path, UID forced_uid = 0u);
 
 	void CreateMetaFileFrom(Resource* resource, const char* file_name);
-	bool GenerateResourceFromMeta(const char* meta_file);
+	bool GenerateResourceFromFile(const char* meta_file, File* file);
 
 	Resource::Type TypeFromExtension(const char* extension) const;
 
