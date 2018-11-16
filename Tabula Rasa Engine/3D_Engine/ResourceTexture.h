@@ -26,9 +26,7 @@ public:
 	const char* GetFormatStr() const;
 
 	bool LoadInMemory() override;
-
-	//void Save(Config& config) const override;
-	//void Load(const Config& config) override;
+	bool UnLoadMemory() override;
 
 public:
 	uint width = 0;

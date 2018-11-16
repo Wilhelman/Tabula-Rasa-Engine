@@ -18,3 +18,8 @@ bool ResourceTexture::LoadInMemory()
 {
 	return false;
 }
+
+bool ResourceTexture::UnLoadMemory()
+{
+	return false;
+}

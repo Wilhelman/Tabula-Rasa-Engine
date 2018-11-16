@@ -12,3 +12,8 @@ bool ResourceScene::LoadInMemory()
 {
 	return false;
 }
+
+bool ResourceScene::UnLoadMemory()
+{
+	return false;
+}

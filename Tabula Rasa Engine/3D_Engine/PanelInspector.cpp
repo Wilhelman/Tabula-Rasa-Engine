@@ -152,6 +152,7 @@ void PanelInspector::Draw()
 						ImGui::Text("Indices: %i", mesh->index_size);
 						ImGui::Text("UVS: %i", mesh->size_uv);
 						ImGui::Text("Source: %s", mesh->path.c_str());
+						ImGui::Text("Resource References: %i", mesh->CountReferences());
 					}
 				}
 				ImGui::Separator();

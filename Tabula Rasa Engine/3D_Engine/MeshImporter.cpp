@@ -260,8 +260,11 @@ ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* 
 
 		std::string output_path;
 		UID uid_to_force = 0u;
+		//File file_to_import;
+		//App->resources->TryToImportFile()
 		if (App->file_loader->material_importer->Import(posible_path.c_str(), texture_file_name.c_str(), output_path, uid_to_force)) {
 			//todo generate resource
+			ResourceMesh* mesh_data = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); // our mesh
 		}
 
 	//	material_comp->SetTexture(App->file_loader->material_importer->LoadImageFromPath(posible_path.c_str()));

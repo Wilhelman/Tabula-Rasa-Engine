@@ -24,7 +24,8 @@ ComponentMesh::ComponentMesh(GameObject * embedded_game_object, UID resource) :
 ComponentMesh::~ComponentMesh()
 {
 	Resource* res = (Resource*)GetResource();
-	res->UnReference();
+	if(res)
+		res->UnReference();
 }
 
 bool ComponentMesh::Save(JSON_Object* component_obj) const

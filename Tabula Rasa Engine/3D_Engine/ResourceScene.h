@@ -11,9 +11,7 @@ public:
 	~ResourceScene();
 
 	bool LoadInMemory() override;
-
-	//void Save(Config& config) const override;
-	//void Load(const Config& config) override;
+	bool UnLoadMemory() override;
 
 };
 
