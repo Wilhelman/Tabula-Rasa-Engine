@@ -7,7 +7,7 @@
 #include "ImGui/imgui_impl_sdl.h"
 #include "ImGui/imgui_impl_opengl2.h"
 
-#include "trFileLoader.h"
+#include "trFileSystem.h"
 #include "trWindow.h"
 
 
@@ -132,26 +132,29 @@ bool trInput::PreUpdate(float dt)
 
 			case SDL_DROPFILE:
 			{
-				dropped_filedir = e.drop.file;
+				dropped_file_path = e.drop.file;
 
-				if (dropped_filedir != nullptr) {
-					TR_LOG("File path dropped on window: %s", dropped_filedir);
+				if (dropped_file_path != nullptr) 
+				{
+					TR_LOG("File path dropped on window: %s", dropped_file_path);
 
-					std::string file_format(".xyz");
+					App->file_system->CopyFileFrom(dropped_file_path);
+
+					/*std::string file_format(".xyz");
 					file_format[3] = dropped_filedir[strlen(dropped_filedir) - 1];
 					file_format[2] = dropped_filedir[strlen(dropped_filedir) - 2];
 					file_format[1] = dropped_filedir[strlen(dropped_filedir) - 3];
-					file_format[0] = dropped_filedir[strlen(dropped_filedir) - 4];
+					file_format[0] = dropped_filedir[strlen(dropped_filedir) - 4];*/
 
-					if (file_format.compare(".fbx") == 0 || file_format.compare(".FBX") == 0)
-						App->file_loader->ImportFBX(dropped_filedir);
+					//if (file_format.compare(".fbx") == 0 || file_format.compare(".FBX") == 0)
+
 					//else																		// TODO when mouse picking or smth
 						//App->texture->LoadImageFromPath(dropped_filedir);
 				}
 				else
 					TR_LOG("Cannot get file dropped path");
 
-				SDL_free(dropped_filedir);
+				SDL_free(dropped_file_path);
 				break;
 			}
 		}

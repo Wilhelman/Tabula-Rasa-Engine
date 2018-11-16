@@ -64,6 +64,8 @@ public:
 
 	int GetLastModifiedTime(const char* file_name) const;
 	Directory* GetAssetsDirectory() const;
+
+	bool CopyFileFrom(const char* src_file_path);
 		
 private:
 
@@ -75,8 +77,6 @@ private:
 	void CloseFile(PHYSFS_File* file, const char* file_name) const;
 
 	void GetDirectoryFiles(Directory* dir_to_compare, std::vector<File>& compare_files_vec);
-
-	bool CopyFileTo(const char* src_file_path, const char* dst_file_path) const;
 
 
 private:

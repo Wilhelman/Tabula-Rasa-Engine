@@ -247,7 +247,7 @@ void trFileSystem::GetDirectoryFiles(Directory * dir_to_compare, std::vector<Fil
 		GetDirectoryFiles(&dir_to_compare->dirs_vec[j], compare_files_vec);
 }
 
-bool trFileSystem::CopyFileTo(const char* src_file_path, const char* dst_file_path) const
+bool trFileSystem::CopyFileFrom(const char* src_file_path)
 {
 	bool ret = false;
 
@@ -256,14 +256,44 @@ bool trFileSystem::CopyFileTo(const char* src_file_path, const char* dst_file_pa
 	// Getting size of the file
 	if (output_file)
 	{
+		ret = true;
+
 		output_file.seekg(0, output_file.end);
 		int length = output_file.tellg();
 		output_file.seekg(0, output_file.beg);
 
-		char* buffer = nullptr;
+		char* buffer = new char[length];
 		output_file.read(buffer, length);
 
 		output_file.close();
+
+		std::string file_name(src_file_path);
+		const size_t last_slash = file_name.find_last_of("\\/");
+
+		if (std::string::npos != last_slash)
+			file_name.erase(0, last_slash + 1);
+
+		std::string extension;
+		GetExtensionFromFile(file_name.c_str(), extension);
+
+		bool accepted_file = false;
+		std::string new_path;
+
+		if (extension.compare(".fbx") == 0 || extension.compare(".FBX") == 0)
+		{
+			accepted_file = true;
+			new_path = A_MODELS_DIR;
+			new_path.append("/");
+			new_path.append(file_name.c_str());
+		}
+
+		// TODO: other file cases here
+
+		if (accepted_file)
+			WriteInFile(new_path.c_str(), buffer, length);
+
+			
+		delete[] buffer;
 	}
 
 	return ret;
@@ -315,7 +345,7 @@ uint trFileSystem::ReadFromFile(const char* file_name, char** buffer)
 	return size;
 }
 
-void trFileSystem::GetExtensionFromFile(const char * file_name, std::string & extension)
+void trFileSystem::GetExtensionFromFile(const char* file_name, std::string & extension)
 {
 	extension = file_name;
 
@@ -354,7 +384,7 @@ bool trFileSystem::DeleteFileDir(const char* file_dir_name)
 	return ret;
 }
 
-File trFileSystem::GetFileByName(const char * file_name)
+File trFileSystem::GetFileByName(const char* file_name)
 {
 	std::vector<File> files_vec;
 	GetDirectoryFiles(assets_dir, files_vec);
