@@ -4,6 +4,8 @@
 #include "trTimeManager.h"
 #include "PhysFS/include/physfs.h"
 
+#include <fstream>  
+
 #pragma comment( lib, "PhysFS/libx86/physfs.lib" )
 
 trFileSystem::trFileSystem()
@@ -245,6 +247,30 @@ void trFileSystem::GetDirectoryFiles(Directory * dir_to_compare, std::vector<Fil
 		GetDirectoryFiles(&dir_to_compare->dirs_vec[j], compare_files_vec);
 }
 
+bool trFileSystem::CopyFileTo(const char* src_file_path, const char* dst_file_path) const
+{
+	bool ret = false;
+
+	std::ifstream output_file(src_file_path, std::ifstream::in);
+
+	// Getting size of the file
+	if (output_file)
+	{
+		output_file.seekg(0, output_file.end);
+		int length = output_file.tellg();
+		output_file.seekg(0, output_file.beg);
+
+		char* buffer = nullptr;
+		output_file.read(buffer, length);
+
+		output_file.close();
+	}
+
+	return ret;
+}
+
+
+
 bool trFileSystem::WriteInFile(const char* file_name, char* buffer, uint size) const
 {
 	bool ret = true;
@@ -326,6 +352,21 @@ bool trFileSystem::DeleteFileDir(const char* file_dir_name)
 	}
 
 	return ret;
+}
+
+File trFileSystem::GetFileByName(const char * file_name)
+{
+	std::vector<File> files_vec;
+	GetDirectoryFiles(assets_dir, files_vec);
+
+	for (uint i = 0; i < files_vec.size(); i++)
+	{
+		if (files_vec[i].name.compare(file_name) == 0)
+			return files_vec[i];
+	}
+
+	File error_file("error", -1);
+	return error_file;
 }
 
 int trFileSystem::GetLastModifiedTime(const char* file_name) const

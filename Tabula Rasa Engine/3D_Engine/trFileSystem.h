@@ -60,17 +60,24 @@ public:
 	bool MakeNewDir(const char* dir_name);
 	bool DeleteFileDir(const char* file_dir_name);
 
-	int GetLastModifiedTime(const char* file_name) const;
+	File GetFileByName(const char* file_name);
 
+	int GetLastModifiedTime(const char* file_name) const;
 	Directory* GetAssetsDirectory() const;
 		
 private:
 
 	bool AddNewPath(const char* path, char* mount = nullptr);
+
 	PHYSFS_File* OpenFileForWriting(const char* file_name) const;
 	PHYSFS_File* OpenFileForReading(const char* file_name) const;
+
 	void CloseFile(PHYSFS_File* file, const char* file_name) const;
+
 	void GetDirectoryFiles(Directory* dir_to_compare, std::vector<File>& compare_files_vec);
+
+	bool CopyFileTo(const char* src_file_path, const char* dst_file_path) const;
+
 
 private:
 	float refresh_clock = 0;
