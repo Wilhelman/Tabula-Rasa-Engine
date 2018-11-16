@@ -16,7 +16,7 @@ public:
 
 	bool Import(const char* file_path, std::string& output_file); // TODO SOLVE THIS
 
-	bool Import(const char* path, std::string& output_file, UID& uid_to_force);
+	bool Import(const char* path, const char* file_name, std::string& output_file, UID& uid_to_force);
 
 	Texture* LoadImageFromPath(const char* path);
 

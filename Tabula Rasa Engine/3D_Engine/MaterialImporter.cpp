@@ -40,11 +40,11 @@ bool MaterialImporter::Import(const char * file_path, std::string & output_file)
 	return false;
 }
 
-bool MaterialImporter::Import(const char * file_path, std::string & output_file, UID& uid_to_force)
+bool MaterialImporter::Import(const char * file_path, const char* file_name, std::string & output_file, UID& uid_to_force)
 {
 	// TODO : solve this
-	std::string final_path = A_TEXTURES_DIR;
-	final_path.append("/"); final_path.append(file_path);
+	std::string final_path = file_path;
+	final_path.append("/"); final_path.append(file_name);
 
 	char* buffer = nullptr;
 
@@ -88,14 +88,6 @@ bool MaterialImporter::Import(const char * file_path, std::string & output_file,
 				uid_to_force = App->GenerateNewUUID();
 
 			// Saving file
-			// TODO
-			std::string file_name = final_path.c_str();
-			const size_t last_slash = file_name.find_last_of("\\/");
-			if (std::string::npos != last_slash)
-				file_name.erase(0, last_slash + 1);
-			const size_t extension = file_name.rfind('.');
-			if (std::string::npos != extension)
-				file_name.erase(extension);
 
 			std::string tmp_str(L_MATERIALS_DIR);
 			tmp_str.append("/");

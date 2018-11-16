@@ -16,6 +16,7 @@ class MeshImporter;
 class MaterialImporter;
 
 class Directory;
+class File;
 
 class trResources : public trModule
 {
@@ -38,8 +39,8 @@ public:
 	UID Find(const char* file_in_assets) const;
 
 	void CheckForChangesInAssets(Directory* current_dir);
-	void TryToImportFile(const char* file);
-	UID ImportFile(const char* file_path, UID forced_uid = 0u);
+	void TryToImportFile(File* file);
+	UID ImportFile(File* file_path, UID forced_uid = 0u);
 
 	void CreateMetaFileFrom(Resource* resource, const char* file_name);
 	bool GenerateResourceFromMeta(const char* meta_file);

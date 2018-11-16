@@ -68,15 +68,15 @@ bool trResources::CleanUp()
 void trResources::CheckForChangesInAssets(Directory* current_dir)
 {
 	for (uint i = 0u; i < current_dir->files_vec.size(); i++)
-		TryToImportFile(current_dir->files_vec[i].name.c_str());
+		TryToImportFile(&current_dir->files_vec[i]);
 
 	for (uint i = 0u; i < current_dir->dirs_vec.size(); i++)
 		CheckForChangesInAssets(&current_dir->dirs_vec[i]);
 }
 
-void trResources::TryToImportFile(const char* file) {
+void trResources::TryToImportFile(File* file) {
 
-	std::string file_with_meta = file;
+	std::string file_with_meta = file->name;
 	file_with_meta.append(".meta");
 
 	if (!App->file_system->DoesFileExist(file_with_meta.c_str())) {
@@ -98,51 +98,42 @@ void trResources::TryToImportFile(const char* file) {
 
 }
 
-UID trResources::ImportFile(const char * file_name, UID forced_uid)
+UID trResources::ImportFile(File* file, UID forced_uid)
 {
 	UID ret = 0;
 	bool import_ok = false;
 
 	// Find out the type from the extension and send to the correct exporter
 	std::string extension;
-	App->file_system->GetExtensionFromFile(file_name, extension);
+	App->file_system->GetExtensionFromFile(file->name.c_str(), extension);
 
 	Resource::Type type = TypeFromExtension(extension.c_str());
 
-	std::string imported_path;
+	
 	std::string exported_path;
 
 	//	----------------------------	TODO SOLVE ALL PATHS STUFF!---------------------
 	switch (type) {
 	case Resource::TEXTURE:
-		import_ok = material_importer->Import(file_name, exported_path, forced_uid);
-		if (import_ok) { // <- todo this sucks
-			imported_path = A_TEXTURES_DIR;
-			imported_path.append("/");
-			imported_path.append(file_name);
-		}
+		import_ok = material_importer->Import(file->path.c_str(),file->name.c_str(), exported_path, forced_uid);
 		break;
 	case Resource::SCENE:
-		import_ok = mesh_importer->Import(file_name, exported_path);
-		if (import_ok) { // <- todo this sucks
-			imported_path = A_MODELS_DIR;
-			imported_path.append("/");
-			imported_path.append(file_name);
-		}
+		import_ok = mesh_importer->Import(file->name.c_str(), exported_path);
 		break;
 	}
 
 	if (import_ok == true) { // If export was successful, create a new resource
 
 		Resource* res = (forced_uid != 0u) ? CreateNewResource(type, forced_uid): CreateNewResource(type);
-		res->SetFileName(file_name);
+		res->SetFileName(file->name.c_str());
+		std::string imported_path = file->path; imported_path.append("/"); imported_path.append(file->name.c_str());
 		res->SetImportedPath(imported_path.c_str());
 		res->SetExportedPath(exported_path.c_str());
 
 		ret = res->GetUID();
 
 		// Create .meta file
-		CreateMetaFileFrom(res, file_name);
+		CreateMetaFileFrom(res, file->name.c_str());
 	}
 
 	return ret;
