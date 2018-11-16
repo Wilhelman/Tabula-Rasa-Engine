@@ -144,7 +144,6 @@ UID trResources::ImportFile(File* file, UID forced_uid)
 
 void trResources::CreateMetaFileFrom(Resource * resource, File* file)
 {
-	// TODO save all gos
 	JSON_Value* root_value = nullptr;
 	JSON_Object* root_obj = nullptr;
 	JSON_Array* array = nullptr;

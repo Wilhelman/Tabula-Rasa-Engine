@@ -313,7 +313,7 @@ bool MeshImporter::SaveMeshFile(const char* file_name, ResourceMesh* mesh_data, 
 
 	std::string tmp_str(L_MESHES_DIR);
 	tmp_str.append("/");
-	tmp_str.append(file_name);
+	tmp_str.append(std::to_string(mesh_data->GetUID()));
 	tmp_str.append(".trMesh"); // adding our own format extension
 
 	mesh_data->SetExportedPath(tmp_str.c_str());

@@ -23,7 +23,8 @@ ComponentMesh::ComponentMesh(GameObject * embedded_game_object, UID resource) :
 
 ComponentMesh::~ComponentMesh()
 {
-	// TODO IF RESOURCE != 0 DO SOMETHING TO DOWN THE REFERENCES
+	Resource* res = (Resource*)GetResource();
+	res->UnReference();
 }
 
 bool ComponentMesh::Save(JSON_Object* component_obj) const
@@ -49,12 +50,18 @@ bool ComponentMesh::Load(const JSON_Object * component_obj)
 
 bool ComponentMesh::SetResource(UID resource)
 {
-	// needed?
+	if (Resource* res = (Resource*)GetResource()) {
+		res->UnReference();
+	}
+
 	this->resource = resource;
 	ResourceMesh* res = (ResourceMesh*)this->GetResource();
+	
+	uint num_references = res->LoadToMemory();
+
 	embedded_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
 	embedded_go->bounding_box.Enclose((float3*)res->vertices, res->vertex_size / 3);
-	res->GenerateAndBindMesh();
+
 
 	
 	return true;

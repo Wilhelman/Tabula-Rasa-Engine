@@ -41,5 +41,15 @@ void ResourceMesh::GenerateAndBindMesh()
 
 bool ResourceMesh::LoadInMemory()
 {
-	return false;
+	GenerateAndBindMesh();
+	return true;
+}
+
+bool ResourceMesh::UnLoadMemory()
+{
+	glDeleteBuffers(1, (GLuint*)&index_buffer);
+	glDeleteBuffers(1, (GLuint*)&vertex_buffer);
+	glDeleteBuffers(1, (GLuint*)&uv_buffer);
+
+	return true;
 }

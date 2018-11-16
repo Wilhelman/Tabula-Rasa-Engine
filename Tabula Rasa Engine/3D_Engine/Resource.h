@@ -31,13 +31,14 @@ public:
 	void SetExportedPath(const char* exported_path);
 	bool IsLoadedToMemory() const;
 	uint LoadToMemory();
+	
 	uint CountReferences() const;
-	//virtual void Save(Config& config) const;
-	//virtual void Load(const Config& config);
+	void UnReference();
 
 protected:
 
 	virtual bool LoadInMemory() = 0;
+	virtual bool UnLoadMemory() = 0;
 
 protected:
 
