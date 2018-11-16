@@ -151,13 +151,7 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 		// Getting texture material if needed	
 		if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr) {
-			if (material_data == nullptr) {
 				material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go);
-			}
-			else {
-
-			}
-				//material_data = (ComponentMaterial*)new_go->CreateComponent(Component::component_type::COMPONENT_MATERIAL, material_data);
 		}
 
 		// Vertex copy
@@ -245,9 +239,9 @@ ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* 
 		// Material color of the mesh
 		aiColor4D tmp_color;
 		aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &tmp_color);
-	//	material_comp->SetAmbientColor(float4(tmp_color.r, tmp_color.g, tmp_color.b, tmp_color.a));
+		material_comp->SetAmbientColor(float4(tmp_color.r, tmp_color.g, tmp_color.b, tmp_color.a));
 
-		return nullptr;
+		return material_comp;
 	}
 	else {
 		TR_LOG("trFileLoader: Didn't find any embeded texture");
