@@ -59,38 +59,73 @@ bool trFileSystem::Start()
 
 bool trFileSystem::Update(float dt)
 {
-	/*if (refresh_clock >= REFRESH_TIME)
+	if (refresh_clock >= REFRESH_TIME)
 	{
 		assets_dir_backup = *assets_dir;
 
 		ClearAssetsDir();
 		RefreshDirectory(ASSETS_DIR);
 
-		std::vector<File> assets_last_mod;
-		GetDirectoryFiles(assets_dir, assets_last_mod);
+		std::vector<File> assets_files;
+		GetDirectoryFiles(assets_dir, assets_files);
 
-		std::vector<File> assets_backup_last_mod;
-		GetDirectoryFiles(&assets_dir_backup, assets_backup_last_mod);
+		std::vector<File> assets_backup_files;
+		GetDirectoryFiles(&assets_dir_backup, assets_backup_files);
 
-		for (uint i = 0u; i < assets_backup_last_mod.size(); i++)
+		bool assets_added = false;
+		bool assets_removed = false;
+		bool file_found = false;
+
+		if (assets_files.size() > assets_backup_files.size())
+			assets_added = true;
+		else if (assets_files.size() < assets_backup_files.size())
+			assets_removed = true;
+		
+		for (uint i = 0u; i < assets_backup_files.size(); i++)
 		{
-			for (uint j = 0u; j < assets_last_mod.size(); j++)
+			for (uint j = 0u; j < assets_files.size(); j++)
 			{
-				if (assets_backup_last_mod[j].name == assets_last_mod[i].name)
+				if (assets_backup_files[i].name.compare(assets_files[j].name) == 0)
 				{
-					if (assets_backup_last_mod[j].last_modified != assets_last_mod[i].last_modified)
+					// Case 1: asset has been modified
+					if (assets_backup_files[i].last_modified != assets_files[j].last_modified) 
 					{
 						int a = 0;
-						// TODO: send event warning that file has been modified
+						// TODO: send event that file 'assets_files[j]' has been modified
 					}
 
+					file_found = true;
+					break;
+				}
+
+				// TODO: implement the following cases
+					// Case 3: asset has been added	
+					// Case 5: asset has been renamed
+					// Case 5: asset has been moved 		
+			}
+
+			// Case 2: asset has been removed
+			if (!file_found)
+			{
+				if (assets_added)
+				{
+					int a = 0;
+					// TODO: send event that file 'assets_files[j]' has been added
+				}
+				else if (assets_removed)
+				{
+					int b = 0;
+					// TODO: send event that file 'assets_backup_files[i]' has been removed
 				}
 			}
+
+			file_found = false;
 		}
+
 		refresh_clock = 0.0f;
 	}
 
-	refresh_clock += App->time_manager->GetRealTimeDt();*/
+	refresh_clock += App->time_manager->GetRealTimeDt();
 
 	return true;
 }
@@ -302,6 +337,9 @@ bool trFileSystem::CopyFileFrom(const char* src_file_path)
 			{
 				// TODO: pop-up warning of overwritting file
 				// change overwrite_file var depending on user answer
+
+				// just for now we overwrite it by default
+				overwrite_file = true;
 			}
 			
 			// If file does not exist or if it does but users want to overwrite it we generate the file
