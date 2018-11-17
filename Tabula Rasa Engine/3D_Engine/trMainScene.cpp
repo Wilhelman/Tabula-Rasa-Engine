@@ -211,18 +211,18 @@ bool trMainScene::SerializeScene(std::string& output_file)
 
 bool trMainScene::DeSerializeScene(const char * string)
 {
-	JSON_Value* vroot = json_parse_string(string);
-	JSON_Object* root = json_value_get_object(vroot); 
+	JSON_Value* root_value = json_parse_string(string);
+	JSON_Object* root_obj = json_value_get_object(root_value); 
 	
 	//JSON_Object* description = json_object_get_object(root, "");
-	JSON_Value* value = json_object_get_value(root, "Name");
+	JSON_Value* value = json_object_get_value(root_obj, "Name");
 	scene_name = json_value_get_string(value);
 
 	/// todo load camera state?
 	std::map<GameObject*, UID> uuid_relations;
 
 	// Get GameObjects Array
-	JSON_Array* array = json_object_get_array(root, "GameObjects");
+	JSON_Array* array = json_object_get_array(root_obj, "GameObjects");
 	if (array != nullptr) {
 		uint go_size = json_array_get_count(array);
 

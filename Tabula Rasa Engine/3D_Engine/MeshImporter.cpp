@@ -362,12 +362,9 @@ UID MeshImporter::GenerateResourceFromFile(const char * file_path)
 {
 	ResourceMesh* resource = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); // our mesh
 	if (resource == nullptr) { // resource already created!
-		std::string tmp = file_path;
-		const size_t last_slash = tmp.find_last_of("\\/");
-		if (std::string::npos != last_slash)
-			tmp.erase(0, last_slash + 1);
 
-		return App->resources->Find(tmp.c_str());
+		UID uid = App->resources->Find(file_path);
+		return uid;
 	}
 	// Open file requested file
 	char* buffer = nullptr;

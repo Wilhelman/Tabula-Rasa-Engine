@@ -18,6 +18,7 @@ trResources::trResources()
 
 trResources::~trResources()
 {
+	
 }
 
 bool trResources::Awake(JSON_Object * config)
@@ -51,6 +52,7 @@ bool trResources::Start()
 
 bool trResources::CleanUp()
 {
+	//TODO EPA CUIDAO
 	TR_LOG("Cleaning Resources");
 
 	RELEASE(mesh_importer);
@@ -294,7 +296,7 @@ Resource * trResources::CreateNewResource(Resource::Type type, UID uid_to_force,
 	}
 
 	if (Get(res_uid) != nullptr) //the resource is already done
-		return nullptr;
+		return Get(res_uid);
 
 	switch (type)
 	{

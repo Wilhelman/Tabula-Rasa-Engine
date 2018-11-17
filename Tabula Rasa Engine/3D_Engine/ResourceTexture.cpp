@@ -1,5 +1,9 @@
 #include "ResourceTexture.h"
 
+#include "trApp.h"
+#include "trResources.h"
+#include "MaterialImporter.h"
+
 ResourceTexture::ResourceTexture(UID uid) : Resource(uid, Resource::Type::TEXTURE)
 {
 }
@@ -16,10 +20,12 @@ const char * ResourceTexture::GetFormatStr() const
 
 bool ResourceTexture::LoadInMemory()
 {
+
 	return true;
 }
 
 bool ResourceTexture::ReleaseMemory()
 {
-	return false;
+	App->resources->material_importer->DeleteTextureBuffer(this);
+	return true;
 }

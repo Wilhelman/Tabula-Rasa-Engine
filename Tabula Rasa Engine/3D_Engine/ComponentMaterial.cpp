@@ -2,7 +2,7 @@
 #include "trApp.h"
 #include "MaterialImporter.h"
 #include "trFileSystem.h"
-#include "trFileLoader.h"
+#include "trResources.h"
 #include "Resource.h"
 #include "ResourceTexture.h"
 
@@ -33,7 +33,8 @@ bool ComponentMaterial::Load(const JSON_Object * component_obj)
 
 	JSON_Value* value = json_object_get_value(component_obj, "path");
 	const char* file_path = json_value_get_string(value);
-	SetResource(App->file_loader->material_importer->LoadImageFromPath(file_path));
+
+	SetResource(App->resources->material_importer->LoadImageFromPath(file_path));
 
 	return ret;
 }

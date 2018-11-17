@@ -48,6 +48,7 @@ private:
 	UID last_uid = 1;
 	std::map<UID, Resource*> resources;
 
+public:
 	MeshImporter* mesh_importer = nullptr;
 	MaterialImporter* material_importer = nullptr;
 

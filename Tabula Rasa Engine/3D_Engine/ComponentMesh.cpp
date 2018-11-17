@@ -44,7 +44,8 @@ bool ComponentMesh::Load(const JSON_Object * component_obj)
 
 	JSON_Value* value = json_object_get_value(component_obj, "path");
 	const char* file_path = json_value_get_string(value);
-	SetResource(App->file_loader->mesh_importer->GenerateResourceFromFile(file_path));
+
+	SetResource(App->resources->mesh_importer->GenerateResourceFromFile(file_path));
 
 	return ret;
 }
