@@ -135,7 +135,11 @@ bool trEditor::PreUpdate(float dt)
 	ImGuizmo::BeginFrame();
 
 	if (have_to_quit)
+	{
+		ImGui::EndFrame();
 		return false;
+	}
+		
 
 	return true;
 }

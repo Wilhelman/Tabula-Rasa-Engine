@@ -123,11 +123,11 @@ bool trFileSystem::Update(float dt)
 				}
 			}
 
-			// Case 3: asset has been added
+			// Case 3: asset has been added / renamed
 			if (!file_found)
 			{
 				int a = 0;
-				// TODO: send event that file 'assets_files[i]' has been added
+				// TODO: send event that file 'assets_files[i]' has been added / renamed
 			}
 
 			file_found = false;
