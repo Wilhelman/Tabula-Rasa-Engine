@@ -34,7 +34,7 @@ public:
 
 	// getters/setters stuff
 	GameObject* GetParent() const;
-	void SetParent(GameObject* new_parent);
+	void SetParent(GameObject* new_parent, bool force_transform_calc = false);
 	const char* GetName() const;
 	void SetName(const char* name);
 	ComponentTransform* GetTransform()const;

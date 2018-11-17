@@ -281,7 +281,7 @@ bool trRenderer3D::CleanUp()
 {
 	TR_LOG("Renderer3D: CleanUp");
 
-	SDL_GL_DeleteContext(context);
+	SDL_GL_DeleteContext(context); // TODO: crash here whem importing scene multiple times
 	return true;
 }
 

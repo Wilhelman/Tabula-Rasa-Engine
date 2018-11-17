@@ -238,8 +238,10 @@ GameObject * GameObject::GetParent() const
 	return this->parent;
 }
 
-void GameObject::SetParent(GameObject * new_parent)
+void GameObject::SetParent(GameObject * new_parent, bool force_transform_calc)
 {
+	float4x4 global_matrix = GetTransform()->GetMatrix();
+
 	if (this->parent == new_parent) {
 		return;
 	}
@@ -252,7 +254,16 @@ void GameObject::SetParent(GameObject * new_parent)
 	if (new_parent)
 		new_parent->childs.push_back(this);
 
-	this->GetTransform()->GetMatrix();
+	if (force_transform_calc)
+	{
+		float4x4 new_transform = global_matrix * new_parent->GetTransform()->GetMatrix();
+		new_transform = new_transform.Inverted();
+		float3 translation, scale;
+		Quat rotation;
+		new_transform.Decompose(translation, rotation, scale);
+		transform->Setup(translation, scale, rotation);
+	}
+
 	this->RecalculateBoundingBox();
 }
 
@@ -278,7 +289,6 @@ UID GameObject::GetUUID() const
 
 void GameObject::RecalculateBoundingBox()
 {
-	
 	ComponentMesh* mesh_co = (ComponentMesh*)FindComponentByType(Component::component_type::COMPONENT_MESH);
 	
 	if (mesh_co != nullptr) {
@@ -331,7 +341,4 @@ void GameObject::DestroyGameObjectsIfNeeded()
 	}
 }
 
-
-
 // ---------------------------------------------------------
-

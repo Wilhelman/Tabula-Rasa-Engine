@@ -139,7 +139,6 @@ bool trEditor::PreUpdate(float dt)
 		ImGui::EndFrame();
 		return false;
 	}
-		
 
 	return true;
 }
