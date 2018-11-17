@@ -21,6 +21,7 @@ public:
 
 private:
 	float refresh_clock = 0.0f;
+	bool import_clicked = false;
 };
 
 #endif// __PANELABOUT_H__
