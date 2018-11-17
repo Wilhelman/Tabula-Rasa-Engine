@@ -61,26 +61,24 @@ bool trFileSystem::Update(float dt)
 {
 	if (refresh_clock >= REFRESH_TIME)
 	{
+		// Storing assets before refresh
 		assets_dir_backup = *assets_dir;
 
+		// Refreshing assets
 		ClearAssetsDir();
 		RefreshDirectory(ASSETS_DIR);
 
+		// Getting current refreshed assets files
 		std::vector<File> assets_files;
 		GetDirectoryFiles(assets_dir, assets_files);
 
+		// Getting assets files before refresh
 		std::vector<File> assets_backup_files;
 		GetDirectoryFiles(&assets_dir_backup, assets_backup_files);
-
-		bool assets_added = false;
-		bool assets_removed = false;
+	
 		bool file_found = false;
 
-		if (assets_files.size() > assets_backup_files.size())
-			assets_added = true;
-		else if (assets_files.size() < assets_backup_files.size())
-			assets_removed = true;
-		
+		// Checking assets before refresh against current refreshed assets
 		for (uint i = 0u; i < assets_backup_files.size(); i++)
 		{
 			for (uint j = 0u; j < assets_files.size(); j++)
@@ -98,8 +96,7 @@ bool trFileSystem::Update(float dt)
 					break;
 				}
 
-				// TODO: implement the following cases
-					// Case 3: asset has been added	
+				// TODO: maybe implement the following cases
 					// Case 5: asset has been renamed
 					// Case 5: asset has been moved 		
 			}
@@ -107,16 +104,30 @@ bool trFileSystem::Update(float dt)
 			// Case 2: asset has been removed
 			if (!file_found)
 			{
-				if (assets_added)
+				int a = 0;
+				// TODO: send event that file 'assets_backup_files[i]' has been removed
+			}
+
+			file_found = false;
+		}
+		
+		// Checking current refreshed assets against assets before refresh
+		for (uint i = 0u; i < assets_files.size(); i++)
+		{
+			for (uint j = 0u; j < assets_backup_files.size(); j++)
+			{
+				if (assets_files[i].name.compare(assets_backup_files[j].name) == 0)
 				{
-					int a = 0;
-					// TODO: send event that file 'assets_files[j]' has been added
+					file_found = true;
+					break;
 				}
-				else if (assets_removed)
-				{
-					int b = 0;
-					// TODO: send event that file 'assets_backup_files[i]' has been removed
-				}
+			}
+
+			// Case 3: asset has been added
+			if (!file_found)
+			{
+				int a = 0;
+				// TODO: send event that file 'assets_files[i]' has been added
 			}
 
 			file_found = false;
