@@ -13,6 +13,7 @@
 #include "ComponentCamera.h"
 
 #include "ResourceMesh.h"
+#include "ResourceTexture.h"
 
 #include "trOpenGL.h"
 
@@ -487,16 +488,17 @@ void trRenderer3D::Draw()
 		ResourceMesh* mesh = (ResourceMesh*)mesh_co->GetResource();
 
 		ComponentMaterial* material_co = (ComponentMaterial*)(*it)->FindComponentByType(Component::component_type::COMPONENT_MATERIAL);
-		const Texture* texture = nullptr;
+		ResourceTexture* texture = nullptr;
+
 		float4 ambient_color = DEFAULT_AMBIENT_COLOR;
 		if (material_co != nullptr) 
 		{
-			texture = material_co->GetTexture();
+			texture = (ResourceTexture*)material_co->GetResource();
 			ambient_color = material_co->GetAmbientColor();
 		}
 
 		if(texture != nullptr)
-			glBindTexture(GL_TEXTURE_2D, texture->id);
+			glBindTexture(GL_TEXTURE_2D, texture->gpu_id);
 
 		if (texture == nullptr || !texture_2D) // If the texture is missing, we set the ambient color of the mesh
 			glColor4f(ambient_color.w, ambient_color.x, ambient_color.y, ambient_color.z);

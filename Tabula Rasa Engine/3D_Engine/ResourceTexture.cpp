@@ -16,7 +16,7 @@ const char * ResourceTexture::GetFormatStr() const
 
 bool ResourceTexture::LoadInMemory()
 {
-	return false;
+	return true;
 }
 
 bool ResourceTexture::ReleaseMemory()

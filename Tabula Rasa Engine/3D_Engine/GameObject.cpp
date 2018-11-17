@@ -9,6 +9,7 @@
 #include "ComponentCamera.h"
 
 #include "ResourceMesh.h"
+#include "ResourceTexture.h"
 
 #include "trMainScene.h"
 
@@ -198,8 +199,8 @@ Component * GameObject::CreateComponent(Component::component_type type,  Compone
 		break;
 	case Component::component_type::COMPONENT_MATERIAL: {
 		tmp_component = new ComponentMaterial(this);
-		Texture* tmp_tex = new Texture(); // todo pass it to the constr.
-		const Texture* tmp_ret_tex = ((ComponentMaterial*)component)->GetTexture();
+		tmp_component->SetResource(component->GetResourceUID());
+		/*ResourceTexture* tmp_ret_tex = (ResourceTexture*)tmp_component->GetResource();
 		if (tmp_ret_tex != nullptr)
 		{
 			tmp_tex->height = ((ComponentMaterial*)component)->GetTexture()->height; // TODO: if tex == nullptr this crashes
@@ -207,7 +208,7 @@ Component * GameObject::CreateComponent(Component::component_type type,  Compone
 			tmp_tex->id = ((ComponentMaterial*)component)->GetTexture()->id;
 			tmp_tex->path = ((ComponentMaterial*)component)->GetTexture()->path;
 			((ComponentMaterial*)tmp_component)->SetTexture(tmp_tex);
-		}
+		}*/
 	
 		break;
 	}

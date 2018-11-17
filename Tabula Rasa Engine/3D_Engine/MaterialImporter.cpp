@@ -4,6 +4,10 @@
 #include "ComponentMaterial.h"
 #include "trFileSystem.h"
 
+#include "trApp.h"
+#include "trResources.h"
+#include "ResourceTexture.h"
+
 #include "DevIL\include\ilut.h"
 #include "DevIL\include\il.h"
 #include "DevIL\include\ilu.h"
@@ -104,12 +108,22 @@ bool MaterialImporter::Import(const char * file_path, const char* file_name, std
 	return true;
 }
 
-Texture* MaterialImporter::LoadImageFromPath(const char * path)
+UID MaterialImporter::LoadImageFromPath(const char * path)
 {
-	Texture* texture = new Texture();
+
+	ResourceTexture* resource = (ResourceTexture*)App->resources->CreateNewResource(Resource::Type::TEXTURE); // our tex
+	if (resource == nullptr) { // resource already created!
+		std::string tmp = path;
+		const size_t last_slash = tmp.find_last_of("\\/");
+		if (std::string::npos != last_slash)
+			tmp.erase(0, last_slash + 1);
+
+		return App->resources->Find(tmp.c_str());
+	}
+
 
 	uint img_id = 0u;
-	texture->id = 0u;
+	resource->gpu_id = 0u;
 
 	ILenum error_num;
 
@@ -131,8 +145,8 @@ Texture* MaterialImporter::LoadImageFromPath(const char * path)
 			TR_LOG("trTexture: Error converting the image - %i - %s", error_num, iluErrorString(error_num));
 		}
 
-		glGenTextures(1, &texture->id);
-		glBindTexture(GL_TEXTURE_2D, texture->id);
+		glGenTextures(1, &resource->gpu_id);
+		glBindTexture(GL_TEXTURE_2D, resource->gpu_id);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
@@ -144,9 +158,9 @@ Texture* MaterialImporter::LoadImageFromPath(const char * path)
 			ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
 	
 		//fill the rest of the texture info
-		texture->path = path;
-		texture->width = ilGetInteger(IL_IMAGE_WIDTH);
-		texture->height = ilGetInteger(IL_IMAGE_HEIGHT);
+		resource->SetImportedPath(path);
+		resource->width = ilGetInteger(IL_IMAGE_WIDTH);
+		resource->height = ilGetInteger(IL_IMAGE_HEIGHT);
 		
 	}
 	else
@@ -157,16 +171,18 @@ Texture* MaterialImporter::LoadImageFromPath(const char * path)
 
 	ilDeleteImages(1, &img_id);
 
-	if (texture->id != 0) {
+	if (resource->gpu_id != 0) {
 		TR_LOG("trTexture: Texture created correctly");
-		return texture;
+		return resource->GetUID();
 	}
 	else {
-		return nullptr;
+		return 0u;
 	}
 }
 
-void MaterialImporter::DeleteTextureBuffer(Texture * tex)
+
+
+void MaterialImporter::DeleteTextureBuffer(ResourceTexture * tex)
 {
-	ilDeleteImages(1, &tex->id);
+	ilDeleteImages(1, &tex->gpu_id);
 }

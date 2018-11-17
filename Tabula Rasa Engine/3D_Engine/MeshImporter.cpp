@@ -232,9 +232,9 @@ ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* 
 
 		File texture_file = App->file_system->GetFileByName(texture_file_name.c_str());
 
-		App->resources->TryToImportFile(&texture_file);
+		UID res_uid = App->resources->TryToImportFile(&texture_file);
 
-		//material_comp->SetTexture(App->file_loader->material_importer->LoadImageFromPath(posible_path.c_str()));
+		material_comp->SetResource(res_uid);
 
 		// Material color of the mesh
 		aiColor4D tmp_color;

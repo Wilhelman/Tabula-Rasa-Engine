@@ -16,6 +16,7 @@
 #include "ComponentCamera.h"
 
 #include "ResourceMesh.h"
+#include "ResourceTexture.h"
 
 
 
@@ -167,7 +168,7 @@ void PanelInspector::Draw()
 						ImGui::Text("Vertices: %i", mesh->vertex_size / 3);///bc vertices are stored in x/y/z format!
 						ImGui::Text("Indices: %i", mesh->index_size);
 						ImGui::Text("UVS: %i", mesh->size_uv);
-						ImGui::Text("Source: %s", mesh->path.c_str());
+						ImGui::Text("Source: %s", mesh->GetExportedFile());
 						ImGui::Text("Resource References: %i", mesh->CountReferences());
 					}
 				}
@@ -177,13 +178,14 @@ void PanelInspector::Draw()
 			case Component::component_type::COMPONENT_MATERIAL:
 			{
 				ComponentMaterial* mat_co = (ComponentMaterial*)(*it);
-				const Texture* texture = mat_co->GetTexture();
+				ResourceTexture* texture = (ResourceTexture*)mat_co->GetResource();
 				if (ImGui::CollapsingHeader("MATERIAL COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
 					if (texture != nullptr) {
-						ImGui::Text("Source: %s", texture->path.c_str());
+						ImGui::Text("Source: %s", texture->GetExportedFile());
 						ImGui::Text("Width: %i", texture->width);
 						ImGui::Text("Height: %i", texture->height);
-						ImGui::Image((ImTextureID)texture->id, ImVec2(200, 200));
+						ImGui::Image((ImTextureID)texture->gpu_id, ImVec2(200, 200));
+						ImGui::Text("Resource References: %i", texture->CountReferences());
 					}
 				}
 				ImGui::Separator();

@@ -4,13 +4,6 @@
 #include "Component.h"
 #include "MathGeoLib/MathGeoLib.h"
 
-struct Texture {
-	uint id = 0u;
-	uint width = 0u;
-	uint height = 0u;
-	std::string path;
-};
-
 class ComponentMaterial : public Component
 {
 
@@ -25,12 +18,10 @@ public:
 	void SetAmbientColor(float4 ambient_color);
 	const float4 GetAmbientColor()const;
 
-	const Texture* GetTexture()const;
-	void SetTexture(Texture* texture);
+	bool SetResource(UID resource);
 
 private:
 
-	Texture* texture = nullptr;
 	float4 ambient_color = float4::zero;
 
 };

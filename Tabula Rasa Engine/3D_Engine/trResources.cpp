@@ -91,12 +91,13 @@ void trResources::CheckForChangesInAssets(Directory* current_dir)
 	int a = 0;
 }
 
-void trResources::TryToImportFile(File* file) {
+UID trResources::TryToImportFile(File* file) {
 
+	UID ret = 0u;
 	std::string file_with_meta = file->path; file_with_meta.append(file->name.c_str()); file_with_meta.append(".meta");
 
 	if (!App->file_system->DoesFileExist(file_with_meta.c_str())) {
-		ImportFile(file);
+		ret = ImportFile(file);
 	}
 	else { /// If have the resource have a meta file, try to generate the resource
 		char* buffer = nullptr;
@@ -104,13 +105,15 @@ void trResources::TryToImportFile(File* file) {
 
 		if (buffer != nullptr && size > 0)
 		{
-			GenerateResourceFromFile(buffer, file);
+			ret = GenerateResourceFromFile(buffer, file);
 			RELEASE_ARRAY(buffer);
 		}
 		else {
-			ImportFile(file);
+			ret = ImportFile(file);
 		}
 	}
+
+	return ret;
 
 }
 
@@ -197,9 +200,9 @@ void trResources::CreateMetaFileFrom(Resource * resource, File* file)
 	json_value_free(root_value);
 }
 
-bool trResources::GenerateResourceFromFile(const char * buffer, File* file)
+UID trResources::GenerateResourceFromFile(const char * buffer, File* file)
 {
-	bool ret = false;
+	UID ret = 0u;
 
 	JSON_Value* vroot = json_parse_string(buffer);
 	JSON_Object* root = json_value_get_object(vroot);
@@ -227,16 +230,20 @@ bool trResources::GenerateResourceFromFile(const char * buffer, File* file)
 			std::string imported_path = file->path; imported_path.append(file->name.c_str());
 
 			Resource* res = CreateNewResource(type, resource_uid, file->name.c_str(), imported_path.c_str(), resource_path.c_str());
-
-			ret = true;
+			if(res)
+				ret = res->GetUID();
+			else {
+				Resource* generated_res = Get(resource_uid);
+				ret = generated_res->GetUID();
+			}
 		}
 		else {	/// Import the resource forcing with the uuid of the meta file (and the options)
-			ImportFile(file, resource_uid);
+			ret = ImportFile(file, resource_uid);
 		}
 
 	}
 	else {
-		ImportFile(file, resource_uid);
+		ret = ImportFile(file, resource_uid);
 	}
 
 	return ret;

@@ -370,7 +370,7 @@ const char * trApp::GetVersion() const
 
 UID trApp::GenerateNewUUID()
 {
-	return pcg32_boundedrand_r(&pcg32_global, UINT32_MAX_DECIMAL);
+	return pcg32_boundedrand_r(&pcg32_global, UINT32_MAX);
 }
 
 void trApp::SetFpsCap(uint max_framerate)
