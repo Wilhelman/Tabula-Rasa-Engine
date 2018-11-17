@@ -21,7 +21,7 @@ PanelResources::~PanelResources() { }
 
 void PanelResources::Draw()
 {
-	ImGui::Begin("Resources", &active,
+	ImGui::Begin("Assets", &active,
 		ImGuiWindowFlags_AlwaysAutoResize |
 		ImGuiWindowFlags_NoFocusOnAppearing |
 		ImGuiWindowFlags_HorizontalScrollbar);

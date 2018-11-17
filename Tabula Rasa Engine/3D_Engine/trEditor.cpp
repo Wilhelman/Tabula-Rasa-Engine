@@ -13,6 +13,7 @@
 #include "PanelInspector.h"
 #include "PanelHierarchy.h"
 #include "PanelResources.h"
+#include "PanelControl.h"
 
 #include "GameObject.h"
 
@@ -117,12 +118,14 @@ bool trEditor::Start()
 	inspector = new PanelInspector();
 	hierarchy = new PanelHierarchy();
 	resources = new PanelResources();
+	control = new PanelControl();
 	panels.push_back(about);
 	panels.push_back(config);
 	panels.push_back(console);
 	panels.push_back(inspector);
 	panels.push_back(hierarchy);
 	panels.push_back(resources);
+	panels.push_back(control);
 
 	return true;
 }

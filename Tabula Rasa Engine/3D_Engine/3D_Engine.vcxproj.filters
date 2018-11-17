@@ -333,6 +333,9 @@
     <ClCompile Include="pcg\pcg_basic.c">
       <Filter>Utilities\3rd Party\PCG</Filter>
     </ClCompile>
+    <ClCompile Include="PanelControl.cpp">
+      <Filter>Core\Modules\Panels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -841,6 +844,9 @@
     </ClInclude>
     <ClInclude Include="pcg\pcg_basic.h">
       <Filter>Utilities\3rd Party\PCG</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelControl.h">
+      <Filter>Core\Modules\Panels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
