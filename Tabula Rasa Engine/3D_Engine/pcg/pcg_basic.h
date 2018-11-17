@@ -71,6 +71,8 @@ uint32_t pcg32_random_r(pcg32_random_t* rng);
 uint32_t pcg32_boundedrand(uint32_t bound);
 uint32_t pcg32_boundedrand_r(pcg32_random_t* rng, uint32_t bound);
 
+static pcg32_random_t pcg32_global = PCG32_INITIALIZER;
+
 #if __cplusplus
 }
 #endif

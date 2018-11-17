@@ -9,7 +9,6 @@
 #include "trLog.h"
 #include "SDL/include/SDL.h"
 #include "MathGeoLib/Algorithm/Random/LCG.h"
-//#include "pcg/pcg_variants.h"
 
 // Modules
 class trWindow;
