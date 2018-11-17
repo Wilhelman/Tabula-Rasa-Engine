@@ -112,7 +112,7 @@ void ComponentCamera::SetVerticalFov(float new_v_fov)
 	frustum.verticalFov = math::DegToRad(new_v_fov);
 
 	frustum.horizontalFov *= ratio;
-	//projection_needs_update = true;
+	projection_needs_update = true;
 }
 
 bool ComponentCamera::FrustumContainsAaBox(const AABB & ref_box)

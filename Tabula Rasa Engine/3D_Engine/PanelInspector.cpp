@@ -140,11 +140,17 @@ void PanelInspector::Draw()
 					
 					ImGui::Separator();
 					ImGui::Text("Clipping Planes");
-					ImGui::SliderFloat("Near plane##nearplane", &camera_co->frustum.nearPlaneDistance, 0.5f, camera_co->frustum.farPlaneDistance - 1.0f);
-					ImGui::SliderFloat("Far plane##farplane", &camera_co->frustum.farPlaneDistance, 0.5f, 1000.0f);
-					
+
+					if (ImGui::SliderFloat("Near plane##nearplane", &camera_co->frustum.nearPlaneDistance, 0.5f, camera_co->frustum.farPlaneDistance - 1.0f));
+						camera_co->projection_needs_update = true;
+
+					if (ImGui::SliderFloat("Far plane##farplane", &camera_co->frustum.farPlaneDistance, 0.5f, 1000.0f))
+						camera_co->projection_needs_update = true;
+
 					ImGui::Separator();
 				
+					float fov = math::RadToDeg(camera_co->frustum.verticalFov);
+
 					if (ImGui::SliderFloat("Field of View", &fov, 1.0f, 179.0f))
 						camera_co->SetVerticalFov(fov);
 				}
