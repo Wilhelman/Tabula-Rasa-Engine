@@ -140,8 +140,8 @@ void PanelInspector::Draw()
 					
 					ImGui::Separator();
 					ImGui::Text("Clipping Planes");
-
-					if (ImGui::SliderFloat("Near plane##nearplane", &camera_co->frustum.nearPlaneDistance, 0.5f, camera_co->frustum.farPlaneDistance - 1.0f));
+				
+					if (ImGui::SliderFloat("Near plane##nearplane", &camera_co->frustum.nearPlaneDistance, 0.5f, 995.0f));
 						camera_co->projection_needs_update = true;
 
 					if (ImGui::SliderFloat("Far plane##farplane", &camera_co->frustum.farPlaneDistance, 0.5f, 1000.0f))
