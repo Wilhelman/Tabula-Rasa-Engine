@@ -176,8 +176,10 @@ void trResources::CreateMetaFileFrom(Resource * resource, File* file)
 	std::string file_path = file->path; file_path.append(file->name.c_str());
 
 	json_object_set_number(root_obj, "LastUpdate", file->last_modified);
-
+	// TODO continue this
 	/*// ARRAY JSON
+
+
 	JSON_Value* go_value = json_value_init_array();
 	array = json_value_get_array(go_value);
 	json_object_set_value(root_obj, "GameObjects", go_value);
@@ -186,7 +188,9 @@ void trResources::CreateMetaFileFrom(Resource * resource, File* file)
 	for (std::list<GameObject*>::const_iterator it = root->childs.begin(); it != root->childs.end(); it++) {
 	if (!(*it)->to_destroy)
 	(*it)->Save(array);
-	}*/
+	}
+	
+	*/
 
 	char *serialized_string = NULL;
 
@@ -211,6 +215,27 @@ UID trResources::GenerateResourceFromFile(const char * buffer, File* file)
 
 	JSON_Value* value = json_object_get_value(root, "LastUpdate");
 	int last_file_update = json_value_get_number(value);
+
+
+	//for here
+
+	// TODO continue this
+	/*// ARRAY JSON
+
+
+	JSON_Value* go_value = json_value_init_array();
+	array = json_value_get_array(go_value);
+	json_object_set_value(root_obj, "GameObjects", go_value);
+
+	/// Iterating between all gos
+	for (std::list<GameObject*>::const_iterator it = root->childs.begin(); it != root->childs.end(); it++) {
+	if (!(*it)->to_destroy)
+	(*it)->Save(array);
+	}
+
+	*/
+
+
 
 	value = json_object_get_value(root, "UUID");
 	UID resource_uid = json_value_get_number(value);
@@ -247,6 +272,8 @@ UID trResources::GenerateResourceFromFile(const char * buffer, File* file)
 	else {
 		ret = ImportFile(file, resource_uid);
 	}
+
+	//end for
 
 	return ret;
 }
