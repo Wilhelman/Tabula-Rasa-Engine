@@ -368,7 +368,8 @@ bool trFileSystem::CopyFileFrom(const char* src_file_path)
 				else if (extension.compare(".png") == 0 || extension.compare(".PNG") == 0 ||
 					extension.compare(".jpg") == 0 || extension.compare(".JPG") == 0 ||
 					extension.compare(".jpeg") == 0 || extension.compare(".JPEG") == 0 ||
-					extension.compare(".dds") == 0 || extension.compare(".DDS") == 0)
+					extension.compare(".dds") == 0 || extension.compare(".DDS") == 0 ||
+					extension.compare(".tga") == 0 || extension.compare(".TGA") == 0)
 				{
 					accepted_file = true;
 					new_path = A_TEXTURES_DIR;

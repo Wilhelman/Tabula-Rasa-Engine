@@ -256,8 +256,10 @@ void GameObject::SetParent(GameObject * new_parent, bool force_transform_calc)
 
 	if (force_transform_calc)
 	{
-		float4x4 new_transform = global_matrix * new_parent->GetTransform()->GetMatrix();
-		new_transform = new_transform.Inverted();
+		float4x4 parent_global_matrix = new_parent->GetTransform()->GetMatrix();
+		parent_global_matrix = parent_global_matrix.Inverted();
+
+		float4x4 new_transform = global_matrix * parent_global_matrix;
 		float3 translation, scale;
 		Quat rotation;
 		new_transform.Decompose(translation, rotation, scale);
