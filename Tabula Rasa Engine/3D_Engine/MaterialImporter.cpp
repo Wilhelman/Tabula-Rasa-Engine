@@ -130,7 +130,17 @@ UID MaterialImporter::LoadImageFromPath(const char * path)
 	ilGenImages(1, &img_id);
 	ilBindImage(img_id);
 
-	if (ilLoadImage(path))
+	char* buffer = nullptr;
+
+	uint file_size = App->file_system->ReadFromFile(path, &buffer);
+
+	if (buffer == nullptr) {
+		TR_LOG("Texture error loading file with path %s", path);
+		return false;
+	}
+
+
+	if (ilLoadL(IL_TYPE_UNKNOWN, buffer, file_size))
 	{
 		// Flip the image if needed
 		ILinfo img_info;
@@ -158,7 +168,7 @@ UID MaterialImporter::LoadImageFromPath(const char * path)
 			ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
 	
 		//fill the rest of the texture info
-		resource->SetImportedPath(path);
+		resource->SetExportedPath(path);
 		resource->width = ilGetInteger(IL_IMAGE_WIDTH);
 		resource->height = ilGetInteger(IL_IMAGE_HEIGHT);
 		

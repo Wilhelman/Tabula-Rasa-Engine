@@ -406,22 +406,10 @@ UID MeshImporter::GenerateResourceFromFile(const char * file_path)
 	bytes = sizeof(float) * resource->size_uv;
 	resource->uvs = new float[resource->size_uv];
 	memcpy(resource->uvs, cursor, bytes);
-	resource->path = file_path;
+	resource->SetExportedPath(file_path);
 
 
 	RELEASE_ARRAY(buffer);
 
 	return resource->GetUID();
-}
-
-void MeshImporter::GetMaterials(const aiScene * scene, const char * file, std::vector<UID>& materials)
-{
-	materials.reserve(scene->mNumMaterials);
-
-	for (unsigned i = 0; i < scene->mNumMaterials; ++i)
-	{
-
-
-		//materials.push_back(ResourceMaterial::Import(scene->mMaterials[i], file));
-	}
 }
