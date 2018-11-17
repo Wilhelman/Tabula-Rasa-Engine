@@ -108,9 +108,6 @@
     <ClCompile Include="trCamera3D.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="pcg\entropy.c">
-      <Filter>Utilities\3rd Party\PCG</Filter>
-    </ClCompile>
     <ClCompile Include="trEditor.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
@@ -333,6 +330,9 @@
     <ClCompile Include="ResourceScene.cpp">
       <Filter>Core\Modules\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="pcg\pcg_basic.c">
+      <Filter>Utilities\3rd Party\PCG</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -373,15 +373,6 @@
     </ClInclude>
     <ClInclude Include="trCamera3D.h">
       <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="pcg\entropy.h">
-      <Filter>Utilities\3rd Party\PCG</Filter>
-    </ClInclude>
-    <ClInclude Include="pcg\pcg_spinlock.h">
-      <Filter>Utilities\3rd Party\PCG</Filter>
-    </ClInclude>
-    <ClInclude Include="pcg\pcg_variants.h">
-      <Filter>Utilities\3rd Party\PCG</Filter>
     </ClInclude>
     <ClInclude Include="trEditor.h">
       <Filter>Core\Modules</Filter>
@@ -847,6 +838,9 @@
     </ClInclude>
     <ClInclude Include="trOpenGL.h">
       <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="pcg\pcg_basic.h">
+      <Filter>Utilities\3rd Party\PCG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

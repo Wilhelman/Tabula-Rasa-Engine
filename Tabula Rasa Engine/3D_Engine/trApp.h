@@ -9,7 +9,7 @@
 #include "trLog.h"
 #include "SDL/include/SDL.h"
 #include "MathGeoLib/Algorithm/Random/LCG.h"
-#include "pcg/pcg_variants.h"
+//#include "pcg/pcg_variants.h"
 
 // Modules
 class trWindow;
@@ -138,7 +138,7 @@ private:
 
 	// UUID
 	//LCG*				gen_uuid = nullptr;
-	pcg32_random_t		gen_uuid;
+	//pcg32_random_t		gen_uuid;
 
 };
 

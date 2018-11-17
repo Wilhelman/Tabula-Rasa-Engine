@@ -70,10 +70,10 @@
     <ClCompile Include="PanelConsole.cpp" />
     <ClCompile Include="PanelInspector.cpp" />
     <ClCompile Include="PanelResources.cpp" />
+    <ClCompile Include="pcg\pcg_basic.c" />
     <ClCompile Include="PRay.cpp" />
     <ClCompile Include="ParsonJson\parson.c" />
     <ClCompile Include="PGizmo.cpp" />
-    <ClCompile Include="pcg\entropy.c" />
     <ClCompile Include="PGrid.cpp" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Resource.cpp" />
@@ -230,6 +230,7 @@
     <ClInclude Include="MathGeoLib\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Time\Clock.h" />
     <ClInclude Include="MeshImporter.h" />
+    <ClInclude Include="pcg\pcg_basic.h" />
     <ClInclude Include="trOpenGL.h" />
     <ClInclude Include="PanelHierarchy.h" />
     <ClInclude Include="mmgr\mmgr.h" />
@@ -243,9 +244,6 @@
     <ClInclude Include="PRay.h" />
     <ClInclude Include="ParsonJson\parson.h" />
     <ClInclude Include="PGizmo.h" />
-    <ClInclude Include="pcg\entropy.h" />
-    <ClInclude Include="pcg\pcg_spinlock.h" />
-    <ClInclude Include="pcg\pcg_variants.h" />
     <ClInclude Include="PGrid.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Resource.h" />

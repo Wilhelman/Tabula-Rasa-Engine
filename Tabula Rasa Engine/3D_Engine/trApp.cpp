@@ -17,7 +17,7 @@
 #include "trMainScene.h"
 
 #include <algorithm>
-#include "pcg/pcg_variants.h"
+//#include "pcg/pcg_variants.h"
 
 
 // Constructor
@@ -370,7 +370,9 @@ const char * trApp::GetVersion() const
 
 UID trApp::GenerateNewUUID()
 {
-	return pcg32_random_r(&gen_uuid);;
+	return 0;
+	//
+	//return pcg32_random_r(&gen_uuid);;
 }
 
 void trApp::SetFpsCap(uint max_framerate)
