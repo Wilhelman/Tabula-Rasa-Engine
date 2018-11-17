@@ -1,0 +1,1 @@
+{"Name":"BakerHouse","GameObjects":[{"UUID":2340744531,"ParentUUID":0,"Name":"Main Camera","Components":[{"Type":1,"Translation":[0,0,0],"Scale":[1,1,1],"Rotation":[1,0,0,0]},{"Type":4,"F_Position":[0,0,0],"F_Culling":false,"F_Near":33.113998413085938,"F_Far":634.2039794921875,"F_HorizontalFov":2.5420093536376953,"F_VerticalFov":2.0672202110290527}]}]}

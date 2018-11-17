@@ -229,7 +229,7 @@ bool trRenderer3D::PreUpdate(float dt)
 
 	if (camera_co->projection_needs_update)
 	{
-		//UpdateCameraProjection();
+		UpdateCameraProjection();
 		camera_co->projection_needs_update = false;
 	}
 

@@ -6,7 +6,6 @@
 #include "trApp.h"
 #include "trEditor.h"
 #include "trMainScene.h"
-#include "trWindow.h"
 
 #include "MathGeoLib/MathGeoLib.h"
 
@@ -22,7 +21,7 @@
 
 PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
 {
-	active = true;
+	active = false;
 	btn_guizmo_mode = "Local";
 }
 
@@ -32,11 +31,7 @@ PanelInspector::~PanelInspector()
 
 void PanelInspector::Draw()
 {
-	ImGui::SetNextWindowPos(ImVec2(App->window->GetWidth() - App->window->GetWidth() * 0.21f, 16.f));
-	ImGui::SetNextWindowSize(ImVec2(App->window->GetWidth() * 0.21f, App->window->GetHeight() - 16.0f));
-	ImGui::Begin("Inspector", &active, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | 
-								       ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoCollapse 
-									   | ImGuiWindowFlags_AlwaysAutoResize);
+	ImGui::Begin("Inspector", &active);
 
 	GameObject* selected = App->editor->GetSelected();
 
