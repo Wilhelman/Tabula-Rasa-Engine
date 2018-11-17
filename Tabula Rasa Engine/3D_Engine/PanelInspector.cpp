@@ -135,8 +135,18 @@ void PanelInspector::Draw()
 				ComponentCamera* camera_co = (ComponentCamera*)(*it);
 				if (ImGui::CollapsingHeader("CAMERA COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
 
+					// TODO: all this should affect the camera prespective
 					ImGui::Checkbox("Frustum culling##FRUSTUM_CULLING", &camera_co->frustum_culling);
-					//TODO: NEAR, FAR ETC.
+					
+					ImGui::Separator();
+					ImGui::Text("Clipping Planes");
+					ImGui::SliderFloat("Near plane##nearplane", &camera_co->frustum.nearPlaneDistance, 0.5f, camera_co->frustum.farPlaneDistance - 1.0f);
+					ImGui::SliderFloat("Far plane##farplane", &camera_co->frustum.farPlaneDistance, 0.5f, 1000.0f);
+					
+					ImGui::Separator();
+				
+					if (ImGui::SliderFloat("Field of View", &fov, 1.0f, 179.0f))
+						camera_co->SetVerticalFov(fov);
 				}
 				ImGui::Separator();
 				break;

@@ -21,6 +21,7 @@ public:
 private:
 	char go_name[GAMEOBJECT_MAX_LENGTH];
 	std::string btn_guizmo_mode;
+	float fov = 60.0f;
 };
 
 #endif// __PANEL_CONSOLE_H__

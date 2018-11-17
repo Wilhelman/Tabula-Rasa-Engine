@@ -21,6 +21,7 @@ public:
 	void LookAt(const float3 &Spot);
 
 	void SetAspectRatio(float new_aspect_ratio);
+	void SetVerticalFov(float new_v_fov);
 	bool FrustumContainsAaBox(const AABB& ref_box);
 
 	float4x4 GetViewMatrix();
