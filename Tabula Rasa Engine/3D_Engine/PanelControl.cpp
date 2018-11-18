@@ -30,17 +30,20 @@ void PanelControl::Draw()
 
 	ImVec2 new_btn_pos(ImGui::GetWindowPos().x + (App->window->GetWidth() / 2.0f - 100.0f), ImGui::GetCursorScreenPos().y);
 	ImGui::SetCursorScreenPos(new_btn_pos);
+	static std::string play_btn = "PLAY";
 
-	if (ImGui::Button("PLAY")) 
+	if (ImGui::Button(play_btn.c_str()))
 	{
-		if (App->IsRunTime()) 
-		{
-
-		}
-		else 
-			App->time_manager->ReStartGameClock();
-		
 		App->SwitchRunTime();
+
+		if (App->IsRunTime())
+		{
+			play_btn = "STOP";
+		}
+		else {
+			play_btn = "PLAY";
+			App->time_manager->ReStartGameClock();
+		}
 	}
 
 	ImGui::SameLine();
@@ -52,6 +55,6 @@ void PanelControl::Draw()
 
 	if (ImGui::Button("ADVANCE"))
 		App->time_manager->StepGameClock();
-	
+
 	ImGui::End();
 }

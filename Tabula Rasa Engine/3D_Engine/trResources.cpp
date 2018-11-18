@@ -43,10 +43,7 @@ bool trResources::Start()
 	App->file_system->MakeNewDir(L_MESHES_DIR);
 	App->file_system->MakeNewDir(L_MATERIALS_DIR);
 
-	// TODO: Check if there is something in assets directory. If so, import it!
-	// where copy paste the file?
-
-	CheckForChangesInAssets(App->file_system->GetAssetsDirectory()); // todo: this have to be done each x time
+	CheckForChangesInAssets(App->file_system->GetAssetsDirectory());
 	return true;
 }
 
@@ -63,6 +60,12 @@ bool trResources::CleanUp()
 
 	resources.clear();
 
+	return true;
+}
+
+bool trResources::PostUpdate(float dt)
+{
+	//CheckForChangesInAssets(App->file_system->GetAssetsDirectory());
 	return true;
 }
 
@@ -215,27 +218,6 @@ UID trResources::GenerateResourceFromFile(const char * buffer, File* file)
 
 	JSON_Value* value = json_object_get_value(root, "LastUpdate");
 	int last_file_update = json_value_get_number(value);
-
-
-	//for here
-
-	// TODO continue this
-	/*// ARRAY JSON
-
-
-	JSON_Value* go_value = json_value_init_array();
-	array = json_value_get_array(go_value);
-	json_object_set_value(root_obj, "GameObjects", go_value);
-
-	/// Iterating between all gos
-	for (std::list<GameObject*>::const_iterator it = root->childs.begin(); it != root->childs.end(); it++) {
-	if (!(*it)->to_destroy)
-	(*it)->Save(array);
-	}
-
-	*/
-
-
 
 	value = json_object_get_value(root, "UUID");
 	UID resource_uid = json_value_get_number(value);

@@ -6,6 +6,7 @@
 #include "trApp.h"
 #include "trEditor.h"
 #include "trMainScene.h"
+#include "trWindow.h"
 
 #include "MathGeoLib/MathGeoLib.h"
 
@@ -22,7 +23,7 @@
 
 PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
 {
-	active = false;
+	active = true;
 	btn_guizmo_mode = "Local";
 }
 
@@ -32,7 +33,10 @@ PanelInspector::~PanelInspector()
 
 void PanelInspector::Draw()
 {
-	ImGui::Begin("Inspector", &active);
+	ImGui::SetNextWindowPos(ImVec2(App->window->GetWidth() - App->window->GetWidth() * 0.21f, 46.f));
+	ImGui::SetNextWindowSize(ImVec2(App->window->GetWidth() * 0.21f, App->window->GetHeight() - 246.f));
+	ImGui::Begin("Inspector", &active, ImGuiWindowFlags_NoCollapse
+		| ImGuiWindowFlags_AlwaysAutoResize);
 
 	GameObject* selected = App->editor->GetSelected();
 
@@ -164,7 +168,7 @@ void PanelInspector::Draw()
 				ResourceMesh* mesh = (ResourceMesh*)mesh_co->GetResource();
 				if (ImGui::CollapsingHeader("MESH COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
 					if (mesh != nullptr) {
-						ImGui::Text("Triangles: %i", mesh->face_size);
+						//ImGui::Text("Triangles: %i", mesh->face_size);
 						ImGui::Text("Vertices: %i", mesh->vertex_size / 3);///bc vertices are stored in x/y/z format!
 						ImGui::Text("Indices: %i", mesh->index_size);
 						ImGui::Text("UVS: %i", mesh->size_uv);

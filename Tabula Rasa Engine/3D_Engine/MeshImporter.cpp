@@ -107,13 +107,7 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 	GameObject* new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
 
 	new_go->SetName(node->mName.C_Str());
-	if (strcmp(node->mName.C_Str(), "City_building_007") == 0) {
-		int a = 0;
-	}
 
-	if (strcmp(node->mName.C_Str(), "City_building_011") == 0) {
-		int b = 0;
-	}
 	// Calculate the position, scale and rotation
 	aiVector3D translation;
 	aiVector3D scaling;
@@ -185,6 +179,7 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 					if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr) {
 						material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go, mesh_data);
 					}
+					
 				}
 				else {
 					mesh_data->size_uv = 0;
@@ -287,12 +282,12 @@ ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* 
 			material_comp->SetResource(res_uid);
 			mesh->texture_uuid = res_uid;
 		}
-		
 
 		// Material color of the mesh
 		aiColor4D tmp_color;
 		aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &tmp_color);
-		material_comp->SetAmbientColor(float4(tmp_color.r, tmp_color.g, tmp_color.b, tmp_color.a));
+		if(material_comp)
+			material_comp->SetAmbientColor(float4(tmp_color.r, tmp_color.g, tmp_color.b, tmp_color.a));
 
 		return material_comp;
 	}

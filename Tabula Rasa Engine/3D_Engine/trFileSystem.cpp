@@ -3,6 +3,7 @@
 #include "trLog.h"
 #include "trTimeManager.h"
 #include "PhysFS/include/physfs.h"
+#include "trResources.h"
 
 #include <fstream>  
 
@@ -88,7 +89,7 @@ bool trFileSystem::Update(float dt)
 					// Case 1: asset has been modified
 					if (assets_backup_files[i].last_modified != assets_files[j].last_modified) 
 					{
-						int a = 0;
+						//App->resources->CheckForChangesInAssets(assets_dir);
 						// TODO: send event that file 'assets_files[j]' has been modified
 					}
 
@@ -126,7 +127,7 @@ bool trFileSystem::Update(float dt)
 			// Case 3: asset has been added / renamed
 			if (!file_found)
 			{
-				int a = 0;
+				App->resources->CheckForChangesInAssets(assets_dir);
 				// TODO: send event that file 'assets_files[i]' has been added / renamed
 			}
 

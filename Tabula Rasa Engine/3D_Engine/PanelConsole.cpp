@@ -1,9 +1,11 @@
 #include "PanelConsole.h"
 #include "ImGui/imgui.h"
+#include "trApp.h"
+#include "trWindow.h"
 
 PanelConsole::PanelConsole(std::vector<std::string> init_logs) : Panel("Console", SDL_SCANCODE_1)
 {
-	active = false;
+	active = true;
 
 	std::vector<std::string>::iterator it = init_logs.begin();
 	while (it != init_logs.end())
@@ -20,7 +22,12 @@ PanelConsole::~PanelConsole()
 
 void PanelConsole::Draw()
 {
-	ImGui::Begin("Console", &active);
+
+	ImGui::SetNextWindowPos(ImVec2(App->window->GetWidth() /2.f, App->window->GetHeight() - 200.f));
+	ImGui::SetNextWindowSize(ImVec2(App->window->GetWidth() /2,200.f));
+	ImGui::Begin("Console", &active, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoCollapse
+		| ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoFocusOnAppearing);
+
 	ImGui::TextUnformatted(text_buffer.begin());
 
 	if (have_to_scroll)

@@ -6,6 +6,7 @@
 #include "trTimeManager.h"
 #include "trMainScene.h"
 #include "trDefs.h"
+#include "trWindow.h"
 
 #include "ImGui/imgui.h"
 
@@ -13,7 +14,7 @@ PanelResources::PanelResources() : Panel("Assets", SDL_SCANCODE_4)
 {
 	width = 500;
 	height = 500;
-	active = false;
+	active = true;
 	refresh_clock = 0.0f;
 }
 
@@ -21,10 +22,12 @@ PanelResources::~PanelResources() { }
 
 void PanelResources::Draw()
 {
-	ImGui::Begin("Assets", &active,
-		ImGuiWindowFlags_AlwaysAutoResize |
-		ImGuiWindowFlags_NoFocusOnAppearing |
-		ImGuiWindowFlags_HorizontalScrollbar);
+	ImGui::SetNextWindowPos(ImVec2(0, App->window->GetHeight() - 200.f));
+	ImGui::SetNextWindowSize(ImVec2(App->window->GetWidth() / 2, 200.f));
+	ImGui::Begin("Assets", &active, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoCollapse
+		| ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_HorizontalScrollbar |
+		ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_AlwaysVerticalScrollbar);
+
 
 	if (ImGui::TreeNodeEx(ASSETS_DIR))
 	{

@@ -28,6 +28,7 @@ public:
 	bool Awake(JSON_Object* config = nullptr);
 	bool Start();
 	bool CleanUp();
+	bool PostUpdate(float dt);
 
 	UID Find(const char* file_in_assets) const;
 

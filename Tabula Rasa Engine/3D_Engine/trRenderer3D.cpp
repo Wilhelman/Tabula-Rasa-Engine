@@ -21,7 +21,7 @@
 #define F_PLANE 1024.0f
 #define FOV 60.0f
 
-#define DEFAULT_AMBIENT_COLOR {0.f,0.f,255.f,255.f}
+#define DEFAULT_AMBIENT_COLOR {0.f,120.f,120.f,255.f}
 
 
 trRenderer3D::trRenderer3D() : trModule()
@@ -507,7 +507,7 @@ void trRenderer3D::Draw()
 		if (material_co != nullptr) 
 		{
 			texture = (ResourceTexture*)material_co->GetResource();
-			ambient_color = material_co->GetAmbientColor();
+			//ambient_color = material_co->GetAmbientColor();
 		}
 
 		if (texture != nullptr) {
@@ -515,7 +515,9 @@ void trRenderer3D::Draw()
 				glBindTexture(GL_TEXTURE_2D, texture->gpu_id);
 		}
 			
-
+		if (material_co && texture == nullptr) {
+			glColor4f(ambient_color.w, ambient_color.x, ambient_color.y, ambient_color.z);
+		}
 		if (texture == nullptr || !texture_2D) // If the texture is missing, we set the ambient color of the mesh
 			glColor4f(ambient_color.w, ambient_color.x, ambient_color.y, ambient_color.z);
 		

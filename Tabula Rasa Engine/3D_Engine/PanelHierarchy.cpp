@@ -6,6 +6,7 @@
 #include "trMainScene.h"
 #include "trCamera3D.h"
 #include "ComponentCamera.h"
+#include "trWindow.h"
 
 #include "trDefs.h"
 #include <list>
@@ -14,7 +15,7 @@
 
 PanelHierarchy::PanelHierarchy() : Panel("Game Objects Hierarchy", SDL_SCANCODE_3)
 {
-	active = false;
+	active = true;
 }
 
 PanelHierarchy::~PanelHierarchy()
@@ -23,10 +24,11 @@ PanelHierarchy::~PanelHierarchy()
 
 void PanelHierarchy::Draw()
 {
-	ImGui::Begin("GameObjects Hierarchy", &active,
-		ImGuiWindowFlags_AlwaysAutoResize |
-		ImGuiWindowFlags_NoFocusOnAppearing | 
-		ImGuiWindowFlags_HorizontalScrollbar);
+
+	ImGui::SetNextWindowPos(ImVec2(0,46.f));
+	ImGui::SetNextWindowSize(ImVec2(App->window->GetWidth() * 0.21f, App->window->GetHeight() - 246.f));
+	ImGui::Begin("GameObjects Hierarchy", &active, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoCollapse
+		| ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoFocusOnAppearing);
 
 	if (ImGui::BeginMenu("Options"))
 	{

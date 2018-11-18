@@ -14,6 +14,16 @@ _IMPORTANT: do not modify, change or add any folder or file as you might not be 
 
 ## Controls
 
+* **Select object:** Left click
+
+### Gizmos
+
+* **W/E/R:** Change gizmo to Translate, Rotation and Scale
+
+### Assets controls
+
+* **Load scene:** Double left clic
+
 ### Camera
 
 * **Free look around:** Right Click Mouse Button
