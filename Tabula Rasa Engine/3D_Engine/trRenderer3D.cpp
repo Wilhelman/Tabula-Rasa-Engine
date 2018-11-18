@@ -202,40 +202,7 @@ bool trRenderer3D::PreUpdate(float dt)
 		App->camera->dummy_camera->projection_needs_update = true;
 		camera_co = App->camera->dummy_camera;
 	}
-
-	if (camera_co->projection_needs_update)
-	{
-		UpdateCameraProjection();
-		camera_co->projection_needs_update = false;
-	}
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(camera_co->GetViewMatrix().ptr());
-
-	// light 0 on cam pos
-	lights[0].SetPos(App->camera->dummy_camera->frustum.pos.x, App->camera->dummy_camera->frustum.pos.y, App->camera->dummy_camera->frustum.pos.z);
-
-	for (uint i = 0; i < MAX_LIGHTS; ++i)
-		lights[i].Render();
 	
-	return true;
-}
-
-// PostUpdate present buffer to screen
-bool trRenderer3D::PostUpdate(float dt)
-{
-	// Filter the drawable gos:
-	ComponentCamera* camera_co = nullptr;
-
-	if (App->IsRunTime())
-		camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentByType(Component::component_type::COMPONENT_CAMERA);
-	else
-	{
-		App->camera->dummy_camera->projection_needs_update = true;
-		camera_co = App->camera->dummy_camera;
-	}
-
 	meshable_go.clear();
 	drawable_go.clear();
 
@@ -263,6 +230,29 @@ bool trRenderer3D::PostUpdate(float dt)
 		CollectActiveGameObjects();
 	}
 
+
+	if (camera_co->projection_needs_update)
+	{
+		UpdateCameraProjection();
+		camera_co->projection_needs_update = false;
+	}
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(camera_co->GetViewMatrix().ptr());
+
+	// light 0 on cam pos
+	lights[0].SetPos(App->camera->dummy_camera->frustum.pos.x, App->camera->dummy_camera->frustum.pos.y, App->camera->dummy_camera->frustum.pos.z);
+
+	for (uint i = 0; i < MAX_LIGHTS; ++i)
+		lights[i].Render();
+	
+	return true;
+}
+
+// PostUpdate present buffer to screen
+bool trRenderer3D::PostUpdate(float dt)
+{
 	//RENDER GEOMETRY
 	if (App->main_scene != nullptr)
 		App->main_scene->Draw();
