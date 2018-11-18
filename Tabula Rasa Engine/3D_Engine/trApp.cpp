@@ -239,16 +239,7 @@ bool trApp::PreUpdate()
 			continue;
 		}
 
-		if (run_time) {
-			if (pModule == main_scene) {
-				ret = (*it)->PreUpdate(time_manager->GetGameDt());
-			}
-			else {
-				ret = (*it)->PreUpdate(dt);
-			}
-		}else
-			ret = (*it)->PreUpdate(dt);
-		
+		ret = (*it)->PreUpdate(dt);
 	}
 
 	return ret;
@@ -270,21 +261,7 @@ bool trApp::DoUpdate()
 			continue;
 		}
 
-		if (all_modules_loaded) {
-			if (run_time) {
-				if (pModule == main_scene) {
-					ret = (*it)->Update(time_manager->GetGameDt());
-				}
-				else {
-					ret = (*it)->Update(dt);
-				}
-			}
-			else
-				ret = (*it)->Update(dt);
-		}
-		else {
-			ret = (*it)->Update(0);
-		}
+		(all_modules_loaded) ? ret = (*it)->Update(dt) : ret = (*it)->Update(0);
 	}
 
 	return ret;
@@ -305,16 +282,7 @@ bool trApp::PostUpdate()
 			continue;
 		}
 
-		if (run_time) {
-			if (pModule == main_scene) {
-				ret = (*it)->PostUpdate(time_manager->GetGameDt());
-			}
-			else {
-				ret = (*it)->PostUpdate(dt);
-			}
-		}
-		else
-			ret = (*it)->PostUpdate(dt);
+		ret = (*it)->PostUpdate(dt);
 	}
 
 	//PERF_PEEK(ptimer);
@@ -421,22 +389,7 @@ void trApp::SwitchRunTime()
 {
 	run_time = !run_time;
 	if (run_time) {
-		App->main_scene->SerializeScene(temporal_scene, "Temporal_Scene");
-	}
-	else {
-		// Clear
-		App->main_scene->ClearScene(true);
-
-		char* buffer = nullptr;
-		uint size = App->file_system->ReadFromFile(temporal_scene.c_str(), &buffer);
-
-		if (buffer != nullptr && size > 0)
-		{
-			App->main_scene->DeSerializeScene(buffer);
-			RELEASE_ARRAY(buffer);
-		}
-		else
-			TR_LOG("trApp: Error reading scene from path: %s", temporal_scene.c_str());
+		App->main_scene->SerializeScene(std::string());
 	}
 }
 

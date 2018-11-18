@@ -139,8 +139,6 @@ private:
 	//LCG*				gen_uuid = nullptr;
 	//pcg32_random_t		gen_uuid;
 
-	std::string			temporal_scene;
-
 };
 
 extern trApp* App;
