@@ -73,14 +73,6 @@ bool MeshImporter::Import(const char * path, std::string & output_file)
 		cursor_data = nullptr;
 		material_data = nullptr;
 
-		// start better way
-		/*std::vector<UID> meshes;
-		std::vector<UID> materials;
-		//First lets import all the fbx materials and get the uids
-		GetMaterials(scene, real_path.c_str(), materials);*/
-
-		// end better way
-
 		ImportNodesRecursively(scene->mRootNode, scene, (char*)real_path.c_str(), App->main_scene->GetRoot());
 
 		std::string tmp = real_path;

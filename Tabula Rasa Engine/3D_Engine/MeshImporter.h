@@ -46,6 +46,8 @@ private:
 	uint scene_num_vertex = 0;
 
 	AABB scene_bb;
+
+	std::map<aiMesh*, ResourceMesh*> meshes;
 };
 
 #endif // __MESH_IMPORTER_H__

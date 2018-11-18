@@ -40,11 +40,10 @@ bool ComponentMesh::Load(const JSON_Object * component_obj)
 {
 	bool ret = true;
 
-	// todo get resource path and set.
-
 	JSON_Value* value = json_object_get_value(component_obj, "path");
 	const char* file_path = json_value_get_string(value);
 
+	//todo clean
 	std::string uid_force = file_path;
 	const size_t last_slash = uid_force.find_last_of("\\/");
 	if (std::string::npos != last_slash)
