@@ -106,14 +106,11 @@ void ComponentCamera::SetAspectRatio(float new_aspect_ratio)
 	projection_needs_update = true;
 }
 
-void ComponentCamera::SetVerticalFov(float new_v_fov)
+void ComponentCamera::SetUpFov(float new_v_fov)
 {
-	float old_asepct_ratio = frustum.AspectRatio();
-	
-
+	projection_needs_update = true;
 	frustum.verticalFov = math::DegToRad(new_v_fov);
-	float aspect_ratio = frustum.AspectRatio();
-	SetAspectRatio(aspect_ratio);
+	frustum.horizontalFov = 2.0f * atanf(tanf(frustum.verticalFov / 2.0f) * App->window->GetWidth() / App->window->GetHeight());
 }
 
 bool ComponentCamera::FrustumContainsAaBox(const AABB & ref_box)
