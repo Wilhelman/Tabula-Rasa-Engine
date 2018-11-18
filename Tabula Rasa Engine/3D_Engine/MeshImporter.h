@@ -28,7 +28,7 @@ public:
 	//bool Load(const char* exported_file, Texture* resource);
 
 	void ImportNodesRecursively(const aiNode* node, const aiScene* scene, char* file_path, GameObject * parent_go);
-	ComponentMaterial* LoadTexture(aiMaterial* material, GameObject* go);
+	ComponentMaterial* LoadTexture(aiMaterial* material, GameObject* go, ResourceMesh* mesh);
 
 	bool SaveMeshFile(const char* file_name, ResourceMesh* mesh_data, std::string& output_file);
 	bool LoadMeshFile(const char* file_name, const char* file_path);

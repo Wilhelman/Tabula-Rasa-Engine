@@ -150,10 +150,7 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 				file_path = nullptr;
 			}
 
-			// Getting texture material if needed	
-			if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr) {
-				material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go);
-			}
+			
 
 			ResourceMesh* stored_mesh = nullptr;
 			if (mesh_resources.find(new_mesh) != mesh_resources.end()) {
@@ -190,6 +187,10 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 					for (int i = 0; i < new_mesh->mNumVertices; i++) {
 						mesh_data->uvs[i * 2] = new_mesh->mTextureCoords[0][i].x;
 						mesh_data->uvs[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
+					}
+					// Getting texture material if needed	
+					if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr) {
+						material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go, mesh_data);
 					}
 				}
 				else {
@@ -228,7 +229,7 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 		ImportNodesRecursively(node->mChildren[i], scene, file_path, (good_mesh)?new_go:parent_go);
 }
 
-ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* go)
+ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* go, ResourceMesh* mesh)
 {
 	// Getting the texture path
 	aiString tmp_path;
@@ -246,13 +247,19 @@ ComponentMaterial * MeshImporter::LoadTexture(aiMaterial* material, GameObject* 
 		std::string posible_path = "assets/textures/";
 		posible_path = posible_path + texture_file_name;
 		TR_LOG("trFileLoader: Search in - %s", posible_path.c_str());
-		ComponentMaterial* material_comp = (ComponentMaterial*)go->CreateComponent(Component::component_type::COMPONENT_MATERIAL);
+
+		ComponentMaterial* material_comp = nullptr;
 
 		File texture_file = App->file_system->GetFileByName(texture_file_name.c_str());
 
 		UID res_uid = App->resources->TryToImportFile(&texture_file);
 
-		material_comp->SetResource(res_uid);
+		if (res_uid != 0) {
+			material_comp = (ComponentMaterial*)go->CreateComponent(Component::component_type::COMPONENT_MATERIAL);
+			material_comp->SetResource(res_uid);
+			mesh->texture_uuid = res_uid;
+		}
+		
 
 		// Material color of the mesh
 		aiColor4D tmp_color;

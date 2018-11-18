@@ -31,6 +31,8 @@ public:
 	uint uv_buffer = 0u;
 	uint size_uv = 0u;
 	float* uvs = nullptr;
+
+	UID texture_uuid = 0u;
 };
 
 #endif // __RESOURCE_MESH_H__

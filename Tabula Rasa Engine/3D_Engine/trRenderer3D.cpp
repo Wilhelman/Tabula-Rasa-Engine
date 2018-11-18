@@ -510,8 +510,11 @@ void trRenderer3D::Draw()
 			ambient_color = material_co->GetAmbientColor();
 		}
 
-		if(texture != nullptr)
-			glBindTexture(GL_TEXTURE_2D, texture->gpu_id);
+		if (texture != nullptr) {
+			if(mesh->uv_buffer != 0)
+				glBindTexture(GL_TEXTURE_2D, texture->gpu_id);
+		}
+			
 
 		if (texture == nullptr || !texture_2D) // If the texture is missing, we set the ambient color of the mesh
 			glColor4f(ambient_color.w, ambient_color.x, ambient_color.y, ambient_color.z);
@@ -522,7 +525,7 @@ void trRenderer3D::Draw()
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			//texture
-			if (mesh->uvs != nullptr)
+			if (mesh->uvs != nullptr && mesh->uv_buffer != 0)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
 				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
