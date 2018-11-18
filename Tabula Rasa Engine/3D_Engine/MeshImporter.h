@@ -49,7 +49,7 @@ private:
 
 	AABB scene_bb;
 
-	std::map<aiMesh*, UID> mesh_resource;
+	std::map<aiMesh*, ResourceMesh*> mesh_resources;
 };
 
 #endif // __MESH_IMPORTER_H__

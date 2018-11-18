@@ -139,72 +139,76 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
 
-		UID mesh_uid = 0u;
-		if (mesh_resource.find(new_mesh) != mesh_resource.end()) {
-			mesh_uid = mesh_resource.at(new_mesh);
-		}
-
-		ResourceMesh* mesh_data = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH, mesh_uid); // our mesh
-
-		if(mesh_uid == 0u)
-			mesh_resource.insert(std::pair<aiMesh*, UID>(new_mesh, mesh_data->GetUID()));
-
 		// Getting texture material if needed	
 		if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr) {
-				material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go);
+			material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go);
 		}
 
-		// Vertex copy
-		mesh_data->vertex_size = new_mesh->mNumVertices * 3;
-		mesh_data->vertices = new float[mesh_data->vertex_size];
-		memcpy(mesh_data->vertices, new_mesh->mVertices, sizeof(float) * mesh_data->vertex_size);
-
-		// Data for the bounding box of all the meshes
-		for (uint i = 0; i < mesh_data->vertex_size; i++) {
-			scene_vertices.push_back(float3(mesh_data->vertices[i], mesh_data->vertices[i + 1], mesh_data->vertices[i + 2]));
+		ResourceMesh* stored_mesh = nullptr;
+		if (mesh_resources.find(new_mesh) != mesh_resources.end()) {
+			stored_mesh = mesh_resources.at(new_mesh);
 		}
-		scene_num_vertex += mesh_data->vertex_size;
 
-		// UVs copy
-		if (new_mesh->HasTextureCoords(0)) {//i?
-			mesh_data->size_uv = new_mesh->mNumVertices * 2;
-			mesh_data->uvs = new float[mesh_data->size_uv];
-			for (int i = 0; i < new_mesh->mNumVertices; i++) {
-				mesh_data->uvs[i * 2] = new_mesh->mTextureCoords[0][i].x;
-				mesh_data->uvs[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
+		ResourceMesh* mesh_data = nullptr;
+		if (stored_mesh) {
+			mesh_data = stored_mesh;
+			ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
+			mesh_comp->SetResource(mesh_data->GetUID());
+		}
+		else
+			mesh_data = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); // our mesh
+
+		if (!stored_mesh) {
+			mesh_resources.insert(std::pair<aiMesh*, ResourceMesh*>(new_mesh, mesh_data));
+
+			// Vertex copy
+			mesh_data->vertex_size = new_mesh->mNumVertices * 3;
+			mesh_data->vertices = new float[mesh_data->vertex_size];
+			memcpy(mesh_data->vertices, new_mesh->mVertices, sizeof(float) * mesh_data->vertex_size);
+
+			// Data for the bounding box of all the meshes
+			for (uint i = 0; i < mesh_data->vertex_size; i++) {
+				scene_vertices.push_back(float3(mesh_data->vertices[i], mesh_data->vertices[i + 1], mesh_data->vertices[i + 2]));
 			}
-		}
-		else {
-			mesh_data->size_uv = 0;
-			mesh_data->uvs = nullptr;
-		}
+			scene_num_vertex += mesh_data->vertex_size;
 
-		// Index copy
-		if (new_mesh->HasFaces())
-		{
-			mesh_data->face_size = new_mesh->mNumFaces;
-			mesh_data->index_size = new_mesh->mNumFaces * 3;
-			mesh_data->indices = new uint[mesh_data->index_size]; // assume each face is a triangle
-			for (uint i = 0; i < new_mesh->mNumFaces; ++i)
-			{
-				if (new_mesh->mFaces[i].mNumIndices != 3) {
-					TR_LOG("WARNING, geometry face with != 3 indices!");
+			// UVs copy
+			if (new_mesh->HasTextureCoords(0)) {//i?
+				mesh_data->size_uv = new_mesh->mNumVertices * 2;
+				mesh_data->uvs = new float[mesh_data->size_uv];
+				for (int i = 0; i < new_mesh->mNumVertices; i++) {
+					mesh_data->uvs[i * 2] = new_mesh->mTextureCoords[0][i].x;
+					mesh_data->uvs[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
 				}
-				else
-					memcpy(&mesh_data->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 			}
+			else {
+				mesh_data->size_uv = 0;
+				mesh_data->uvs = nullptr;
+			}
+
+			// Index copy
+			if (new_mesh->HasFaces())
+			{
+				mesh_data->face_size = new_mesh->mNumFaces;
+				mesh_data->index_size = new_mesh->mNumFaces * 3;
+				mesh_data->indices = new uint[mesh_data->index_size]; // assume each face is a triangle
+				for (uint i = 0; i < new_mesh->mNumFaces; ++i)
+				{
+					if (new_mesh->mFaces[i].mNumIndices != 3) {
+						TR_LOG("WARNING, geometry face with != 3 indices!");
+					}
+					else
+						memcpy(&mesh_data->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+				}
+			}
+
+			std::string output_file;
+
+			ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
+			mesh_comp->SetResource(mesh_data->GetUID());
+
+			SaveMeshFile(node->mName.C_Str(), mesh_data, output_file);
 		}
-
-		std::string output_file;
-
-		ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
-		mesh_comp->SetResource(mesh_data->GetUID());
-
-		SaveMeshFile(node->mName.C_Str(), mesh_data, output_file);
-
-		//LoadMeshFile(node->mName.C_Str(), output_file.c_str());
-
-		//RELEASE(mesh_data);
 	}
 	for (uint i = 0; i < node->mNumChildren; i++)
 		ImportNodesRecursively(node->mChildren[i], scene, file_path,new_go);

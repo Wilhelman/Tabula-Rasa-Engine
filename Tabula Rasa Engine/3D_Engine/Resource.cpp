@@ -53,13 +53,10 @@ bool Resource::IsLoadedToMemory() const
 
 uint Resource::LoadToMemory()
 {
-	if (references <= 0) {
-		if (LoadInMemory())
-			references++;
-	}
+	if (LoadInMemory())
+		references++;
 	else
 		references++;
-
 	return references;
 }
 
