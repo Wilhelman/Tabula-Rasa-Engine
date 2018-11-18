@@ -107,7 +107,13 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 	GameObject* new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
 
 	new_go->SetName(node->mName.C_Str());
+	if (strcmp(node->mName.C_Str(), "City_building_007") == 0) {
+		int a = 0;
+	}
 
+	if (strcmp(node->mName.C_Str(), "City_building_011") == 0) {
+		int b = 0;
+	}
 	// Calculate the position, scale and rotation
 	aiVector3D translation;
 	aiVector3D scaling;
@@ -125,6 +131,11 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 	if (node->mNumMeshes > 0) //if this node have a mesh
 	{
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
+
+		if (!new_mesh->HasTextureCoords(0)) {
+			new_go->to_destroy = true;
+			good_mesh = false;
+		}
 
 		for (uint i = 0; i < new_mesh->mNumFaces; ++i)
 		{
@@ -162,6 +173,23 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 				mesh_data = stored_mesh;
 				ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
 				mesh_comp->SetResource(mesh_data->GetUID());
+				// UVs copy
+				if (new_mesh->HasTextureCoords(0)) {//i?
+					mesh_data->size_uv = new_mesh->mNumVertices * 2;
+					mesh_data->uvs = new float[mesh_data->size_uv];
+					for (int i = 0; i < new_mesh->mNumVertices; i++) {
+						mesh_data->uvs[i * 2] = new_mesh->mTextureCoords[0][i].x;
+						mesh_data->uvs[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
+					}
+					// Getting texture material if needed	
+					if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr) {
+						material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go, mesh_data);
+					}
+				}
+				else {
+					mesh_data->size_uv = 0;
+					mesh_data->uvs = nullptr;
+				}
 			}
 			else
 				mesh_data = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); // our mesh

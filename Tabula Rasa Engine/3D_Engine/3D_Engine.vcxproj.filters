@@ -330,11 +330,11 @@
     <ClCompile Include="ResourceScene.cpp">
       <Filter>Core\Modules\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="pcg\pcg_basic.c">
-      <Filter>Utilities\3rd Party\PCG</Filter>
-    </ClCompile>
     <ClCompile Include="PanelControl.cpp">
       <Filter>Core\Modules\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="pcg\pcg_basic.c">
+      <Filter>Utilities\3rd Party\PCG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -842,11 +842,11 @@
     <ClInclude Include="trOpenGL.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="pcg\pcg_basic.h">
-      <Filter>Utilities\3rd Party\PCG</Filter>
-    </ClInclude>
     <ClInclude Include="PanelControl.h">
       <Filter>Core\Modules\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="pcg\pcg_basic.h">
+      <Filter>Utilities\3rd Party\PCG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
