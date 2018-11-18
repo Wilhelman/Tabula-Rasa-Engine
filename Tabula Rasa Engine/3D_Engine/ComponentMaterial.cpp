@@ -30,10 +30,16 @@ bool ComponentMaterial::Load(const JSON_Object * component_obj)
 {
 	bool ret = true;
 
-	// todo get resource path and set.
-
 	JSON_Value* value = json_object_get_value(component_obj, "path");
 	const char* file_path = json_value_get_string(value);
+	std::string uid_force = file_path;
+	const size_t last_slash = uid_force.find_last_of("\\/");
+	if (std::string::npos != last_slash)
+		uid_force.erase(0, last_slash + 1);
+	const size_t extension = uid_force.rfind('.');
+	if (std::string::npos != extension)
+		uid_force.erase(extension);
+	UID uid = static_cast<unsigned int>(std::stoul(uid_force));
 
 	SetResource(App->resources->material_importer->LoadImageFromPath(file_path));
 

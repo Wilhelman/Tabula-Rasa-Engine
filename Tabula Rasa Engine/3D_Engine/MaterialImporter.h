@@ -18,7 +18,7 @@ public:
 
 	bool Import(const char* path, const char* file_name, std::string& output_file, UID& uid_to_force);
 
-	UID LoadImageFromPath(const char* path);
+	UID LoadImageFromPath(const char* path, UID uid_to_force = 0u);
 
 	void DeleteTextureBuffer(ResourceTexture* tex);
 

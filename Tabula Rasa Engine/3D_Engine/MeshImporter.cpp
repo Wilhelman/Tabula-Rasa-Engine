@@ -358,9 +358,9 @@ bool MeshImporter::LoadMeshFile(const char* file_name, const char * file_path)
 	return true;
 }
 
-UID MeshImporter::GenerateResourceFromFile(const char * file_path)
+UID MeshImporter::GenerateResourceFromFile(const char * file_path, UID uid_to_force)
 {
-	ResourceMesh* resource = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); // our mesh
+	ResourceMesh* resource = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH, uid_to_force); // our mesh
 	if (resource == nullptr) { // resource already created!
 
 		UID uid = App->resources->Find(file_path);

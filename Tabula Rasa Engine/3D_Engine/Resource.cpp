@@ -73,6 +73,6 @@ void Resource::Release()
 	references--;
 	if (references <= 0) {
 		references = 0;
-
+		ReleaseMemory();
 	}
 }

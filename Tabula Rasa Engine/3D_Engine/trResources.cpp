@@ -52,7 +52,7 @@ bool trResources::Start()
 
 bool trResources::CleanUp()
 {
-	//TODO EPA CUIDAO
+	//TODO warning
 	TR_LOG("Cleaning Resources");
 
 	RELEASE(mesh_importer);
@@ -317,13 +317,12 @@ Resource * trResources::CreateNewResource(Resource::Type type, UID uid_to_force,
 	
 	if (uid_to_force != 0u) {
 		res_uid = uid_to_force;
+		if (Get(res_uid) != nullptr) //the resource is already done
+			return Get(res_uid);
 	}
 	else {
 		res_uid = App->GenerateNewUUID();
 	}
-
-	if (Get(res_uid) != nullptr) //the resource is already done
-		return Get(res_uid);
 
 	switch (type)
 	{

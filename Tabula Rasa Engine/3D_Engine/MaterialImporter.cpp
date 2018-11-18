@@ -108,10 +108,9 @@ bool MaterialImporter::Import(const char * file_path, const char* file_name, std
 	return true;
 }
 
-UID MaterialImporter::LoadImageFromPath(const char * path)
+UID MaterialImporter::LoadImageFromPath(const char * path, UID uid_to_force)
 {
-
-	ResourceTexture* resource = (ResourceTexture*)App->resources->CreateNewResource(Resource::Type::TEXTURE); // our tex
+	ResourceTexture* resource = (ResourceTexture*)App->resources->CreateNewResource(Resource::Type::TEXTURE, uid_to_force); // our tex
 	if (resource == nullptr) { // resource already created!
 		std::string tmp = path;
 		const size_t last_slash = tmp.find_last_of("\\/");
