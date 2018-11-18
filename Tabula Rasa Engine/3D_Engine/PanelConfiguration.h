@@ -32,6 +32,7 @@ public:
 	void ShowInput(trInput * module);
 	void ShowWindow(trWindow * module);
 	void ShowRenderer(trRenderer3D * module);
+	void ShowCamera(trCamera3D* module);
 	void ShowEngineClocks();
 
 	void FillChartFpsInfo(float fps, float ms, int frames);
