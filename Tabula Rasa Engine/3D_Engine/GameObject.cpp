@@ -200,16 +200,6 @@ Component * GameObject::CreateComponent(Component::component_type type,  Compone
 	case Component::component_type::COMPONENT_MATERIAL: {
 		tmp_component = new ComponentMaterial(this);
 		tmp_component->SetResource(component->GetResourceUID());
-		/*ResourceTexture* tmp_ret_tex = (ResourceTexture*)tmp_component->GetResource();
-		if (tmp_ret_tex != nullptr)
-		{
-			tmp_tex->height = ((ComponentMaterial*)component)->GetTexture()->height; // TODO: if tex == nullptr this crashes
-			tmp_tex->width = ((ComponentMaterial*)component)->GetTexture()->width;   // maybe set a default color texture when this happens?
-			tmp_tex->id = ((ComponentMaterial*)component)->GetTexture()->id;
-			tmp_tex->path = ((ComponentMaterial*)component)->GetTexture()->path;
-			((ComponentMaterial*)tmp_component)->SetTexture(tmp_tex);
-		}*/
-	
 		break;
 	}
 	case Component::component_type::COMPONENT_UNKNOWN:
