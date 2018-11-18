@@ -61,7 +61,8 @@ bool trMainScene::PreUpdate(float dt)
 {
 	root->DestroyGameObjectsIfNeeded();
 
-	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++)
+	// PreUpdate GOS with game dt if runtime
+	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++) 
 		(*it)->PreUpdate(dt);
 
 	return true;
@@ -183,8 +184,11 @@ bool trMainScene::Save(JSON_Object* config)const
 	return true;
 }
 
-bool trMainScene::SerializeScene(std::string& output_file)
+bool trMainScene::SerializeScene(std::string& output_file, const char* force_name)
 {
+	if (force_name)
+		this->scene_name = force_name;
+
 	JSON_Value* root_value = nullptr;
 	JSON_Object* root_obj = nullptr;
 	JSON_Array* array = nullptr;
@@ -194,8 +198,6 @@ bool trMainScene::SerializeScene(std::string& output_file)
 	// Scene stuff
 	root_obj = json_value_get_object(root_value);
 	json_object_set_string(root_obj, "Name", scene_name.c_str());
-
-	/// todo save camera editor stuff if needed
 
 	// Go's stuff
 	JSON_Value* go_value = json_value_init_array();

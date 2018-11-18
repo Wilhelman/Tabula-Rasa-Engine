@@ -85,7 +85,7 @@ void trFileLoader::ImportScene(const char * file_path)
 		tmp_str.append(file_path);
 
 		// Clear previous scene
-		App->main_scene->ClearScene(true); // todo make it true
+		App->main_scene->ClearScene(true);
 
 		char* buffer = nullptr;
 		uint size = App->file_system->ReadFromFile(tmp_str.c_str(), &buffer);
