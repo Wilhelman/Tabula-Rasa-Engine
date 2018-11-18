@@ -72,8 +72,10 @@ bool ComponentMesh::SetResource(UID resource)
 	if(mesh_res)
 		uint num_references = mesh_res->LoadToMemory();
 
-	embedded_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
-	embedded_go->bounding_box.Enclose((float3*)mesh_res->vertices, mesh_res->vertex_size / 3);
+	if (mesh_res) {
+		embedded_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
+		embedded_go->bounding_box.Enclose((float3*)mesh_res->vertices, mesh_res->vertex_size / 3);
+	}
 
 	return true;
 }
