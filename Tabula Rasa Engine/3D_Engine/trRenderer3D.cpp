@@ -211,7 +211,6 @@ bool trRenderer3D::PreUpdate(float dt)
 	// Camera culling
 	ComponentCamera* main_camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentByType(Component::component_type::COMPONENT_CAMERA);
 	// Quadtree update
-
 	App->main_scene->quadtree.CollectsGOs(main_camera_co->frustum, meshable_go);
 
 	if (main_camera_co->frustum_culling) {
