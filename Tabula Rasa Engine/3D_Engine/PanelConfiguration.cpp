@@ -366,7 +366,7 @@ void PanelConfiguration::ShowCamera(trCamera3D * module)
 	float fov = math::RadToDeg(App->camera->dummy_camera->frustum.verticalFov);
 
 	if (ImGui::SliderFloat("Field of View", &fov, 1.0f, 179.0f))
-		App->camera->dummy_camera->SetUpFov(fov);
+		App->camera->dummy_camera->SetVerticalFov(fov);
 }
 
 void PanelConfiguration::ShowEngineClocks()
