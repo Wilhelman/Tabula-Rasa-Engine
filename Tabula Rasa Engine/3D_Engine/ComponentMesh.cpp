@@ -44,16 +44,18 @@ bool ComponentMesh::Load(const JSON_Object * component_obj)
 	const char* file_path = json_value_get_string(value);
 
 	//todo clean
-	std::string uid_force = file_path;
-	const size_t last_slash = uid_force.find_last_of("\\/");
-	if (std::string::npos != last_slash)
-		uid_force.erase(0, last_slash + 1);
-	const size_t extension = uid_force.rfind('.');
-	if (std::string::npos != extension)
-		uid_force.erase(extension);
-	UID uid = static_cast<unsigned int>(std::stoul(uid_force));
+	if (file_path) {
+		std::string uid_force = file_path;
+		const size_t last_slash = uid_force.find_last_of("\\/");
+		if (std::string::npos != last_slash)
+			uid_force.erase(0, last_slash + 1);
+		const size_t extension = uid_force.rfind('.');
+		if (std::string::npos != extension)
+			uid_force.erase(extension);
+		UID uid = static_cast<unsigned int>(std::stoul(uid_force));
 
-	SetResource(App->resources->mesh_importer->GenerateResourceFromFile(file_path,uid));
+		SetResource(App->resources->mesh_importer->GenerateResourceFromFile(file_path, uid));
+	}
 
 	return ret;
 }
