@@ -117,6 +117,7 @@ void ComponentTransform::SetupFromGlobalMatrix(float4x4 global_matrix)
 		new_local_mat = global_matrix;
 
 	new_local_mat.Decompose(position, rotation, scale);
+	Setup(position, scale, rotation);
 }
 
 const float3 & ComponentTransform::GetTranslation() const
