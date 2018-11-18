@@ -148,7 +148,7 @@ float4x4 ComponentTransform::GetMatrix()
 
 	if (embedded_go->GetParent() != nullptr) {
 			float4x4 parent_matrix = embedded_go->GetParent()->GetTransform()->GetMatrix();
-			parent_matrix = parent_matrix.Transposed();
+			//parent_matrix = parent_matrix.Transposed();
 			global_matrix = parent_matrix * local_matrix;
 			return global_matrix;
 	}

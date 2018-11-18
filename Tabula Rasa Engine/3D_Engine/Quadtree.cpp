@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 
-#define BUCKET_SIZE 8
+#define BUCKET_SIZE 6
 
 Quadtree::Quadtree()
 {
