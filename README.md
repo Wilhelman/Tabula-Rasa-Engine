@@ -66,6 +66,7 @@ _Masó Garcia, Victor's responsability and Github account_
 * Data persistance: JSON parser - Parson 2017
 * Profiler: Brofiler 1.1.2
 * Memory manager: mmgr
+* File system: PHYSFS 3.0.1
 * Code repository: GitHub
 * Others: Adobe Photoshop CS6 / MS Paint / Aseprite
 
