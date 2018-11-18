@@ -23,6 +23,8 @@
 // Constructor
 trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 {
+	pcg32_random();
+
 	frames = 0;
 	last_frame_ms = -1;
 	last_fps = -1;
@@ -50,17 +52,18 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(window);
 	AddModule(camera);
 	AddModule(editor);
-	
+	AddModule(main_scene);
 	AddModule(hardware);
 	AddModule(file_loader);
 	AddModule(time_manager);
 	AddModule(file_system);
 	AddModule(resources);
-	AddModule(main_scene);
+	
 
 	// render last to swap buffer
 	AddModule(render);
 
+	
 	//disable modules here
 }
 

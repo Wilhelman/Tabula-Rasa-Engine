@@ -72,13 +72,15 @@ QuadtreeNode::QuadtreeNode(AABB limit)
 
 QuadtreeNode::~QuadtreeNode()
 {
+	objects_inside.clear();
 	if (childs[0] != nullptr) {
 		for (uint i = 0u; i < 4; i++)
 		{
+			childs[i]->objects_inside.clear();
 			RELEASE(childs[i]);
 		}
 	}
-	objects_inside.clear();
+	
 }
 
 void QuadtreeNode::Insert(GameObject * go)
