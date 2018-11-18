@@ -194,10 +194,12 @@ bool trRenderer3D::Awake(JSON_Object* config)
 bool trRenderer3D::PreUpdate(float dt)
 {
 	ComponentCamera* camera_co = nullptr;
-	if (App->IsRunTime()) {
+
+	if (App->IsRunTime()) 
 		camera_co = (ComponentCamera*)App->main_scene->main_camera->FindComponentByType(Component::component_type::COMPONENT_CAMERA);
-	}
-	else {
+	else 
+	{
+		App->camera->dummy_camera->projection_needs_update = true;
 		camera_co = App->camera->dummy_camera;
 	}
 	
