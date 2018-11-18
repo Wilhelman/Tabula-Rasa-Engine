@@ -6,6 +6,7 @@
 #include "trInput.h"
 #include "trRenderer3D.h"
 #include "trCamera3D.h"
+#include "ComponentCamera.h"
 #include "trEditor.h"
 #include "trTimeManager.h"
 #include "mmgr/mmgr.h"
@@ -43,6 +44,9 @@ void PanelConfiguration::Draw()
 
 	if (SetUpCollapsingHeader(App->hardware))
 		ShowHardware(App->hardware);
+
+	if(SetUpCollapsingHeader(App->camera))
+		ShowCamera(App->camera);
 
 	ShowEngineClocks();
 
@@ -344,6 +348,25 @@ void PanelConfiguration::ShowRenderer(trRenderer3D * module)
 	ImGui::SameLine();
 	if (ImGui::Checkbox("##TEXTURE2D", &App->render->texture_2D))
 		App->render->SwitchTexture2D(App->render->texture_2D);
+}
+
+void PanelConfiguration::ShowCamera(trCamera3D * module)
+{
+	ImGui::Separator();
+	ImGui::Text("Clipping Planes");
+
+	if (ImGui::SliderFloat("Near plane##nearplane", &App->camera->dummy_camera->frustum.nearPlaneDistance, 0.5f, 995.0f));
+		App->camera->dummy_camera->projection_needs_update = true;
+
+	if (ImGui::SliderFloat("Far plane##farplane", &App->camera->dummy_camera->frustum.farPlaneDistance, 0.5f, 1000.0f))
+		App->camera->dummy_camera->projection_needs_update = true;
+
+	ImGui::Separator();
+
+	float fov = math::RadToDeg(App->camera->dummy_camera->frustum.verticalFov);
+
+	if (ImGui::SliderFloat("Field of View", &fov, 1.0f, 179.0f))
+		App->camera->dummy_camera->SetVerticalFov(fov);
 }
 
 void PanelConfiguration::ShowEngineClocks()
