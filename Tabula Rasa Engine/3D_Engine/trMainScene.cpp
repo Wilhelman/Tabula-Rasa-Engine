@@ -104,19 +104,40 @@ void trMainScene::RecursiveDrawGoAABB(GameObject * go)
 		RecursiveDrawGoAABB((*it));
 }
 
+void trMainScene::RecursiveDeleteGos(GameObject * go, bool and_camera)
+{
+	if (and_camera) {
+		go->to_destroy = true;
+		go->is_active = false; // doing this, renderer will ignore it till is destroyed
+	}
+	else {
+		if (go != main_camera) {
+			go->to_destroy = true;
+			go->is_active = false; // doing this, renderer will ignore it till is destroyed
+		}
+	}
+	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++) {
+		RecursiveDeleteGos((*it), and_camera);
+	}
+}
+
 void trMainScene::RecursiveSetupGo(GameObject * go)
 {
 	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++)
 		(*it)->is_static = true;
 
 	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++) {
-		if ((*it)->is_static) {
+		if ((*it)->is_static && (*it)->to_destroy == false){
 			App->main_scene->InsertGoInQuadtree((*it));
 		}
 	}
 
 	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++)
-		RecursiveSetupGo((*it));
+	{
+		if((*it)->to_destroy == false)
+			RecursiveSetupGo((*it));
+	}
+		
 }
 
 // Called before quitting
@@ -129,20 +150,15 @@ bool trMainScene::CleanUp()
 
 void trMainScene::ClearScene(bool delete_camera)
 {
+	//todo rec
+
 	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); it++) {
-		if (delete_camera) {
-			(*it)->to_destroy = true;
-			(*it)->is_active = false; // doing this, renderer will ignore it till is destroyed
-		}
-		else {
-			if ((*it) != main_camera){
-				(*it)->to_destroy = true;
-				(*it)->is_active = false; // doing this, renderer will ignore it till is destroyed
-			}
-		}
+		RecursiveDeleteGos((*it), delete_camera);
 	}
+
 	if(delete_camera)
 		this->main_camera = nullptr;
+
 	static_go.clear();
 	dinamic_go.clear();
 
@@ -248,7 +264,6 @@ bool trMainScene::DeSerializeScene(const char * string)
 				go->SetParent(parent_go);
 		}
 	}
-		
 
 	App->main_scene->GetRoot()->RecalculateBoundingBox();
 	scene_bb.SetNegativeInfinity();
@@ -279,7 +294,7 @@ bool trMainScene::DeSerializeScene(const char * string)
 
 GameObject * trMainScene::FindGoByUUID(UID uid, GameObject* go)
 {
-	if (uid == go->GetUUID())
+	if (uid == go->GetUUID() && go->to_destroy == false)
 		return go;
 
 	GameObject* ret = nullptr;
