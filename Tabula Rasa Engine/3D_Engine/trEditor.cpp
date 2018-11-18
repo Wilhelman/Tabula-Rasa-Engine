@@ -335,19 +335,14 @@ void trEditor::DisplayGuizmos()
 
 	if (ImGuizmo::IsUsing() && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_IDLE)
 	{
-		float3 new_pos;
+		/*float3 new_pos;
 		Quat new_rot;
 		float3 new_scale;
 
+		transform_matrix.Transposed().Decompose(new_pos, new_rot, new_scale);*/
+
 		transform_matrix = transform_matrix.Transposed();
 		selected->GetTransform()->SetupFromGlobalMatrix(transform_matrix);
-		// old way
-		//transform_matrix.Decompose(new_pos, new_rot, new_scale);
-		//selected->GetTransform()->Setup(new_pos, new_scale, new_rot);
-
-
-		/*transform_matrix = transform_matrix.Transposed();
-		selected->GetTransform()->SetupFromGlobalMatrix(transform_matrix);
-		selected->RecalculateBoundingBox();*/
+		selected->RecalculateBoundingBox();
 	}
 }

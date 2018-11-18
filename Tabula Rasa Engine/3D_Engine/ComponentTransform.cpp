@@ -109,7 +109,7 @@ void ComponentTransform::SetupFromGlobalMatrix(float4x4 global_matrix)
 	if (embedded_go->GetParent() != nullptr)
 	{
 		float4x4 parent_global_mat = embedded_go->GetParent()->GetTransform()->GetMatrix();
-		//parent_global_mat = parent_global_mat.Transposed();
+		parent_global_mat = parent_global_mat.Transposed();
 		parent_global_mat = parent_global_mat.Inverted();
 		new_local_mat = parent_global_mat * global_matrix;
 	}
