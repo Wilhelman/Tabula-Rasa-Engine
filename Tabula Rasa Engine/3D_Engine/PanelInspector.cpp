@@ -152,7 +152,7 @@ void PanelInspector::Draw()
 				
 					float fov = math::RadToDeg(camera_co->frustum.verticalFov);
 
-					if (ImGui::SliderFloat("Field of View", &fov, 1.0f, 179.0f))
+					if (ImGui::SliderFloat("Field of View", &fov, 1.0f, 120.0f))
 						camera_co->SetVerticalFov(fov);
 				}
 				ImGui::Separator();

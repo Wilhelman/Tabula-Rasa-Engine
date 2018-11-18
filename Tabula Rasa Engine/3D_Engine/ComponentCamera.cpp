@@ -108,12 +108,11 @@ void ComponentCamera::SetAspectRatio(float new_aspect_ratio)
 
 void ComponentCamera::SetVerticalFov(float new_v_fov)
 {
-	float old_asepct_ratio = frustum.AspectRatio();
-	
-
+	float ratio = math::DegToRad(new_v_fov) / frustum.verticalFov;
 	frustum.verticalFov = math::DegToRad(new_v_fov);
-	float aspect_ratio = frustum.AspectRatio();
-	SetAspectRatio(aspect_ratio);
+
+	frustum.horizontalFov *= ratio;
+	projection_needs_update = true;
 }
 
 bool ComponentCamera::FrustumContainsAaBox(const AABB & ref_box)
@@ -156,9 +155,8 @@ float4x4 ComponentCamera::GetViewMatrix()
 float4x4 ComponentCamera::GetProjectionMatrix()
 {
 	gl_projection_matrix = frustum.ProjectionMatrix();
-	gl_projection_matrix = gl_projection_matrix.Transposed();
 
-	return gl_projection_matrix;
+	return gl_projection_matrix.Transposed();
 }
 
 void ComponentCamera::FocusOnAABB(AABB& aabb)
