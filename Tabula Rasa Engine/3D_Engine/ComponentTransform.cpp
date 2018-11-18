@@ -102,6 +102,23 @@ void ComponentTransform::Setup(const float3 & translation, const float3 & scale,
 	}
 }
 
+void ComponentTransform::SetupFromGlobalMatrix(float4x4 global_matrix)
+{
+	float4x4 new_local_mat;
+
+	if (embedded_go->GetParent() != nullptr)
+	{
+		float4x4 parent_global_mat = embedded_go->GetParent()->GetTransform()->GetMatrix();
+		parent_global_mat = parent_global_mat.Transposed();
+		parent_global_mat = parent_global_mat.Inverted();
+		new_local_mat = parent_global_mat * global_matrix;
+	}
+	else
+		new_local_mat = global_matrix;
+
+	new_local_mat.Decompose(position, rotation, scale);
+}
+
 const float3 & ComponentTransform::GetTranslation() const
 {
 	return position;
@@ -130,6 +147,7 @@ float4x4 ComponentTransform::GetMatrix()
 
 	if (embedded_go->GetParent() != nullptr) {
 			float4x4 parent_matrix = embedded_go->GetParent()->GetTransform()->GetMatrix();
+			parent_matrix = parent_matrix.Transposed();
 			global_matrix = parent_matrix * local_matrix;
 			return global_matrix;
 	}
