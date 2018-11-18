@@ -41,7 +41,7 @@ bool ComponentMaterial::Load(const JSON_Object * component_obj)
 		uid_force.erase(extension);
 	UID uid = static_cast<unsigned int>(std::stoul(uid_force));
 
-	SetResource(App->resources->material_importer->LoadImageFromPath(file_path));
+	SetResource(App->resources->material_importer->LoadImageFromPath(file_path,uid));
 
 	return ret;
 }
