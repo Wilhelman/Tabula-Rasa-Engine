@@ -137,9 +137,17 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 
 		new_go->GetTransform()->Setup(float3(translation.x, translation.y, translation.z), float3(scaling.x, scaling.y, scaling.z), rot, true);
 
-		ResourceMesh* mesh_data = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); // our mesh
-
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
+
+		UID mesh_uid = 0u;
+		if (mesh_resource.find(new_mesh) != mesh_resource.end()) {
+			mesh_uid = mesh_resource.at(new_mesh);
+		}
+
+		ResourceMesh* mesh_data = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH, mesh_uid); // our mesh
+
+		if(mesh_uid == 0u)
+			mesh_resource.insert(std::pair<aiMesh*, UID>(new_mesh, mesh_data->GetUID()));
 
 		// Getting texture material if needed	
 		if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr) {

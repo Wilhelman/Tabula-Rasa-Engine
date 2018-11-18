@@ -4,6 +4,7 @@
 #include "Importer.h"
 #include <vector>
 #include <string>
+#include <map>
 #include "MathGeoLib/MathGeoLib.h"
 
 class GameObject;
@@ -11,6 +12,7 @@ class ComponentMaterial;
 class aiScene;
 class aiNode;
 class aiMaterial;
+class aiMesh;
 class ResourceMesh;
 
 class MeshImporter : public Importer
@@ -47,7 +49,7 @@ private:
 
 	AABB scene_bb;
 
-	std::map<aiMesh*, ResourceMesh*> meshes;
+	std::map<aiMesh*, UID> mesh_resource;
 };
 
 #endif // __MESH_IMPORTER_H__
