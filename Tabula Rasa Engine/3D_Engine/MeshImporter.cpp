@@ -114,13 +114,12 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 	aiQuaternion rotation;
 	node->mTransformation.Decompose(scaling, rotation, translation);
 	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
+	float3 quat_to_euler = rot.ToEulerXYZ(); // transforming it to euler to show it in inspector
 
 	new_go->GetTransform()->Setup(float3(translation.x, translation.y, translation.z), float3(scaling.x, scaling.y, scaling.z), rot, true);
 
-	if (parent_go == App->main_scene->GetRoot()) {
+	if (parent_go == App->main_scene->GetRoot())
 		imported_root_go = new_go;
-	}
-		
 
 	if (node->mNumMeshes > 0) //if this node have a mesh
 	{
