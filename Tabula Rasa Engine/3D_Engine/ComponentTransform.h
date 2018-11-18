@@ -16,8 +16,6 @@ public:
 	bool Load(const JSON_Object* component_obj);
 
 	void Setup(const float3& translation, const float3& scale, const Quat& rotation, bool importing = false);
-	void SetupFromGlobalMatrix(float4x4 global_matrix);
-
 	const float3& GetTranslation()const;
 	const float3& GetScale()const;
 	const Quat& GetRotation()const;
