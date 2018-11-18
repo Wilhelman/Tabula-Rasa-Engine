@@ -590,11 +590,9 @@ void trRenderer3D::CollectActiveInCameraGameObjects()
 	{
 		if (meshable_go.at(i)->is_active && meshable_go.at(i)->in_camera && !meshable_go.at(i)->to_destroy) {
 			ComponentMesh* mesh_co = (ComponentMesh*)meshable_go.at(i)->FindComponentByType(Component::component_type::COMPONENT_MESH);
-			if (mesh_co) {
-				ResourceMesh* mesh = (ResourceMesh*)mesh_co->GetResource();
-				if (mesh_co && mesh)
-					drawable_go.push_back(meshable_go.at(i));
-			}
+			ResourceMesh* mesh = (ResourceMesh*)mesh_co->GetResource();
+			if(mesh_co && mesh)
+				drawable_go.push_back(meshable_go.at(i));
 		}
 	}
 }

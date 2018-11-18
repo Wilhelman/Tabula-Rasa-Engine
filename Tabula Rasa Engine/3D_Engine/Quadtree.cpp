@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 
-#define BUCKET_SIZE 8
+#define BUCKET_SIZE 100 // TODO: check this framerate
 
 Quadtree::Quadtree()
 {
@@ -23,10 +23,8 @@ void Quadtree::Insert(GameObject * go)
 {
 	if (root_node != nullptr)
 	{
-		//if (go->FindComponentByType(Component::component_type::COMPONENT_MESH)) {
-			if (go->bounding_box.Intersects(root_node->box))
-				root_node->Insert(go);
-		//}
+		if (go->bounding_box.Intersects(root_node->box))
+			root_node->Insert(go);
 	}
 }
 
@@ -155,49 +153,14 @@ void QuadtreeNode::GenerateChilds()
 
 void QuadtreeNode::RedistributeObjects()
 {
-	// Now redistribute ALL objects
-	for (std::list<GameObject*>::iterator it = objects_inside.begin(); it != objects_inside.end();)
-	{
-		GameObject* go = *it;
-
-		AABB new_box(go->bounding_box);
-
-		// Now distribute this new gameobject onto the childs
-		bool intersects[4];
-		for (int i = 0; i < 4; ++i)
-			intersects[i] = childs[i]->box.Intersects(new_box);
-
-		if (intersects[0] && intersects[1] && intersects[2] && intersects[3])
-			++it; // if it hits all childs, better to just keep it here
-		else
-		{
-			it = objects_inside.erase(it);
-			for (int i = 0; i < 4; ++i)
-				if (intersects[i]) childs[i]->Insert(go);
-		}
-	}
-
-	/*for (std::list<GameObject*>::iterator it = objects_inside.begin(); it != objects_inside.end(); it++) {
-		GameObject* go = (*it);
-		uint childs_hit = 0u;
+	for (std::list<GameObject*>::iterator it = objects_inside.begin(); it != objects_inside.end(); it++) {
 		for (uint j = 0u; j < 4; j++)
 		{
-			if (go->bounding_box.Intersects(childs[j]->box))
-				childs_hit++;
+			if ((*it)->bounding_box.Intersects(childs[j]->box))
+				childs[j]->Insert((*it));
 		}
-
-		if (childs_hit == 4) { // hit all childs, dont redistribute
-			continue;
-		}
-		else {
-			it = objects_inside.erase(it);
-			for (uint j = 0u; j < 4; j++)
-			{
-				if (go->bounding_box.Intersects(childs[j]->box))
-					childs[j]->Insert(go);
-			}
-		}
-	}*/
+	}
+	this->objects_inside.clear();
 }
 
 void QuadtreeNode::CollectsGOs(const Frustum & frustum, std::vector<GameObject*>& go_output) const

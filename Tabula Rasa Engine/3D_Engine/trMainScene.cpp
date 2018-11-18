@@ -286,6 +286,7 @@ bool trMainScene::DeSerializeScene(const char * string)
 	App->main_scene->scene_bb = scene_bb;
 	App->camera->dummy_camera->FocusOnAABB(scene_bb);
 
+	
 	RecursiveSetupGo(GetRoot());
 
 	return true;
