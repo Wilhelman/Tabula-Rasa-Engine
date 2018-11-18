@@ -30,7 +30,6 @@ public:
 
 	void DrawDebug();
 	void RecursiveDrawGoAABB(GameObject* go);
-	void RecursiveDeleteGos(GameObject* go, bool and_camera);
 
 	void RecursiveSetupGo(GameObject* go);
 

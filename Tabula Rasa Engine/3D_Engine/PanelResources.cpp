@@ -104,7 +104,60 @@ void PanelResources::DrawAssets(Directory* dir)
 					ImGui::EndPopup();
 				}
 
-				
+				// TODO: delete this
+				/*if (ImGui::BeginPopup("Options"))
+				{
+					if (ImGui::MenuItem("Import"))
+						import_clicked = true;
+
+					ImGui::EndPopup();
+				}
+
+				if (import_clicked)
+				{
+					ImGui::OpenPopup("WARNING");
+					ImGui::SetNextWindowSize(ImVec2(750, 160));
+					if (ImGui::BeginPopupModal("WARNING", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove))
+					{
+						ImGui::Text("Current scene %s will be lost. Are you sure you want to import %s", App->main_scene->scene_name.c_str(), dir->files_vec[i].name.c_str());
+						ImGui::NewLine();
+
+						if (ImGui::Button("OK", ImVec2(120, 40)))
+						{
+							// TODO: implement import cases
+							std::string file_format(".xyz");
+							const char* curr_file = dir->files_vec[i].name.c_str();
+							file_format[3] = curr_file[strlen(curr_file) - 1];
+							file_format[2] = curr_file[strlen(curr_file) - 2];
+							file_format[1] = curr_file[strlen(curr_file) - 3];
+							file_format[0] = curr_file[strlen(curr_file) - 4];
+
+
+							if (file_format.compare(".fbx") == 0 || file_format.compare(".FBX") == 0)
+								App->file_loader->ImportFBX(curr_file);
+							else if (file_format.compare("cene") == 0 || file_format.compare("CENE") == 0)
+								App->file_loader->ImportScene(curr_file);
+							else if (file_format.compare(".dds") == 0 || file_format.compare(".DDS") == 0 ||
+								file_format.compare(".jpg") == 0 || file_format.compare(".JPG") == 0 ||
+								file_format.compare("jpeg") == 0 || file_format.compare("JPEG") == 0 ||
+								file_format.compare(".png") == 0 || file_format.compare(".PNG") == 0)
+								App->file_loader->ImportTexture(curr_file);
+							else
+								TR_LOG("Resources: Error importing unknown format...");
+
+							import_clicked = false;
+							ImGui::CloseCurrentPopup();
+						}
+
+						ImGui::SameLine();
+						if (ImGui::Button("CANCEL", ImVec2(120, 40)))
+						{
+							import_clicked = false;
+							ImGui::CloseCurrentPopup();
+						}
+
+						ImGui::EndPopup();
+					}*/
 				ImGui::TreePop();
 			}
 		}

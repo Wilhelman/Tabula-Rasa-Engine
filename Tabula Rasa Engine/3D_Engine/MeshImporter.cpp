@@ -113,6 +113,7 @@ void MeshImporter::ImportNodesRecursively(const aiNode * node, const aiScene * s
 	{
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
 
+		
 		for (uint i = 0; i < new_mesh->mNumFaces; ++i)
 		{
 			if (new_mesh->mFaces[i].mNumIndices != 3) {
