@@ -377,6 +377,10 @@ UID MeshImporter::GenerateResourceFromFile(const char * file_path)
 		return false;
 	}
 
+	static uint last_id = 0u;
+
+	last_id++;
+
 	char* cursor = buffer;
 	uint ranges[3];
 	uint bytes = sizeof(ranges);
@@ -405,6 +409,9 @@ UID MeshImporter::GenerateResourceFromFile(const char * file_path)
 	memcpy(resource->uvs, cursor, bytes);
 	resource->SetExportedPath(file_path);
 
+	resource->index_buffer = last_id;
+	resource->vertex_buffer = last_id;
+	resource->uv_buffer = last_id;
 
 	RELEASE_ARRAY(buffer);
 

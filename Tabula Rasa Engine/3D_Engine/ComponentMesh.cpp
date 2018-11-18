@@ -44,7 +44,7 @@ bool ComponentMesh::Load(const JSON_Object * component_obj)
 
 	JSON_Value* value = json_object_get_value(component_obj, "path");
 	const char* file_path = json_value_get_string(value);
-
+	//std::string uid = file_path
 	SetResource(App->resources->mesh_importer->GenerateResourceFromFile(file_path));
 
 	return ret;
@@ -57,14 +57,13 @@ bool ComponentMesh::SetResource(UID resource)
 	}
 
 	this->resource = resource;
-	ResourceMesh* res = (ResourceMesh*)this->GetResource();
+	ResourceMesh* mesh_res = (ResourceMesh*)this->GetResource();
 	
-	uint num_references = res->LoadToMemory();
+	if(mesh_res)
+		uint num_references = mesh_res->LoadToMemory();
 
 	embedded_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
-	embedded_go->bounding_box.Enclose((float3*)res->vertices, res->vertex_size / 3);
+	embedded_go->bounding_box.Enclose((float3*)mesh_res->vertices, mesh_res->vertex_size / 3);
 
-
-	
 	return true;
 }

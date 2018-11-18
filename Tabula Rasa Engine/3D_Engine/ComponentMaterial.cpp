@@ -21,7 +21,8 @@ ComponentMaterial::~ComponentMaterial()
 bool ComponentMaterial::Save(JSON_Object* component_obj) const
 {
 	const Resource* res = this->GetResource();
-	json_object_set_string(component_obj, "path", res->GetExportedFile());
+	if(res)
+		json_object_set_string(component_obj, "path", res->GetExportedFile());
 	return true;
 }
 
@@ -57,8 +58,8 @@ bool ComponentMaterial::SetResource(UID resource)
 
 	this->resource = resource;
 	ResourceTexture* res = (ResourceTexture*)this->GetResource();
-
-	uint num_references = res->LoadToMemory();
+	if(res)
+		uint num_references = res->LoadToMemory();
 
 	return true;
 }
