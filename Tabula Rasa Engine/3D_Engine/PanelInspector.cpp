@@ -189,6 +189,8 @@ void PanelInspector::Draw()
 						ImGui::Text("Width: %i", texture->width);
 						ImGui::Text("Height: %i", texture->height);
 						ImGui::Image((ImTextureID)texture->gpu_id, ImVec2(200, 200));
+						
+						ImGui::SliderFloat("Alpha test", &mat_co->alpha_test, 0.0f, 1.0f);
 						ImGui::Text("Resource References: %i", texture->CountReferences());
 					}
 				}

@@ -511,8 +511,12 @@ void trRenderer3D::Draw()
 		}
 
 		if (texture != nullptr) {
-			if(mesh->uv_buffer != 0)
+			if (mesh->uv_buffer != 0 && material_co)
+			{
+				glEnable(GL_ALPHA_TEST);
+				glAlphaFunc(GL_GREATER, material_co->alpha_test);
 				glBindTexture(GL_TEXTURE_2D, texture->gpu_id);
+			}
 		}
 			
 		if (material_co && texture == nullptr) {
