@@ -69,7 +69,7 @@ _Masó Garcia, Victor's responsability and Github account_
 * Input and audio: SDL 2.0.8
 * Graphics: OpenGL
 * Math: MathGeoLib 1.5
-* Random Number Generator: PCG (C Implementantion) 0.94
+* Random Number Generator: PCG 0.9 (Minimal C Edition)
 * GUI: Deat ImGui 1.65
 * 3D Model importer: Assimp 1.4.0
 * Image loader: Developer's Image Library (DevIL) 1.8.0
