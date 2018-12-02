@@ -12,7 +12,7 @@
 class ResourceMesh;
 class ResourceTexture;
 
-class MeshImporter;
+class SceneImporter;
 class MaterialImporter;
 
 class Directory;
@@ -50,7 +50,7 @@ private:
 	std::map<UID, Resource*> resources;
 
 public:
-	MeshImporter* mesh_importer = nullptr;
+	SceneImporter* mesh_importer = nullptr;
 	MaterialImporter* material_importer = nullptr;
 
 };

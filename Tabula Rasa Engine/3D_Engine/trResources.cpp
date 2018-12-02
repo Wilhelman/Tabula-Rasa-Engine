@@ -7,7 +7,7 @@
 
 #include "trFileSystem.h"
 
-#include "MeshImporter.h"
+#include "SceneImporter.h"
 #include "MaterialImporter.h"
 
 
@@ -23,7 +23,7 @@ trResources::~trResources()
 
 bool trResources::Awake(JSON_Object * config)
 {
-	mesh_importer = new MeshImporter();
+	mesh_importer = new SceneImporter();
 	material_importer = new MaterialImporter();
 
 	return true;

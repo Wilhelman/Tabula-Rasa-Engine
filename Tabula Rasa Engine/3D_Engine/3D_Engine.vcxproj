@@ -61,7 +61,7 @@
     <ClCompile Include="MathGeoLib\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
-    <ClCompile Include="MeshImporter.cpp" />
+    <ClCompile Include="SceneImporter.cpp" />
     <ClCompile Include="PanelControl.cpp" />
     <ClCompile Include="PanelHierarchy.cpp" />
     <ClCompile Include="mmgr\mmgr.cpp" />
@@ -78,6 +78,7 @@
     <ClCompile Include="PGrid.cpp" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="ResourceBone.cpp" />
     <ClCompile Include="ResourceMesh.cpp" />
     <ClCompile Include="ResourceScene.cpp" />
     <ClCompile Include="ResourceTexture.cpp" />
@@ -230,9 +231,10 @@
     <ClInclude Include="MathGeoLib\Math\sse_mathfun.h" />
     <ClInclude Include="MathGeoLib\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Time\Clock.h" />
-    <ClInclude Include="MeshImporter.h" />
+    <ClInclude Include="SceneImporter.h" />
     <ClInclude Include="PanelControl.h" />
     <ClInclude Include="pcg\pcg_basic.h" />
+    <ClInclude Include="ResourceBone.h" />
     <ClInclude Include="trOpenGL.h" />
     <ClInclude Include="PanelHierarchy.h" />
     <ClInclude Include="mmgr\mmgr.h" />

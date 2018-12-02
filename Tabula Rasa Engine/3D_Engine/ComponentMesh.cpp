@@ -4,7 +4,7 @@
 #include "trResources.h"
 #include "trRenderer3D.h"
 #include "trFileLoader.h"
-#include "MeshImporter.h"
+#include "SceneImporter.h"
 #include "GameObject.h"
 #include "Resource.h"
 #include "ResourceMesh.h"

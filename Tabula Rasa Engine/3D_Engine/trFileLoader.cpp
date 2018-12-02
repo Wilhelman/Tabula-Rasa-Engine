@@ -6,7 +6,7 @@
 
 #include "trMainScene.h"
 
-#include "MeshImporter.h"
+#include "SceneImporter.h"
 #include "MaterialImporter.h"
 
 trFileLoader::trFileLoader()
@@ -19,7 +19,7 @@ trFileLoader::~trFileLoader()
 
 bool trFileLoader::Awake(JSON_Object* config)
 {
-	mesh_importer = new MeshImporter();
+	mesh_importer = new SceneImporter();
 	material_importer = new MaterialImporter();
 	return true;
 }
