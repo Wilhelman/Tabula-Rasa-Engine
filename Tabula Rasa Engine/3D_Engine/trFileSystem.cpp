@@ -447,6 +447,23 @@ uint trFileSystem::ReadFromFile(const char* file_name, char** buffer)
 	return size;
 }
 
+void trFileSystem::GetFileFileNameFromPath(const char* file_path, std::string& file_name)
+{
+	std::string tmp = file_path;
+
+	const size_t last_slash = tmp.find_last_of("\\/");
+
+	if (std::string::npos != last_slash)
+		tmp.erase(0, last_slash + 1);
+
+	const size_t extension = tmp.rfind('.');
+
+	if (std::string::npos != extension)
+		tmp.erase(extension);
+
+	file_name = tmp;
+}
+
 void trFileSystem::GetExtensionFromFile(const char* file_name, std::string & extension)
 {
 	extension = file_name;

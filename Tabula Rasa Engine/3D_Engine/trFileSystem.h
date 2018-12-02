@@ -56,6 +56,7 @@ public:
 	uint ReadFromFile(const char* file_name, char** buffer);
 
 	void GetExtensionFromFile(const char* file_name, std::string& extension);
+	void GetFileFileNameFromPath(const char* file_path, std::string& file_name);
 	
 	bool MakeNewDir(const char* dir_name);
 	bool DeleteFileDir(const char* file_dir_name);
