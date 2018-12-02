@@ -84,7 +84,8 @@ bool SceneImporter::Import(const char * path, std::string & output_file)
 
 		// ---- Testing Vic zone ----
 
-		//ImportMeshesRecursively(scene->mRootNode, scene, (char*)real_path.c_str(), App->main_scene->GetRoot());
+		// ImportMeshesRecursively(scene->mRootNode, scene, (char*)real_path.c_str(), App->main_scene->GetRoot());
+		// GenerateGameObjectsRecursively(scene->mRootNode, App->main_scene->CreateGameObject(nullptr));
 
 		// --------------------------
 
@@ -400,6 +401,24 @@ void SceneImporter::ImportMeshesRecursively(const aiNode * node, const aiScene *
 
 	for (uint i = 0; i < node->mNumChildren; i++)
 		ImportMeshesRecursively(node->mChildren[i], scene, file_path);
+}
+
+void SceneImporter::GenerateGameObjectsRecursively(const aiNode* node, GameObject* go)
+{
+	// Calculating position, scale and rotation
+	aiVector3D translation, scaling;
+	aiQuaternion rotation;
+	node->mTransformation.Decompose(scaling, rotation, translation);
+	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
+
+	go->GetTransform()->Setup(float3(translation.x, translation.y, translation.z), float3(scaling.x, scaling.y, scaling.z), rot, true);
+	go->SetName(node->mName.C_Str());
+
+	// TODO: here we should create the mesh and material components for the gameobject
+
+
+	for (uint i = 0; i < node->mNumChildren; ++i)
+		GenerateGameObjectsRecursively(node->mChildren[i], App->main_scene->CreateGameObject(go));
 }
 
 ComponentMaterial * SceneImporter::LoadTexture(aiMaterial* material, GameObject* go, ResourceMesh* mesh)

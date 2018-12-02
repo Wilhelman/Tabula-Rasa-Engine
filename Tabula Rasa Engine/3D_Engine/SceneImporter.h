@@ -32,6 +32,8 @@ public:
 	// ---- Import Vic Methods ----
 
 	void ImportMeshesRecursively(const aiNode* node, const aiScene* scene, char* file_path);
+	void ImportMaterialsRecursively();
+	void GenerateGameObjectsRecursively(const aiNode* src, GameObject* dst);
 
 	// ----------------------------
 
