@@ -21,6 +21,7 @@ public:
 	uint bone_weights_size = 0u;
 	float* bone_weights = nullptr;
 	uint* bone_weights_indices = nullptr;
+	UID mesh_uid = 0u;
 	
 };
 

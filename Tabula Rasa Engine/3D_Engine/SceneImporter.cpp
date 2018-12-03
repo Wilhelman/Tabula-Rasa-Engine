@@ -75,31 +75,11 @@ bool SceneImporter::Import(const char * path, std::string & output_file)
 
 		ImportNodesRecursively(scene->mRootNode, scene, (char*)real_path.c_str(), App->main_scene->GetRoot());
 
-		/* Instead of calling ImportNodesRecursively(...) we should call three different methods. 
-		   Something along these lines:
-
-		   ImportMeshesRecursively(&mesh_data);
-		   ImportMaterialsRecursively(&material_data);
-		   GenerateGameObjectsRecursively(mesh_data, material_data); */
-
-		// ---- Testing Vic zone ----
-
-		// ImportMeshesRecursively(scene->mRootNode, scene, (char*)real_path.c_str(), App->main_scene->GetRoot());
-		// GenerateGameObjectsRecursively(scene->mRootNode, App->main_scene->CreateGameObject(nullptr));
-
-		// --------------------------
-
-		std::string tmp = real_path;
-		// Let's get the file name to print it in inspector:
-		const size_t last_slash = tmp.find_last_of("\\/");
-		if (std::string::npos != last_slash)
-			tmp.erase(0, last_slash + 1);
-		const size_t extension = tmp.rfind('.');
-		if (std::string::npos != extension)
-			tmp.erase(extension);
-		App->main_scene->scene_name = tmp;
 		App->main_scene->SerializeScene(output_file);
 
+		std::string final_file_name;
+		App->file_system->GetFileFileNameFromPath(real_path.c_str(), final_file_name);
+		App->main_scene->scene_name = final_file_name;
 		imported_root_go->to_destroy = true;
 
 		aiReleaseImport(scene);
@@ -179,7 +159,7 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 				ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
 				mesh_comp->SetResource(mesh_data->GetUID());
 				// UVs copy
-				if (new_mesh->HasTextureCoords(0)) {//i?
+				if (new_mesh->HasTextureCoords(0)) {
 					mesh_data->size_uv = new_mesh->mNumVertices * 2;
 					mesh_data->uvs = new float[mesh_data->size_uv];
 					for (int i = 0; i < new_mesh->mNumVertices; i++) {
@@ -190,7 +170,6 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 					if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr) {
 						material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go, mesh_data);
 					}
-					
 				}
 				else {
 					mesh_data->size_uv = 0;
@@ -261,164 +240,6 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 	}
 	for (uint i = 0; i < node->mNumChildren; i++)
 		ImportNodesRecursively(node->mChildren[i], scene, file_path, (good_mesh) ? new_go : parent_go);
-}
-
-void SceneImporter::ImportMeshesRecursively(const aiNode * node, const aiScene * scene, char * file_path)
-{
-	bool good_mesh = true;
-
-	if (node->mNumMeshes > 0) // if this node has a mesh
-	{
-		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
-
-		// Making sure new mesh has texture coords
-		if (!new_mesh->HasTextureCoords(0)) 
-			good_mesh = false;
-		
-		// Making sure new mesh's faces are all formed correctly (with 3 vertices per face)
-		for (uint i = 0; i < new_mesh->mNumFaces; ++i)
-		{
-			if (new_mesh->mFaces[i].mNumIndices != 3) 
-			{
-				TR_LOG("WARNING: geometry face with != 3 indices!");
-				good_mesh = false;
-			}
-		}
-
-		// If mesh has no errors we move forward
-		if (good_mesh) 
-		{
-			std::string tmp = "";
-
-			// We store the mesh name to print it in the inspector
-			if (file_path != nullptr)
-				App->file_system->GetFileFileNameFromPath(file_path, file_name);
-
-			ResourceMesh* stored_mesh = nullptr;
-
-			// Checking if importing mesh as already been imported
-			if (mesh_resources.find(new_mesh) != mesh_resources.end())
-				stored_mesh = mesh_resources.at(new_mesh);
-			
-			ResourceMesh* mesh_data = nullptr;
-
-			// If mesh has been already been imported we... (I dunno)
-			if (stored_mesh) 
-			{
-				mesh_data = stored_mesh;
-				// ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
-				// mesh_comp->SetResource(mesh_data->GetUID());
-
-				// UVs copy
-				if (new_mesh->HasTextureCoords(0)) //i?
-				{
-					mesh_data->size_uv = new_mesh->mNumVertices * 2;
-					mesh_data->uvs = new float[mesh_data->size_uv];
-
-					for (int i = 0; i < new_mesh->mNumVertices; i++) 
-					{
-						mesh_data->uvs[i * 2] = new_mesh->mTextureCoords[0][i].x;
-						mesh_data->uvs[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
-					}
-
-					// Getting texture material if needed	
-					// if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr)
-						// material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go, mesh_data);
-				}
-				else 
-				{
-					mesh_data->size_uv = 0;
-					mesh_data->uvs = nullptr;
-				}
-			}
-			else
-				mesh_data = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); // our mesh
-
-			// If mesh has not been imported we import it
-			if (!stored_mesh) 
-			{
-				mesh_resources.insert(std::pair<aiMesh*, ResourceMesh*>(new_mesh, mesh_data));
-
-				// Vertices copy
-				mesh_data->vertex_size = new_mesh->mNumVertices * 3;
-				mesh_data->vertices = new float[mesh_data->vertex_size];
-				memcpy(mesh_data->vertices, new_mesh->mVertices, sizeof(float) * mesh_data->vertex_size);
-
-				// Getting data for the bounding box of all the meshes
-				for (uint i = 0; i < mesh_data->vertex_size; i++)
-					scene_vertices.push_back(float3(mesh_data->vertices[i], mesh_data->vertices[i + 1], mesh_data->vertices[i + 2]));
-				
-				scene_num_vertex += mesh_data->vertex_size;
-
-				// UVs copy
-				if (new_mesh->HasTextureCoords(0)) //i?
-				{
-					mesh_data->size_uv = new_mesh->mNumVertices * 2;
-					mesh_data->uvs = new float[mesh_data->size_uv];
-
-					for (int i = 0; i < new_mesh->mNumVertices; i++) 
-					{
-						mesh_data->uvs[i * 2] = new_mesh->mTextureCoords[0][i].x;
-						mesh_data->uvs[i * 2 + 1] = new_mesh->mTextureCoords[0][i].y;
-					}
-
-					// Getting texture material if needed	
-					// if (scene->mMaterials[new_mesh->mMaterialIndex] != nullptr)
-						// material_data = LoadTexture(scene->mMaterials[new_mesh->mMaterialIndex], new_go, mesh_data);
-				}
-				else 
-				{
-					mesh_data->size_uv = 0;
-					mesh_data->uvs = nullptr;
-				}
-
-				// Indices copy
-				if (new_mesh->HasFaces())
-				{
-					mesh_data->face_size = new_mesh->mNumFaces;
-					mesh_data->index_size = new_mesh->mNumFaces * 3;
-					mesh_data->indices = new uint[mesh_data->index_size]; // Assume each face is a triangle
-
-					for (uint i = 0; i < new_mesh->mNumFaces; ++i)
-					{
-						if (new_mesh->mFaces[i].mNumIndices != 3) 
-							TR_LOG("WARNING, geometry face with != 3 indices!");
-						else
-							memcpy(&mesh_data->indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
-					}
-				}
-
-				//ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
-				//mesh_comp->SetResource(mesh_data->GetUID());
-
-				// Saving file in our own mesh format
-				std::string output_file;
-
-				SaveMeshFile(node->mName.C_Str(), mesh_data, output_file);
-			}
-		}
-	}
-
-	for (uint i = 0; i < node->mNumChildren; i++)
-		ImportMeshesRecursively(node->mChildren[i], scene, file_path);
-}
-
-void SceneImporter::GenerateGameObjectsRecursively(const aiNode* node, GameObject* go)
-{
-	// Calculating position, scale and rotation
-	aiVector3D translation, scaling;
-	aiQuaternion rotation;
-	node->mTransformation.Decompose(scaling, rotation, translation);
-	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
-
-	go->GetTransform()->Setup(float3(translation.x, translation.y, translation.z), float3(scaling.x, scaling.y, scaling.z), rot, true);
-	go->SetName(node->mName.C_Str());
-
-	// TODO: here we should create the mesh and material components for the gameobject
-
-
-	for (uint i = 0; i < node->mNumChildren; ++i)
-		GenerateGameObjectsRecursively(node->mChildren[i], App->main_scene->CreateGameObject(go));
 }
 
 ComponentMaterial * SceneImporter::LoadTexture(aiMaterial* material, GameObject* go, ResourceMesh* mesh)

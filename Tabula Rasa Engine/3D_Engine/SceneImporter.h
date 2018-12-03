@@ -29,14 +29,6 @@ public:
 
 	void ImportNodesRecursively(const aiNode* node, const aiScene* scene, char* file_path, GameObject * parent_go);
 
-	// ---- Import Vic Methods ----
-
-	void ImportMeshesRecursively(const aiNode* node, const aiScene* scene, char* file_path);
-	void ImportMaterialsRecursively();
-	void GenerateGameObjectsRecursively(const aiNode* src, GameObject* dst);
-
-	// ----------------------------
-
 	ComponentMaterial* LoadTexture(aiMaterial* material, GameObject* go, ResourceMesh* mesh);
 
 	bool SaveMeshFile(const char* file_name, ResourceMesh* mesh_data, std::string& output_file);
