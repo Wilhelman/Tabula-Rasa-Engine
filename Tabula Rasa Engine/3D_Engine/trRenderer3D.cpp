@@ -552,6 +552,7 @@ void trRenderer3D::Draw()
 
 		it++;
 	}
+
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 }

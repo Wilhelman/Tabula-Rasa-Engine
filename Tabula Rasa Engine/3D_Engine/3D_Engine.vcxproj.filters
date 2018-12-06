@@ -339,6 +339,9 @@
     <ClCompile Include="SceneImporter.cpp">
       <Filter>Core\Modules\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="BoneImporter.cpp">
+      <Filter>Core\Modules\Importers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -852,6 +855,9 @@
       <Filter>Core\Modules\Resources</Filter>
     </ClInclude>
     <ClInclude Include="SceneImporter.h">
+      <Filter>Core\Modules\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneImporter.h">
       <Filter>Core\Modules\Importers</Filter>
     </ClInclude>
   </ItemGroup>

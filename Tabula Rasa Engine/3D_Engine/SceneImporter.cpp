@@ -343,7 +343,7 @@ bool SceneImporter::LoadMeshFile(const char* file_name, const char * file_path)
 	// Check for errors
 	if (buffer == nullptr)
 	{
-		TR_LOG("Unable to open file...");
+		TR_LOG("SceneImporter: Unable to open file...");
 		return false;
 	}
 

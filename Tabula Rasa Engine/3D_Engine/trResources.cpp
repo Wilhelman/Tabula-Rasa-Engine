@@ -4,6 +4,7 @@
 #include "ResourceScene.h"
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
+#include "ResourceBone.h"
 
 #include "trFileSystem.h"
 
@@ -316,6 +317,9 @@ Resource * trResources::CreateNewResource(Resource::Type type, UID uid_to_force,
 		break;
 	case Resource::SCENE:
 		ret = (Resource*) new ResourceScene(res_uid);
+		break;
+	case Resource::BONE:
+		ret = (Resource*) new ResourceBone(res_uid);
 		break;
 	}
 
