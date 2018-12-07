@@ -1,5 +1,6 @@
-#include "ComponentMesh.h"
+#include "ComponentBone.h"
 
+#include "ComponentMesh.h"
 #include "trApp.h"
 #include "trResources.h"
 #include "trRenderer3D.h"
@@ -9,25 +10,25 @@
 #include "Resource.h"
 #include "ResourceMesh.h"
 
-ComponentMesh::ComponentMesh(GameObject * embedded_game_object) : 
-	Component(embedded_game_object, Component::component_type::COMPONENT_MESH)
+ComponentBone::ComponentBone(GameObject * embedded_game_object) :
+	Component(embedded_game_object, Component::component_type::COMPONENT_BONE)
 {
 }
 
-ComponentMesh::ComponentMesh(GameObject * embedded_game_object, UID resource) : 
-	Component(embedded_game_object, Component::component_type::COMPONENT_MESH)
+ComponentBone::ComponentBone(GameObject * embedded_game_object, UID resource) :
+	Component(embedded_game_object, Component::component_type::COMPONENT_BONE)
 {
 	this->resource = resource;
 }
 
-ComponentMesh::~ComponentMesh()
+ComponentBone::~ComponentBone()
 {
 	Resource* res = (Resource*)GetResource();
-	if(res)
+	if (res)
 		res->Release();
 }
 
-bool ComponentMesh::Save(JSON_Object* component_obj) const
+bool ComponentBone::Save(JSON_Object* component_obj) const
 {
 	//todo: get resource path etc
 	const Resource* res = this->GetResource();
@@ -35,7 +36,7 @@ bool ComponentMesh::Save(JSON_Object* component_obj) const
 	return true;
 }
 
-bool ComponentMesh::Load(const JSON_Object * component_obj)
+bool ComponentBone::Load(const JSON_Object * component_obj)
 {
 	bool ret = true;
 
@@ -59,7 +60,7 @@ bool ComponentMesh::Load(const JSON_Object * component_obj)
 	return ret;
 }
 
-bool ComponentMesh::SetResource(UID resource)
+bool ComponentBone::SetResource(UID resource)
 {
 	if (Resource* res = (Resource*)GetResource()) {
 		res->Release();
@@ -67,8 +68,8 @@ bool ComponentMesh::SetResource(UID resource)
 
 	this->resource = resource;
 	ResourceMesh* mesh_res = (ResourceMesh*)this->GetResource();
-	
-	if(mesh_res)
+
+	if (mesh_res)
 		uint num_references = mesh_res->LoadToMemory();
 
 	if (mesh_res) {

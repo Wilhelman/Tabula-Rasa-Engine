@@ -15,6 +15,7 @@
 #include "ComponentMaterial.h"
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
+#include "ComponentBone.h"
 
 #include "DebugDraw.h"
 
@@ -74,6 +75,8 @@ bool SceneImporter::Import(const char * path, std::string & output_file)
 		material_data = nullptr;
 
 		ImportNodesRecursively(scene->mRootNode, scene, (char*)real_path.c_str(), App->main_scene->GetRoot());
+
+		RecursiveProcessBones(scene, scene->mRootNode);
 
 		App->main_scene->SerializeScene(output_file);
 
@@ -255,6 +258,31 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 
 	for (uint i = 0; i < node->mNumChildren; i++)
 		ImportNodesRecursively(node->mChildren[i], scene, file_path, (good_mesh) ? new_go : parent_go);
+}
+
+void SceneImporter::RecursiveProcessBones(const aiScene * scene, const aiNode * node)
+{
+	// We need to find if this node it supposed to hold a bone
+	// for that we will look for all the other meshes and look
+	// if there is a mach in the name
+	std::map<std::string, aiBone*>::iterator it = bones.find(node->mName.C_Str());
+
+	if (it != bones.end())
+	{
+		aiBone* bone = it->second;
+
+		GameObject* go = relations[node];
+		ComponentBone* c_bone = (ComponentBone*)go->CreateComponent(Component::component_type::COMPONENT_BONE);
+
+		/*UID uid = App->resources->ImportBuffer(bone, (uint)mesh_bone[bone], Resource::bone, bone->mName.C_Str());
+		c_bone->SetResource(uid);
+		imported_bones[node->mName.C_Str()] = uid;
+		LOG("->-> Added Bone component and created bone resource");*/
+	}
+
+	// recursive call to generate the rest of the scene tree
+	for (uint i = 0; i < node->mNumChildren; ++i)
+		RecursiveProcessBones(scene, node->mChildren[i]);
 }
 
 ComponentMaterial * SceneImporter::LoadTexture(aiMaterial* material, GameObject* go, ResourceMesh* mesh)

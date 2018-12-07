@@ -342,6 +342,9 @@
     <ClCompile Include="BoneImporter.cpp">
       <Filter>Core\Modules\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentBone.cpp">
+      <Filter>Core\GameObject\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -859,6 +862,9 @@
     </ClInclude>
     <ClInclude Include="BoneImporter.h">
       <Filter>Core\Modules\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentBone.h">
+      <Filter>Core\GameObject\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
