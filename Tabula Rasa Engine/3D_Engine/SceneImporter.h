@@ -13,6 +13,7 @@ class aiScene;
 class aiNode;
 class aiMaterial;
 class aiMesh;
+class aiBone;
 class ResourceMesh;
 
 class SceneImporter : public Importer
@@ -51,6 +52,11 @@ private:
 	AABB scene_bb;
 
 	std::map<aiMesh*, ResourceMesh*> mesh_resources;
+
+	std::map<aiBone*, UID> mesh_bone;
+	std::map<std::string, aiBone*> bones;
+	std::map<const aiNode*, GameObject*> relations;
+	std::map<std::string, UID> imported_bones;
 };
 
 #endif // __MESH_IMPORTER_H__

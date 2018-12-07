@@ -100,6 +100,8 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 
 	GameObject* new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
 
+	relations[node] = new_go;
+
 	new_go->SetName(node->mName.C_Str());
 
 	// Calculate the position, scale and rotation
@@ -133,6 +135,8 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 			}
 		}
 
+		ComponentMesh* mesh_comp = nullptr;
+
 		if (good_mesh) {
 			std::string tmp = "";
 			if (file_path != nullptr) {
@@ -154,9 +158,10 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 			}
 
 			ResourceMesh* mesh_data = nullptr;
+			
 			if (stored_mesh) {
 				mesh_data = stored_mesh;
-				ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
+				mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
 				mesh_comp->SetResource(mesh_data->GetUID());
 				// UVs copy
 				if (new_mesh->HasTextureCoords(0)) {
@@ -229,15 +234,25 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 
 				std::string output_file;
 
-				ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
+				mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
 				mesh_comp->SetResource(mesh_data->GetUID());
 
 				SaveMeshFile(node->mName.C_Str(), mesh_data, output_file);
 			}
 		}
 
+		if (new_mesh->HasBones() == true && good_mesh && mesh_comp)
+		{
+			int num = new_mesh->mNumBones;
+			for (int i = 0; i < num; ++i)
+			{
+				bones[new_mesh->mBones[i]->mName.C_Str()] = new_mesh->mBones[i];
+				mesh_bone[new_mesh->mBones[i]] = mesh_comp->GetResourceUID();
+			}
+		}
 		
 	}
+
 	for (uint i = 0; i < node->mNumChildren; i++)
 		ImportNodesRecursively(node->mChildren[i], scene, file_path, (good_mesh) ? new_go : parent_go);
 }
