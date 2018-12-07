@@ -7,6 +7,7 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
+#include "ComponentBone.h"
 
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
@@ -172,6 +173,9 @@ Component * GameObject::CreateComponent(Component::component_type type)
 		break;
 	case Component::component_type::COMPONENT_CAMERA:
 		tmp_component = new ComponentCamera(this);
+		break;
+	case Component::component_type::COMPONENT_BONE:
+		tmp_component = new ComponentBone(this);
 		break;
 	case Component::component_type::COMPONENT_UNKNOWN:
 		TR_LOG("Just how?");

@@ -19,7 +19,7 @@ bool BoneImporter::Import(const char * file_path, std::string & output_file)
 	return false;
 }
 
-bool BoneImporter::Import(const aiBone* new_bone, UID mesh, std::string& output) const
+UID BoneImporter::Import(const aiBone* new_bone, UID mesh, std::string& output) const
 {
 	bool ret = false;
 
@@ -45,6 +45,8 @@ bool BoneImporter::Import(const aiBone* new_bone, UID mesh, std::string& output)
 	(SaveBone(bone, output)) ?
 		TR_LOG("Saved bone correctly in path: [%s]", output.c_str()) : 
 		TR_LOG("Error saving bone in path: [%s]", output.c_str());
+
+	bone->SetExportedPath(output.c_str());
 
 	return bone->GetUID();
 }

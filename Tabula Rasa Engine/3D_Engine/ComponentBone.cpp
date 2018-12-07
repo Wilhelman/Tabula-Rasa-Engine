@@ -9,6 +9,7 @@
 #include "GameObject.h"
 #include "Resource.h"
 #include "ResourceMesh.h"
+#include "ResourceBone.h"
 
 ComponentBone::ComponentBone(GameObject * embedded_game_object) :
 	Component(embedded_game_object, Component::component_type::COMPONENT_BONE)
@@ -67,15 +68,10 @@ bool ComponentBone::SetResource(UID resource)
 	}
 
 	this->resource = resource;
-	ResourceMesh* mesh_res = (ResourceMesh*)this->GetResource();
+	ResourceBone* bone_res = (ResourceBone*)this->GetResource();
 
-	if (mesh_res)
-		uint num_references = mesh_res->LoadToMemory();
-
-	if (mesh_res) {
-		embedded_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
-		embedded_go->bounding_box.Enclose((float3*)mesh_res->vertices, mesh_res->vertex_size / 3);
-	}
+	if (bone_res)
+		uint num_references = bone_res->LoadToMemory();
 
 	return true;
 }

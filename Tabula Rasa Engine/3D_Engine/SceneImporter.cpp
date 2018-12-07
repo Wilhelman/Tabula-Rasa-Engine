@@ -64,7 +64,6 @@ bool SceneImporter::Import(const char * path, std::string & output_file)
 
 	TR_LOG("trFileLoader: Start importing a file with path: %s", real_path);
 
-	//TODO CHECK PATH
 	const aiScene* scene = aiImportFile(real_path.c_str(), aiProcessPreset_TargetRealtime_MaxQuality);
 
 	if (scene != nullptr) 

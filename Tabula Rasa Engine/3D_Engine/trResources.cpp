@@ -282,6 +282,10 @@ Resource::Type trResources::TypeFromExtension(const char * extension) const
 			ret = Resource::SCENE;
 		else if (_stricmp(extension, ".FBX") == 0)
 			ret = Resource::SCENE;
+		else if (_stricmp(extension, ".dae") == 0)
+			ret = Resource::SCENE;
+		else if (_stricmp(extension, ".DAE") == 0)
+			ret = Resource::SCENE;
 	}
 
 	return ret;
