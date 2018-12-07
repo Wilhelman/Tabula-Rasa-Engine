@@ -10,6 +10,7 @@
 #include "Resource.h"
 #include "ResourceMesh.h"
 #include "ResourceBone.h"
+#include "BoneImporter.h"
 
 ComponentBone::ComponentBone(GameObject * embedded_game_object) :
 	Component(embedded_game_object, Component::component_type::COMPONENT_BONE)
@@ -55,7 +56,7 @@ bool ComponentBone::Load(const JSON_Object * component_obj)
 			uid_force.erase(extension);
 		UID uid = static_cast<unsigned int>(std::stoul(uid_force));
 
-		SetResource(App->resources->mesh_importer->GenerateResourceFromFile(file_path, uid));
+		SetResource(App->resources->bone_importer->GenerateResourceFromFile(file_path, uid));
 	}
 
 	return ret;

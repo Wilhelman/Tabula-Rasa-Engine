@@ -276,8 +276,6 @@ void SceneImporter::RecursiveProcessBones(const aiScene * scene, const aiNode * 
 
 		std::string output;
 		UID bone_uid = App->resources->bone_importer->Import(bone, mesh_bone[bone], output);
-
-		//UID uid = App->resources->ImportBuffer(bone, (uint)mesh_bone[bone], Resource::bone, bone->mName.C_Str());
 		
 		comp_bone->SetResource(bone_uid);
 		imported_bones[node->mName.C_Str()] = bone_uid;

@@ -51,11 +51,11 @@ UID BoneImporter::Import(const aiBone* new_bone, UID mesh, std::string& output) 
 	return bone->GetUID();
 }
 
-bool BoneImporter::Import(const char * path, const char * file_name, std::string & output_file, UID & uid_to_force)
+UID BoneImporter::GenerateResourceFromFile(const char * file_path, UID uid_to_force)
 {
 	// Reading file
 	char* buffer = nullptr;
-	App->file_system->ReadFromFile(path, &buffer);
+	App->file_system->ReadFromFile(file_path, &buffer);
 
 	// Checking for errors
 	if (buffer == nullptr)
@@ -65,7 +65,7 @@ bool BoneImporter::Import(const char * path, const char * file_name, std::string
 	}
 
 	char* cursor = buffer;
-	ResourceBone* resource = (ResourceBone*)App->resources->CreateNewResource(Resource::Type::BONE);
+	ResourceBone* resource = (ResourceBone*)App->resources->CreateNewResource(Resource::Type::BONE, uid_to_force);
 
 	// Load mesh UID
 	uint bytes = sizeof(UID);
@@ -97,7 +97,7 @@ bool BoneImporter::Import(const char * path, const char * file_name, std::string
 
 	RELEASE_ARRAY(buffer);
 
-	return true;
+	return resource->GetUID();
 }
 
 bool BoneImporter::SaveBone(const ResourceBone* bone, std::string& output) const
