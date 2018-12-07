@@ -21,6 +21,7 @@
 
 #include "trResources.h"
 #include "ResourceMesh.h"
+#include "BoneImporter.h"
 
 #include "MathGeoLib/MathGeoLib.h"
 
@@ -272,12 +273,16 @@ void SceneImporter::RecursiveProcessBones(const aiScene * scene, const aiNode * 
 		aiBone* bone = it->second;
 
 		GameObject* go = relations[node];
-		ComponentBone* c_bone = (ComponentBone*)go->CreateComponent(Component::component_type::COMPONENT_BONE);
+		ComponentBone* comp_bone = (ComponentBone*)go->CreateComponent(Component::component_type::COMPONENT_BONE);
 
-		/*UID uid = App->resources->ImportBuffer(bone, (uint)mesh_bone[bone], Resource::bone, bone->mName.C_Str());
-		c_bone->SetResource(uid);
-		imported_bones[node->mName.C_Str()] = uid;
-		LOG("->-> Added Bone component and created bone resource");*/
+		std::string output;
+		UID bone_uid = App->resources->bone_importer->Import(bone, mesh_bone[bone], output);
+
+		//UID uid = App->resources->ImportBuffer(bone, (uint)mesh_bone[bone], Resource::bone, bone->mName.C_Str());
+		
+		comp_bone->SetResource(bone_uid);
+		imported_bones[node->mName.C_Str()] = bone_uid;
+		TR_LOG("->-> Added Bone component and created bone resource");
 	}
 
 	// recursive call to generate the rest of the scene tree

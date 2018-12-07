@@ -14,6 +14,7 @@ class ResourceTexture;
 
 class SceneImporter;
 class MaterialImporter;
+class BoneImporter;
 
 class Directory;
 class File;
@@ -52,6 +53,7 @@ private:
 public:
 	SceneImporter* mesh_importer = nullptr;
 	MaterialImporter* material_importer = nullptr;
+	BoneImporter* bone_importer = nullptr;
 
 };
 

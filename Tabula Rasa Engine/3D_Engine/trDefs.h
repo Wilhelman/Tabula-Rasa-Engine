@@ -92,6 +92,7 @@ inline const char* const PATH(const char* folder, const char* file)
 #define SETTINGS_DIR "Settings"
 #define LIBRARY_DIR "Library"
 #define L_MESHES_DIR "/Library/Meshes"
+#define L_BONES_DIR "/Library/Bones"
 #define L_MATERIALS_DIR "/Library/Materials"
 
 // Default settings
