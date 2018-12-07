@@ -15,10 +15,11 @@
 #include "ComponentMaterial.h"
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
+#include "ComponentBone.h"
 
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
-
+#include "ResourceBone.h"
 
 
 PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
@@ -174,6 +175,21 @@ void PanelInspector::Draw()
 						ImGui::Text("UVS: %i", mesh->size_uv);
 						ImGui::Text("Source: %s", mesh->GetExportedFile());
 						ImGui::Text("Resource References: %i", mesh->CountReferences());
+					}
+				}
+				ImGui::Separator();
+				break;
+			}
+			case Component::component_type::COMPONENT_BONE:
+			{
+				ComponentBone* bone_co= (ComponentBone*)(*it);
+				ResourceBone* bone= (ResourceBone*)bone_co->GetResource();
+				if (ImGui::CollapsingHeader("BONE COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
+					if (bone != nullptr) {
+						ImGui::Text("Weights number: %i", bone->bone_weights_size);
+						ImGui::Text("Embedded mesh UUID: %i", bone->mesh_uid);
+						ImGui::Text("Source: %s", bone->GetExportedFile());
+						ImGui::Text("Resource References: %i", bone->CountReferences());
 					}
 				}
 				ImGui::Separator();
