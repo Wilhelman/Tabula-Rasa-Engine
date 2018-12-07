@@ -23,10 +23,10 @@ void Quadtree::Insert(GameObject * go)
 {
 	if (root_node != nullptr)
 	{
-		//if (go->FindComponentByType(Component::component_type::COMPONENT_MESH)) {
+		if (!go->FindComponentByType(Component::component_type::COMPONENT_BONE)) {
 			if (go->bounding_box.Intersects(root_node->box))
 				root_node->Insert(go);
-		//}
+		}
 	}
 }
 

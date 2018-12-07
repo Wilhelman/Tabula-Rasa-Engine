@@ -103,12 +103,10 @@ void trMainScene::RecursiveDebugDrawGameObjects(GameObject * go)
 	{
 		ComponentBone* bone_comp = (ComponentBone*)(*it)->FindComponentByType(Component::COMPONENT_BONE);
 
-		
-			// Drawing bones
+		// Drawing bones
+		if(bone_comp)
 			DebugDraw((*it)->GetTransform()->GetTranslation(), Green, (*it)->GetTransform()->GetMatrix());
 			//DebugDraw((*it)->bounding_box, Red);
-		
-
 	}
 
 	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++)
@@ -138,7 +136,7 @@ void trMainScene::RecursiveSetupGo(GameObject * go)
 		(*it)->is_static = true;
 
 	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++) {
-		if ((*it)->is_static && (*it)->to_destroy == false){
+		if ((*it)->is_static && (*it)->to_destroy == false && !(*it)->FindComponentByType(ComponentMesh::COMPONENT_BONE)){
 			App->main_scene->InsertGoInQuadtree((*it));
 		}
 	}
@@ -323,6 +321,9 @@ GameObject * trMainScene::GetRoot() const
 
 void trMainScene::InsertGoInQuadtree(GameObject * go) // This GO is now static
 {
+	if (go->FindComponentByType(ComponentMesh::COMPONENT_BONE))
+		return;
+
 	if (go != main_camera) {
 		if (!go->to_destroy) {
 			static_go.push_back(go);
@@ -340,6 +341,9 @@ void trMainScene::InsertGoInQuadtree(GameObject * go) // This GO is now static
 
 void trMainScene::EraseGoInQuadtree(GameObject * go) // This go is now dinamic
 {
+	if (go->FindComponentByType(ComponentMesh::COMPONENT_BONE))
+		return;
+
 	if (go != main_camera) {
 		if(!go->to_destroy)
 			dinamic_go.push_back(go);
