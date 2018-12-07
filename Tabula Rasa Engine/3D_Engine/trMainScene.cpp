@@ -7,6 +7,7 @@
 #include "PGrid.h"
 #include "ComponentCamera.h"
 #include "ComponentMesh.h"
+#include "ComponentBone.h"
 #include "trEditor.h" //TODO: check this
 
 #include "ResourceMesh.h"
@@ -87,7 +88,7 @@ void trMainScene::DrawDebug()
 		DebugDraw(quad_aabbs[i], White);
 
 	// Draw gameobjects AABBs
-	RecursiveDrawGoAABB(root);
+	RecursiveDebugDrawGameObjects(root);
 
 	if (main_camera != nullptr) {
 		ComponentCamera* camera_co = (ComponentCamera*)main_camera->FindComponentByType(Component::Component::COMPONENT_CAMERA);
@@ -96,13 +97,22 @@ void trMainScene::DrawDebug()
 	}
 }
 
-void trMainScene::RecursiveDrawGoAABB(GameObject * go)
+void trMainScene::RecursiveDebugDrawGameObjects(GameObject * go)
 {
 	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++)
-		DebugDraw((*it)->bounding_box, Red);
+	{
+		ComponentBone* bone_comp = (ComponentBone*)(*it)->FindComponentByType(Component::COMPONENT_BONE);
+
+		
+			// Drawing bones
+			DebugDraw((*it)->GetTransform()->GetTranslation(), Green, (*it)->GetTransform()->GetMatrix());
+			//DebugDraw((*it)->bounding_box, Red);
+		
+
+	}
 
 	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++)
-		RecursiveDrawGoAABB((*it));
+		RecursiveDebugDrawGameObjects((*it));
 }
 
 void trMainScene::RecursiveDeleteGos(GameObject * go, bool and_camera)

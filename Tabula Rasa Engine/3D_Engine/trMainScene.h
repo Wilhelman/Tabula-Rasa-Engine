@@ -29,7 +29,7 @@ public:
 	bool PostUpdate(float dt);
 
 	void DrawDebug();
-	void RecursiveDrawGoAABB(GameObject* go);
+	void RecursiveDebugDrawGameObjects(GameObject* go);
 	void RecursiveDeleteGos(GameObject* go, bool and_camera);
 
 	void RecursiveSetupGo(GameObject* go);
