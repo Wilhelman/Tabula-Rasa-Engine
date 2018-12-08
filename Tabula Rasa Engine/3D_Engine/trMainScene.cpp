@@ -106,8 +106,10 @@ void trMainScene::RecursiveDebugDrawGameObjects(GameObject * go)
 		ComponentBone* bone_comp = (ComponentBone*)(*it)->FindComponentByType(Component::COMPONENT_BONE);
 
 		// Drawing bones
+		float3 pos = float3::zero;
+		(*it)->GetTransform()->GetLocalPosition(&pos, &float3(), &Quat()); 
 		if(bone_comp)
-			DebugDraw((*it)->GetTransform()->GetTranslation(), Green, (*it)->GetTransform()->GetMatrix());
+			DebugDraw(pos, Green, (*it)->GetTransform()->GetMatrix());
 			//DebugDraw((*it)->bounding_box, Red);
 	}
 

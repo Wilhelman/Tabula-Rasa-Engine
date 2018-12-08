@@ -107,19 +107,17 @@ void DebugDraw(const LineSegment & line_segment, Color color, const float4x4 & t
 	glPopMatrix();
 }
 
-void DebugDraw(const float3 pos, Color color, const float4x4 & transform)
+void DebugDraw(const float3 pos, Color color, float4x4 & transform)
 {
-	//glPushMatrix();
-	//glMultMatrixf((GLfloat*)(*it)->GetTransform()->GetMatrix().Transposed().ptr());
 	glPushMatrix();
 	glMultMatrixf((GLfloat*)transform.Transposed().ptr());
 
 	glColor4f(color.r, color.g, color.b, 1.f);
-	glPointSize(5.f);
+	glPointSize(10.f);
 
 	glBegin(GL_POINTS);
-
-	glVertex3f((GLfloat)pos.x, (GLfloat)pos.y, (GLfloat)pos.z);
+	const float3 pos2 = transform.TranslatePart();
+	glVertex3f((GLfloat)pos2.x, (GLfloat)pos2.y, (GLfloat)pos2.z);
 
 	glEnd();
 
