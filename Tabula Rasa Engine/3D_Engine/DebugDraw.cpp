@@ -109,8 +109,8 @@ void DebugDraw(const LineSegment & line_segment, Color color, const float4x4 & t
 
 void DebugDraw(const float3 pos, Color color, float4x4 & transform)
 {
-	glPushMatrix();
-	glMultMatrixf((GLfloat*)transform.Transposed().ptr());
+	///glPushMatrix();
+	///glMultMatrixf((GLfloat*)transform.Transposed().ptr());
 
 	glColor4f(color.r, color.g, color.b, 1.f);
 	glPointSize(10.f);
@@ -124,5 +124,5 @@ void DebugDraw(const float3 pos, Color color, float4x4 & transform)
 	glPointSize(1.f);
 	glColor4f(1.f, 1.f, 1.f, 1.f);
 
-	glPopMatrix();
+	///glPopMatrix();
 }

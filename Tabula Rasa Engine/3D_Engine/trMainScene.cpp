@@ -108,9 +108,17 @@ void trMainScene::RecursiveDebugDrawGameObjects(GameObject * go)
 		// Drawing bones
 		float3 pos = float3::zero;
 		(*it)->GetTransform()->GetLocalPosition(&pos, &float3(), &Quat()); 
-		if(bone_comp)
+		if (bone_comp) {
 			DebugDraw(pos, Green, (*it)->GetTransform()->GetMatrix());
-			//DebugDraw((*it)->bounding_box, Red);
+			math::LineSegment segment; 
+			segment.a = (*it)->GetTransform()->GetMatrix().TranslatePart();
+
+			for (std::list<GameObject*>::iterator it_childs = (*it)->childs.begin(); it_childs != (*it)->childs.end(); it_childs++) {
+				segment.b = (*it_childs)->GetTransform()->GetMatrix().TranslatePart();
+				DebugDraw(segment, Blue);
+			}
+
+		}
 	}
 
 	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++)
