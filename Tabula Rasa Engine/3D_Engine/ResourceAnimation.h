@@ -14,7 +14,6 @@ public:
 	{
 		std::string bone_name;
 
-
 		struct Key
 		{
 			enum KeyType {
@@ -72,8 +71,6 @@ public:
 	std::string name;
 	double duration;
 	double ticks_per_second;
-
-	
 
 	uint num_keys = 0;
 	std::vector<BoneTransformation*> bone_keys;
