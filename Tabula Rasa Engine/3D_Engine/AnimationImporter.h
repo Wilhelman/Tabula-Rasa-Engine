@@ -3,9 +3,10 @@
 
 #include "Importer.h"
 #include "trDefs.h"
+#include "ResourceAnimation.h"
 
-class aiBone;
-class aiAnimation;
+struct aiAnimation;
+struct aiNodeAnim;
 
 class ResourceAnimation;
 
@@ -23,6 +24,10 @@ public:
 	UID Import(const aiAnimation* new_anim, UID mesh, std::string& output) const;
 
 	bool SaveAnimation(const ResourceAnimation* anim, std::string& output) const;
+
+	void ImportBoneTransform(const aiNodeAnim * anim_node, ResourceAnimation::BoneTransformation& bones_transform) const;
+
+	//bool EqualsWithEpsilon(float number, float epsilon = 1e-3f);
 
 
 };
