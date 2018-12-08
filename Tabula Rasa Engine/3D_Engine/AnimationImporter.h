@@ -7,7 +7,7 @@
 class aiBone;
 class aiAnimation;
 
-class ResourceBone;
+class ResourceAnimation;
 
 class AnimationImporter : public Importer
 {
@@ -20,7 +20,9 @@ public:
 
 	UID GenerateResourceFromFile(const char* file_path, UID uid_to_force = 0u);
 
-	UID Import(const aiBone* new_bone, UID mesh, std::string& output) const;
+	UID Import(const aiAnimation* new_anim, UID mesh, std::string& output) const;
+
+	bool SaveAnimation(const ResourceAnimation* anim, std::string& output) const;
 
 
 };

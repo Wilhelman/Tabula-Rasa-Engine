@@ -5,6 +5,7 @@
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
 #include "ResourceBone.h"
+#include "ResourceAnimation.h"
 
 #include "trFileSystem.h"
 
@@ -299,20 +300,21 @@ Resource * trResources::Get(UID uid)
 	return nullptr;
 }
 
-Resource * trResources::CreateNewResource(Resource::Type type, UID uid_to_force,
-	const char* file_name, const char* imported_path, const char* exported_path)
+Resource * trResources::CreateNewResource(Resource::Type type, UID uid_to_force, const char* file_name, 
+										  const char* imported_path, const char* exported_path)
 {
 	Resource* ret = nullptr;
 	uint res_uid = 0u;
 	
-	if (uid_to_force != 0u) {
+	if (uid_to_force != 0u) 
+	{
 		res_uid = uid_to_force;
+
 		if (Get(res_uid) != nullptr) //the resource is already done
 			return Get(res_uid);
 	}
-	else {
+	else
 		res_uid = App->GenerateNewUUID();
-	}
 
 	switch (type)
 	{
@@ -328,6 +330,8 @@ Resource * trResources::CreateNewResource(Resource::Type type, UID uid_to_force,
 	case Resource::BONE:
 		ret = (Resource*) new ResourceBone(res_uid);
 		break;
+	case Resource::ANIMATION:
+		ret = (Resource*) new ResourceAnimation(res_uid);
 	}
 
 	if (ret != nullptr)

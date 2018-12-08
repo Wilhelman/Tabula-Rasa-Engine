@@ -2,10 +2,10 @@
 
 #include "trApp.h"
 #include "trFileSystem.h"
-#include "Assimp/include/mesh.h"
+#include "Assimp/include/anim.h"
 
 #include "trResources.h"
-#include "ResourceBone.h"
+#include "ResourceAnimation.h"
 
 AnimationImporter::AnimationImporter()
 {
@@ -20,40 +20,49 @@ bool AnimationImporter::Import(const char * file_path, std::string & output_file
 	return false;
 }
 
-UID AnimationImporter::Import(const aiBone* new_bone, UID mesh, std::string& output) const
+UID AnimationImporter::Import(const aiAnimation* new_anim, UID mesh, std::string& output) const
 {
 	bool ret = false;
 
-	if (new_bone == nullptr)
+	// Making sure the animation exists and has data inside
+	if (new_anim == nullptr)
 		return ret;
 
-	// Temporary object to make the load/Save process
-	ResourceBone* bone = (ResourceBone*)App->resources->CreateNewResource(Resource::Type::BONE);
+	if (new_anim->mNumChannels == 0)
+		return ret;
 
-	bone->mesh_uid = mesh;
-	bone->bone_weights_size = new_bone->mNumWeights;
-	memcpy(bone->offset_matrix.v, &new_bone->mOffsetMatrix.a1, sizeof(float) * 16);
+	// Creating animation resource an filling its data
+	ResourceAnimation* anim = (ResourceAnimation*)App->resources->CreateNewResource(Resource::Type::ANIMATION);
 
-	bone->bone_weights_indices = new uint[bone->bone_weights_size];
-	bone->bone_weights = new float[bone->bone_weights_size];
+	anim->name = new_anim->mName.C_Str();
+	anim->duration = new_anim->mDuration;
+	anim->ticks_per_second = new_anim->mTicksPerSecond;
 
-	for (uint k = 0; k < bone->bone_weights_size; ++k)
-	{
-		bone->bone_weights_indices[k] = new_bone->mWeights[k].mVertexId;
-		bone->bone_weights[k] = new_bone->mWeights[k].mWeight;
-	}
+	anim->num_keys = new_anim->mNumChannels;
+	anim->bone_keys.reserve(anim->num_keys);
 
-	//(SaveBone(bone, output)) ?
-		//TR_LOG("Saved bone correctly in path: [%s]", output.c_str()) :
-		//TR_LOG("Error saving bone in path: [%s]", output.c_str());
+	// Once we have the animation data we populate the animation keys with the bones' data
+	// for (uint i = 0; i < new_anim->mNumChannels; ++i)
+		//ImportBoneTransform(new_anim->mChannels[i], anim.bone_keys[i]);
 
-	bone->SetExportedPath(output.c_str());
+	(SaveAnimation(anim, output)) ?
+		TR_LOG("Saved animation correctly in path: [%s]", output.c_str()) :
+		TR_LOG("Error saving animation in path: [%s]", output.c_str());
 
-	return bone->GetUID();
+	anim->SetExportedPath(output.c_str());
+
+	return anim->GetUID();
+}
+
+bool AnimationImporter::SaveAnimation(const ResourceAnimation * anim, std::string & output) const
+{
+	// TODO: save anim here...
+	return false;
 }
 
 UID AnimationImporter::GenerateResourceFromFile(const char * file_path, UID uid_to_force)
 {
+	/*
 	// Reading file
 	char* buffer = nullptr;
 	App->file_system->ReadFromFile(file_path, &buffer);
@@ -99,4 +108,8 @@ UID AnimationImporter::GenerateResourceFromFile(const char * file_path, UID uid_
 	RELEASE_ARRAY(buffer);
 
 	return resource->GetUID();
+
+	*/
+
+	return 0;
 }
