@@ -97,21 +97,30 @@ void AnimationImporter::ImportBoneTransform(const aiNodeAnim * anim_node, Resour
 	// Setting up bone positions over time
 	for (uint i = 0; i < anim_node->mNumScalingKeys; i++)
 	{
-		float x_scale_value = anim_node->mScalingKeys[i].mValue.x;
-		float y_scale_value = anim_node->mScalingKeys[i].mValue.y;
-		float z_scale_value = anim_node->mScalingKeys[i].mValue.z;
-
-		float3 scale(x_scale_value, y_scale_value, z_scale_value);
+		float3 scale(anim_node->mScalingKeys[i].mValue.x, 
+					 anim_node->mScalingKeys[i].mValue.y, 
+					 anim_node->mScalingKeys[i].mValue.z);
 		
-		// Forcing scale to be (1, 1, 1) if it's close to it to avoid floating-point errors
+		// Forcing scale to be 1 if it's close to it to avoid floating-point errors
 		// Note(victor): current epsilon is set to 1e-3f
-		
+		if (EqualsWithEpsilon(scale.x, 1.0f))
+			scale.x = 1.0f;
+		if (EqualsWithEpsilon(scale.y, 1.0f))
+			scale.y = 1.0f;
+		if (EqualsWithEpsilon(scale.z, 1.0f))
+			scale.z = 1.0f;
+
 		bones_transform.scale.value[i * 3] = scale.x;
 		bones_transform.scale.value[i * 3 + 1] = scale.y;
 		bones_transform.scale.value[i * 3 + 2] = scale.z;
 
 		bones_transform.scale.time[i] = anim_node->mScalingKeys[i].mTime;
 	}
+}
+
+bool AnimationImporter::EqualsWithEpsilon(float number_a, float number_b, float epsilon) const
+{
+	return fabs(number_a - number_b) < epsilon;
 }
 
 
