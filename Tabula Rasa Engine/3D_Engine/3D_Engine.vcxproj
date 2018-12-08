@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationImporter.cpp" />
     <ClCompile Include="BoneImporter.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -63,6 +64,7 @@
     <ClCompile Include="MathGeoLib\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
+    <ClCompile Include="ResourceAnimation.cpp" />
     <ClCompile Include="SceneImporter.cpp" />
     <ClCompile Include="PanelControl.cpp" />
     <ClCompile Include="PanelHierarchy.cpp" />
@@ -104,6 +106,7 @@
     <ClCompile Include="trWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationImporter.h" />
     <ClInclude Include="Assimp\include\ai_assert.h" />
     <ClInclude Include="Assimp\include\anim.h" />
     <ClInclude Include="Assimp\include\camera.h" />
@@ -235,6 +238,7 @@
     <ClInclude Include="MathGeoLib\Math\sse_mathfun.h" />
     <ClInclude Include="MathGeoLib\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Time\Clock.h" />
+    <ClInclude Include="ResourceAnimation.h" />
     <ClInclude Include="SceneImporter.h" />
     <ClInclude Include="PanelControl.h" />
     <ClInclude Include="pcg\pcg_basic.h" />

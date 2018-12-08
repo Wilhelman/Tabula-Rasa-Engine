@@ -345,6 +345,12 @@
     <ClCompile Include="ComponentBone.cpp">
       <Filter>Core\GameObject\Component</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceAnimation.cpp">
+      <Filter>Core\Modules\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationImporter.cpp">
+      <Filter>Core\Modules\Importers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -865,6 +871,12 @@
     </ClInclude>
     <ClInclude Include="ComponentBone.h">
       <Filter>Core\GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceAnimation.h">
+      <Filter>Core\Modules\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationImporter.h">
+      <Filter>Core\Modules\Importers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
