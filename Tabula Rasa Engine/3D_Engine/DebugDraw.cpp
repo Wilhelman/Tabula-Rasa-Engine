@@ -109,6 +109,8 @@ void DebugDraw(const LineSegment & line_segment, Color color, const float4x4 & t
 
 void DebugDraw(const float3 pos, Color color, const float4x4 & transform)
 {
+	//glPushMatrix();
+	//glMultMatrixf((GLfloat*)(*it)->GetTransform()->GetMatrix().Transposed().ptr());
 	glPushMatrix();
 	glMultMatrixf((GLfloat*)transform.Transposed().ptr());
 

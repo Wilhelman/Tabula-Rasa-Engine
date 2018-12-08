@@ -114,6 +114,8 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 	node->mTransformation.Decompose(scaling, rotation, translation);
 	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
 
+	new_go->CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
+
 	new_go->GetTransform()->Setup(float3(translation.x, translation.y, translation.z), float3(scaling.x, scaling.y, scaling.z), rot, true);
 
 	if (parent_go == App->main_scene->GetRoot()) {

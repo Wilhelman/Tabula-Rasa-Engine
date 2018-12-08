@@ -32,8 +32,10 @@ bool trMainScene::Awake(JSON_Object* config)
 	bool ret = true;
 
 	root = new GameObject("root", nullptr);
+	root->CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
 
 	main_camera = new GameObject("Main Camera", root);
+	main_camera->CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
 
 	App->render->active_camera = (ComponentCamera*)main_camera->CreateComponent(Component::component_type::COMPONENT_CAMERA);
 

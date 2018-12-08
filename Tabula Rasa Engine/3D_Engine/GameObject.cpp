@@ -36,11 +36,11 @@ GameObject::GameObject(const char * name, GameObject * parent)
 	this->is_static = true;
 
 	if (parent != nullptr) {// if is not root
-		CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
+		//CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
 		parent->childs.push_back(this);
 	}
-	else
-		CreateComponent(Component::component_type::COMPONENT_TRANSFORM); // TODO CHECK THIS
+	//else
+		//CreateComponent(Component::component_type::COMPONENT_TRANSFORM); // TODO CHECK THIS
 
 	bounding_box = AABB(float3(-1.f, -1.f, -1.f), float3(1.f, 1.f, 1.f));
 
