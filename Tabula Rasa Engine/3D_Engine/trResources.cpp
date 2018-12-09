@@ -12,6 +12,7 @@
 #include "SceneImporter.h"
 #include "MaterialImporter.h"
 #include "BoneImporter.h"
+#include "AnimationImporter.h"
 
 trResources::trResources()
 {
@@ -28,6 +29,7 @@ bool trResources::Awake(JSON_Object * config)
 	mesh_importer = new SceneImporter();
 	material_importer = new MaterialImporter();
 	bone_importer = new BoneImporter();
+	animation_importer = new AnimationImporter();
 
 	return true;
 }
@@ -59,6 +61,7 @@ bool trResources::CleanUp()
 	RELEASE(mesh_importer);
 	RELEASE(material_importer);
 	RELEASE(bone_importer);
+	RELEASE(animation_importer);
 
 	for (std::map<UID, Resource*>::iterator it = resources.begin(); it != resources.end(); ++it)
 		RELEASE(it->second);

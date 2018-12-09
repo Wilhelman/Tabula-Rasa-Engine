@@ -10,7 +10,7 @@
 #include "Resource.h"
 #include "ResourceMesh.h"
 #include "ResourceAnimation.h"
-#include "BoneImporter.h"
+#include "AnimationImporter.h"
 
 ComponentAnimation::ComponentAnimation(GameObject * embedded_game_object) :
 	Component(embedded_game_object, Component::component_type::COMPONENT_ANIMATION)
@@ -56,7 +56,7 @@ bool ComponentAnimation::Load(const JSON_Object * component_obj)
 			uid_force.erase(extension);
 		UID uid = static_cast<unsigned int>(std::stoul(uid_force));
 
-		SetResource(App->resources->bone_importer->GenerateResourceFromFile(file_path, uid));
+		SetResource(App->resources->animation_importer->GenerateResourceFromFile(file_path, uid)); // TODO CHECK GENERATE RESOURCE
 	}
 
 	return ret;
