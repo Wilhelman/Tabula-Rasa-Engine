@@ -40,6 +40,7 @@ public:
 
 private:
 	GameObject* imported_root_go = nullptr;
+	GameObject* root_bone = nullptr;
 
 	//used as static
 	ComponentMaterial* material_data = nullptr;

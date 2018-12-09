@@ -16,6 +16,7 @@
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
 #include "ComponentBone.h"
+#include "ComponentAnimation.h"
 
 #include "DebugDraw.h"
 
@@ -80,6 +81,8 @@ bool SceneImporter::Import(const char * path, std::string & output_file)
 		RecursiveProcessBones(scene, scene->mRootNode);
 
 		ImportAnimations(scene, real_path.c_str());
+
+		root_bone = nullptr;
 
 		App->main_scene->SerializeScene(output_file);
 
@@ -254,6 +257,9 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 			int num = new_mesh->mNumBones;
 			for (int i = 0; i < num; ++i)
 			{
+				if (!root_bone)
+					root_bone = new_go;
+
 				bones[new_mesh->mBones[i]->mName.C_Str()] = new_mesh->mBones[i];
 				mesh_bone[new_mesh->mBones[i]] = mesh_comp->GetResourceUID();
 			}
@@ -300,7 +306,11 @@ void SceneImporter::ImportAnimations(const aiScene * scene, const char * filenam
 		TR_LOG("Importing animation [%s] -----------------", anim->mName.C_Str());
 		std::string output;
 
-		App->resources->animation_importer->Import(anim, output);
+		if (root_bone) {
+			ComponentAnimation* anim_co = (ComponentAnimation*)root_bone->CreateComponent(Component::component_type::COMPONENT_ANIMATION);
+			
+			anim_co->SetResource(App->resources->animation_importer->Import(anim, output));
+		}
 	}
 }
 

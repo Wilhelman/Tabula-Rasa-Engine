@@ -59,7 +59,7 @@ bool AnimationImporter::SaveAnimation(ResourceAnimation* anim_data, std::string 
 
 	// -------------- CALCULATING ANIMATION DATA SIZE --------------
 
-	uint anim_name_size = anim_data->name.size() + 1; // TODO: check this to do it with a define
+	uint anim_name_size = sizeof(char)*TITLE_MAX_LENGTH; // TODO: check this to do it with a define
 	uint duration_size = sizeof(anim_data->duration);
 	uint ticks_size = sizeof(anim_data->ticks_per_second);
 	uint num_keys_size = sizeof(anim_data->num_keys);
@@ -69,7 +69,7 @@ bool AnimationImporter::SaveAnimation(ResourceAnimation* anim_data, std::string 
 	for (uint i = 0; i < anim_data->num_keys; i++)
 	{
 		uint id_size = sizeof(uint);
-		uint bone_name_size = anim_data->bone_keys[i].bone_name.size() + 1; // TODO: check this to do it with a define
+		uint bone_name_size = sizeof(char)*anim_data->bone_keys[i].bone_name.size() + 1; // TODO: check this to do it with a define
 
 		final_size += id_size + bone_name_size;
 
@@ -103,7 +103,7 @@ bool AnimationImporter::SaveAnimation(ResourceAnimation* anim_data, std::string 
 	// -------------- Saving animation generic data --------------
 
 	// Saving anim name
-	uint bytes = sizeof(anim_name_size);
+	uint bytes = sizeof(char)*TITLE_MAX_LENGTH;
 	memcpy(cursor, anim_data->name.c_str(), bytes);
 
 	// Saving duration
@@ -269,55 +269,92 @@ UID AnimationImporter::GenerateResourceFromFile(const char * file_path, UID uid_
 	char* cursor = buffer;
 
 	// Load anim name
-	uint bytes = sizeof(char) * 25; // TODO: put anim name size as a define maybe
-	char name[25];
+	uint bytes = sizeof(char) * TITLE_MAX_LENGTH;
+	char name[TITLE_MAX_LENGTH];
 	memcpy(&name, cursor, bytes);
 	resource->name = name;
 
-	// Load duration 
-
-
-	//double duration;
-	//double ticks_per_second;
-	//uint num_keys = 0;
-	//std::vector<BoneTransformation*> bone_keys;
-
-	/*
-
-
-	// Load mesh UID
-	uint bytes = sizeof(UID);
-	memcpy(&resource->mesh_uid, cursor, bytes);
-
-	// Load offset matrix
+	// Load duration
 	cursor += bytes;
-	bytes = sizeof(resource->offset_matrix);
-	memcpy(resource->offset_matrix.v, cursor, bytes);
+	bytes = sizeof(resource->duration);
+	memcpy(&resource->duration, cursor, bytes);
 
-	// Load num_weigths
+	// Load ticks per second
 	cursor += bytes;
-	bytes = sizeof(resource->bone_weights_size);
-	memcpy(&resource->bone_weights_size, cursor, bytes);
+	bytes = sizeof(resource->ticks_per_second);
+	memcpy(&resource->ticks_per_second, cursor, bytes);
 
-	// Allocate mem for indices and weights
-	resource->bone_weights_indices = new uint[resource->bone_weights_size];
-	resource->bone_weights = new float[resource->bone_weights_size];
-
-	// Read indices
+	// Load amount Bone transformations
 	cursor += bytes;
-	bytes = sizeof(uint) * resource->bone_weights_size;
-	memcpy(resource->bone_weights_indices, cursor, bytes);
+	bytes = sizeof(resource->num_keys);
+	memcpy(&resource->num_keys, cursor, bytes);
 
-	// Read weigths
-	cursor += bytes;
-	bytes = sizeof(float) * resource->bone_weights_size;
-	memcpy(resource->bone_weights, cursor, bytes);
+	resource->bone_keys = new ResourceAnimation::BoneTransformation[resource->num_keys];
+
+	char buff[4096];
+	for (uint i = 0; i < resource->num_keys; ++i)
+	{
+		ResourceAnimation::BoneTransformation* bone = &resource->bone_keys[i];
+		uint count = 0;
+
+		// load bone name
+		cursor += bytes;
+		bytes = sizeof(char) * count + 1;
+		memcpy(buff, cursor, bytes);
+		bone->bone_name = buff;
+
+		// load num_positions -------------------------------
+		cursor += bytes;
+		bytes = sizeof(count);
+		memcpy(&count, cursor, bytes);
+		bone->positions.Init(ResourceAnimation::BoneTransformation::Key::KeyType::POSITION, count);
+
+		// load position times
+		cursor += bytes;
+		bytes = sizeof(double) * count;
+		memcpy(bone->positions.time, cursor, bytes);
+
+		// load position values
+		cursor += bytes;
+		bytes = sizeof(float) * 3 * count;
+		memcpy(bone->positions.value, cursor, bytes);
+
+		// load num rotations -------------------------------
+		count = 0;
+		cursor += bytes;
+		bytes = sizeof(count);
+		memcpy(&count, cursor, bytes);
+		bone->rotations.Init(ResourceAnimation::BoneTransformation::Key::KeyType::ROTATION, count);
+
+		// load rotation times
+		cursor += bytes;
+		bytes = sizeof(double) * count;
+		memcpy(bone->rotations.time, cursor, bytes);
+
+		// load rotation values
+		cursor += bytes;
+		bytes = sizeof(float) * 4 * count;
+		memcpy(bone->rotations.value, cursor, bytes);
+
+		// load num_scales -------------------------------
+		count = 0;
+		cursor += bytes;
+		bytes = sizeof(count);
+		memcpy(&count, cursor, bytes);
+		bone->scalings.Init(ResourceAnimation::BoneTransformation::Key::KeyType::SCALE, count);
+
+		// load position times
+		cursor += bytes;
+		bytes = sizeof(double) * count;
+		memcpy(bone->scalings.time, cursor, bytes);
+
+		// load position values
+		cursor += bytes;
+		bytes = sizeof(float) * 3 * count;
+		memcpy(bone->scalings.value, cursor, bytes);
+	}
 
 	RELEASE_ARRAY(buffer);
 
 	return resource->GetUID();
-
-	*/
-
-	return 0;
 }
