@@ -322,11 +322,11 @@ void SceneImporter::ImportAnimations(const aiScene * scene, const char * filenam
 		TR_LOG("Importing animation [%s] -----------------", anim->mName.C_Str());
 		std::string output;
 
-		//if (root_bone) {
+		if (root_bone) {
 			ComponentAnimation* anim_co = (ComponentAnimation*)root_bone->CreateComponent(Component::component_type::COMPONENT_ANIMATION);
 			
 			anim_co->SetResource(App->resources->animation_importer->Import(anim, output));
-		//}
+		}
 	}
 }
 

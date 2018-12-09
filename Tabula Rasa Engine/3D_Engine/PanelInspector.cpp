@@ -16,10 +16,12 @@
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
 #include "ComponentBone.h"
+#include "ComponentAnimation.h"
 
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
 #include "ResourceBone.h"
+#include "ResourceAnimation.h"
 
 
 PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
@@ -190,6 +192,23 @@ void PanelInspector::Draw()
 						ImGui::Text("Embedded mesh UUID: %i", bone->mesh_uid);
 						ImGui::Text("Source: %s", bone->GetExportedFile());
 						ImGui::Text("Resource References: %i", bone->CountReferences());
+					}
+				}
+				ImGui::Separator();
+				break;
+			}
+			case Component::component_type::COMPONENT_ANIMATION:
+			{
+				ComponentAnimation* animation_co = (ComponentAnimation*)(*it);
+				ResourceAnimation* animation = (ResourceAnimation*)animation_co->GetResource();
+				if (ImGui::CollapsingHeader("ANIMATION COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
+					if (animation != nullptr) {
+						ImGui::Text("Name: %s", animation->name);
+						ImGui::Text("Keys number: %i", animation->num_keys);
+
+						ImGui::Text("Duration: %f", (float)(animation->duration / animation->ticks_per_second));
+						ImGui::Text("Source: %s", animation->GetExportedFile());
+						ImGui::Text("Resource References: %i", animation->CountReferences());
 					}
 				}
 				ImGui::Separator();
