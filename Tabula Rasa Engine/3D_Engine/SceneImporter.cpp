@@ -107,6 +107,22 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 {
 	bool good_mesh = true;
 
+	static std::string name;
+	name = (node->mName.length > 0) ? node->mName.C_Str() : "Unnamed";
+
+	static const char* dummies[5] = {
+		"$AssimpFbx$_PreRotation", "$AssimpFbx$_Rotation", "$AssimpFbx$_PostRotation",
+		"$AssimpFbx$_Scaling", "$AssimpFbx$_Translation" };
+
+	for (int i = 0; i < 5; ++i)
+	{
+		if (name.find(dummies[i]) != std::string::npos && node->mNumChildren == 1)
+		{
+			good_mesh = false;
+			goto next_node;
+		}
+	}
+
 	GameObject* new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
 
 	relations[node] = new_go;
@@ -266,7 +282,7 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 		}
 		
 	}
-
+next_node:
 	for (uint i = 0; i < node->mNumChildren; i++)
 		ImportNodesRecursively(node->mChildren[i], scene, file_path, (good_mesh) ? new_go : parent_go);
 }
