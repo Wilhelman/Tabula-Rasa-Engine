@@ -39,10 +39,10 @@ UID AnimationImporter::Import(const aiAnimation* new_anim, UID mesh, std::string
 	anim->num_keys = new_anim->mNumChannels;
 
 	// Once we have the animation data we populate the animation keys with the bones' data
-	anim->bone_keys.reserve(anim->num_keys);
+	anim->bone_keys = new ResourceAnimation::BoneTransformation[new_anim->mNumChannels];
 
 	for (uint i = 0; i < new_anim->mNumChannels; ++i)
-		ImportBoneTransform(new_anim->mChannels[i], *anim->bone_keys[i]);
+		ImportBoneTransform(new_anim->mChannels[i], anim->bone_keys[i]);
 
 	(SaveAnimation(anim, output)) ?
 		TR_LOG("Saved animation correctly in path: [%s]", output.c_str()) :
@@ -53,46 +53,88 @@ UID AnimationImporter::Import(const aiAnimation* new_anim, UID mesh, std::string
 	return anim->GetUID();
 }
 
-bool AnimationImporter::SaveAnimation(const ResourceAnimation * anim, std::string & output) const
+bool AnimationImporter::SaveAnimation(const ResourceAnimation* anim_data, std::string & output) const
 {
-	// TODO: save anim here...
+	uint name_size = anim_data->name.size(); // TODO: check this to do it with a define
+	uint duration_size = sizeof(anim_data->duration);
+	uint ticks_size = sizeof(anim_data->ticks_per_second);
+	uint num_keys = sizeof(anim_data->num_keys);
+
+	uint final_size = name_size + duration_size + ticks_size + num_keys;
+
+	/*for (uint i = 0; i < anim_data->bone_keys.size(); i++)
+	{
+		uint id_size = sizeof(uint);
+
+		uint name_size = anim_data->bone_keys[i]->bone_name.size(); // TODO: check this to do it with a define
+		anim_data->bone_keys[i]->positions.
+
+	}*/
+
+	// Size name
+	uint bytes = anim_data->name.size();
+	char* cursor = nullptr;
+
+	//uint name_size = (uint)anim_data->name.size();
+	memcpy(cursor, &name_size, bytes);
+
+	// Name
+	cursor += bytes;
+	bytes = name_size;
+	memcpy(cursor, &anim_data->name, bytes);
+
+	// Duration
+	cursor += bytes;
+	bytes = sizeof(double);
+	memcpy(cursor, &anim_data->duration, bytes);
+
+	// Ticks per second
+	cursor += bytes;
+	bytes = sizeof(double);
+	memcpy(cursor, &anim_data->ticks_per_second, bytes);
+
+	// Num keys
+
+
+	// Keys 
+
 	return false;
 }
 
-void AnimationImporter::ImportBoneTransform(const aiNodeAnim * anim_node, ResourceAnimation::BoneTransformation& bones_transform) const
+void AnimationImporter::ImportBoneTransform(const aiNodeAnim* anim_node, ResourceAnimation::BoneTransformation& bones_transform) const
 {
 	// Setting up bone name
 	bones_transform.bone_name = anim_node->mNodeName.C_Str();
 
 	// Allocating memory to store bones postions
-	bones_transform.position.Init(ResourceAnimation::BoneTransformation::Key::KeyType::POSITION, anim_node->mNumPositionKeys);
+	bones_transform.positions.Init(ResourceAnimation::BoneTransformation::Key::KeyType::POSITION, anim_node->mNumPositionKeys);
 
 	// Setting up bone positions over time
 	for (uint i = 0; i < anim_node->mNumPositionKeys; i++)
 	{
-		bones_transform.position.value[i * 3] = anim_node->mPositionKeys[i].mValue.x;
-		bones_transform.position.value[i * 3 + 1] = anim_node->mPositionKeys[i].mValue.y;
-		bones_transform.position.value[i * 3 + 2] = anim_node->mPositionKeys[i].mValue.z;
+		bones_transform.positions.value[i * 3] = anim_node->mPositionKeys[i].mValue.x;
+		bones_transform.positions.value[i * 3 + 1] = anim_node->mPositionKeys[i].mValue.y;
+		bones_transform.positions.value[i * 3 + 2] = anim_node->mPositionKeys[i].mValue.z;
 
-		bones_transform.position.time[i] = anim_node->mPositionKeys[i].mTime;
+		bones_transform.positions.time[i] = anim_node->mPositionKeys[i].mTime;
 	}
 
 	// Allocating memory to store bones rotations
-	bones_transform.position.Init(ResourceAnimation::BoneTransformation::Key::KeyType::ROTATION, anim_node->mNumRotationKeys);
+	bones_transform.positions.Init(ResourceAnimation::BoneTransformation::Key::KeyType::ROTATION, anim_node->mNumRotationKeys);
 
 	// Setting up bone rotations over time
 	for (uint i = 0; i < anim_node->mNumRotationKeys; i++)
 	{
-		bones_transform.rotation.value[i * 3] = anim_node->mRotationKeys[i].mValue.x;
-		bones_transform.rotation.value[i * 3 + 1] = anim_node->mRotationKeys[i].mValue.y;
-		bones_transform.rotation.value[i * 3 + 2] = anim_node->mRotationKeys[i].mValue.z;
-		bones_transform.rotation.value[i * 3 + 3] = anim_node->mRotationKeys[i].mValue.w;
+		bones_transform.rotations.value[i * 3] = anim_node->mRotationKeys[i].mValue.x;
+		bones_transform.rotations.value[i * 3 + 1] = anim_node->mRotationKeys[i].mValue.y;
+		bones_transform.rotations.value[i * 3 + 2] = anim_node->mRotationKeys[i].mValue.z;
+		bones_transform.rotations.value[i * 3 + 3] = anim_node->mRotationKeys[i].mValue.w;
 
-		bones_transform.rotation.time[i] = anim_node->mRotationKeys[i].mTime;
+		bones_transform.rotations.time[i] = anim_node->mRotationKeys[i].mTime;
 	}
 
 	// Allocating memory to store bones scalings
-	bones_transform.position.Init(ResourceAnimation::BoneTransformation::Key::KeyType::SCALE, anim_node->mNumScalingKeys);
+	bones_transform.positions.Init(ResourceAnimation::BoneTransformation::Key::KeyType::SCALE, anim_node->mNumScalingKeys);
 
 	// Setting up bone positions over time
 	for (uint i = 0; i < anim_node->mNumScalingKeys; i++)
@@ -110,11 +152,11 @@ void AnimationImporter::ImportBoneTransform(const aiNodeAnim * anim_node, Resour
 		if (EqualsWithEpsilon(scale.z, 1.0f))
 			scale.z = 1.0f;
 
-		bones_transform.scale.value[i * 3] = scale.x;
-		bones_transform.scale.value[i * 3 + 1] = scale.y;
-		bones_transform.scale.value[i * 3 + 2] = scale.z;
+		bones_transform.scalings.value[i * 3] = scale.x;
+		bones_transform.scalings.value[i * 3 + 1] = scale.y;
+		bones_transform.scalings.value[i * 3 + 2] = scale.z;
 
-		bones_transform.scale.time[i] = anim_node->mScalingKeys[i].mTime;
+		bones_transform.scalings.time[i] = anim_node->mScalingKeys[i].mTime;
 	}
 }
 
@@ -123,10 +165,8 @@ bool AnimationImporter::EqualsWithEpsilon(float number_a, float number_b, float 
 	return fabs(number_a - number_b) < epsilon;
 }
 
-
 UID AnimationImporter::GenerateResourceFromFile(const char * file_path, UID uid_to_force)
 {
-	/*
 	// Reading file
 	char* buffer = nullptr;
 	App->file_system->ReadFromFile(file_path, &buffer);
@@ -134,12 +174,30 @@ UID AnimationImporter::GenerateResourceFromFile(const char * file_path, UID uid_
 	// Checking for errors
 	if (buffer == nullptr)
 	{
-		TR_LOG("BoneImporter: Unable to open file...");
+		TR_LOG("AnimationImporter: Unable to open file...");
 		return false;
 	}
 
+	ResourceAnimation* resource = (ResourceAnimation*)App->resources->CreateNewResource(Resource::Type::ANIMATION, uid_to_force);
+
 	char* cursor = buffer;
-	ResourceBone* resource = (ResourceBone*)App->resources->CreateNewResource(Resource::Type::BONE, uid_to_force);
+
+	// Load anim name
+	uint bytes = sizeof(char) * 25; // TODO: put anim name size as a define maybe
+	char name[25];
+	memcpy(&name, cursor, bytes);
+	resource->name = name;
+
+	// Load duration 
+
+
+	//double duration;
+	//double ticks_per_second;
+	//uint num_keys = 0;
+	//std::vector<BoneTransformation*> bone_keys;
+
+	/*
+
 
 	// Load mesh UID
 	uint bytes = sizeof(UID);

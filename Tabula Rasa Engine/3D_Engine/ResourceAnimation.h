@@ -37,10 +37,6 @@ public:
 				case ResourceAnimation::BoneTransformation::Key::ROTATION:
 					value = new float[4 * count];
 					break;
-				case ResourceAnimation::BoneTransformation::Key::UNKNOWN:
-					break;
-				default:
-					break;
 				}
 			}
 
@@ -55,9 +51,9 @@ public:
 			float* value = nullptr;
 		};
 
-		Key position;
-		Key scale;
-		Key rotation;
+		Key positions;
+		Key scalings;
+		Key rotations;
 	};
 
 public:
@@ -73,7 +69,7 @@ public:
 	double ticks_per_second;
 
 	uint num_keys = 0;
-	std::vector<BoneTransformation*> bone_keys;
+	BoneTransformation* bone_keys;
 
 };
 
