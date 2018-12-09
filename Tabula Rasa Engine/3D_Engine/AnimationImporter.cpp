@@ -104,32 +104,43 @@ bool AnimationImporter::SaveAnimation(ResourceAnimation* anim_data, std::string 
 
 	// Saving anim name
 	uint bytes = sizeof(char)*TITLE_MAX_LENGTH;
-	memcpy(cursor, anim_data->name.c_str(), bytes);
+
+	char name[TITLE_MAX_LENGTH];
+	memset(name, 0, sizeof(char) * TITLE_MAX_LENGTH);
+	strcpy_s(name, TITLE_MAX_LENGTH, anim_data->name.c_str());
+
+	memcpy(cursor, name, bytes);
 
 	// Saving duration
 	cursor += bytes;
-	bytes = duration_size;
+	bytes = sizeof(anim_data->duration);
 	memcpy(cursor, &anim_data->duration, bytes);
 
 	// Saving ticks per second
 	cursor += bytes;
-	bytes = ticks_size;
+	bytes = sizeof(anim_data->ticks_per_second);
 	memcpy(cursor, &anim_data->ticks_per_second, bytes);
 
 	// Saving num keys
 	cursor += bytes;
-	bytes = num_keys_size;
+	bytes = sizeof(anim_data->num_keys);
 	memcpy(cursor, &anim_data->num_keys, bytes);
 
 	// -------------- Saving animation bones data for each bone --------------
 
 	for (uint i = 0; i < anim_data->num_keys; i++)
 	{
-		// Saving bone name
+		// name size
 		cursor += bytes;
-		bytes = anim_data->bone_keys[i].bone_name.size() + 1;
-		memcpy(cursor, anim_data->bone_keys[i].bone_name.c_str(), bytes);
+		bytes = sizeof(uint);
+		uint name_size = anim_data->bone_keys[i].bone_name.size();
+		memcpy(cursor, &name_size, bytes);
 
+		// name
+		cursor += bytes;
+		bytes = sizeof(char) * name_size + 1;
+		memcpy(cursor, anim_data->bone_keys[i].bone_name.c_str(), bytes);
+		
 		// Saving bone position data
 		cursor += bytes;
 		bytes = sizeof(anim_data->bone_keys[i].positions.count);
@@ -297,6 +308,11 @@ UID AnimationImporter::GenerateResourceFromFile(const char * file_path, UID uid_
 		ResourceAnimation::BoneTransformation* bone = &resource->bone_keys[i];
 		uint count = 0;
 
+		// load bone name size
+		cursor += bytes;
+		bytes = sizeof(count);
+		memcpy(&count, cursor, bytes);
+
 		// load bone name
 		cursor += bytes;
 		bytes = sizeof(char) * count + 1;
@@ -308,7 +324,9 @@ UID AnimationImporter::GenerateResourceFromFile(const char * file_path, UID uid_
 		bytes = sizeof(count);
 		memcpy(&count, cursor, bytes);
 		bone->positions.Init(ResourceAnimation::BoneTransformation::Key::KeyType::POSITION, count);
-
+		if (count != 0) {
+			TR_LOG("ASD");
+		}
 		// load position times
 		cursor += bytes;
 		bytes = sizeof(double) * count;

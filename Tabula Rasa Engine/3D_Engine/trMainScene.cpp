@@ -117,7 +117,6 @@ void trMainScene::RecursiveDebugDrawGameObjects(GameObject * go)
 				segment.b = (*it_childs)->GetTransform()->GetMatrix().TranslatePart();
 				DebugDraw(segment, Blue);
 			}
-
 		}
 	}
 
