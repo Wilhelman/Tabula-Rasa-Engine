@@ -20,7 +20,7 @@ bool AnimationImporter::Import(const char * file_path, std::string & output_file
 	return false;
 }
 
-UID AnimationImporter::Import(const aiAnimation* new_anim, UID mesh, std::string& output) const
+UID AnimationImporter::Import(const aiAnimation* new_anim, UID mesh, std::string& output)
 {
 	// Making sure the animation exists and has data inside
 	if (new_anim == nullptr)
@@ -39,7 +39,7 @@ UID AnimationImporter::Import(const aiAnimation* new_anim, UID mesh, std::string
 	anim->num_keys = new_anim->mNumChannels;
 
 	// Once we have the animation data we populate the animation keys with the bones' data
-	anim->bone_keys = new ResourceAnimation::BoneTransformation[new_anim->mNumChannels];
+	anim->bone_keys = new ResourceAnimation::BoneTransformation[anim->num_keys];
 
 	for (uint i = 0; i < new_anim->mNumChannels; ++i)
 		ImportBoneTransform(new_anim->mChannels[i], anim->bone_keys[i]);
@@ -53,52 +53,138 @@ UID AnimationImporter::Import(const aiAnimation* new_anim, UID mesh, std::string
 	return anim->GetUID();
 }
 
-bool AnimationImporter::SaveAnimation(const ResourceAnimation* anim_data, std::string & output) const
+bool AnimationImporter::SaveAnimation(ResourceAnimation* anim_data, std::string & output)
 {
-	uint name_size = anim_data->name.size(); // TODO: check this to do it with a define
+	bool ret = false;
+
+	// -------------- CALCULATING ANIMATION DATA SIZE --------------
+
+	uint anim_name_size = anim_data->name.size() + 1; // TODO: check this to do it with a define
 	uint duration_size = sizeof(anim_data->duration);
 	uint ticks_size = sizeof(anim_data->ticks_per_second);
-	uint num_keys = sizeof(anim_data->num_keys);
+	uint num_keys_size = sizeof(anim_data->num_keys);
 
-	uint final_size = name_size + duration_size + ticks_size + num_keys;
+	uint final_size = anim_name_size + duration_size + ticks_size + num_keys_size;
 
-	/*for (uint i = 0; i < anim_data->bone_keys.size(); i++)
+	for (uint i = 0; i < anim_data->num_keys; i++)
 	{
 		uint id_size = sizeof(uint);
+		uint bone_name_size = anim_data->bone_keys[i].bone_name.size() + 1; // TODO: check this to do it with a define
 
-		uint name_size = anim_data->bone_keys[i]->bone_name.size(); // TODO: check this to do it with a define
-		anim_data->bone_keys[i]->positions.
+		final_size += id_size + bone_name_size;
 
-	}*/
+		// Calculating positions data size
+		uint pos_count_size = sizeof(anim_data->bone_keys[i].positions.count);
+		uint pos_time_size = sizeof(double) * anim_data->bone_keys[i].positions.count;
+		uint pos_value_size = sizeof(float) * 3 * anim_data->bone_keys[i].positions.count;
 
-	// Size name
-	uint bytes = anim_data->name.size();
-	char* cursor = nullptr;
+		final_size += pos_count_size + pos_time_size + pos_value_size;
+		
+		// Calculating rotations data size
+		uint rot_count_size = sizeof(anim_data->bone_keys[i].rotations.count);
+		uint rot_time_size = sizeof(double) * anim_data->bone_keys[i].rotations.count;
+		uint rot_value_size = sizeof(float) * 4 * anim_data->bone_keys[i].rotations.count;
 
-	//uint name_size = (uint)anim_data->name.size();
-	memcpy(cursor, &name_size, bytes);
+		final_size += rot_count_size + rot_time_size + rot_value_size;
 
-	// Name
+		// Calculating scalings data size
+		uint scale_count_size = sizeof(anim_data->bone_keys[i].scalings.count);
+		uint scale_time_size = sizeof(double) * anim_data->bone_keys[i].scalings.count;
+		uint scale_value_size = sizeof(float) * 3 * anim_data->bone_keys[i].scalings.count;
+
+		final_size += scale_count_size + scale_time_size + scale_value_size;
+	}
+
+	// -------------- SAVING ANIMATION DATA --------------
+
+	char* data = new char[final_size];
+	char* cursor = data;
+
+	// -------------- Saving animation generic data --------------
+
+	// Saving anim name
+	uint bytes = sizeof(anim_name_size);
+	memcpy(cursor, anim_data->name.c_str(), bytes);
+
+	// Saving duration
 	cursor += bytes;
-	bytes = name_size;
-	memcpy(cursor, &anim_data->name, bytes);
-
-	// Duration
-	cursor += bytes;
-	bytes = sizeof(double);
+	bytes = duration_size;
 	memcpy(cursor, &anim_data->duration, bytes);
 
-	// Ticks per second
+	// Saving ticks per second
 	cursor += bytes;
-	bytes = sizeof(double);
+	bytes = ticks_size;
 	memcpy(cursor, &anim_data->ticks_per_second, bytes);
 
-	// Num keys
+	// Saving num keys
+	cursor += bytes;
+	bytes = num_keys_size;
+	memcpy(cursor, &anim_data->num_keys, bytes);
 
+	// -------------- Saving animation bones data for each bone --------------
 
-	// Keys 
+	for (uint i = 0; i < anim_data->num_keys; i++)
+	{
+		// Saving bone name
+		cursor += bytes;
+		bytes = anim_data->bone_keys[i].bone_name.size() + 1;
+		memcpy(cursor, anim_data->bone_keys[i].bone_name.c_str(), bytes);
 
-	return false;
+		// Saving bone position data
+		cursor += bytes;
+		bytes = sizeof(anim_data->bone_keys[i].positions.count);
+		memcpy(cursor, &anim_data->bone_keys[i].positions.count, bytes);
+
+		cursor += bytes;
+		bytes = sizeof(double) * anim_data->bone_keys[i].positions.count;
+		memcpy(cursor, anim_data->bone_keys[i].positions.time, bytes);
+
+		cursor += bytes;
+		bytes = sizeof(float) * 3 * anim_data->bone_keys[i].positions.count;
+		memcpy(cursor, anim_data->bone_keys[i].positions.value, bytes);
+
+		// Saving bone rotation data
+		cursor += bytes;
+		bytes = sizeof(anim_data->bone_keys[i].rotations.count);
+		memcpy(cursor, &anim_data->bone_keys[i].rotations.count, bytes);
+
+		cursor += bytes;
+		bytes = sizeof(double) * anim_data->bone_keys[i].rotations.count;
+		memcpy(cursor, anim_data->bone_keys[i].rotations.time, bytes);
+
+		cursor += bytes;
+		bytes = sizeof(float) * 4 * anim_data->bone_keys[i].rotations.count;
+		memcpy(cursor, anim_data->bone_keys[i].rotations.value, bytes);
+
+		// Saving bone scaling data
+		cursor += bytes;
+		bytes = sizeof(anim_data->bone_keys[i].scalings.count);
+		memcpy(cursor, &anim_data->bone_keys[i].scalings.count, bytes);
+
+		cursor += bytes;
+		bytes = sizeof(double) * anim_data->bone_keys[i].scalings.count;
+		memcpy(cursor, anim_data->bone_keys[i].scalings.time, bytes);
+
+		cursor += bytes;
+		bytes = sizeof(float) * 3 * anim_data->bone_keys[i].scalings.count;
+		memcpy(cursor, anim_data->bone_keys[i].scalings.value, bytes);
+	}
+
+	// -------------- Saving animation data in file --------------
+
+	std::string tmp_str(L_ANIMATIONS_DIR);
+	tmp_str.append("/");
+	tmp_str.append(std::to_string(anim_data->GetUID()));
+	tmp_str.append(".trAnimation"); // Adding our own format extension
+
+	anim_data->SetExportedPath(tmp_str.c_str());
+
+	ret = App->file_system->WriteInFile(tmp_str.c_str(), data, final_size);
+	output = tmp_str;
+
+	RELEASE_ARRAY(data);
+
+	return ret;
 }
 
 void AnimationImporter::ImportBoneTransform(const aiNodeAnim* anim_node, ResourceAnimation::BoneTransformation& bones_transform) const

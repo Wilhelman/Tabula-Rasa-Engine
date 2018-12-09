@@ -145,7 +145,9 @@ bool BoneImporter::SaveBone(const ResourceBone* bone, std::string& output) const
 	tmp_str.append(std::to_string(bone->GetUID()));
 	tmp_str.append(".trBone"); // Adding our own format extension
 
-	App->file_system->WriteInFile(tmp_str.c_str(), data, size);
+	// TODO: set exported path
+
+	ret = App->file_system->WriteInFile(tmp_str.c_str(), data, size);
 	output = tmp_str;
 
 	// Deleting useless data

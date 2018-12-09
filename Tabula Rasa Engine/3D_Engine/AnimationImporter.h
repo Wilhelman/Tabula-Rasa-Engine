@@ -21,9 +21,9 @@ public:
 
 	UID GenerateResourceFromFile(const char* file_path, UID uid_to_force = 0u);
 
-	UID Import(const aiAnimation* new_anim, UID mesh, std::string& output) const;
+	UID Import(const aiAnimation* new_anim, UID mesh, std::string& output);
 
-	bool SaveAnimation(const ResourceAnimation* anim, std::string& output) const;
+	bool SaveAnimation(ResourceAnimation* anim, std::string& output);
 
 	void ImportBoneTransform(const aiNodeAnim * anim_node, ResourceAnimation::BoneTransformation& bones_transform) const;
 
