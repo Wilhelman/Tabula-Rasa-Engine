@@ -351,6 +351,9 @@
     <ClCompile Include="AnimationImporter.cpp">
       <Filter>Core\Modules\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentAnimation.cpp">
+      <Filter>Core\GameObject\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -877,6 +880,9 @@
     </ClInclude>
     <ClInclude Include="AnimationImporter.h">
       <Filter>Core\Modules\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentAnimation.h">
+      <Filter>Core\GameObject\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
