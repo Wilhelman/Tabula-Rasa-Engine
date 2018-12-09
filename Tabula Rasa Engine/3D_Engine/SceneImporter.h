@@ -30,6 +30,7 @@ public:
 
 	void ImportNodesRecursively(const aiNode* node, const aiScene* scene, char* file_path, GameObject * parent_go);
 	void RecursiveProcessBones(const aiScene* scene, const aiNode* node);
+	void ImportAnimations(const aiScene* scene, const char* filename_path);
 
 	ComponentMaterial* LoadTexture(aiMaterial* material, GameObject* go, ResourceMesh* mesh);
 

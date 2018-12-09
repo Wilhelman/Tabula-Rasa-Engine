@@ -22,6 +22,7 @@
 #include "trResources.h"
 #include "ResourceMesh.h"
 #include "BoneImporter.h"
+#include "AnimationImporter.h"
 
 #include "MathGeoLib/MathGeoLib.h"
 
@@ -77,6 +78,8 @@ bool SceneImporter::Import(const char * path, std::string & output_file)
 		ImportNodesRecursively(scene->mRootNode, scene, (char*)real_path.c_str(), App->main_scene->GetRoot());
 
 		RecursiveProcessBones(scene, scene->mRootNode);
+
+		ImportAnimations(scene, real_path.c_str());
 
 		App->main_scene->SerializeScene(output_file);
 
@@ -287,6 +290,18 @@ void SceneImporter::RecursiveProcessBones(const aiScene * scene, const aiNode * 
 	// recursive call to generate the rest of the scene tree
 	for (uint i = 0; i < node->mNumChildren; ++i)
 		RecursiveProcessBones(scene, node->mChildren[i]);
+}
+
+void SceneImporter::ImportAnimations(const aiScene * scene, const char * filename_path)
+{
+	for (uint i = 0; i < scene->mNumAnimations; ++i)
+	{
+		const aiAnimation* anim = scene->mAnimations[i];
+		TR_LOG("Importing animation [%s] -----------------", anim->mName.C_Str());
+		std::string output;
+
+		App->resources->animation_importer->Import(anim, output);
+	}
 }
 
 ComponentMaterial * SceneImporter::LoadTexture(aiMaterial* material, GameObject* go, ResourceMesh* mesh)

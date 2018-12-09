@@ -20,7 +20,7 @@ bool AnimationImporter::Import(const char * file_path, std::string & output_file
 	return false;
 }
 
-UID AnimationImporter::Import(const aiAnimation* new_anim, UID mesh, std::string& output)
+UID AnimationImporter::Import(const aiAnimation* new_anim, std::string& output)
 {
 	// Making sure the animation exists and has data inside
 	if (new_anim == nullptr)
@@ -206,21 +206,21 @@ void AnimationImporter::ImportBoneTransform(const aiNodeAnim* anim_node, Resourc
 	}
 
 	// Allocating memory to store bones rotations
-	bones_transform.positions.Init(ResourceAnimation::BoneTransformation::Key::KeyType::ROTATION, anim_node->mNumRotationKeys);
+	bones_transform.rotations.Init(ResourceAnimation::BoneTransformation::Key::KeyType::ROTATION, anim_node->mNumRotationKeys);
 
 	// Setting up bone rotations over time
 	for (uint i = 0; i < anim_node->mNumRotationKeys; i++)
 	{
-		bones_transform.rotations.value[i * 3] = anim_node->mRotationKeys[i].mValue.x;
-		bones_transform.rotations.value[i * 3 + 1] = anim_node->mRotationKeys[i].mValue.y;
-		bones_transform.rotations.value[i * 3 + 2] = anim_node->mRotationKeys[i].mValue.z;
-		bones_transform.rotations.value[i * 3 + 3] = anim_node->mRotationKeys[i].mValue.w;
+		bones_transform.rotations.value[i * 4] = anim_node->mRotationKeys[i].mValue.x;
+		bones_transform.rotations.value[i * 4 + 1] = anim_node->mRotationKeys[i].mValue.y;
+		bones_transform.rotations.value[i * 4 + 2] = anim_node->mRotationKeys[i].mValue.z;
+		bones_transform.rotations.value[i * 4 + 3] = anim_node->mRotationKeys[i].mValue.w;
 
 		bones_transform.rotations.time[i] = anim_node->mRotationKeys[i].mTime;
 	}
 
 	// Allocating memory to store bones scalings
-	bones_transform.positions.Init(ResourceAnimation::BoneTransformation::Key::KeyType::SCALE, anim_node->mNumScalingKeys);
+	bones_transform.scalings.Init(ResourceAnimation::BoneTransformation::Key::KeyType::SCALE, anim_node->mNumScalingKeys);
 
 	// Setting up bone positions over time
 	for (uint i = 0; i < anim_node->mNumScalingKeys; i++)

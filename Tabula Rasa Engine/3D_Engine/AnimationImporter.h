@@ -21,7 +21,7 @@ public:
 
 	UID GenerateResourceFromFile(const char* file_path, UID uid_to_force = 0u);
 
-	UID Import(const aiAnimation* new_anim, UID mesh, std::string& output);
+	UID Import(const aiAnimation* new_anim, std::string& output);
 
 	bool SaveAnimation(ResourceAnimation* anim, std::string& output);
 

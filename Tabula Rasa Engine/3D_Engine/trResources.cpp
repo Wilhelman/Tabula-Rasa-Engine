@@ -48,6 +48,8 @@ bool trResources::Start()
 	App->file_system->MakeNewDir(L_MESHES_DIR);
 	App->file_system->MakeNewDir(L_MATERIALS_DIR);
 	App->file_system->MakeNewDir(L_BONES_DIR);
+	App->file_system->MakeNewDir(L_ANIMATIONS_DIR);
+
 
 	CheckForChangesInAssets(App->file_system->GetAssetsDirectory());
 	return true;
