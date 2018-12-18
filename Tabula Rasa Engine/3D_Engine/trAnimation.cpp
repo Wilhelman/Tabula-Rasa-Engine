@@ -39,25 +39,31 @@ bool trAnimation::CleanUp()
 
 bool trAnimation::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_REPEAT)
 	{
 		for (uint i = 0; i < animable_gos.size(); ++i)
 		{
 			ResourceAnimation::BoneTransformation* transform = animable_data_map.find(animable_gos[i])->second;
 			
-			if (transform /*&& transform->bone_name == "Hips"*/)
+			if (transform)
 			{
-				transform->positions.count;
+				float3 pos;
+				float3 scale;
+				Quat rot;
+				animable_gos[i]->GetTransform()->GetLocalPosition(&pos, &scale, &rot);
 
-				float3 pos(transform->positions.value[pos_count],
+				if(transform->positions.count > i)
+					pos = float3(transform->positions.value[pos_count],
 						   transform->positions.value[pos_count + 1],
 						   transform->positions.value[pos_count + 2]);
 
-				float3 scale(transform->scalings.value[pos_count],
+				if (transform->scalings.count > i)
+					scale = float3(transform->scalings.value[pos_count],
 						     transform->scalings.value[pos_count + 1],
 					         transform->scalings.value[pos_count + 2]);
 
-				Quat rot(transform->rotations.value[rot_count],
+				if (transform->rotations.count > i)
+					rot = Quat(transform->rotations.value[rot_count],
 						 transform->rotations.value[rot_count + 1],
 						 transform->rotations.value[rot_count + 2],
 						 transform->rotations.value[rot_count + 3]);
