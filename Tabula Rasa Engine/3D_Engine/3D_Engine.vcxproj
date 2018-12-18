@@ -87,6 +87,7 @@
     <ClCompile Include="ResourceMesh.cpp" />
     <ClCompile Include="ResourceScene.cpp" />
     <ClCompile Include="ResourceTexture.cpp" />
+    <ClCompile Include="trAnimation.cpp" />
     <ClCompile Include="trFileSystem.cpp" />
     <ClCompile Include="trApp.cpp" />
     <ClCompile Include="trCamera3D.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="PanelControl.h" />
     <ClInclude Include="pcg\pcg_basic.h" />
     <ClInclude Include="ResourceBone.h" />
+    <ClInclude Include="trAnimation.h" />
     <ClInclude Include="trOpenGL.h" />
     <ClInclude Include="PanelHierarchy.h" />
     <ClInclude Include="mmgr\mmgr.h" />

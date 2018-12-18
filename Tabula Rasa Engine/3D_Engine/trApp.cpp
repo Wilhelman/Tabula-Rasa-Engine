@@ -13,6 +13,7 @@
 #include "trTimeManager.h"
 #include "trFileSystem.h"
 #include "trResources.h"
+#include "trAnimation.h"
 
 #include "trMainScene.h"
 
@@ -44,6 +45,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	time_manager = new trTimeManager();
 	file_system = new trFileSystem();
 	resources = new trResources();
+	animation = new trAnimation();
 	
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -58,7 +60,7 @@ trApp::trApp(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(time_manager);
 	AddModule(file_system);
 	AddModule(resources);
-	
+	AddModule(animation);
 
 	// render last to swap buffer
 	AddModule(render);

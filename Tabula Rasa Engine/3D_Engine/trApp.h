@@ -22,6 +22,7 @@ class trFileLoader;
 class trTimeManager;
 class trFileSystem;
 class trResources;
+class trAnimation;
 
 class trApp
 {
@@ -108,6 +109,7 @@ public:
 	trTimeManager*		time_manager = nullptr;
 	trFileSystem*		file_system = nullptr;
 	trResources*		resources = nullptr;
+	trAnimation*		animation = nullptr;
 
 private:
 
