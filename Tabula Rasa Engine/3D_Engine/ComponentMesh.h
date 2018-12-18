@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "MathGeoLib/MathGeoLib.h"
 
+class ResourceMesh;
 
 class ComponentMesh : public Component
 {
@@ -19,6 +20,8 @@ public:
 	bool SetResource(UID resource);
 
 public:
+
+	ResourceMesh* deformable = nullptr;
 
 };
 

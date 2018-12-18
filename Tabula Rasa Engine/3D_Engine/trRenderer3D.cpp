@@ -525,6 +525,19 @@ void trRenderer3D::Draw()
 		if (texture == nullptr || !texture_2D) // If the texture is missing, we set the ambient color of the mesh
 			glColor4f(ambient_color.w, ambient_color.x, ambient_color.y, ambient_color.z);
 		
+
+		if (mesh_co->deformable != nullptr)
+		{
+			glBindBuffer(GL_ARRAY_BUFFER, mesh_co->deformable->vertex_buffer);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->vertex_size * 3,
+				mesh_co->deformable->vertices, GL_DYNAMIC_DRAW); // compare to GL_STATIC_DRAW
+			if (/*mesh->normals != nullptr*/1)			// get normals
+			{
+				//glBindBuffer(GL_ARRAY_BUFFER, mesh_co->deformable->normal_buffer);		normal buffer
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->vertex_size * 3,
+					mesh_co->deformable->vertices, GL_DYNAMIC_DRAW);
+			}
+		}
 		if (mesh) {
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
 			glVertexPointer(3, GL_FLOAT, 0, NULL);
