@@ -4,7 +4,12 @@
 #include "trModule.h"
 #include "trDefs.h"
 #include "MathGeoLib\MathGeoLib.h"
+#include "ResourceAnimation.h"
 
+#include <vector>
+#include <map>
+
+class GameObject;
 
 class trAnimation : public trModule
 {
@@ -20,7 +25,12 @@ public:
 	bool Start();
 	bool CleanUp();
 
+	void SetAnimationGos(ResourceAnimation* res);
 
+	void RecursiveGetAnimableGO(GameObject* go, ResourceAnimation::BoneTransformation* bone_transformation);
+
+	std::vector<GameObject*> animable_gos;
+	std::map<GameObject*, ResourceAnimation::BoneTransformation*> animable_data_map;
 };
 
 #endif // __ANIMATION_H__

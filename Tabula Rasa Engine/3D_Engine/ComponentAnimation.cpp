@@ -11,6 +11,7 @@
 #include "ResourceMesh.h"
 #include "ResourceAnimation.h"
 #include "AnimationImporter.h"
+#include "trAnimation.h"
 
 ComponentAnimation::ComponentAnimation(GameObject * embedded_game_object) :
 	Component(embedded_game_object, Component::component_type::COMPONENT_ANIMATION)
@@ -73,6 +74,8 @@ bool ComponentAnimation::SetResource(UID resource)
 
 	if (bone_res)
 		uint num_references = bone_res->LoadToMemory();
+
+	App->animation->SetAnimationGos(bone_res);
 
 	return true;
 }

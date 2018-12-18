@@ -324,9 +324,7 @@ UID AnimationImporter::GenerateResourceFromFile(const char * file_path, UID uid_
 		bytes = sizeof(count);
 		memcpy(&count, cursor, bytes);
 		bone->positions.Init(ResourceAnimation::BoneTransformation::Key::KeyType::POSITION, count);
-		if (count != 0) {
-			TR_LOG("ASD");
-		}
+
 		// load position times
 		cursor += bytes;
 		bytes = sizeof(double) * count;

@@ -25,7 +25,7 @@ public:
 			};
 
 			void Init(KeyType type, uint count) {
-
+				this->count = count;
 				time = new double[count];
 
 				switch (type)
