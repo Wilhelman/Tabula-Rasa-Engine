@@ -890,6 +890,9 @@
     <ClInclude Include="trAnimation.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="imgui_timeline.h">
+      <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assimp\include\color4.inl">
