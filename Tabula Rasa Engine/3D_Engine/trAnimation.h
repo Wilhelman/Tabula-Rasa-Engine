@@ -5,6 +5,7 @@
 #include "trDefs.h"
 #include "MathGeoLib\MathGeoLib.h"
 #include "ResourceAnimation.h"
+#include "trTimer.h"
 
 #include <vector>
 #include <map>
@@ -29,13 +30,22 @@ public:
 	void SetAnimationGos(ResourceAnimation* res);
 
 	void RecursiveGetAnimableGO(GameObject* go, ResourceAnimation::BoneTransformation* bone_transformation);
+	void MoveAnimationForward(float t);
+	bool FindBoundingKeys(float& pos, float& scale, float& rotation, float t);
 
 	std::vector<GameObject*> animable_gos;
 	std::map<GameObject*, ResourceAnimation::BoneTransformation*> animable_data_map;
 
+private:
+
 	uint pos_count = 0;
 	uint scale_count = 0;
 	uint rot_count = 0;
+
+	trTimer anim_timer;
+	bool time_start = false;
+
+
 };
 
 #endif // __ANIMATION_H__
