@@ -24,6 +24,7 @@ public:
 	// Called before the first frame
 	bool Start();
 	bool CleanUp();
+	bool Update(float dt);
 
 	void SetAnimationGos(ResourceAnimation* res);
 
@@ -31,6 +32,10 @@ public:
 
 	std::vector<GameObject*> animable_gos;
 	std::map<GameObject*, ResourceAnimation::BoneTransformation*> animable_data_map;
+
+	uint pos_count = 0;
+	uint scale_count = 0;
+	uint rot_count = 0;
 };
 
 #endif // __ANIMATION_H__

@@ -7,6 +7,7 @@
 #include "trApp.h"
 #include "trMainScene.h"
 
+#include "trInput.h" //TODO: delete this
 
 
 trAnimation::trAnimation()
@@ -32,6 +33,42 @@ bool trAnimation::Start()
 bool trAnimation::CleanUp()
 {
 	TR_LOG("Cleaning Animation");
+
+	return true;
+}
+
+bool trAnimation::Update(float dt)
+{
+	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
+	{
+		for (uint i = 0; i < animable_gos.size(); ++i)
+		{
+			ResourceAnimation::BoneTransformation* transform = animable_data_map.find(animable_gos[i])->second;
+			
+			if (transform /*&& transform->bone_name == "Hips"*/)
+			{
+				transform->positions.count;
+
+				float3 pos(transform->positions.value[pos_count],
+						   transform->positions.value[pos_count + 1],
+						   transform->positions.value[pos_count + 2]);
+
+				float3 scale(transform->scalings.value[pos_count],
+						     transform->scalings.value[pos_count + 1],
+					         transform->scalings.value[pos_count + 2]);
+
+				Quat rot(transform->rotations.value[rot_count],
+						 transform->rotations.value[rot_count + 1],
+						 transform->rotations.value[rot_count + 2],
+						 transform->rotations.value[rot_count + 3]);
+
+				animable_gos[i]->GetTransform()->Setup(pos, scale, rot);			
+			}
+		}
+
+		pos_count += 3;
+		rot_count += 4;
+	}
 
 	return true;
 }

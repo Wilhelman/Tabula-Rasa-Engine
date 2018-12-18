@@ -209,6 +209,9 @@ void AnimationImporter::ImportBoneTransform(const aiNodeAnim* anim_node, Resourc
 	// Setting up bone positions over time
 	for (uint i = 0; i < anim_node->mNumPositionKeys; i++)
 	{
+		if (bones_transform.bone_name == "Spine")
+			int a = 0;
+
 		bones_transform.positions.value[i * 3] = anim_node->mPositionKeys[i].mValue.x;
 		bones_transform.positions.value[i * 3 + 1] = anim_node->mPositionKeys[i].mValue.y;
 		bones_transform.positions.value[i * 3 + 2] = anim_node->mPositionKeys[i].mValue.z;
