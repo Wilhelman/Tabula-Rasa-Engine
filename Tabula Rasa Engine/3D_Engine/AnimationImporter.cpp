@@ -33,8 +33,9 @@ UID AnimationImporter::Import(const aiAnimation* new_anim, std::string& output)
 	ResourceAnimation* anim = (ResourceAnimation*)App->resources->CreateNewResource(Resource::Type::ANIMATION);
 
 	anim->name = new_anim->mName.C_Str();
-	anim->duration = new_anim->mDuration;
-	anim->ticks_per_second = new_anim->mTicksPerSecond;
+
+	anim->ticks_per_second = new_anim->mTicksPerSecond != 0 ? new_anim->mTicksPerSecond : 24;
+	anim->duration = new_anim->mDuration / anim->ticks_per_second;
 
 	anim->num_keys = new_anim->mNumChannels;
 

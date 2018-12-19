@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <map>
+#include <list>
 
 class GameObject;
 
@@ -42,8 +43,12 @@ private:
 	uint rot_count = 0;
 
 	float anim_timer = 0.0f;
+	uint counter = 0;
 	bool time_start = false;
+	
+	float refresh_time = 0.0f;
 
+	std::list<float> keys_to_caclulate;
 
 };
 
