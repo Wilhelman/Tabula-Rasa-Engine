@@ -10,6 +10,8 @@
 
 #include "MathGeoLib/MathGeoLib.h"
 
+#include "imgui_timeline.h"
+
 #include "GameObject.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
@@ -36,6 +38,7 @@ PanelInspector::~PanelInspector()
 
 void PanelInspector::Draw()
 {
+	
 	ImGui::SetNextWindowPos(ImVec2(App->window->GetWidth() - App->window->GetWidth() * 0.21f, 46.f));
 	ImGui::SetNextWindowSize(ImVec2(App->window->GetWidth() * 0.21f, App->window->GetHeight() - 246.f));
 	ImGui::Begin("Inspector", &active, ImGuiWindowFlags_NoCollapse
@@ -205,6 +208,10 @@ void PanelInspector::Draw()
 					if (animation != nullptr) {
 						ImGui::Text("Name: %s", animation->name);
 						ImGui::Text("Keys number: %i", animation->num_keys);
+						//float a = 2.0f;
+						ImGui::BeginTimeline("TimeLine##TIMELINE", (float)(animation->duration / animation->ticks_per_second));
+						//ImGui::TimelineEvent("TimeLine##TIMELINE", &a);
+						ImGui::EndTimeline();
 
 						ImGui::Text("Duration: %f", (float)(animation->duration / animation->ticks_per_second));
 						ImGui::Text("Source: %s", animation->GetExportedFile());
