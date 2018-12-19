@@ -259,6 +259,14 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 					}
 				}
 
+				// Mesh normals
+				if (new_mesh->HasNormals())
+				{
+					mesh_data->normal_size = mesh_data->vertex_size * 3;
+					mesh_data->normals = new float[mesh_data->normal_size];
+					memcpy(mesh_data->normals, new_mesh->mNormals, sizeof(float) * mesh_data->normal_size);
+				}
+
 				std::string output_file;
 
 				mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);

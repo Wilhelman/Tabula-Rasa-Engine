@@ -28,6 +28,10 @@ public:
 	uint vertex_size = 0u;
 	float* vertices = nullptr;
 
+	uint normal_buffer = 0u;
+	uint normal_size = 0u;
+	float* normals = nullptr;
+
 	uint uv_buffer = 0u;
 	uint size_uv = 0u;
 	float* uvs = nullptr;
