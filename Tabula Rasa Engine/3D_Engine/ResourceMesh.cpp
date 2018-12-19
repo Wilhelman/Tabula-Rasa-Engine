@@ -11,6 +11,7 @@ ResourceMesh::~ResourceMesh()
 	if (indices != nullptr) { delete[] indices; indices = nullptr; }
 	if (vertices != nullptr) { delete[] vertices; vertices = nullptr; }
 	if (uvs != nullptr) { delete[] uvs; uvs = nullptr; }
+	if (normals != nullptr) { delete[] normals; normals = nullptr; }
 
 	path.clear();
 

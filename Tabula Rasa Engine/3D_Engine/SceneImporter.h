@@ -35,7 +35,6 @@ public:
 	ComponentMaterial* LoadTexture(aiMaterial* material, GameObject* go, ResourceMesh* mesh);
 
 	bool SaveMeshFile(const char* file_name, ResourceMesh* mesh_data, std::string& output_file);
-	bool LoadMeshFile(const char* file_name, const char* file_path);
 	UID GenerateResourceFromFile(const char* file_path, UID uid_to_force = 0u);
 
 private:

@@ -390,10 +390,11 @@ bool SceneImporter::SaveMeshFile(const char* file_name, ResourceMesh* mesh_data,
 	uint size_indices = sizeof(uint) * mesh_data->index_size;
 	uint size_vertices = sizeof(float) * (mesh_data->vertex_size);
 	uint size_uvs = sizeof(float) * (mesh_data->size_uv);
+	uint size_normals = sizeof(float) * (mesh_data->normal_size);
 
 	// Amount of indices / vertices / colors / normals / texture_coords / AABB
-	uint ranges[3] = { mesh_data->index_size, mesh_data->vertex_size, mesh_data->size_uv};
-	uint size = sizeof(ranges) + size_indices + size_vertices + size_uvs;
+	uint ranges[4] = { mesh_data->index_size, mesh_data->vertex_size, mesh_data->size_uv, mesh_data->normal_size };
+	uint size = sizeof(ranges) + size_indices + size_vertices + size_uvs + size_normals;
 
 	char* data = new char[size]; // Allocate
 	char* cursor = data;
@@ -413,6 +414,12 @@ bool SceneImporter::SaveMeshFile(const char* file_name, ResourceMesh* mesh_data,
 	bytes = size_uvs; // Store UVs
 	memcpy(cursor, mesh_data->uvs, bytes);
 
+	cursor += bytes;
+	bytes = size_normals; // Store normals
+	memcpy(cursor, mesh_data->normals, bytes);
+
+	cursor += bytes;
+
 	// Saving file
 	std::string tmp_str(L_MESHES_DIR);
 	tmp_str.append("/");
@@ -426,67 +433,6 @@ bool SceneImporter::SaveMeshFile(const char* file_name, ResourceMesh* mesh_data,
 
 	// Deleting useless data
 	RELEASE_ARRAY(data);
-
-	return true;
-}
-
-bool SceneImporter::LoadMeshFile(const char* file_name, const char * file_path)
-{
-	// Open file requested file
-	char* buffer = nullptr;
-	App->file_system->ReadFromFile(file_path, &buffer);
-
-	// Check for errors
-	if (buffer == nullptr)
-	{
-		TR_LOG("SceneImporter: Unable to open file...");
-		return false;
-	}
-
-	char* cursor = buffer;
-	uint ranges[3];
-	uint bytes = sizeof(ranges);
-	memcpy(ranges, cursor, bytes);
-
-	ResourceMesh* resource = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); // our mesh
-
-	resource->index_size = ranges[0];
-	resource->vertex_size = ranges[1];
-	resource->size_uv = ranges[2];
-
-	// Load indices
-	cursor += bytes;
-	bytes = sizeof(uint) * resource->index_size;
-	resource->indices = new uint[resource->index_size];
-	memcpy(resource->indices, cursor, bytes);
-
-	// Load vertices
-	cursor += bytes;
-	bytes = sizeof(float) * resource->vertex_size;
-	resource->vertices = new float[resource->vertex_size];
-	memcpy(resource->vertices, cursor, bytes);
-
-	// Load uvs
-	cursor += bytes;
-	bytes = sizeof(float) * resource->size_uv;
-	resource->uvs = new float[resource->size_uv];
-	memcpy(resource->uvs, cursor, bytes);
-
-	GameObject* new_go = App->main_scene->CreateGameObject(file_name, App->main_scene->GetRoot());
-	new_go->bounding_box = AABB(float3(0.f, 0.f, 0.f), float3(0.f, 0.f, 0.f));
-	new_go->bounding_box.Enclose((float3*)resource->vertices, resource->vertex_size / 3);
-
-	ComponentMesh* mesh_comp = (ComponentMesh*)new_go->CreateComponent(Component::component_type::COMPONENT_MESH);
-	mesh_comp->SetResource(resource->GetUID());
-
-	std::string tmp_str(L_MESHES_DIR);
-	tmp_str.append("/");
-	tmp_str.append(file_name);
-	tmp_str.append(".trMesh");
-
-	resource->SetExportedPath(tmp_str.c_str());
-
-	RELEASE_ARRAY(buffer);
 
 	return true;
 }
@@ -515,13 +461,14 @@ UID SceneImporter::GenerateResourceFromFile(const char * file_path, UID uid_to_f
 	last_id++;
 
 	char* cursor = buffer;
-	uint ranges[3];
+	uint ranges[4];
 	uint bytes = sizeof(ranges);
 	memcpy(ranges, cursor, bytes);
 
 	resource->index_size = ranges[0];
 	resource->vertex_size = ranges[1];
 	resource->size_uv = ranges[2];
+	resource->normal_size = ranges[3];
 
 	// Load indices
 	cursor += bytes;
@@ -540,11 +487,19 @@ UID SceneImporter::GenerateResourceFromFile(const char * file_path, UID uid_to_f
 	bytes = sizeof(float) * resource->size_uv;
 	resource->uvs = new float[resource->size_uv];
 	memcpy(resource->uvs, cursor, bytes);
+
+	// Load normals
+	cursor += bytes;
+	bytes = sizeof(float) * resource->normal_size;
+	resource->normals = new float[resource->normal_size];
+	memcpy(resource->normals, cursor, bytes);
+
 	resource->SetExportedPath(file_path);
 
 	resource->index_buffer = last_id;
 	resource->vertex_buffer = last_id;
 	resource->uv_buffer = last_id;
+	resource->normal_buffer = last_id;
 
 	RELEASE_ARRAY(buffer);
 
