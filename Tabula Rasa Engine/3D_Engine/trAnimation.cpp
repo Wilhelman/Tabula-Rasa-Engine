@@ -77,7 +77,7 @@ bool trAnimation::Update(float dt)
 		rot_count += 4;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
 	{
 		anim_timer += dt;
 		time_start = true;
@@ -88,8 +88,6 @@ bool trAnimation::Update(float dt)
 		MoveAnimationForward(anim_timer);
 		time_start = false;
 	}
-	else
-		MoveAnimationForward(0.0f);
 
 	return true;
 }
@@ -122,7 +120,7 @@ void trAnimation::RecursiveGetAnimableGO(GameObject * go, ResourceAnimation::Bon
 
 void trAnimation::MoveAnimationForward(float t)
 {
-	for (uint i = 0; i < animable_gos.size() && t > 0.0f; ++i)
+	for (uint i = 0; i < animable_gos.size(); ++i)
 	{
 		ResourceAnimation::BoneTransformation* transform = animable_data_map.find(animable_gos[i])->second;
 
@@ -139,13 +137,18 @@ void trAnimation::MoveAnimationForward(float t)
 			float* next_pos = nullptr;
 			float time_pos_percentatge = 0.0f;
 
+			float* prev_rot = nullptr;
+			float* next_rot = nullptr;
+			float time_rot_percentatge = 0.0f;
+
 			if (transform->positions.count > i)
 			{
 				// Positions
 				float max_pos_time = 0.0f;
 				float min_pos_time = 0.0f;
 
-				for (uint j = 0; j < transform->positions.count; ++j)
+				// Finding next and prev pos
+				for (uint j = 0; j < transform->positions.count; j += 3)
 				{
 					if (prev_pos != nullptr && next_pos != nullptr) // if prev and next frames have been found we stop
 					{
@@ -174,7 +177,37 @@ void trAnimation::MoveAnimationForward(float t)
 
 						prev_pos = &transform->positions.value[j - 3];
 						min_pos_time = transform->positions.time[j - 3];
-						
+					}
+				}
+
+				// Rotations
+				float max_rot_time = 0.0f;
+				float min_rot_time = 0.0f;
+
+				// Finding next and prev pos
+				for (uint j = 0; j < transform->rotations.count; j += 4)
+				{
+					if (prev_rot != nullptr && next_rot != nullptr) // if prev and next frames have been found we stop
+					{
+						float time_interval = max_rot_time - min_rot_time;
+						time_rot_percentatge = (t - min_rot_time) / time_interval;
+						break;
+					}
+
+					if (t == transform->rotations.time[j]) // in this case interpolation won't be done
+					{
+						prev_rot = &transform->rotations.value[j];
+						next_rot = prev_rot;
+						break;
+					}
+
+					if (transform->rotations.time[j] > t) // next frame has been found
+					{
+						max_rot_time = transform->rotations.time[j];
+						next_rot = &transform->rotations.value[j];
+
+						prev_rot = &transform->rotations.value[j - 4];
+						min_rot_time = transform->rotations.time[j - 4];
 					}
 				}
 
@@ -182,17 +215,32 @@ void trAnimation::MoveAnimationForward(float t)
 
 				if (prev_pos != nullptr && next_pos != nullptr)
 				{
-					float3 prev_to_lerp(prev_pos[0], prev_pos[1], prev_pos[2]);
+					float3 prev_pos_lerp(prev_pos[0], prev_pos[1], prev_pos[2]);
 
 					if (prev_pos != next_pos)
 					{
 						// Positions
-						float3 next_to_lerp(next_pos[0], next_pos[1], next_pos[2]);
+						float3 next_pos_lerp(next_pos[0], next_pos[1], next_pos[2]);
 
-						pos = float3::Lerp(prev_to_lerp, next_to_lerp, time_pos_percentatge);
+						pos = float3::Lerp(prev_pos_lerp, next_pos_lerp, time_pos_percentatge);
 					}
 					else // if prev and next pos are equal, we don't need to interpolate
-						pos = prev_to_lerp;
+						pos = prev_pos_lerp;
+				}
+
+				if (prev_rot != nullptr && next_rot != nullptr)
+				{
+					Quat prev_rot_lerp(prev_rot[0], prev_rot[1], prev_rot[2], prev_rot[3]);
+
+					if (prev_rot != next_rot)
+					{
+						// Rotations
+						Quat next_rot_lerp(next_rot[0], next_rot[1], next_rot[2], next_rot[3]);
+
+						rot = Quat::Slerp(prev_rot_lerp, next_rot_lerp, time_rot_percentatge);
+					}
+					else // if prev and next rot are equal, we don't need to interpolate
+						rot = prev_rot_lerp;
 
 					animable_gos[i]->GetTransform()->Setup(pos, scale, rot);
 				}
@@ -200,6 +248,10 @@ void trAnimation::MoveAnimationForward(float t)
 				prev_pos = nullptr;
 				next_pos = nullptr;
 				time_pos_percentatge = 0.0f;
+
+				prev_rot = nullptr;
+				next_rot = nullptr;
+				time_rot_percentatge = 0.0f;
 			}
 		}
 	}
