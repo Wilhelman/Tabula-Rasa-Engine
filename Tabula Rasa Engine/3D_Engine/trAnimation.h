@@ -5,7 +5,6 @@
 #include "trDefs.h"
 #include "MathGeoLib\MathGeoLib.h"
 #include "ResourceAnimation.h"
-#include "trTimer.h"
 
 #include <vector>
 #include <map>
@@ -42,7 +41,7 @@ private:
 	uint scale_count = 0;
 	uint rot_count = 0;
 
-	trTimer anim_timer;
+	float anim_timer = 0.0f;
 	bool time_start = false;
 
 

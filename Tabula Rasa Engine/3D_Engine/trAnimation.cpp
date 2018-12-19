@@ -77,14 +77,17 @@ bool trAnimation::Update(float dt)
 		rot_count += 4;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
-		anim_timer.Start();
+		anim_timer += dt;
 		time_start = true;
 	}
 
 	if (time_start)
-		MoveAnimationForward(anim_timer.ReadSec());
+	{
+		MoveAnimationForward(anim_timer);
+		time_start = false;
+	}
 	else
 		MoveAnimationForward(0.0f);
 
@@ -144,30 +147,34 @@ void trAnimation::MoveAnimationForward(float t)
 
 				for (uint j = 0; j < transform->positions.count; ++j)
 				{
-					if (prev_pos != nullptr && next_pos != nullptr)
+					if (prev_pos != nullptr && next_pos != nullptr) // if prev and next frames have been found we stop
 					{
 						float time_interval = max_pos_time - min_pos_time;
 						time_pos_percentatge = (t - min_pos_time) / time_interval;
 						break;
 					}
 
-					if (t == transform->positions.time[j]) // in this case interpolation "won't be done"
+					if (t == transform->positions.time[j]) // in this case interpolation won't be done
 					{
 						prev_pos = &transform->positions.value[j];
 						next_pos = prev_pos;
 						break;
 					}
 
-					if (transform->positions.time[j] < t) // previous frame has been found
+					/*if (transform->positions.time[j] < t) // previous frame has been found
 					{
 						min_pos_time = transform->positions.time[j];
 						prev_pos = &transform->positions.value[j];
-					}
+					}*/
 					
 					if (transform->positions.time[j] > t) // next frame has been found
 					{
 						max_pos_time = transform->positions.time[j];
 						next_pos = &transform->positions.value[j];
+
+						prev_pos = &transform->positions.value[j - 3];
+						min_pos_time = transform->positions.time[j - 3];
+						
 					}
 				}
 
@@ -175,13 +182,24 @@ void trAnimation::MoveAnimationForward(float t)
 
 				if (prev_pos != nullptr && next_pos != nullptr)
 				{
-					// Positions
 					float3 prev_to_lerp(prev_pos[0], prev_pos[1], prev_pos[2]);
-					float3 next_to_lerp(next_pos[0], next_pos[1], next_pos[2]);
 
-					pos = float3::Lerp(prev_to_lerp, next_to_lerp, time_pos_percentatge);
+					if (prev_pos != next_pos)
+					{
+						// Positions
+						float3 next_to_lerp(next_pos[0], next_pos[1], next_pos[2]);
+
+						pos = float3::Lerp(prev_to_lerp, next_to_lerp, time_pos_percentatge);
+					}
+					else // if prev and next pos are equal, we don't need to interpolate
+						pos = prev_to_lerp;
+
 					animable_gos[i]->GetTransform()->Setup(pos, scale, rot);
 				}
+
+				prev_pos = nullptr;
+				next_pos = nullptr;
+				time_pos_percentatge = 0.0f;
 			}
 		}
 	}
