@@ -156,6 +156,11 @@ float4x4 ComponentTransform::GetMatrix()
 		return local_matrix;
 }
 
+float4x4 ComponentTransform::GetLocal()
+{
+	return float4x4::FromTRS(position, rotation, scale);
+}
+
 void ComponentTransform::SetPosition(const float3 position)
 {
 	this->position = position;

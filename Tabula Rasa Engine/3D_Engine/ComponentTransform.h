@@ -24,7 +24,8 @@ public:
 
 	void GetLocalPosition(float3* position, float3* scale, Quat* rot) const;
 
-	float4x4 GetMatrix();
+	float4x4 GetMatrix(); // Returns global (or local if have no parent)
+	float4x4 GetLocal(); // Returns local
 
 	void SetPosition(const float3 position);
 	void SetScale(const float3 scale);

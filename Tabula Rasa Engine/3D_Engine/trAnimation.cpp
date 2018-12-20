@@ -260,8 +260,7 @@ void trAnimation::DeformMesh(ComponentBone* component_bone)
 
 		float4x4 trans = component_bone->GetEmbeddedObject()->GetTransform()->GetMatrix();
 
-		// TODO get component from resource
-		//trans = trans * component_bone->attached_mesh->GetGameObject()->GetLocalTransform().Inverted();
+		trans = trans * component_bone->attached_mesh->GetEmbeddedObject()->GetTransform()->GetLocal().Inverted();
 
 		trans = trans * rbone->offset_matrix;
 
