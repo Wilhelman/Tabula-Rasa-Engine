@@ -44,6 +44,8 @@ public:
 	void PlayAnimation();
 	void PauseAnimation();
 	void StopAnimation();
+	void StepBackwards();
+	void StepForward();
 
 private:
 

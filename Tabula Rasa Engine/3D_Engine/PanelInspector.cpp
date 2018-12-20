@@ -225,7 +225,16 @@ void PanelInspector::Draw()
 						ImGui::TimelineEvent("TimeLine##TIMELINE", current_anim_time);
 						ImGui::EndTimeline();
 
+						ImGui::Text("Time: %.2f %s", current_anim_time[1], "s");
+
+						ImGui::Separator();
+
 						ImGui::Text("Keys number: %i", animation->num_keys);
+
+						if (ImGui::Button("BACKWARDS"))
+							App->animation->StepBackwards();
+
+						ImGui::SameLine();
 						
 						if (ImGui::Button("PLAY"))
 							App->animation->PlayAnimation();
@@ -239,6 +248,11 @@ void PanelInspector::Draw()
 
 						if (ImGui::Button("STOP"))
 							App->animation->StopAnimation();
+
+						ImGui::SameLine();
+
+						if (ImGui::Button("FORWARD"))
+							App->animation->StepForward();
 
 						ImGui::Separator();
 

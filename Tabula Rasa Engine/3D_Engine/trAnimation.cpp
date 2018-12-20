@@ -7,6 +7,7 @@
 #include "trApp.h"
 #include "trMainScene.h"
 #include "trResources.h"
+#include "trTimeManager.h"
 
 #include "trInput.h" //TODO: delete this
 
@@ -48,10 +49,7 @@ bool trAnimation::Update(float dt)
 	if (anim_timer >= duration)
 	{
 		if (loop)
-		{
 			anim_timer = 0.0f;
-			anim_state = AnimationState::PLAYING;
-		}
 		else
 			anim_state = AnimationState::STOPPED;
 	}
@@ -281,6 +279,36 @@ void trAnimation::PauseAnimation()
 void trAnimation::StopAnimation()
 {
 	anim_state = AnimationState::STOPPED;
+}
+
+void trAnimation::StepBackwards()
+{
+	if (anim_timer > 0.0f)
+	{
+		anim_timer -= App->time_manager->GetRealTimeDt() * anim_speed;
+
+		if (anim_timer < 0.0f)
+			anim_timer = 0.0f;
+		else
+			MoveAnimationForward(anim_timer);
+		
+		PauseAnimation();
+	}
+}
+
+void trAnimation::StepForward()
+{
+	if (anim_timer < duration)
+	{
+		anim_timer += App->time_manager->GetRealTimeDt() * anim_speed;
+
+		if (anim_timer > duration)
+			anim_timer = 0.0f;
+		else
+			MoveAnimationForward(anim_timer);
+
+		PauseAnimation();
+	}
 }
 
 void trAnimation::DeformMesh(ComponentBone* component_bone)
