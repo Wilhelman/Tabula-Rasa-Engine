@@ -21,7 +21,7 @@ public:
 private:
 	char go_name[GAMEOBJECT_MAX_LENGTH];
 	std::string btn_guizmo_mode;
-	float a[2];
+	float current_anim_time[2];
 };
 
 #endif// __PANEL_CONSOLE_H__

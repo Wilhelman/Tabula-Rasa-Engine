@@ -32,8 +32,10 @@ public:
 
 	void RecursiveGetAnimableGO(GameObject* go, ResourceAnimation::BoneTransformation* bone_transformation);
 	void MoveAnimationForward(float t);
-	bool FindBoundingKeys(float& pos, float& scale, float& rotation, float t);
+	float GetCurrentAnimationTime() const;
 
+public:
+	
 	std::vector<GameObject*> animable_gos;
 	std::map<GameObject*, ResourceAnimation::BoneTransformation*> animable_data_map;
 
@@ -43,6 +45,7 @@ private:
 
 	float anim_timer = 0.0f;
 	bool start_anim = false;
+	float duration = 0.0f;
 
 };
 

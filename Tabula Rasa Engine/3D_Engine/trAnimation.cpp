@@ -48,6 +48,9 @@ bool trAnimation::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
 		start_anim = !start_anim;
 
+	if (anim_timer >= duration) // for now it'll always play in loop
+		anim_timer = 0.0f;
+
 	if (start_anim)
 	{
 		anim_timer += dt;
@@ -61,6 +64,8 @@ void trAnimation::SetAnimationGos(ResourceAnimation * res)
 {
 	for (uint i = 0; i < res->num_keys; ++i)
 		RecursiveGetAnimableGO(App->main_scene->GetRoot(), &res->bone_keys[i]);
+
+	duration = res->duration;
 }
 
 void trAnimation::RecursiveGetAnimableGO(GameObject * go, ResourceAnimation::BoneTransformation* bone_transformation)
@@ -240,9 +245,9 @@ void trAnimation::MoveAnimationForward(float t)
 	}
 }
 
-bool trAnimation::FindBoundingKeys(float & pos, float & scale, float & rotation, float t)
+float trAnimation::GetCurrentAnimationTime() const
 {
-	return true;
+	return anim_timer;
 }
 
 void trAnimation::DeformMesh(ComponentBone* component_bone)

@@ -31,8 +31,8 @@ PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
 {
 	active = true;
 	btn_guizmo_mode = "Local";
-	a[0] = 0.0f;
-	a[1] = 1.0f;
+	current_anim_time[0] = 0.0f;
+	current_anim_time[1] = 0.0f;
 }
 
 PanelInspector::~PanelInspector()
@@ -212,9 +212,15 @@ void PanelInspector::Draw()
 						ImGui::Text("Name: %s", animation->name);
 						ImGui::Text("Keys number: %i", animation->num_keys);
 						
-						a[0] = 0.0f;
+						current_anim_time[0] = 0.0f;
+						// TODO: only update current_anim_time if animation is playing,
+						// otherwise it should be able to be modified by the user producing
+						// a change in the animation as in Maya. 
+						// GetCurrentAnimationTime should revieve a parameter of the selected animation
+						// once we handle multiple animations in the animation module
+						current_anim_time[1] = App->animation->GetCurrentAnimationTime(); 
 						ImGui::BeginTimeline("TimeLine##TIMELINE", (float)(animation->duration / animation->ticks_per_second));
-						ImGui::TimelineEvent("TimeLine##TIMELINE", a);
+						ImGui::TimelineEvent("TimeLine##TIMELINE", current_anim_time);
 						ImGui::EndTimeline();
 
 						ImGui::Text("Duration: %f", (float)(animation->duration / animation->ticks_per_second));
