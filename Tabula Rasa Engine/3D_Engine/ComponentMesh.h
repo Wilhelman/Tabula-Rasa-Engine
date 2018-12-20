@@ -5,6 +5,7 @@
 #include "MathGeoLib/MathGeoLib.h"
 
 class ResourceMesh;
+class ComponentBone;
 
 class ComponentMesh : public Component
 {
@@ -19,9 +20,7 @@ public:
 
 	bool SetResource(UID resource);
 
-public:
-
-	
+	void RecursiveFindBones(const GameObject * go, std::vector<ComponentBone*>& found) const;
 
 };
 

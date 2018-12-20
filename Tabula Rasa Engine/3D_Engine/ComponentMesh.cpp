@@ -8,6 +8,9 @@
 #include "GameObject.h"
 #include "Resource.h"
 #include "ResourceMesh.h"
+#include "ResourceBone.h"
+
+#include "ComponentBone.h"
 
 ComponentMesh::ComponentMesh(GameObject * embedded_game_object) : 
 	Component(embedded_game_object, Component::component_type::COMPONENT_MESH)
@@ -77,4 +80,27 @@ bool ComponentMesh::SetResource(UID resource)
 	}
 
 	return true;
+}
+
+void ComponentMesh::RecursiveFindBones(const GameObject * go, std::vector<ComponentBone*>& output) const
+{
+	if (go == nullptr)
+		return;
+
+	for (std::list<Component*>::const_iterator it = go->components.begin(); it != go->components.end(); ++it)
+	{
+		if ((*it)->GetType() == Component::component_type::COMPONENT_BONE)
+		{
+			ComponentBone* bone = (ComponentBone*)*it;
+			ResourceBone* res = (ResourceBone*)bone->GetResource();
+
+			if (res != nullptr && res->mesh_uid == GetResourceUID())
+			{
+				output.push_back(bone);
+			}
+		}
+	}
+
+	for (std::list<GameObject*>::const_iterator it = go->childs.begin(); it != go->childs.end(); ++it)
+		RecursiveFindBones(*it, output);
 }
