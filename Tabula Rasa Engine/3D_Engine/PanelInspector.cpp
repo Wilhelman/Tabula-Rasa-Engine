@@ -7,6 +7,7 @@
 #include "trEditor.h"
 #include "trMainScene.h"
 #include "trWindow.h"
+#include "trAnimation.h"
 
 #include "MathGeoLib/MathGeoLib.h"
 
@@ -30,6 +31,8 @@ PanelInspector::PanelInspector() : Panel("Inspector", SDL_SCANCODE_I)
 {
 	active = true;
 	btn_guizmo_mode = "Local";
+	a[0] = 0.0f;
+	a[1] = 1.0f;
 }
 
 PanelInspector::~PanelInspector()
@@ -208,9 +211,10 @@ void PanelInspector::Draw()
 					if (animation != nullptr) {
 						ImGui::Text("Name: %s", animation->name);
 						ImGui::Text("Keys number: %i", animation->num_keys);
-						//float a = 2.0f;
+						
+						a[0] = 0.0f;
 						ImGui::BeginTimeline("TimeLine##TIMELINE", (float)(animation->duration / animation->ticks_per_second));
-						//ImGui::TimelineEvent("TimeLine##TIMELINE", &a);
+						ImGui::TimelineEvent("TimeLine##TIMELINE", a);
 						ImGui::EndTimeline();
 
 						ImGui::Text("Duration: %f", (float)(animation->duration / animation->ticks_per_second));
