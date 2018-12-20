@@ -25,7 +25,6 @@ bool trAnimation::Awake(JSON_Object* config)
 
 bool trAnimation::Start()
 {
-	counter = 1;
 	return true;
 }
 
@@ -39,59 +38,14 @@ bool trAnimation::CleanUp()
 
 bool trAnimation::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
+		start_anim = !start_anim;
+
+	if (start_anim)
 	{
-		for (uint i = 0; i < animable_gos.size(); ++i)
-		{
-			ResourceAnimation::BoneTransformation* transform = animable_data_map.find(animable_gos[i])->second;
-			
-			if (transform)
-			{
-				float3 pos;
-				float3 scale;
-				Quat rot;
-
-				animable_gos[i]->GetTransform()->GetLocalPosition(&pos, &scale, &rot);
-
-				if(transform->positions.count > i)
-					pos = float3(transform->positions.value[pos_count],
-							     transform->positions.value[pos_count + 1],
-								 transform->positions.value[pos_count + 2]);
-
-				if (transform->scalings.count > i)
-					scale = float3(transform->scalings.value[pos_count],
-								   transform->scalings.value[pos_count + 1],
-								   transform->scalings.value[pos_count + 2]);
-
-				if (transform->rotations.count > i)
-					rot = Quat(transform->rotations.value[rot_count],
-							   transform->rotations.value[rot_count + 1],
-						       transform->rotations.value[rot_count + 2],
-							   transform->rotations.value[rot_count + 3]);
-
-				animable_gos[i]->GetTransform()->Setup(pos, scale, rot);			
-			}
-		}
-
-		pos_count += 3;
-		rot_count += 4;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
-	{
-		anim_timer += dt * 2.0f;
+		anim_timer += dt;
 		MoveAnimationForward(anim_timer);
 	}
-	/*	time_start = true;
-
-	if (time_start)
-		anim_timer += refresh_time;
-
-	if (time_start && anim_timer >= (refresh_time * counter))
-	{
-		MoveAnimationForward(anim_timer);
-		counter++;
-	}*/
 	
 	return true;
 }
@@ -100,8 +54,6 @@ void trAnimation::SetAnimationGos(ResourceAnimation * res)
 {
 	for (uint i = 0; i < res->num_keys; ++i)
 		RecursiveGetAnimableGO(App->main_scene->GetRoot(), &res->bone_keys[i]);
-	
-	refresh_time = 1.0f / 12.0f;
 }
 
 void trAnimation::RecursiveGetAnimableGO(GameObject * go, ResourceAnimation::BoneTransformation* bone_transformation)
@@ -150,7 +102,7 @@ void trAnimation::MoveAnimationForward(float t)
 			// Finding next and previous positions	
 			if (transform->positions.count > i)
 			{				
-				for (uint j = 0; j < transform->positions.count; j += 3)
+				for (uint j = 0; j < transform->positions.count; ++j)
 				{
 					if (prev_pos != nullptr && next_pos != nullptr) // if prev and next postions have been found we stop
 					{
@@ -161,7 +113,7 @@ void trAnimation::MoveAnimationForward(float t)
 
 					if (t == transform->positions.time[j]) // in this case interpolation won't be done
 					{
-						prev_pos = &transform->positions.value[j];
+						prev_pos = &transform->positions.value[j * 3];
 						next_pos = prev_pos;
 						break;
 					}
@@ -169,10 +121,10 @@ void trAnimation::MoveAnimationForward(float t)
 					if (transform->positions.time[j] > t) // prev and next postions have been found
 					{
 						next_time = transform->positions.time[j];
-						next_pos = &transform->positions.value[j];
+						next_pos = &transform->positions.value[j * 3];
 
-						prev_pos = &transform->positions.value[j - 3];
-						prev_time = transform->positions.time[j - 3];
+						prev_pos = &transform->positions.value[(j * 3) - 3];
+						prev_time = transform->positions.time[j - 1];
 					}
 				}
 			}
@@ -183,7 +135,7 @@ void trAnimation::MoveAnimationForward(float t)
 				next_time = 0.0f;
 				prev_time = 0.0f;
 
-				for (uint j = 0; j < transform->scalings.count; j += 3)
+				for (uint j = 0; j < transform->scalings.count; ++j)
 				{
 					if (prev_scale != nullptr && next_scale != nullptr) // if prev and next scalings have been found we stop
 					{
@@ -194,7 +146,7 @@ void trAnimation::MoveAnimationForward(float t)
 
 					if (t == transform->scalings.time[j]) // in this case interpolation won't be done
 					{
-						prev_scale = &transform->scalings.value[j];
+						prev_scale = &transform->scalings.value[j * 3];
 						next_scale = prev_scale;
 						break;
 					}
@@ -202,10 +154,10 @@ void trAnimation::MoveAnimationForward(float t)
 					if (transform->scalings.time[j] > t) // prev and next scalings have been found
 					{
 						next_time = transform->scalings.time[j];
-						next_scale = &transform->scalings.value[j];
+						next_scale = &transform->scalings.value[j * 3];
 
-						prev_scale = &transform->scalings.value[j - 3];
-						prev_time = transform->scalings.time[j - 3];
+						prev_scale = &transform->scalings.value[(j * 3) - 3];
+						prev_time = transform->scalings.time[j - 1];
 					}
 				}
 			}
@@ -216,7 +168,7 @@ void trAnimation::MoveAnimationForward(float t)
 				next_time = 0.0f;
 				prev_time = 0.0f;
 
-				for (uint j = 0; j < transform->rotations.count; j += 4)
+				for (uint j = 0; j < transform->rotations.count; ++j)
 				{
 					if (prev_rot != nullptr && next_rot != nullptr) // if prev and next rotations have been found we stop
 					{
@@ -227,7 +179,7 @@ void trAnimation::MoveAnimationForward(float t)
 
 					if (t == transform->rotations.time[j]) // in this case interpolation won't be done
 					{
-						prev_rot = &transform->rotations.value[j];
+						prev_rot = &transform->rotations.value[j * 4];
 						next_rot = prev_rot;
 						break;
 					}
@@ -235,10 +187,10 @@ void trAnimation::MoveAnimationForward(float t)
 					if (transform->rotations.time[j] > t) // prev and next rotations have been found
 					{
 						next_time = transform->rotations.time[j];
-						next_rot = &transform->rotations.value[j];
+						next_rot = &transform->rotations.value[j * 4];
 
-						prev_rot = &transform->rotations.value[j - 4];
-						prev_time = transform->rotations.time[j - 4];
+						prev_rot = &transform->rotations.value[(j * 4) - 4];
+						prev_time = transform->rotations.time[j - 1];
 					}
 				}
 			}

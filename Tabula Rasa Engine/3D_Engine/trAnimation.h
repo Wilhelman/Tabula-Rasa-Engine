@@ -38,17 +38,8 @@ public:
 
 private:
 
-	uint pos_count = 0;
-	uint scale_count = 0;
-	uint rot_count = 0;
-
 	float anim_timer = 0.0f;
-	uint counter = 0;
-	bool time_start = false;
-	
-	float refresh_time = 0.0f;
-
-	std::list<float> keys_to_caclulate;
+	bool start_anim = false;
 
 };
 
