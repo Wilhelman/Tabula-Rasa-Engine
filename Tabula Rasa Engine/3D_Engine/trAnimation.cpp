@@ -250,6 +250,23 @@ float trAnimation::GetCurrentAnimationTime() const
 	return anim_timer;
 }
 
+void trAnimation::PlayAnimation()
+{
+	start_anim = true;
+}
+
+void trAnimation::PauseAnimation()
+{
+	start_anim = false;
+}
+
+void trAnimation::StopAnimation()
+{
+	anim_timer = 0.0f;
+	MoveAnimationForward(anim_timer);
+	start_anim = false;
+}
+
 void trAnimation::DeformMesh(ComponentBone* component_bone)
 {
 

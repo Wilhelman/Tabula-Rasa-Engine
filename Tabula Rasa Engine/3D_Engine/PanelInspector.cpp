@@ -212,12 +212,25 @@ void PanelInspector::Draw()
 						ImGui::Text("Name: %s", animation->name);
 						ImGui::Text("Keys number: %i", animation->num_keys);
 						
-						current_anim_time[0] = 0.0f;
+						if (ImGui::Button("Play"))
+							App->animation->PlayAnimation();
+
+						ImGui::SameLine();
+
+						if (ImGui::Button("Pause"))
+							App->animation->PauseAnimation();
+
+						ImGui::SameLine();
+
+						if (ImGui::Button("Stop"))
+							App->animation->StopAnimation();
+
 						// TODO: only update current_anim_time if animation is playing,
 						// otherwise it should be able to be modified by the user producing
 						// a change in the animation as in Maya. 
-						// GetCurrentAnimationTime should revieve a parameter of the selected animation
+						// GetCurrentAnimationTime should recieve a parameter of the selected animation
 						// once we handle multiple animations in the animation module
+						current_anim_time[0] = 0.0f;
 						current_anim_time[1] = App->animation->GetCurrentAnimationTime(); 
 						ImGui::BeginTimeline("TimeLine##TIMELINE", (float)(animation->duration / animation->ticks_per_second));
 						ImGui::TimelineEvent("TimeLine##TIMELINE", current_anim_time);

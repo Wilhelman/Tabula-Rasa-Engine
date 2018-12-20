@@ -32,7 +32,11 @@ public:
 
 	void RecursiveGetAnimableGO(GameObject* go, ResourceAnimation::BoneTransformation* bone_transformation);
 	void MoveAnimationForward(float t);
+
 	float GetCurrentAnimationTime() const;
+	void PlayAnimation();
+	void PauseAnimation();
+	void StopAnimation();
 
 public:
 	
