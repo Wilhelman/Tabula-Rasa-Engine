@@ -56,6 +56,8 @@ public:
 	std::map<GameObject*, ResourceAnimation::BoneTransformation*> animable_data_map;
 
 	bool loop = false;
+	bool interpolate = false;
+	float anim_speed = 1.0f;
 
 private:
 

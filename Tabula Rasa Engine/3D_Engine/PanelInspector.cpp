@@ -227,22 +227,24 @@ void PanelInspector::Draw()
 
 						ImGui::Text("Keys number: %i", animation->num_keys);
 						
-						if (ImGui::Button("Play"))
+						if (ImGui::Button("PLAY"))
 							App->animation->PlayAnimation();
 
 						ImGui::SameLine();
 
-						if (ImGui::Button("Pause"))
+						if (ImGui::Button("PAUSE"))
 							App->animation->PauseAnimation();
 
 						ImGui::SameLine();
 
-						if (ImGui::Button("Stop"))
+						if (ImGui::Button("STOP"))
 							App->animation->StopAnimation();
 
 						ImGui::Separator();
 
+						ImGui::SliderFloat("Speed", &App->animation->anim_speed, 0.0f, 5.0f);
 						ImGui::Checkbox("Loop", &App->animation->loop);
+						ImGui::Checkbox("Interpolate", &App->animation->interpolate);
 
 						ImGui::Separator();
 

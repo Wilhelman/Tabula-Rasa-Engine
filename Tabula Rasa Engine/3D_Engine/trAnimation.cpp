@@ -59,7 +59,7 @@ bool trAnimation::Update(float dt)
 	switch (anim_state)
 	{
 	case AnimationState::PLAYING:
-		anim_timer += dt;
+		anim_timer += dt * anim_speed;
 		MoveAnimationForward(anim_timer);
 		break;
 
@@ -285,7 +285,6 @@ void trAnimation::StopAnimation()
 
 void trAnimation::DeformMesh(ComponentBone* component_bone)
 {
-
 	ResourceBone* bone = (ResourceBone*)component_bone->GetResource();
 
 	ResourceMesh* mesh = (ResourceMesh*)App->resources->Get(bone->mesh_uid); // Getting the mesh from the bone
