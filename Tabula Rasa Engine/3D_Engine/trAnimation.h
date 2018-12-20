@@ -11,6 +11,7 @@
 #include <list>
 
 class GameObject;
+class ComponentBone;
 
 class trAnimation : public trModule
 {
@@ -35,6 +36,8 @@ public:
 
 	std::vector<GameObject*> animable_gos;
 	std::map<GameObject*, ResourceAnimation::BoneTransformation*> animable_data_map;
+
+	void DeformMesh(ComponentBone* component_bone);
 
 private:
 

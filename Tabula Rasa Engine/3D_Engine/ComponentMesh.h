@@ -21,7 +21,7 @@ public:
 
 public:
 
-	ResourceMesh* deformable = nullptr;
+	
 
 };
 

@@ -6,8 +6,15 @@
 #include "trDefs.h"
 #include "trApp.h"
 #include "trMainScene.h"
+#include "trResources.h"
 
 #include "trInput.h" //TODO: delete this
+
+#include "ComponentBone.h"
+#include "ComponentMesh.h"
+
+#include "ResourceBone.h"
+#include "ResourceMesh.h"
 
 
 trAnimation::trAnimation()
@@ -236,4 +243,54 @@ void trAnimation::MoveAnimationForward(float t)
 bool trAnimation::FindBoundingKeys(float & pos, float & scale, float & rotation, float t)
 {
 	return true;
+}
+
+void trAnimation::DeformMesh(ComponentBone* component_bone)
+{
+
+	ResourceBone* bone = (ResourceBone*)component_bone->GetResource();
+
+	ResourceMesh* mesh = (ResourceMesh*)App->resources->Get(bone->mesh_uid); // Getting the mesh from the bone
+
+	if (mesh != nullptr)
+	{
+		const ResourceBone* rbone = (const ResourceBone*)component_bone->GetResource();
+		const ResourceMesh* roriginal = mesh;
+		ResourceMesh* rmesh = mesh->deformable;
+
+		float4x4 trans = component_bone->GetEmbeddedObject()->GetTransform()->GetMatrix();
+
+		// TODO get component from resource
+		//trans = trans * component_bone->attached_mesh->GetGameObject()->GetLocalTransform().Inverted();
+
+		trans = trans * rbone->offset_matrix;
+
+		for (uint i = 0; i < rbone->bone_weights_size; ++i)
+		{
+			uint index = rbone->bone_weights_indices[i];
+			float3 original(&roriginal->vertices[index * 3]);
+			float3 vertex(&rmesh->vertices[index * 3]);
+
+			if (rmesh->indices[index]++ == 0)
+			{
+				memset(&rmesh->vertices[index * 3], 0, sizeof(float) * 3);
+				if (roriginal->normals)
+					memset(&rmesh->normals[index * 3], 0, sizeof(float) * 3);
+			}
+
+			vertex = trans.TransformPos(original);
+
+			rmesh->vertices[index * 3] += vertex.x * rbone->bone_weights[i];
+			rmesh->vertices[index * 3 + 1] += vertex.y * rbone->bone_weights[i];
+			rmesh->vertices[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
+
+			if (roriginal->normals)
+			{
+				vertex = trans.TransformPos(float3(&roriginal->normals[index * 3]));
+				rmesh->normals[index * 3] += vertex.x * rbone->bone_weights[i];
+				rmesh->normals[index * 3 + 1] += vertex.y * rbone->bone_weights[i];
+				rmesh->normals[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
+			}
+		}
+	}
 }

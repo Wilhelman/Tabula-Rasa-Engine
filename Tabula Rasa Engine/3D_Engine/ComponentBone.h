@@ -3,6 +3,7 @@
 
 #include "Component.h"
 
+class ComponentMesh;
 
 class ComponentBone : public Component
 {
@@ -18,6 +19,8 @@ public:
 	bool SetResource(UID resource);
 
 public:
+
+	ComponentMesh* attached_mesh = nullptr;
 
 };
 

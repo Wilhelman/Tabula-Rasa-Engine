@@ -37,6 +37,8 @@ public:
 	float* uvs = nullptr;
 
 	UID texture_uuid = 0u;
+
+	ResourceMesh* deformable = nullptr;
 };
 
 #endif // __RESOURCE_MESH_H__
