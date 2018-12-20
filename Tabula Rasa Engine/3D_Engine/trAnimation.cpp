@@ -45,16 +45,34 @@ bool trAnimation::CleanUp()
 
 bool trAnimation::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
-		start_anim = !start_anim;
-
-	if (anim_timer >= duration) // for now it'll always play in loop
-		anim_timer = 0.0f;
-
-	if (start_anim)
+	if (anim_timer >= duration)
 	{
+		if (loop)
+		{
+			anim_timer = 0.0f;
+			anim_state = AnimationState::PLAYING;
+		}
+		else
+			anim_state = AnimationState::STOPPED;
+	}
+
+	switch (anim_state)
+	{
+	case AnimationState::PLAYING:
 		anim_timer += dt;
 		MoveAnimationForward(anim_timer);
+		break;
+
+	case AnimationState::PAUSED:
+		break;
+
+	case AnimationState::STOPPED:
+		anim_timer = 0.0f;
+		MoveAnimationForward(anim_timer);
+		break;
+
+	case AnimationState::BLENDING:
+		break;
 	}
 	
 	return true;
@@ -252,19 +270,17 @@ float trAnimation::GetCurrentAnimationTime() const
 
 void trAnimation::PlayAnimation()
 {
-	start_anim = true;
+	anim_state = AnimationState::PLAYING;
 }
 
 void trAnimation::PauseAnimation()
 {
-	start_anim = false;
+	anim_state = AnimationState::PAUSED;
 }
 
 void trAnimation::StopAnimation()
 {
-	anim_timer = 0.0f;
-	MoveAnimationForward(anim_timer);
-	start_anim = false;
+	anim_state = AnimationState::STOPPED;
 }
 
 void trAnimation::DeformMesh(ComponentBone* component_bone)

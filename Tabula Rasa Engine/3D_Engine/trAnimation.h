@@ -13,6 +13,15 @@
 class GameObject;
 class ComponentBone;
 
+enum AnimationState
+{
+	NOT_DEF_STATE = -1,
+	PLAYING,
+	PAUSED,
+	STOPPED,
+	BLENDING
+};
+
 class trAnimation : public trModule
 {
 public:
@@ -29,27 +38,31 @@ public:
 	bool Update(float dt);
 
 	void SetAnimationGos(ResourceAnimation* res);
-
-	void RecursiveGetAnimableGO(GameObject* go, ResourceAnimation::BoneTransformation* bone_transformation);
-	void MoveAnimationForward(float t);
+	void DeformMesh(ComponentBone* component_bone);
 
 	float GetCurrentAnimationTime() const;
 	void PlayAnimation();
 	void PauseAnimation();
 	void StopAnimation();
 
+private:
+
+	void RecursiveGetAnimableGO(GameObject* go, ResourceAnimation::BoneTransformation* bone_transformation);
+	void MoveAnimationForward(float t);
+
 public:
 	
 	std::vector<GameObject*> animable_gos;
 	std::map<GameObject*, ResourceAnimation::BoneTransformation*> animable_data_map;
 
-	void DeformMesh(ComponentBone* component_bone);
+	bool loop = false;
 
 private:
 
 	float anim_timer = 0.0f;
-	bool start_anim = false;
 	float duration = 0.0f;
+
+	AnimationState anim_state = AnimationState::NOT_DEF_STATE;
 
 };
 

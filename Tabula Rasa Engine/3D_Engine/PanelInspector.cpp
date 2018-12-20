@@ -207,9 +207,24 @@ void PanelInspector::Draw()
 			{
 				ComponentAnimation* animation_co = (ComponentAnimation*)(*it);
 				ResourceAnimation* animation = (ResourceAnimation*)animation_co->GetResource();
-				if (ImGui::CollapsingHeader("ANIMATION COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) {
-					if (animation != nullptr) {
+
+				if (ImGui::CollapsingHeader("ANIMATION COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) 
+				{
+					if (animation != nullptr) 
+					{
 						ImGui::Text("Name: %s", animation->name);
+
+						// TODO: only update current_anim_time if animation is playing,
+						// otherwise it should be able to be modified by the user producing
+						// a change in the animation as in Maya. 
+						// GetCurrentAnimationTime should recieve a parameter of the selected animation
+						// once we handle multiple animations in the animation module
+						current_anim_time[0] = 0.0f;
+						current_anim_time[1] = App->animation->GetCurrentAnimationTime();
+						ImGui::BeginTimeline("TimeLine##TIMELINE", (float)(animation->duration / animation->ticks_per_second));
+						ImGui::TimelineEvent("TimeLine##TIMELINE", current_anim_time);
+						ImGui::EndTimeline();
+
 						ImGui::Text("Keys number: %i", animation->num_keys);
 						
 						if (ImGui::Button("Play"))
@@ -225,16 +240,11 @@ void PanelInspector::Draw()
 						if (ImGui::Button("Stop"))
 							App->animation->StopAnimation();
 
-						// TODO: only update current_anim_time if animation is playing,
-						// otherwise it should be able to be modified by the user producing
-						// a change in the animation as in Maya. 
-						// GetCurrentAnimationTime should recieve a parameter of the selected animation
-						// once we handle multiple animations in the animation module
-						current_anim_time[0] = 0.0f;
-						current_anim_time[1] = App->animation->GetCurrentAnimationTime(); 
-						ImGui::BeginTimeline("TimeLine##TIMELINE", (float)(animation->duration / animation->ticks_per_second));
-						ImGui::TimelineEvent("TimeLine##TIMELINE", current_anim_time);
-						ImGui::EndTimeline();
+						ImGui::Separator();
+
+						ImGui::Checkbox("Loop", &App->animation->loop);
+
+						ImGui::Separator();
 
 						ImGui::Text("Duration: %f", (float)(animation->duration / animation->ticks_per_second));
 						ImGui::Text("Source: %s", animation->GetExportedFile());
