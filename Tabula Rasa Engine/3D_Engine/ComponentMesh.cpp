@@ -9,6 +9,7 @@
 #include "Resource.h"
 #include "ResourceMesh.h"
 #include "ResourceBone.h"
+#include "trMainScene.h"
 
 #include "ComponentBone.h"
 
@@ -35,6 +36,7 @@ bool ComponentMesh::Save(JSON_Object* component_obj) const
 	//todo: get resource path etc
 	const Resource* res = this->GetResource();
 	json_object_set_string(component_obj, "path", res->GetExportedFile());
+	json_object_set_number(component_obj, "root_bone", root_bones_uid);
 	return true;
 }
 
@@ -44,6 +46,9 @@ bool ComponentMesh::Load(const JSON_Object * component_obj)
 
 	JSON_Value* value = json_object_get_value(component_obj, "path");
 	const char* file_path = json_value_get_string(value);
+
+	value = json_object_get_value(component_obj, "root_bone");
+	root_bones_uid = json_value_get_number(value);
 
 	//todo clean
 	if (file_path) {
@@ -58,6 +63,10 @@ bool ComponentMesh::Load(const JSON_Object * component_obj)
 
 		SetResource(App->resources->mesh_importer->GenerateResourceFromFile(file_path, uid));
 	}
+
+	GameObject* tmp_go = RecursiveFindGO(App->main_scene->GetRoot());
+	if (tmp_go)
+		AttachBones(tmp_go);
 
 	return ret;
 }
@@ -99,8 +108,8 @@ void ComponentMesh::AttachBones(const GameObject* go)
 		{
 			res->deformable = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); //Check this
 
-			res->deformable->DuplicateMesh(res);
-			res->deformable->GenerateAndBindMesh(true);
+			res->DuplicateMesh(res);
+			res->GenerateAndBindMesh(true);
 		}
 
 		for (std::vector<ComponentBone*>::iterator it = attached_bones.begin(); it != attached_bones.end(); ++it)
@@ -146,4 +155,18 @@ void ComponentMesh::RecursiveFindBones(const GameObject * go, std::vector<Compon
 
 	for (std::list<GameObject*>::const_iterator it = go->childs.begin(); it != go->childs.end(); ++it)
 		RecursiveFindBones(*it, output);
+}
+
+GameObject* ComponentMesh::RecursiveFindGO(GameObject * go)
+{
+	if (go->GetUUID() == this->root_bones_uid)
+		return go;
+
+	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); ++it) {
+		GameObject* go_to_return = RecursiveFindGO((*it));
+		if (go_to_return)
+			return go_to_return;
+	}
+
+	return nullptr;
 }

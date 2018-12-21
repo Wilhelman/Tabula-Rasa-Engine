@@ -28,6 +28,7 @@ public:
 
 	void RecursiveFindBones(const GameObject * go, std::vector<ComponentBone*>& found) const;
 
+	GameObject* RecursiveFindGO(GameObject* go);
 	
 
 public:

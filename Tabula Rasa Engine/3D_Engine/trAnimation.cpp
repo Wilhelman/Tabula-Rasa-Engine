@@ -80,7 +80,7 @@ bool trAnimation::Update(float dt)
 	{
 		ComponentBone* bone = (ComponentBone*)animable_gos.at(i)->FindComponentByType(Component::component_type::COMPONENT_BONE);
 
-		if (bone)
+		if (bone && bone->attached_mesh)
 			DeformMesh(bone);
 	}
 	

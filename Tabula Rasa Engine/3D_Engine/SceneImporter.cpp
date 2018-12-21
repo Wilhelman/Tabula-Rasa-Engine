@@ -297,9 +297,6 @@ next_node:
 
 void SceneImporter::RecursiveProcessBones(const aiScene * scene, const aiNode * node)
 {
-	// We need to find if this node it supposed to hold a bone
-	// for that we will look for all the other meshes and look
-	// if there is a mach in the name
 	std::map<std::string, aiBone*>::iterator it = bones.find(node->mName.C_Str());
 
 	if (it != bones.end())
@@ -311,13 +308,17 @@ void SceneImporter::RecursiveProcessBones(const aiScene * scene, const aiNode * 
 
 		std::string output;
 		UID bone_uid = App->resources->bone_importer->Import(bone, mesh_bone[bone], output);
+
+		if(go->GetParent() == nullptr ||
+			(go->GetParent() && !go->GetParent()->FindComponentByType(Component::component_type::COMPONENT_BONE)))
+			bone_root_uid = go->GetUUID();
+		
 		
 		comp_bone->SetResource(bone_uid);
 		imported_bones[node->mName.C_Str()] = bone_uid;
 		TR_LOG("->-> Added Bone component and created bone resource");
 	}
 
-	// recursive call to generate the rest of the scene tree
 	for (uint i = 0; i < node->mNumChildren; ++i)
 		RecursiveProcessBones(scene, node->mChildren[i]);
 }
@@ -334,6 +335,10 @@ void SceneImporter::ImportAnimations(const aiScene * scene, const char * filenam
 			ComponentAnimation* anim_co = (ComponentAnimation*)root_bone->CreateComponent(Component::component_type::COMPONENT_ANIMATION);
 			
 			anim_co->SetResource(App->resources->animation_importer->Import(anim, output));
+
+			// TODO check this for 2 animations
+			ComponentMesh* mesh_co = (ComponentMesh*)root_bone->FindComponentByType(Component::component_type::COMPONENT_MESH);
+			mesh_co->root_bones_uid = bone_root_uid;
 		}
 	}
 }

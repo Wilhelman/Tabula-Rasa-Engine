@@ -5,6 +5,7 @@
 #include <string>
 
 class Config;
+class GameObject;
 
 class Resource
 {
@@ -51,6 +52,9 @@ protected:
 
 	Type type = UNKNOWN;
 	uint references = 0u;
+
+public:
+	GameObject* embedded_go = nullptr;
 };
 
 #endif // __Resource_H__

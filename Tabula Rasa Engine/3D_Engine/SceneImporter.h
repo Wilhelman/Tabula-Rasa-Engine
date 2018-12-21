@@ -59,6 +59,7 @@ private:
 	std::map<std::string, aiBone*> bones;
 	std::map<const aiNode*, GameObject*> relations;
 	std::map<std::string, UID> imported_bones;
+	UID bone_root_uid = 0u;
 };
 
 #endif // __MESH_IMPORTER_H__
