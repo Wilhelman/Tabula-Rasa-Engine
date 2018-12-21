@@ -33,6 +33,8 @@ bool trAnimation::Awake(JSON_Object* config)
 
 bool trAnimation::Start()
 {
+	interpolate = true;
+
 	return true;
 }
 
@@ -226,33 +228,33 @@ void trAnimation::MoveAnimationForward(float t)
 			// -------- INTERPOLATIONS CALCULATIONS --------
 
 			// Interpolating positions
-			if (prev_pos != nullptr && next_pos != nullptr && prev_pos != next_pos)
+			if (interpolate && prev_pos != nullptr && next_pos != nullptr && prev_pos != next_pos)
 			{
 				float3 prev_pos_lerp(prev_pos[0], prev_pos[1], prev_pos[2]);
 				float3 next_pos_lerp(next_pos[0], next_pos[1], next_pos[2]);
 				pos = float3::Lerp(prev_pos_lerp, next_pos_lerp, time_pos_percentatge);
 			}
-			else if (prev_pos != nullptr && prev_pos == next_pos)
+			else if (prev_pos != nullptr && (!interpolate || prev_pos == next_pos))
 				pos = float3(prev_pos[0], prev_pos[1], prev_pos[2]);
 
 			// Interpolating scalings
-			if (prev_scale != nullptr && next_scale != nullptr && prev_scale != next_scale)
+			if (interpolate && prev_scale != nullptr && next_scale != nullptr && prev_scale != next_scale)
 			{
 				float3 prev_scale_lerp(prev_scale[0], prev_scale[1], prev_scale[2]);
 				float3 next_scale_lerp(next_scale[0], next_scale[1], next_scale[2]);
 				scale = float3::Lerp(prev_scale_lerp, next_scale_lerp, time_scale_percentatge);
 			}
-			else if (prev_scale != nullptr && prev_scale == next_scale)
+			else if (prev_scale != nullptr && (!interpolate || prev_scale == next_scale))
 				scale = float3(prev_scale[0], prev_scale[1], prev_scale[2]);
 
 			// Interpolating rotations
-			if (prev_rot != nullptr && next_rot != nullptr && prev_rot != next_rot)
+			if (interpolate && prev_rot != nullptr && next_rot != nullptr && prev_rot != next_rot)
 			{
 				Quat prev_rot_lerp(prev_rot[0], prev_rot[1], prev_rot[2], prev_rot[3]);
 				Quat next_rot_lerp(next_rot[0], next_rot[1], next_rot[2], next_rot[3]);
 				rot = Quat::Slerp(prev_rot_lerp, next_rot_lerp, time_rot_percentatge);
 			}
-			else if (prev_rot != nullptr && prev_rot == next_rot)
+			else if (prev_rot != nullptr && (!interpolate || prev_rot == next_rot))
 				rot = Quat(prev_rot[0], prev_rot[1], prev_rot[2], prev_rot[3]);
 
 			// Setting up final interpolated transform in current bone (gameobject)
