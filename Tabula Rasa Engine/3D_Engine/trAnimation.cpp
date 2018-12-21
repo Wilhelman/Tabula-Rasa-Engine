@@ -75,6 +75,15 @@ bool trAnimation::Update(float dt)
 	case AnimationState::BLENDING:
 		break;
 	}
+
+	for (uint i = 0; i < animable_gos.size(); ++i)
+	{
+		ComponentBone* bone = (ComponentBone*)animable_gos.at(i)->FindComponentByType(Component::component_type::COMPONENT_BONE);
+
+		if (bone)
+			DeformMesh(bone);
+	}
+	
 	
 	return true;
 }
@@ -345,15 +354,13 @@ void trAnimation::StepForward()
 
 void trAnimation::DeformMesh(ComponentBone* component_bone)
 {
-	ResourceBone* bone = (ResourceBone*)component_bone->GetResource();
+	ResourceBone* rbone = (ResourceBone*)component_bone->GetResource();
 
-	ResourceMesh* mesh = (ResourceMesh*)App->resources->Get(bone->mesh_uid); // Getting the mesh from the bone
+	ResourceMesh* roriginal = (ResourceMesh*)App->resources->Get(rbone->mesh_uid); // Getting the mesh from the bone
 
-	if (mesh != nullptr)
+	if (roriginal != nullptr)
 	{
-		const ResourceBone* rbone = (const ResourceBone*)component_bone->GetResource();
-		const ResourceMesh* roriginal = mesh;
-		ResourceMesh* rmesh = mesh->deformable;
+		ResourceMesh* rmesh = roriginal->deformable;
 
 		float4x4 trans = component_bone->GetEmbeddedObject()->GetTransform()->GetMatrix();
 

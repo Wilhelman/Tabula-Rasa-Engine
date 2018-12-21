@@ -525,7 +525,7 @@ void trRenderer3D::Draw()
 		if (texture == nullptr || !texture_2D) // If the texture is missing, we set the ambient color of the mesh
 			glColor4f(ambient_color.w, ambient_color.x, ambient_color.y, ambient_color.z);
 		
-		if (mesh->deformable != nullptr)
+		if (mesh && mesh->deformable != nullptr)
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->deformable->vertex_buffer);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->vertex_size,
@@ -539,19 +539,19 @@ void trRenderer3D::Draw()
 		}
 
 		if (mesh) {
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_buffer);
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->deformable ? mesh->deformable->vertex_buffer : mesh->vertex_buffer);
 			glVertexPointer(3, GL_FLOAT, 0, NULL);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			//texture
 			if (mesh->uvs != nullptr && mesh->uv_buffer != 0)
 			{
-				glBindBuffer(GL_ARRAY_BUFFER, mesh->uv_buffer);
+				glBindBuffer(GL_ARRAY_BUFFER, mesh->deformable ? mesh->deformable->uv_buffer : mesh->uv_buffer);
 				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->index_buffer);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->deformable ? mesh->deformable->index_buffer : mesh->index_buffer);
 			glDrawElements(GL_TRIANGLES, mesh->index_size, GL_UNSIGNED_INT, NULL);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}

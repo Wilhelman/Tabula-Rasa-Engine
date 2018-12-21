@@ -28,6 +28,8 @@ public:
 
 	void RecursiveFindBones(const GameObject * go, std::vector<ComponentBone*>& found) const;
 
+	
+
 public:
 	uint root_bones_uid = 0;
 	const GameObject* root_bones = nullptr;

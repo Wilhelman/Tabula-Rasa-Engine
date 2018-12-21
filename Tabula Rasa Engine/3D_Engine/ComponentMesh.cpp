@@ -97,9 +97,10 @@ void ComponentMesh::AttachBones(const GameObject* go)
 
 		if (res->deformable == nullptr)
 		{
-			res->deformable = new ResourceMesh(0); //Check this
-			//res->deformable->CreateDeformableVersion((const ResourceMesh*)GetResource());
-			//App->meshes->GenerateVertexBuffer(deformable);
+			res->deformable = (ResourceMesh*)App->resources->CreateNewResource(Resource::Type::MESH); //Check this
+
+			res->deformable->DuplicateMesh(res);
+			res->deformable->GenerateAndBindMesh(true);
 		}
 
 		for (std::vector<ComponentBone*>::iterator it = attached_bones.begin(); it != attached_bones.end(); ++it)

@@ -51,7 +51,7 @@ UID Component::GetUUID() const
 
 GameObject * Component::GetEmbeddedObject() const
 {
-	return nullptr;
+	return embedded_go;
 }
 
 bool Component::IsActive() const

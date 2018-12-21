@@ -20,23 +20,26 @@ ResourceMesh::~ResourceMesh()
 	glDeleteBuffers(1, (GLuint*)&uv_buffer);
 }
 
-void ResourceMesh::GenerateAndBindMesh()
+void ResourceMesh::GenerateAndBindMesh(bool deformable)
 {
-	glGenBuffers(1, (GLuint*) &(vertex_buffer));
-	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex_size, vertices, GL_STATIC_DRAW);
+	glGenBuffers(1, (GLuint*) &(deformable ? this->deformable->vertex_buffer : vertex_buffer));
+	glBindBuffer(GL_ARRAY_BUFFER, deformable ? this->deformable->vertex_buffer : vertex_buffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * deformable ? this->deformable->vertex_size : vertex_size,
+		deformable ? this->deformable->vertices : vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	if (uvs != nullptr) {
-		glGenBuffers(1, (GLuint*) &(uv_buffer));
-		glBindBuffer(GL_ARRAY_BUFFER, uv_buffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * size_uv, uvs, GL_STATIC_DRAW);
+		glGenBuffers(1, (GLuint*) &(deformable ? this->deformable->uv_buffer : uv_buffer));
+		glBindBuffer(GL_ARRAY_BUFFER, deformable ? this->deformable->uv_buffer :uv_buffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * deformable ? this->deformable->size_uv : size_uv, deformable ? 
+			this->deformable->uvs : uvs, GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	glGenBuffers(1, (GLuint*) &(index_buffer));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * index_size, indices, GL_STATIC_DRAW);
+	glGenBuffers(1, (GLuint*) &(deformable ? this->deformable->index_buffer : index_buffer));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, deformable ? this->deformable->index_buffer : index_buffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) *deformable ? this->deformable->index_size : index_size,
+		deformable ? this->deformable->indices : indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
@@ -53,4 +56,15 @@ bool ResourceMesh::ReleaseMemory()
 	glDeleteBuffers(1, (GLuint*)&uv_buffer);
 
 	return true;
+}
+
+void ResourceMesh::DuplicateMesh(ResourceMesh * mesh)
+{
+	if (indices && vertices && uvs) {
+		deformable->vertex_size = mesh->vertex_size;
+		deformable->vertices = new float[deformable->vertex_size];
+		deformable->indices = new uint[mesh->index_size];
+	}
+	if (normals) 
+		deformable->normals = new float[deformable->vertex_size];
 }

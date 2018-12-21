@@ -10,10 +10,11 @@ public:
 	ResourceMesh(UID uid);
 	~ResourceMesh();
 
-	void GenerateAndBindMesh();
+	void GenerateAndBindMesh(bool deformable = false);
 
 	bool LoadInMemory() override;
 	bool ReleaseMemory() override;
+	void DuplicateMesh(ResourceMesh* mesh);
 
 public:
 	std::string path;
@@ -39,6 +40,7 @@ public:
 	UID texture_uuid = 0u;
 
 	ResourceMesh* deformable = nullptr;
+
 };
 
 #endif // __RESOURCE_MESH_H__
