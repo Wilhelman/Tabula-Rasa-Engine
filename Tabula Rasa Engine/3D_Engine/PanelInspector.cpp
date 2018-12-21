@@ -290,7 +290,7 @@ void PanelInspector::Draw()
 
 						ImGui::Separator();
 
-						ImGui::Text("Current animation: ", App->animation->GetCurrentAnimation()->name.c_str());
+						ImGui::Text("Current animation: %s", App->animation->GetCurrentAnimation()->name.c_str());
 					}
 				}
 				ImGui::Separator();

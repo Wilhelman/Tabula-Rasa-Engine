@@ -83,9 +83,9 @@ void trAnimation::SetAnimationGos(ResourceAnimation * res)
 	for (uint i = 0; i < res->num_keys; ++i)
 		RecursiveGetAnimableGO(App->main_scene->GetRoot(), &res->bone_keys[i]);
 
-	duration = res->duration;
-	animations_available.push_back(res);
-	current_anim = animations_available[0];
+	available_animations.push_back(res);
+	current_anim = available_animations[0];
+	duration = available_animations[0]->duration;
 }
 
 void trAnimation::RecursiveGetAnimableGO(GameObject * go, ResourceAnimation::BoneTransformation* bone_transformation)
@@ -272,12 +272,12 @@ float trAnimation::GetCurrentAnimationTime() const
 
 const char* trAnimation::GetAnimationName(int index) const
 {
-	return animations_available[index]->name.c_str();
+	return available_animations[index]->name.c_str();
 }
 
 uint trAnimation::GetAnimationsNumber() const
 {
-	return (uint)animations_available.size();
+	return (uint)available_animations.size();
 }
 
 ResourceAnimation* trAnimation::GetCurrentAnimation() const
@@ -287,7 +287,14 @@ ResourceAnimation* trAnimation::GetCurrentAnimation() const
 
 void trAnimation::SetCurrentAnimation(uint index)
 {
-	current_anim = animations_available[index];
+	current_anim = available_animations[index];
+	uint i = 0;
+
+	for (std::map<GameObject*, ResourceAnimation::BoneTransformation*>::iterator it = animable_data_map.begin(); it != animable_data_map.end(); ++it)
+	{
+		it->second = &current_anim->bone_keys[i];
+		++i;
+	}
 }
 
 void trAnimation::PlayAnimation()

@@ -75,7 +75,7 @@ private:
 
 	AnimationState anim_state = AnimationState::NOT_DEF_STATE;
 
-	std::vector<ResourceAnimation*> animations_available;
+	std::vector<ResourceAnimation*> available_animations;
 
 };
 
