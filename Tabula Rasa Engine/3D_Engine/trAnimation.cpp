@@ -84,6 +84,8 @@ void trAnimation::SetAnimationGos(ResourceAnimation * res)
 		RecursiveGetAnimableGO(App->main_scene->GetRoot(), &res->bone_keys[i]);
 
 	duration = res->duration;
+	animations_available.push_back(res);
+	current_anim = animations_available[0];
 }
 
 void trAnimation::RecursiveGetAnimableGO(GameObject * go, ResourceAnimation::BoneTransformation* bone_transformation)
@@ -266,6 +268,26 @@ void trAnimation::MoveAnimationForward(float t)
 float trAnimation::GetCurrentAnimationTime() const
 {
 	return anim_timer;
+}
+
+const char* trAnimation::GetAnimationName(int index) const
+{
+	return animations_available[index]->name.c_str();
+}
+
+uint trAnimation::GetAnimationsNumber() const
+{
+	return (uint)animations_available.size();
+}
+
+ResourceAnimation* trAnimation::GetCurrentAnimation() const
+{
+	return current_anim;
+}
+
+void trAnimation::SetCurrentAnimation(uint index)
+{
+	current_anim = animations_available[index];
 }
 
 void trAnimation::PlayAnimation()

@@ -41,6 +41,12 @@ public:
 	void DeformMesh(ComponentBone* component_bone);
 
 	float GetCurrentAnimationTime() const;
+	const char* GetAnimationName(int index) const;
+	uint GetAnimationsNumber() const;
+	ResourceAnimation* GetCurrentAnimation() const;
+
+	void SetCurrentAnimation(uint index);
+
 	void PlayAnimation();
 	void PauseAnimation();
 	void StopAnimation();
@@ -65,8 +71,11 @@ private:
 
 	float anim_timer = 0.0f;
 	float duration = 0.0f;
+	ResourceAnimation* current_anim = nullptr;
 
 	AnimationState anim_state = AnimationState::NOT_DEF_STATE;
+
+	std::vector<ResourceAnimation*> animations_available;
 
 };
 

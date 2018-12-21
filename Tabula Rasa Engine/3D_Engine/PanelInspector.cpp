@@ -225,9 +225,13 @@ void PanelInspector::Draw()
 						ImGui::TimelineEvent("TimeLine##TIMELINE", current_anim_time);
 						ImGui::EndTimeline();
 
+						ImGui::NewLine();
+
 						ImGui::Text("Time: %.2f %s", current_anim_time[1], "s");
 
+						ImGui::NewLine();
 						ImGui::Separator();
+						ImGui::NewLine();
 
 						ImGui::Text("Keys number: %i", animation->num_keys);
 
@@ -254,17 +258,39 @@ void PanelInspector::Draw()
 						if (ImGui::Button("FORWARD"))
 							App->animation->StepForward();
 
+						ImGui::NewLine();
 						ImGui::Separator();
+						ImGui::NewLine();
 
 						ImGui::SliderFloat("Speed", &App->animation->anim_speed, 0.0f, 5.0f);
 						ImGui::Checkbox("Loop", &App->animation->loop);
 						ImGui::Checkbox("Interpolate", &App->animation->interpolate);
 
+						ImGui::NewLine();
 						ImGui::Separator();
+						ImGui::NewLine();
 
 						ImGui::Text("Duration: %f", (float)(animation->duration / animation->ticks_per_second));
 						ImGui::Text("Source: %s", animation->GetExportedFile());
 						ImGui::Text("Resource References: %i", animation->CountReferences());
+
+						ImGui::NewLine();
+						ImGui::Separator();
+						ImGui::NewLine();
+
+						ImGui::Text("Animations to select");
+
+						ImGui::Separator();
+
+						for (uint i = 0; i < App->animation->GetAnimationsNumber(); ++i)
+						{
+							if (ImGui::MenuItem(App->animation->GetAnimationName(i)))
+								App->animation->SetCurrentAnimation(i);
+						}	
+
+						ImGui::Separator();
+
+						ImGui::Text("Current animation: ", App->animation->GetCurrentAnimation()->name.c_str());
 					}
 				}
 				ImGui::Separator();
