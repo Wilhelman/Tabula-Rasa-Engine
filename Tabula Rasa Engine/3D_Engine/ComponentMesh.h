@@ -20,8 +20,19 @@ public:
 
 	bool SetResource(UID resource);
 
+	void AttachBones(const GameObject* go);
+
+	void DetachBones();
+
+	uint CountAttachedBones() const;
+
 	void RecursiveFindBones(const GameObject * go, std::vector<ComponentBone*>& found) const;
 
+public:
+	uint root_bones_uid = 0;
+	const GameObject* root_bones = nullptr;
+
+	std::vector<ComponentBone*> attached_bones;
 };
 
 #endif // __COMPONENT_MATERIAL_H__

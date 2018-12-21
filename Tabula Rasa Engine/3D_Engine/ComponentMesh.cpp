@@ -82,6 +82,48 @@ bool ComponentMesh::SetResource(UID resource)
 	return true;
 }
 
+void ComponentMesh::AttachBones(const GameObject* go)
+{
+	std::vector<ComponentBone*> bones;
+	RecursiveFindBones(go, bones);
+
+	if (bones.size() > 0)
+	{
+		DetachBones();
+		root_bones = go;
+		attached_bones = bones;
+
+		ResourceMesh* res = (ResourceMesh*)this->GetResource();
+
+		if (res->deformable == nullptr)
+		{
+			res->deformable = new ResourceMesh(0); //Check this
+			//res->deformable->CreateDeformableVersion((const ResourceMesh*)GetResource());
+			//App->meshes->GenerateVertexBuffer(deformable);
+		}
+
+		for (std::vector<ComponentBone*>::iterator it = attached_bones.begin(); it != attached_bones.end(); ++it)
+			(*it)->attached_mesh = this;
+	}
+}
+
+// ---------------------------------------------------------
+void ComponentMesh::DetachBones()
+{
+	for (std::vector<ComponentBone*>::iterator it = attached_bones.begin(); it != attached_bones.end(); ++it)
+		(*it)->attached_mesh = nullptr;
+	attached_bones.clear();
+
+	ResourceMesh* res = (ResourceMesh*)this->GetResource();
+	RELEASE(res->deformable);
+}
+
+// ---------------------------------------------------------
+uint ComponentMesh::CountAttachedBones() const
+{
+	return attached_bones.size();
+}
+
 void ComponentMesh::RecursiveFindBones(const GameObject * go, std::vector<ComponentBone*>& output) const
 {
 	if (go == nullptr)
