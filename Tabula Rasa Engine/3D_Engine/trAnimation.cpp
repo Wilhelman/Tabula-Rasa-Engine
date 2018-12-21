@@ -48,7 +48,7 @@ bool trAnimation::CleanUp()
 
 bool trAnimation::Update(float dt)
 {
-	if (anim_timer >= duration)
+	if (anim_timer >= duration && duration > 0.0f)
 	{
 		if (loop)
 			anim_timer = 0.0f;
@@ -69,6 +69,7 @@ bool trAnimation::Update(float dt)
 	case AnimationState::STOPPED:
 		anim_timer = 0.0f;
 		MoveAnimationForward(anim_timer);
+		PauseAnimation();
 		break;
 
 	case AnimationState::BLENDING:
