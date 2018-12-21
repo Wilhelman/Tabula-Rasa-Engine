@@ -75,7 +75,8 @@ bool ComponentAnimation::SetResource(UID resource)
 	if (bone_res)
 		uint num_references = bone_res->LoadToMemory();
 
-	App->animation->SetAnimationGos(bone_res);
+	if(bone_res)
+		App->animation->SetAnimationGos(bone_res);
 
 	return true;
 }
