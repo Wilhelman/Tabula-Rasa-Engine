@@ -19,19 +19,24 @@ bool Component::Enable()
 	return false;
 }
 
+bool Component::Start()
+{
+	return true;
+}
+
 bool Component::PreUpdate(float dt)
 {
-	return false;
+	return true;
 }
 
 bool Component::Update(float dt)
 {
-	return false;
+	return true;
 }
 
 bool Component::Disable()
 {
-	return false;
+	return true;
 }
 
 bool Component::Save(JSON_Object* component_obj) const

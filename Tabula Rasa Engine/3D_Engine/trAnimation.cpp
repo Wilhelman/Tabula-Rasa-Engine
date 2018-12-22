@@ -80,8 +80,11 @@ bool trAnimation::Update(float dt)
 	{
 		ComponentBone* bone = (ComponentBone*)animable_gos.at(i)->FindComponentByType(Component::component_type::COMPONENT_BONE);
 
-		if (bone && bone->attached_mesh)
+		if (bone && bone->attached_mesh) {
+			ResetMesh(bone);
 			DeformMesh(bone);
+		}
+			
 	}
 	
 	
@@ -395,5 +398,23 @@ void trAnimation::DeformMesh(ComponentBone* component_bone)
 				rmesh->normals[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
 			}
 		}
+	}
+}
+
+void trAnimation::ResetMesh(ComponentBone * component_bone)
+{
+	ResourceBone* rbone = (ResourceBone*)component_bone->GetResource();
+
+	ResourceMesh* original = (ResourceMesh*)App->resources->Get(rbone->mesh_uid); // Getting the mesh from the bone
+
+	if (original->deformable != nullptr)
+	{
+		//memset(original->deformable->indices, 0, original->index_size * sizeof(uint));
+		memcpy(original->deformable->indices, original->indices, original->deformable->index_size * sizeof(float));
+
+		memcpy(original->deformable->vertices, original->vertices, original->deformable->vertex_size * sizeof(float));
+
+		if (original->deformable->normals != nullptr)
+			memcpy(original->deformable->normals, original->normals, original->deformable->vertex_size * sizeof(float));
 	}
 }

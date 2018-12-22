@@ -39,6 +39,7 @@ public:
 
 	void SetAnimationGos(ResourceAnimation* res);
 	void DeformMesh(ComponentBone* component_bone);
+	void ResetMesh(ComponentBone* component_bone);
 
 	float GetCurrentAnimationTime() const;
 	const char* GetAnimationName(int index) const;

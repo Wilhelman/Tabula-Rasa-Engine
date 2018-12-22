@@ -31,6 +31,13 @@ ComponentMesh::~ComponentMesh()
 		res->Release();
 }
 
+bool ComponentMesh::Start()
+{
+	if (root_bone)
+		AttachBones(root_bone);
+	return true;
+}
+
 bool ComponentMesh::Save(JSON_Object* component_obj) const
 {
 	//todo: get resource path etc
@@ -64,9 +71,7 @@ bool ComponentMesh::Load(const JSON_Object * component_obj)
 		SetResource(App->resources->mesh_importer->GenerateResourceFromFile(file_path, uid));
 	}
 
-	GameObject* tmp_go = RecursiveFindGO(App->main_scene->GetRoot());
-	if (tmp_go)
-		AttachBones(tmp_go);
+	root_bone = RecursiveFindGO(App->main_scene->GetRoot());
 
 	return ret;
 }

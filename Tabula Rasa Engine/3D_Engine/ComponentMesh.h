@@ -15,6 +15,8 @@ public:
 	ComponentMesh(GameObject* embedded_game_object, UID resource);
 	~ComponentMesh();
 
+	bool Start();
+
 	bool Save(JSON_Object* component_obj)const;
 	bool Load(const JSON_Object* component_obj);
 
@@ -32,6 +34,7 @@ public:
 	
 
 public:
+	GameObject* root_bone = nullptr;
 	uint root_bones_uid = 0;
 	const GameObject* root_bones = nullptr;
 
