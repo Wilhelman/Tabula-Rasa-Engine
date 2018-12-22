@@ -18,6 +18,7 @@
 #include "ResourceMesh.h"
 
 
+
 trAnimation::trAnimation()
 {
 	this->name = "Animation";
@@ -76,17 +77,19 @@ bool trAnimation::Update(float dt)
 		break;
 	}
 
-	/*for (uint i = 0; i < animable_gos.size(); ++i)
+	static bool once = true;
+
+	if (once) {
+
+	for (uint i = 0; i < animable_gos.size(); ++i)
 	{
 		ComponentBone* bone = (ComponentBone*)animable_gos.at(i)->FindComponentByType(Component::component_type::COMPONENT_BONE);
 
 		if (bone)
 			ResetMesh(bone);
-	}*/
+	}
 
-	static bool once = true;
-
-	if (once) {
+	
 		for (uint i = 0; i < animable_gos.size(); ++i)
 		{
 			ComponentBone* bone = (ComponentBone*)animable_gos.at(i)->FindComponentByType(Component::component_type::COMPONENT_BONE);
@@ -374,48 +377,47 @@ void trAnimation::StepForward()
 
 void trAnimation::DeformMesh(ComponentBone* component_bone)
 {
-	ResourceBone* rbone = (ResourceBone*)component_bone->GetResource();
+	ComponentMesh* mesh = component_bone->attached_mesh;
 
-	ResourceMesh* roriginal = (ResourceMesh*)App->resources->Get(rbone->mesh_uid); // Getting the mesh from the bone
-
-	if (roriginal != nullptr)
+	if (mesh != nullptr)
 	{
-		ResourceMesh* deformable_mesh = roriginal->deformable;
+		const ResourceBone* rbone = (const ResourceBone*)component_bone->GetResource();
+		const ResourceMesh* roriginal = (const ResourceMesh*)mesh->GetResource();
+		ResourceMesh* tmp_mesh = (ResourceMesh*)mesh->GetResource();
+		ResourceMesh* rmesh = (ResourceMesh*)tmp_mesh->deformable;
 
+		// calc the transformation of this bone based on its root (not the global transformation)
 		float4x4 trans = component_bone->GetEmbeddedObject()->GetTransform()->GetMatrix();
+		trans = trans * component_bone->attached_mesh->GetEmbeddedObject()->GetTransform()->GetLocal().Inverted();
 
-		float4x4 local_trans_mesh = component_bone->attached_mesh->GetEmbeddedObject()->GetTransform()->GetLocal();
-		local_trans_mesh = local_trans_mesh.Inverted();
-
-		trans = trans * local_trans_mesh;
-
+		// Now apply a transformation to place the vertex as it was in the bind pose
 		trans = trans * rbone->offset_matrix;
 
 		for (uint i = 0; i < rbone->bone_weights_size; ++i)
 		{
 			uint index = rbone->bone_weights_indices[i];
 			float3 original(&roriginal->vertices[index * 3]);
-			float3 vertex(&deformable_mesh->vertices[index * 3]);
+			float3 vertex(&rmesh->vertices[index * 3]);
 
-			if (deformable_mesh->indices[index]++ == 0)
+			if (rmesh->indices[index]++ == 0)
 			{
-				memset(&deformable_mesh->vertices[index * 3], 0, sizeof(float) * 3);
+				memset(&rmesh->vertices[index * 3], 0, sizeof(float) * 3);
 				if (roriginal->normals)
-					memset(&deformable_mesh->normals[index * 3], 0, sizeof(float) * 3);
+					memset(&rmesh->normals[index * 3], 0, sizeof(float) * 3);
 			}
 
 			vertex = trans.TransformPos(original);
 
-			deformable_mesh->vertices[index * 3] += vertex.x * rbone->bone_weights[i];
-			deformable_mesh->vertices[index * 3 + 1] += vertex.y * rbone->bone_weights[i];
-			deformable_mesh->vertices[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
+			rmesh->vertices[index * 3] += vertex.x * rbone->bone_weights[i];
+			rmesh->vertices[index * 3 + 1] += vertex.y * rbone->bone_weights[i];
+			rmesh->vertices[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
 
 			if (roriginal->normals)
 			{
 				vertex = trans.TransformPos(float3(&roriginal->normals[index * 3]));
-				deformable_mesh->normals[index * 3] += vertex.x * rbone->bone_weights[i];
-				deformable_mesh->normals[index * 3 + 1] += vertex.y * rbone->bone_weights[i];
-				deformable_mesh->normals[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
+				rmesh->normals[index * 3] += vertex.x * rbone->bone_weights[i];
+				rmesh->normals[index * 3 + 1] += vertex.y * rbone->bone_weights[i];
+				rmesh->normals[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
 			}
 		}
 	}
@@ -429,17 +431,17 @@ void trAnimation::ResetMesh(ComponentBone * component_bone)
 
 	if (original->deformable != nullptr)
 	{
-		
-		memcpy(original->deformable->indices, original->indices, original->deformable->index_size * sizeof(float));
+		// todo check this
+		memcpy(original->deformable->indices, original->indices, original->deformable->index_size * sizeof(uint));
 
 		memcpy(original->deformable->vertices, original->vertices, original->deformable->vertex_size * sizeof(float));
-
-		//memset(original->deformable->indices, 0, original->index_size * sizeof(uint));
+		// TODO why if memset vertices to 0 -> no draw? render?
 		//memset(original->deformable->vertices, 0, original->vertex_size * sizeof(float));
+		
 
 		if (original->deformable->normals != nullptr) {
-			//memset(original->deformable->normals, 0, original->normal_size * sizeof(float));
-			memcpy(original->deformable->normals, original->normals, original->deformable->vertex_size * sizeof(float));
+			memset(original->deformable->normals, 0, original->normal_size * sizeof(float));
+			//memcpy(original->deformable->normals, original->normals, original->deformable->vertex_size * sizeof(float));
 		}
 			
 	}
