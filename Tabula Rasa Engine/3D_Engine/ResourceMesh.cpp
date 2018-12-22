@@ -59,12 +59,17 @@ void ResourceMesh::DuplicateMesh(ResourceMesh * mesh)
 {
 	if (indices && vertices && uvs) {
 		deformable->vertex_size = mesh->vertex_size;
+		deformable->index_size = mesh->index_size;
+		deformable->size_uv = mesh->size_uv;
+
 		deformable->index_buffer = mesh->index_buffer;
 		deformable->vertex_buffer = mesh->vertex_buffer;
 		deformable->uv_buffer = mesh->uv_buffer;
+
 		deformable->vertices = new float[deformable->vertex_size];
 		deformable->indices = new uint[mesh->index_size];
 		deformable->uvs = new float[mesh->size_uv];
+
 		memcpy(deformable->vertices, mesh->vertices, sizeof(float) * deformable->vertex_size);
 		memcpy(deformable->uvs, mesh->uvs, sizeof(float) * deformable->size_uv);
 		memcpy(deformable->indices, mesh->indices, sizeof(uint) * deformable->index_size);

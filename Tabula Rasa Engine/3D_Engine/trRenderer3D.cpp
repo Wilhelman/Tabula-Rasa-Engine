@@ -552,7 +552,7 @@ void trRenderer3D::Draw()
 			}
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->deformable ? mesh->deformable->index_buffer : mesh->index_buffer);
-			glDrawElements(GL_TRIANGLES, mesh->index_size, GL_UNSIGNED_INT, NULL);
+			glDrawElements(GL_TRIANGLES, mesh->deformable ? mesh->deformable->index_size : mesh->index_size, GL_UNSIGNED_INT, NULL);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 

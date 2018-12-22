@@ -76,16 +76,28 @@ bool trAnimation::Update(float dt)
 		break;
 	}
 
-	for (uint i = 0; i < animable_gos.size(); ++i)
+	/*for (uint i = 0; i < animable_gos.size(); ++i)
 	{
 		ComponentBone* bone = (ComponentBone*)animable_gos.at(i)->FindComponentByType(Component::component_type::COMPONENT_BONE);
 
-		if (bone && bone->attached_mesh) {
+		if (bone)
 			ResetMesh(bone);
-			//DeformMesh(bone);
+	}*/
+
+	static bool once = true;
+
+	if (once) {
+		for (uint i = 0; i < animable_gos.size(); ++i)
+		{
+			ComponentBone* bone = (ComponentBone*)animable_gos.at(i)->FindComponentByType(Component::component_type::COMPONENT_BONE);
+
+			if (bone && bone->attached_mesh)
+				DeformMesh(bone);
 		}
+
+		if(animable_gos.size()>0)
+			once = false;
 	}
-	
 	
 	return true;
 }
@@ -372,7 +384,10 @@ void trAnimation::DeformMesh(ComponentBone* component_bone)
 
 		float4x4 trans = component_bone->GetEmbeddedObject()->GetTransform()->GetMatrix();
 
-		trans = trans * component_bone->attached_mesh->GetEmbeddedObject()->GetTransform()->GetLocal().Inverted();
+		float4x4 local_trans_mesh = component_bone->attached_mesh->GetEmbeddedObject()->GetTransform()->GetLocal();
+		local_trans_mesh = local_trans_mesh.Inverted();
+
+		trans = trans * local_trans_mesh;
 
 		trans = trans * rbone->offset_matrix;
 
@@ -414,12 +429,18 @@ void trAnimation::ResetMesh(ComponentBone * component_bone)
 
 	if (original->deformable != nullptr)
 	{
-		memset(original->deformable->indices, 0, original->index_size * sizeof(uint));
-		//memcpy(original->deformable->indices, original->indices, original->deformable->index_size * sizeof(float));
+		
+		memcpy(original->deformable->indices, original->indices, original->deformable->index_size * sizeof(float));
 
 		memcpy(original->deformable->vertices, original->vertices, original->deformable->vertex_size * sizeof(float));
 
-		if (original->deformable->normals != nullptr)
+		//memset(original->deformable->indices, 0, original->index_size * sizeof(uint));
+		//memset(original->deformable->vertices, 0, original->vertex_size * sizeof(float));
+
+		if (original->deformable->normals != nullptr) {
+			//memset(original->deformable->normals, 0, original->normal_size * sizeof(float));
 			memcpy(original->deformable->normals, original->normals, original->deformable->vertex_size * sizeof(float));
+		}
+			
 	}
 }
