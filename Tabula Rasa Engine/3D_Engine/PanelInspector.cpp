@@ -221,8 +221,17 @@ void PanelInspector::Draw()
 						// once we handle multiple animations in the animation module
 						current_anim_time[0] = 0.0f;
 						current_anim_time[1] = App->animation->GetCurrentAnimationTime();
+						
 						ImGui::BeginTimeline("TimeLine##TIMELINE", (float)(animation->duration / animation->ticks_per_second));
-						ImGui::TimelineEvent("TimeLine##TIMELINE", current_anim_time);
+
+						if (current_anim_time[1] < 0.0f)
+							current_anim_time[1] = 0.0f;
+						else if (current_anim_time[1] > (float)(animation->duration / animation->ticks_per_second))
+							current_anim_time[1] = (float)(animation->duration / animation->ticks_per_second);
+
+						if (ImGui::TimelineEvent("TimeLine##TIMELINE", current_anim_time))
+							App->animation->SetCurrentAnimationTime(current_anim_time[1]);
+
 						ImGui::EndTimeline();
 
 						ImGui::NewLine();

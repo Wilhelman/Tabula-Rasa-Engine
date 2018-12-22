@@ -310,6 +310,12 @@ void trAnimation::SetCurrentAnimation(uint index)
 	}
 }
 
+void trAnimation::SetCurrentAnimationTime(float time)
+{
+	anim_timer = time;
+	MoveAnimationForward(anim_timer);
+}
+
 void trAnimation::PlayAnimation()
 {
 	anim_state = AnimationState::PLAYING;

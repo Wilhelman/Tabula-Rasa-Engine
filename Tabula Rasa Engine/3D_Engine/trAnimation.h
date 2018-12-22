@@ -47,6 +47,7 @@ public:
 	ResourceAnimation* GetCurrentAnimation() const;
 
 	void SetCurrentAnimation(uint index);
+	void SetCurrentAnimationTime(float time);
 
 	void PlayAnimation();
 	void PauseAnimation();
