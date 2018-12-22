@@ -326,6 +326,12 @@ void trAnimation::SetCurrentAnimationTime(float time)
 	MoveAnimationForward(anim_timer);
 }
 
+void trAnimation::CleanAnimableGOS()
+{
+	animable_gos.clear();
+	animable_data_map.clear();
+}
+
 void trAnimation::PlayAnimation()
 {
 	anim_state = AnimationState::PLAYING;

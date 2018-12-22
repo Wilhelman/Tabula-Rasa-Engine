@@ -49,6 +49,8 @@ public:
 	void SetCurrentAnimation(uint index);
 	void SetCurrentAnimationTime(float time);
 
+	void CleanAnimableGOS();
+
 	void PlayAnimation();
 	void PauseAnimation();
 	void StopAnimation();

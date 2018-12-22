@@ -21,6 +21,7 @@
 #include "DebugDraw.h"
 
 #include "trResources.h"
+#include "trAnimation.h"
 #include "ResourceMesh.h"
 #include "BoneImporter.h"
 #include "AnimationImporter.h"
@@ -90,6 +91,7 @@ bool SceneImporter::Import(const char * path, std::string & output_file)
 		App->file_system->GetFileFileNameFromPath(real_path.c_str(), final_file_name);
 		App->main_scene->scene_name = final_file_name;
 		imported_root_go->to_destroy = true;
+		App->animation->CleanAnimableGOS();
 
 		aiReleaseImport(scene);
 
