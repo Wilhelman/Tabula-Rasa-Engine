@@ -77,31 +77,27 @@ bool trAnimation::Update(float dt)
 		break;
 	}
 
-	static bool once = true;
 
-	if (once) {
+	//if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
+	//{
+		if (animable_gos.size() > 0)
+		{
+			ComponentBone* tmp_bone = (ComponentBone*)animable_gos.at(0)->FindComponentByType(Component::component_type::COMPONENT_BONE);
+			ResetMesh(tmp_bone);
+		}
 
-	for (uint i = 0; i < animable_gos.size(); ++i)
-	{
-		ComponentBone* bone = (ComponentBone*)animable_gos.at(i)->FindComponentByType(Component::component_type::COMPONENT_BONE);
-
-		if (bone)
-			ResetMesh(bone);
-	}
-
-	
 		for (uint i = 0; i < animable_gos.size(); ++i)
 		{
 			ComponentBone* bone = (ComponentBone*)animable_gos.at(i)->FindComponentByType(Component::component_type::COMPONENT_BONE);
 
 			if (bone && bone->attached_mesh)
+			{
+				
 				DeformMesh(bone);
+			}
 		}
+	//}
 
-		if(animable_gos.size()>0)
-			once = false;
-	}
-	
 	return true;
 }
 
@@ -386,38 +382,37 @@ void trAnimation::DeformMesh(ComponentBone* component_bone)
 		ResourceMesh* tmp_mesh = (ResourceMesh*)mesh->GetResource();
 		ResourceMesh* rmesh = (ResourceMesh*)tmp_mesh->deformable;
 
-		// calc the transformation of this bone based on its root (not the global transformation)
 		float4x4 trans = component_bone->GetEmbeddedObject()->GetTransform()->GetMatrix();
 		trans = trans * component_bone->attached_mesh->GetEmbeddedObject()->GetTransform()->GetLocal().Inverted();
 
-		// Now apply a transformation to place the vertex as it was in the bind pose
 		trans = trans * rbone->offset_matrix;
 
 		for (uint i = 0; i < rbone->bone_weights_size; ++i)
 		{
 			uint index = rbone->bone_weights_indices[i];
 			float3 original(&roriginal->vertices[index * 3]);
-			float3 vertex(&rmesh->vertices[index * 3]);
 
-			if (rmesh->indices[index]++ == 0)
+			float3 vertex = trans.TransformPos(original);
+
+			/*if (rmesh->indices[index]++ == 0)
 			{
 				memset(&rmesh->vertices[index * 3], 0, sizeof(float) * 3);
 				if (roriginal->normals)
 					memset(&rmesh->normals[index * 3], 0, sizeof(float) * 3);
-			}
+			}*/
 
-			vertex = trans.TransformPos(original);
+			//vertex = trans.TransformPos(original);
 
-			rmesh->vertices[index * 3] += vertex.x * rbone->bone_weights[i];
-			rmesh->vertices[index * 3 + 1] += vertex.y * rbone->bone_weights[i];
-			rmesh->vertices[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
+			rmesh->vertices[index * 3] += vertex.x * rbone->bone_weights[i] * 100;
+			rmesh->vertices[index * 3 + 1] += vertex.y * rbone->bone_weights[i] * 100;
+			rmesh->vertices[index * 3 + 2] += vertex.z * rbone->bone_weights[i] * 100;
 
 			if (roriginal->normals)
 			{
-				vertex = trans.TransformPos(float3(&roriginal->normals[index * 3]));
-				rmesh->normals[index * 3] += vertex.x * rbone->bone_weights[i];
-				rmesh->normals[index * 3 + 1] += vertex.y * rbone->bone_weights[i];
-				rmesh->normals[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
+				//vertex = trans.TransformPos(float3(&roriginal->normals[index * 3]));
+				//rmesh->normals[index * 3] += vertex.x * rbone->bone_weights[i];
+				//rmesh->normals[index * 3 + 1] += vertex.y * rbone->bone_weights[i];
+				//rmesh->normals[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
 			}
 		}
 	}
@@ -426,17 +421,38 @@ void trAnimation::DeformMesh(ComponentBone* component_bone)
 void trAnimation::ResetMesh(ComponentBone * component_bone)
 {
 	ResourceBone* rbone = (ResourceBone*)component_bone->GetResource();
+	ResourceMesh* original = (ResourceMesh*)App->resources->Get(rbone->mesh_uid);
 
-	ResourceMesh* original = (ResourceMesh*)App->resources->Get(rbone->mesh_uid); // Getting the mesh from the bone
+	/*if (original->deformable == nullptr)
+	{
+		animMesh = new R_Mesh();
+		R_Mesh* rMesh = (R_Mesh*)GetResource();
+		animMesh->buffersSize[R_Mesh::b_vertices] = rMesh->buffersSize[R_Mesh::b_vertices];
+		animMesh->buffersSize[R_Mesh::b_normals] = rMesh->buffersSize[R_Mesh::b_normals];
+		animMesh->buffersSize[R_Mesh::b_indices] = rMesh->buffersSize[R_Mesh::b_indices];
 
-	if (original->deformable != nullptr)
+		animMesh->vertices = new float[rMesh->buffersSize[R_Mesh::b_vertices] * 3];
+		animMesh->normals = new float[rMesh->buffersSize[R_Mesh::b_normals] * 3];
+		animMesh->indices = new uint[rMesh->buffersSize[R_Mesh::b_indices]];
+		memcpy(animMesh->indices, rMesh->indices, rMesh->buffersSize[R_Mesh::b_indices] * sizeof(uint));
+	}*/
+
+	//R_Mesh* rMesh = (R_Mesh*)GetResource();
+	memset(original->deformable->vertices, 0, original->vertex_size * sizeof(float));
+
+	//if (original->deformable->normals != nullptr) {
+		//memset(original->deformable->normals, 0, original->normal_size * sizeof(float));
+		//memcpy(original->deformable->normals, original->normals, original->deformable->vertex_size * sizeof(float));
+	//}
+
+	/*if (original->deformable != nullptr)
 	{
 		// todo check this
 		memcpy(original->deformable->indices, original->indices, original->deformable->index_size * sizeof(uint));
 
 		memcpy(original->deformable->vertices, original->vertices, original->deformable->vertex_size * sizeof(float));
 		// TODO why if memset vertices to 0 -> no draw? render?
-		//memset(original->deformable->vertices, 0, original->vertex_size * sizeof(float));
+		memset(original->deformable->vertices, 0, original->vertex_size * sizeof(float));
 		
 
 		if (original->deformable->normals != nullptr) {
@@ -444,5 +460,5 @@ void trAnimation::ResetMesh(ComponentBone * component_bone)
 			//memcpy(original->deformable->normals, original->normals, original->deformable->vertex_size * sizeof(float));
 		}
 			
-	}
+	}*/
 }
