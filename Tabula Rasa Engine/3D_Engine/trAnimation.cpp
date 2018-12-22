@@ -82,9 +82,8 @@ bool trAnimation::Update(float dt)
 
 		if (bone && bone->attached_mesh) {
 			ResetMesh(bone);
-			DeformMesh(bone);
+			//DeformMesh(bone);
 		}
-			
 	}
 	
 	
@@ -369,7 +368,7 @@ void trAnimation::DeformMesh(ComponentBone* component_bone)
 
 	if (roriginal != nullptr)
 	{
-		ResourceMesh* rmesh = roriginal->deformable;
+		ResourceMesh* deformable_mesh = roriginal->deformable;
 
 		float4x4 trans = component_bone->GetEmbeddedObject()->GetTransform()->GetMatrix();
 
@@ -381,27 +380,27 @@ void trAnimation::DeformMesh(ComponentBone* component_bone)
 		{
 			uint index = rbone->bone_weights_indices[i];
 			float3 original(&roriginal->vertices[index * 3]);
-			float3 vertex(&rmesh->vertices[index * 3]);
+			float3 vertex(&deformable_mesh->vertices[index * 3]);
 
-			if (rmesh->indices[index]++ == 0)
+			if (deformable_mesh->indices[index]++ == 0)
 			{
-				memset(&rmesh->vertices[index * 3], 0, sizeof(float) * 3);
+				memset(&deformable_mesh->vertices[index * 3], 0, sizeof(float) * 3);
 				if (roriginal->normals)
-					memset(&rmesh->normals[index * 3], 0, sizeof(float) * 3);
+					memset(&deformable_mesh->normals[index * 3], 0, sizeof(float) * 3);
 			}
 
 			vertex = trans.TransformPos(original);
 
-			rmesh->vertices[index * 3] += vertex.x * rbone->bone_weights[i];
-			rmesh->vertices[index * 3 + 1] += vertex.y * rbone->bone_weights[i];
-			rmesh->vertices[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
+			deformable_mesh->vertices[index * 3] += vertex.x * rbone->bone_weights[i];
+			deformable_mesh->vertices[index * 3 + 1] += vertex.y * rbone->bone_weights[i];
+			deformable_mesh->vertices[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
 
 			if (roriginal->normals)
 			{
 				vertex = trans.TransformPos(float3(&roriginal->normals[index * 3]));
-				rmesh->normals[index * 3] += vertex.x * rbone->bone_weights[i];
-				rmesh->normals[index * 3 + 1] += vertex.y * rbone->bone_weights[i];
-				rmesh->normals[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
+				deformable_mesh->normals[index * 3] += vertex.x * rbone->bone_weights[i];
+				deformable_mesh->normals[index * 3 + 1] += vertex.y * rbone->bone_weights[i];
+				deformable_mesh->normals[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
 			}
 		}
 	}
@@ -415,8 +414,8 @@ void trAnimation::ResetMesh(ComponentBone * component_bone)
 
 	if (original->deformable != nullptr)
 	{
-		//memset(original->deformable->indices, 0, original->index_size * sizeof(uint));
-		memcpy(original->deformable->indices, original->indices, original->deformable->index_size * sizeof(float));
+		memset(original->deformable->indices, 0, original->index_size * sizeof(uint));
+		//memcpy(original->deformable->indices, original->indices, original->deformable->index_size * sizeof(float));
 
 		memcpy(original->deformable->vertices, original->vertices, original->deformable->vertex_size * sizeof(float));
 

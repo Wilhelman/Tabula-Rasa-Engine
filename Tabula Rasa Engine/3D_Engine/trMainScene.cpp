@@ -152,6 +152,12 @@ void trMainScene::RecursiveSetupGo(GameObject * go)
 		}
 	}
 
+	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++) {
+		if ((*it)->to_destroy == false && (*it)->FindComponentByType(ComponentMesh::COMPONENT_MESH)) {
+			(*it)->FindComponentByType(ComponentMesh::COMPONENT_MESH)->Start();
+		}
+	}
+
 	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++)
 	{
 		if((*it)->to_destroy == false)
