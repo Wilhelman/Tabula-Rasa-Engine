@@ -17,7 +17,7 @@
 #include "ResourceBone.h"
 #include "ResourceMesh.h"
 
-
+#define SCALE 100
 
 trAnimation::trAnimation()
 {
@@ -403,9 +403,9 @@ void trAnimation::DeformMesh(ComponentBone* component_bone)
 
 			//vertex = trans.TransformPos(original);
 
-			rmesh->vertices[index * 3] += vertex.x * rbone->bone_weights[i] * 100;
-			rmesh->vertices[index * 3 + 1] += vertex.y * rbone->bone_weights[i] * 100;
-			rmesh->vertices[index * 3 + 2] += vertex.z * rbone->bone_weights[i] * 100;
+			rmesh->vertices[index * 3] += vertex.x * rbone->bone_weights[i] * SCALE;
+			rmesh->vertices[index * 3 + 1] += vertex.y * rbone->bone_weights[i] * SCALE;
+			rmesh->vertices[index * 3 + 2] += vertex.z * rbone->bone_weights[i] * SCALE;
 
 			if (roriginal->normals)
 			{
