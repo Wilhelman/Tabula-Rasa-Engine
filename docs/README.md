@@ -55,9 +55,10 @@ On the following sections we will explain the main core sub-systems of this engi
 
 ...
 
-### 3D Camera and frustum culling
+### 3D Camera & frustum culling
 
-...
+Our engine has two cameras: the editor camera (which can be controlled as in any other 3D software) and the game camera. The game camera is treated as a component of the gameobject 'Main Camera' and has frusutm culling using a quadtree so gameobjects outisde its frustum won't be drawn. 
+
 
 ### Quadtree
 
