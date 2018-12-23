@@ -61,7 +61,7 @@ On the following sections we will explain the main core sub-systems of this engi
 
 ### Quadtree
 
-...
+We've implement a quadtree container in our engine to speed things up. All the gameobjects in the scene that are marked as static in the inspector are inserted inside the quadtree. The quadtree will subdivide itself in four as many times as it needs to redistribute the gameobjects and match the specified bucket size. Doing this we can safely discard gameobjects whose quadtree node does not intersect with the camera frustum speeding up the frustum culling process.
 
 ### Data serialization
 
