@@ -77,10 +77,13 @@ bool trMainScene::PreUpdate(float dt)
 
 bool trMainScene::Update(float dt)
 {
+	static bool ugly_punch_controler = false;
+
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN){
 		if (App->animation->animations.size() > 1) {
 			App->animation->SetCurrentAnimation(PUNCH);
 			App->animation->GetCurrentAnimation()->interpolate = true;
+			ugly_punch_controler = true;
 		}	
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
@@ -93,6 +96,12 @@ bool trMainScene::Update(float dt)
 	else if (App->input->GetKey(SDL_SCANCODE_2) == KEY_UP) {
 		App->animation->SetCurrentAnimation(IDLE);
 	}
+
+	if (ugly_punch_controler && App->animation->anim_state == PAUSED) {
+		App->animation->SetCurrentAnimation(IDLE);
+		ugly_punch_controler = false;
+	}
+
 
 	return true;
 }

@@ -85,10 +85,10 @@ private:
 	Animation* last_anim = nullptr;
 
 	float blend_timer = 0.0f;
-
-	AnimationState anim_state = AnimationState::NOT_DEF_STATE;
-
 	std::vector<ResourceAnimation*> available_animations;
+
+public:
+	AnimationState anim_state = AnimationState::NOT_DEF_STATE;
 
 };
 

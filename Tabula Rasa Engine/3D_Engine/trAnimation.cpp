@@ -145,7 +145,7 @@ void trAnimation::RecursiveGetAnimableGO(GameObject * go, ResourceAnimation::Bon
 		RecursiveGetAnimableGO((*it_childs), bone_transformation, anim);
 }
 
-void trAnimation::MoveAnimationForward(float t, Animation* current_animation, float blend)
+void trAnimation::MoveAnimationForward(float time, Animation* current_animation, float blend)
 {
 
 	for (uint i = 0; i < current_animation->animable_gos.size(); ++i)
@@ -184,18 +184,18 @@ void trAnimation::MoveAnimationForward(float t, Animation* current_animation, fl
 					if (prev_pos != nullptr && next_pos != nullptr) // if prev and next postions have been found we stop
 					{
 						float time_interval = next_time - prev_time;
-						time_pos_percentatge = (t - prev_time) / time_interval;
+						time_pos_percentatge = (time - prev_time) / time_interval;
 						break;
 					}
 
-					if (t == transform->positions.time[j]) // in this case interpolation won't be done
+					if (time == transform->positions.time[j]) // in this case interpolation won't be done
 					{
 						prev_pos = &transform->positions.value[j * 3];
 						next_pos = prev_pos;
 						break;
 					}
 
-					if (transform->positions.time[j] > t) // prev and next postions have been found
+					if (transform->positions.time[j] > time) // prev and next postions have been found
 					{
 						next_time = transform->positions.time[j];
 						next_pos = &transform->positions.value[j * 3];
@@ -217,18 +217,18 @@ void trAnimation::MoveAnimationForward(float t, Animation* current_animation, fl
 					if (prev_scale != nullptr && next_scale != nullptr) // if prev and next scalings have been found we stop
 					{
 						float time_interval = next_time - prev_time;
-						time_scale_percentatge = (t - prev_time) / time_interval;
+						time_scale_percentatge = (time - prev_time) / time_interval;
 						break;
 					}
 
-					if (t == transform->scalings.time[j]) // in this case interpolation won't be done
+					if (time == transform->scalings.time[j]) // in this case interpolation won't be done
 					{
 						prev_scale = &transform->scalings.value[j * 3];
 						next_scale = prev_scale;
 						break;
 					}
 
-					if (transform->scalings.time[j] > t) // prev and next scalings have been found
+					if (transform->scalings.time[j] > time) // prev and next scalings have been found
 					{
 						next_time = transform->scalings.time[j];
 						next_scale = &transform->scalings.value[j * 3];
@@ -250,18 +250,18 @@ void trAnimation::MoveAnimationForward(float t, Animation* current_animation, fl
 					if (prev_rot != nullptr && next_rot != nullptr) // if prev and next rotations have been found we stop
 					{
 						float time_interval = next_time - prev_time;
-						time_rot_percentatge = (t - prev_time) / time_interval; 
+						time_rot_percentatge = (time - prev_time) / time_interval; 
 						break;
 					}
 
-					if (t == transform->rotations.time[j]) // in this case interpolation won't be done
+					if (time == transform->rotations.time[j]) // in this case interpolation won't be done
 					{
 						prev_rot = &transform->rotations.value[j * 4];
 						next_rot = prev_rot;
 						break;
 					}
 
-					if (transform->rotations.time[j] > t) // prev and next rotations have been found
+					if (transform->rotations.time[j] > time) // prev and next rotations have been found
 					{
 						next_time = transform->rotations.time[j];
 						next_rot = &transform->rotations.value[j * 4];
@@ -319,9 +319,6 @@ void trAnimation::MoveAnimationForward(float t, Animation* current_animation, fl
 					Quat::Slerp(rot2, rot, blend));
 				
 			}
-
-			// Setting up final interpolated transform in current bone (gameobject)
-			//current_anim->animable_gos[i]->GetTransform()->Setup(pos, scale, rot);
 		}
 
 	}
@@ -447,26 +444,9 @@ void trAnimation::DeformMesh(ComponentBone* component_bone)
 
 			float3 vertex = trans.TransformPos(original);
 
-			/*if (rmesh->indices[index]++ == 0)
-			{
-				memset(&rmesh->vertices[index * 3], 0, sizeof(float) * 3);
-				if (roriginal->normals)
-					memset(&rmesh->normals[index * 3], 0, sizeof(float) * 3);
-			}*/
-
-			//vertex = trans.TransformPos(original);
-
 			rmesh->vertices[index * 3] += vertex.x * rbone->bone_weights[i] * SCALE;
 			rmesh->vertices[index * 3 + 1] += vertex.y * rbone->bone_weights[i] * SCALE;
 			rmesh->vertices[index * 3 + 2] += vertex.z * rbone->bone_weights[i] * SCALE;
-
-			if (roriginal->normals)
-			{
-				//vertex = trans.TransformPos(float3(&roriginal->normals[index * 3]));
-				//rmesh->normals[index * 3] += vertex.x * rbone->bone_weights[i];
-				//rmesh->normals[index * 3 + 1] += vertex.y * rbone->bone_weights[i];
-				//rmesh->normals[index * 3 + 2] += vertex.z * rbone->bone_weights[i];
-			}
 		}
 	}
 }
