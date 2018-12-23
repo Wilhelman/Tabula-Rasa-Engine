@@ -207,7 +207,6 @@ void PanelInspector::Draw()
 			{
 				ComponentAnimation* animation_co = (ComponentAnimation*)(*it);
 				ResourceAnimation* animation = (ResourceAnimation*)animation_co->GetResource();
-
 				if (ImGui::CollapsingHeader("ANIMATION COMPONENT", ImGuiTreeNodeFlags_DefaultOpen)) 
 				{
 					if (animation != nullptr) 
@@ -220,12 +219,12 @@ void PanelInspector::Draw()
 						current_anim_time[0] = 0.0f;
 						current_anim_time[1] = App->animation->GetCurrentAnimationTime();
 						
-						ImGui::BeginTimeline("TimeLine##TIMELINE", (float)(animation->duration / animation->ticks_per_second));
+						ImGui::BeginTimeline("TimeLine##TIMELINE", (float)(App->animation->GetCurrentAnimation()->duration/ animation->ticks_per_second));
 
 						if (current_anim_time[1] < 0.0f)
 							current_anim_time[1] = 0.0f;
-						else if (current_anim_time[1] > (float)(animation->duration / animation->ticks_per_second))
-							current_anim_time[1] = (float)(animation->duration / animation->ticks_per_second);
+						else if (current_anim_time[1] > (float)(App->animation->GetCurrentAnimation()->duration / animation->ticks_per_second))
+							current_anim_time[1] = (float)(App->animation->GetCurrentAnimation()->duration / animation->ticks_per_second);
 
 						if (ImGui::TimelineEvent("TimeLine##TIMELINE", current_anim_time))
 							App->animation->SetCurrentAnimationTime(current_anim_time[1]);

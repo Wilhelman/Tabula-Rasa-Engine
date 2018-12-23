@@ -296,6 +296,7 @@ void trAnimation::MoveAnimationForward(float t)
 			// Setting up final interpolated transform in current bone (gameobject)
 			current_anim->animable_gos[i]->GetTransform()->Setup(pos, scale, rot);
 		}
+
 	}
 }
 
@@ -327,7 +328,10 @@ void trAnimation::SetCurrentAnimationTime(float time)
 
 void trAnimation::SetCurrentAnimation(int i)
 {
+	
 	current_anim = animations.at(i);
+	SetCurrentAnimationTime(0.0f);
+
 }
 
 void trAnimation::CleanAnimableGOS()
