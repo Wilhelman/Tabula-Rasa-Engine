@@ -64,7 +64,7 @@ void PanelHierarchy::DrawGameObject(GameObject * game_object)
 
 	if (ImGui::TreeNodeEx(game_object->GetName(), tree_node_flags))
 	{
-		ItemHovered(game_object);
+		//ItemHovered(game_object);
 
 		if (ImGui::IsItemClicked(0)) // left click
 			App->editor->SetSelected(game_object);
