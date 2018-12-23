@@ -92,7 +92,7 @@ bool SceneImporter::Import(const char * path, std::string & output_file)
 		App->main_scene->scene_name = final_file_name;
 		imported_root_go->to_destroy = true;
 
-		App->animation->CleanAnimableGOS();
+		//App->animation->CleanAnimableGOS();
 
 		aiReleaseImport(scene);
 

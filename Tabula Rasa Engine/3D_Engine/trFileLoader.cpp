@@ -88,7 +88,7 @@ void trFileLoader::ImportScene(const char * file_path, bool and_delete_all)
 		// Clear previous scene
 		if(and_delete_all)
 			App->main_scene->ClearScene(true);
-		App->animation->CleanAnimableGOS();
+		//App->animation->CleanAnimableGOS();
 
 		char* buffer = nullptr;
 		uint size = App->file_system->ReadFromFile(tmp_str.c_str(), &buffer);

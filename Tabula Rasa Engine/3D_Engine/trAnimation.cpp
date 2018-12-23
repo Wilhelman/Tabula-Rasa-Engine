@@ -34,8 +34,10 @@ bool trAnimation::Awake(JSON_Object* config)
 
 bool trAnimation::Start()
 {
-	current_anim->interpolate = true;
-	current_anim->loop = true;
+	if (current_anim) {
+		current_anim->interpolate = true;
+		current_anim->loop = true;
+	}
 	anim_state = AnimationState::PLAYING;
 
 	return true;
@@ -51,6 +53,9 @@ bool trAnimation::CleanUp()
 
 bool trAnimation::Update(float dt)
 {
+	if (current_anim == nullptr)
+		return true;
+
 	if (current_anim->anim_timer >= current_anim->duration && current_anim->duration > 0.0f)
 	{
 		if (current_anim->loop)
