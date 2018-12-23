@@ -1,7 +1,9 @@
 
 ## **Project overview** 
 
-Tabula Rasa Engine is a 3D game engine developed/coded from scratch with OpenGL in C++. The engine contains all the basic [sub-systems](https://wilhelman.github.io/Tabula-Rasa-Engine/#main-core-subsystems) of a modern 3D engine and we have also added support to handle [skeletal animations](https://wilhelman.github.io/Tabula-Rasa-Engine/#skeletal-animation-subsystem). Although this project has been done with educational purposes it will be used (along other engines from our class) to produce a game in the Project 3 subject in the first half of 2019. 
+Tabula Rasa Engine is a 3D game engine developed/coded from scratch with OpenGL in C++.
+
+The engine contains all the basic [sub-systems](https://wilhelman.github.io/Tabula-Rasa-Engine/#main-core-subsystems) of a modern 3D engine and we have also added support to handle [skeletal animations](https://wilhelman.github.io/Tabula-Rasa-Engine/#skeletal-animation-subsystem). Although this project has been done with educational purposes it will be used (along other engines from our class) to produce a game in the Project 3 subject in the first half of 2019.
 
 This project has been done by two students of CITM - UPC (Terrasa, Spain) for the subject Game Engines.
 
@@ -11,15 +13,30 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
 
 ## **Our Team**
 
-<a href="url"><img src="https://user-images.githubusercontent.com/25901477/50387340-c13af280-06f9-11e9-828a-a0446208056d.png" align="left" height="150" width="150" ></a>_García Subirana, Guillermo's responsability and GitHub account_
+<a href="url"><img src="https://user-images.githubusercontent.com/25901477/50387340-c13af280-06f9-11e9-828a-a0446208056d.png" align="right" height="150" width="150" ></a>_García Subirana, Guillermo's responsability and GitHub account_
 
-* TODO: add resposabilities here... BLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLA
+* Resource Manager
+* Quadtree & Frustum Culling
+* Binary scene serialization
+* GameObjects hierarchy
+* Persistence (Json)
+* File system
+* Camera
+* Gizmo UI
+* Skeletal Animation
 * [GitHub account](https://github.com/Wilhelman)
 
 
-<a href="url"><img src="https://user-images.githubusercontent.com/25901477/50387439-a918a280-06fc-11e9-9ac4-c0572fd53107.png" align="left" height="150" width="150" ></a>_Masó Garcia, Víctor's responsability and GitHub account_
+<a href="url"><img src="https://user-images.githubusercontent.com/25901477/50387439-a918a280-06fc-11e9-9ac4-c0572fd53107.png" align="right" height="150" width="150" ></a>_Masó Garcia, Víctor's responsability and GitHub account_
 
-* TODO: add resposabilities here... BLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLA
+* Time Management
+* Mouse Picking
+* Unity like camera controls
+* ImgGui editor
+* File system
+* Gizmo UI
+* Camera
+* Skeletal Animation
 * [GitHub account](https://github.com/nintervik)
 
 ***
@@ -100,10 +117,12 @@ _NOTE:_ Collected gameobjects are sorted by distance and we constantly check for
 ## **Skeletal animation subsystem**
 
 * **Blending**: When we switch between animations, we perform a fixed time blending. To perform it, we interpolate between the position of the vertices of the previous animation with the animation that is replacing it. Both continue advancing according to the time of game.
+
 ![blending_gif](https://user-images.githubusercontent.com/25901477/50387245-16760480-06f8-11e9-8c2f-aa1be871503d.gif)
 
-* **Loop & Interpolation**: 
+* **Interpolation**: 
 Upon receiving the information that the _Assimp_ library gives us when importing an animation, we obtain all the keyframes necessary to animate the bones. However, we use interpolation methods such as _Lerp_(Position/Scale) and _SLerp_(Quaternion) to obtain an intermediate position between the current and the following _keyframe_. To be more precise we use the time to know if we are closer to one _keyframe_ or another.
+
 ![2](https://user-images.githubusercontent.com/25901477/50387265-54732880-06f8-11e9-9ac0-683584b20f4a.gif)
 
 ## **Engine Demo**
