@@ -7,7 +7,7 @@ The engine contains all the basic [sub-systems](https://wilhelman.github.io/Tabu
 
 This project has been done by two students of CITM - UPC (Terrasa, Spain) for the subject Game Engines.
 
-> ### *Download the last version of the engine [HERE](https://github.com/Wilhelman/Tabula-Rasa-Engine/releases/tag/Assignment3.1)*
+> ### *Download the last version of the engine [HERE](https://github.com/Wilhelman/Tabula-Rasa-Engine/releases/tag/Assignment3.2)*
 
 ***
 
@@ -60,13 +60,11 @@ When we detect a file in our Assets/Models/ directory we read the file with Assi
 
 Each time a resource mesh is generated a scene is generated in our own binary format too.
 
-### Textures
-
-
 
 ### Gameobject structure
 
-...
+Gameobjects have a tree structure so the transformations affect all the children correctly. Each gameobject has a transform component  
+
 
 ### Binary files format
 
