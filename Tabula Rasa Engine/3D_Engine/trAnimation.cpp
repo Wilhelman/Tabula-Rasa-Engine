@@ -108,6 +108,7 @@ bool trAnimation::Update(float dt)
 void trAnimation::SetAnimationGos(ResourceAnimation * res)
 {
 	Animation* animation = new Animation();
+	animation->name = res->name;
 	for (uint i = 0; i < res->num_keys; ++i)
 		RecursiveGetAnimableGO(App->main_scene->GetRoot(), &res->bone_keys[i], animation);
 
@@ -305,12 +306,12 @@ float trAnimation::GetCurrentAnimationTime() const
 
 const char* trAnimation::GetAnimationName(int index) const
 {
-	return available_animations[index]->name.c_str();
+	return animations[index]->name.c_str();
 }
 
 uint trAnimation::GetAnimationsNumber() const
 {
-	return (uint)available_animations.size();
+	return (uint)animations.size();
 }
 
 trAnimation::Animation* trAnimation::GetCurrentAnimation() const
@@ -322,6 +323,11 @@ void trAnimation::SetCurrentAnimationTime(float time)
 {
 	current_anim->anim_timer = time;
 	MoveAnimationForward(current_anim->anim_timer);
+}
+
+void trAnimation::SetCurrentAnimation(int i)
+{
+	current_anim = animations.at(i);
 }
 
 void trAnimation::CleanAnimableGOS()

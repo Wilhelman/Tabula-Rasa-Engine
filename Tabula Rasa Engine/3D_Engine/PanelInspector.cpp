@@ -212,8 +212,6 @@ void PanelInspector::Draw()
 				{
 					if (animation != nullptr) 
 					{
-						ImGui::Text("Name: %s", animation->name);
-
 						// TODO: only update current_anim_time if animation is playing,
 						// otherwise it should be able to be modified by the user producing
 						// a change in the animation as in Maya. 
@@ -293,13 +291,13 @@ void PanelInspector::Draw()
 
 						for (uint i = 0; i < App->animation->GetAnimationsNumber(); ++i)
 						{
-							//if (ImGui::MenuItem(App->animation->GetAnimationName(i)))						// TODO CHECK THIS
-								//App->animation->SetCurrentAnimation(i);
+							if (ImGui::MenuItem(App->animation->GetAnimationName(i)))						
+								App->animation->SetCurrentAnimation(i);
 						}	
 
 						ImGui::Separator();
 
-						//ImGui::Text("Current animation: %s", App->animation->GetCurrentAnimation()->name.c_str());
+						ImGui::Text("Current animation: %s", App->animation->GetCurrentAnimation()->name.c_str());
 					}
 				}
 				ImGui::Separator();

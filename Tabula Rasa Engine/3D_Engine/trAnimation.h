@@ -27,6 +27,7 @@ class trAnimation : public trModule
 public:
 
 	struct Animation {
+		std::string name;
 		std::vector<GameObject*> animable_gos;
 		std::map<GameObject*, ResourceAnimation::BoneTransformation*> animable_data_map;
 
@@ -63,6 +64,7 @@ public:
 	Animation* GetCurrentAnimation() const;
 
 	void SetCurrentAnimationTime(float time);
+	void SetCurrentAnimation(int i);
 
 	void CleanAnimableGOS();
 

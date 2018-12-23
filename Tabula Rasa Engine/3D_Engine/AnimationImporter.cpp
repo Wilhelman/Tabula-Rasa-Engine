@@ -23,18 +23,20 @@ bool AnimationImporter::Import(const char * file_path, std::string & output_file
 
 UID AnimationImporter::Import(const aiAnimation* new_anim, std::string& output)
 {
+	static int take_count = 1;
 	// Making sure the animation exists and has data inside
 	if (new_anim == nullptr)
 		return false;
 
 	if (new_anim->mNumChannels == 0)
 		return false;
-
+	
 	// Creating animation resource an filling its data
 	ResourceAnimation* anim = (ResourceAnimation*)App->resources->CreateNewResource(Resource::Type::ANIMATION);
 
-	anim->name = new_anim->mName.C_Str();
-	//anim->name = "testAnim";
+	std::string filename = "Take00";
+	filename.append(std::to_string(take_count++));
+	anim->name = filename;
 
 	anim->ticks_per_second = new_anim->mTicksPerSecond != 0 ? new_anim->mTicksPerSecond : 24;
 	anim->duration = new_anim->mDuration / anim->ticks_per_second;
