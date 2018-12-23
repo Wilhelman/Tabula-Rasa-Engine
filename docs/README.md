@@ -93,6 +93,15 @@ _IMPORTANT: do not modify, change or add any folder or file as you might not be 
 
 ***
 
+## **Notes on performance**
+
+There are two main cases where the overall perfomance might decrease significantly:
+
+* If the z-buffer visualization is activated.
+* When an animated model is loaded on scene **(especially if its playing its animation)** the engine perfomance might drop a lot. That's because the skinning process of deforming the mesh to match the bones positions of the corresponding skeleton needs to do a lot of matrix related operations multiple times per frame. As we don't use shaders in this engine all these operations are sended to the CPU (instead of the GPU) which is not prepared to handle matrix operations as well as the GPU does. 
+
+***
+
 ## **Controls**
 
 ~~~~~~~~~~~~~~~
