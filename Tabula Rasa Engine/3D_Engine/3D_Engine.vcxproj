@@ -65,6 +65,7 @@
     <ClCompile Include="MathGeoLib\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Time\Clock.cpp" />
+    <ClCompile Include="pcg\entropy.c" />
     <ClCompile Include="ResourceAnimation.cpp" />
     <ClCompile Include="SceneImporter.cpp" />
     <ClCompile Include="PanelControl.cpp" />
@@ -242,6 +243,9 @@
     <ClInclude Include="MathGeoLib\Math\sse_mathfun.h" />
     <ClInclude Include="MathGeoLib\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Time\Clock.h" />
+    <ClInclude Include="pcg\entropy.h" />
+    <ClInclude Include="pcg\pcg_spinlock.h" />
+    <ClInclude Include="pcg\pcg_variants.h" />
     <ClInclude Include="ResourceAnimation.h" />
     <ClInclude Include="SceneImporter.h" />
     <ClInclude Include="PanelControl.h" />

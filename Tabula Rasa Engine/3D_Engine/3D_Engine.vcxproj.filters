@@ -357,6 +357,9 @@
     <ClCompile Include="trAnimation.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="pcg\entropy.c">
+      <Filter>Utilities\3rd Party\PCG</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="trWindow.h">
@@ -892,6 +895,15 @@
     </ClInclude>
     <ClInclude Include="imgui_timeline.h">
       <Filter>Utilities\3rd Party\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="pcg\entropy.h">
+      <Filter>Utilities\3rd Party\PCG</Filter>
+    </ClInclude>
+    <ClInclude Include="pcg\pcg_spinlock.h">
+      <Filter>Utilities\3rd Party\PCG</Filter>
+    </ClInclude>
+    <ClInclude Include="pcg\pcg_variants.h">
+      <Filter>Utilities\3rd Party\PCG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

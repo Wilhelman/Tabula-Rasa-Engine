@@ -19,6 +19,7 @@
 
 #include <algorithm>
 #include "pcg/pcg_basic.h"
+#include "pcg/entropy.h"
 
 
 // Constructor
@@ -92,6 +93,10 @@ void trApp::AddModule(trModule* module)
 bool trApp::Awake()
 {
 	bool ret = true;
+
+	uint64_t seeds[2];
+	entropy_getbytes((void*)seeds, sizeof(seeds));
+	pcg32_srandom_r(&random, seeds[0], seeds[1]);
 
 	JSON_Value* root_value = nullptr;
 	root_value = json_parse_file("Settings/settings.json");
@@ -408,7 +413,8 @@ const char * trApp::GetVersion() const
 
 UID trApp::GenerateNewUUID()
 {
-	return pcg32_boundedrand_r(&pcg32_global, UINT32_MAX);
+	return pcg32_random_r(&(random));
+	//return pcg32_boundedrand_r(&pcg32_global, UINT32_MAX);
 }
 
 void trApp::SetFpsCap(uint max_framerate)

@@ -22,6 +22,11 @@ ResourceMesh::~ResourceMesh()
 
 void ResourceMesh::GenerateAndBindMesh(bool deformable)
 {
+	if (vertex_buffer == 0) {
+		vertex_buffer = 1;
+		uv_buffer = 2;
+		index_buffer = 3;
+	}
 	glGenBuffers(1, (GLuint*) &( vertex_buffer));
 	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex_size, deformable ? this->deformable->vertices : vertices, GL_STATIC_DRAW);

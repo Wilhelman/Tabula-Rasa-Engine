@@ -59,6 +59,12 @@ bool trResources::Start()
 	//Assignment 3
 	App->animation->CleanAnimableGOS();
 	App->main_scene->ClearScene();
+	for (std::map<UID, Resource*>::iterator it = resources.begin(); it != resources.end(); ++it)
+		RELEASE(it->second);
+
+	resources.clear();
+
+	CheckForChangesInAssets(App->file_system->GetAssetsDirectory());
 	//App->file_loader->ImportScene("Street environment_V01.trScene", false);
 	App->file_loader->ImportScene("Orc_Idle.trScene", false);
 

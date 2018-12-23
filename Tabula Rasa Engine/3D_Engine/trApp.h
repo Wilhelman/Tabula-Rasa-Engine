@@ -9,6 +9,8 @@
 #include "trLog.h"
 #include "SDL/include/SDL.h"
 #include "MathGeoLib/Algorithm/Random/LCG.h"
+#include "pcg/pcg_basic.h"
+#include "pcg/entropy.h"
 
 // Modules
 class trWindow;
@@ -142,6 +144,8 @@ private:
 	//pcg32_random_t		gen_uuid;
 
 	std::string			temporal_scene;
+
+	pcg32_random_t		random;
 
 };
 
