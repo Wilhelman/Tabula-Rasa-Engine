@@ -155,11 +155,15 @@ Camera
 
 UI 
 
-- Open config window: 4
-- Open console: 1 
+- Open config window: 8
+- Open console: 7
 - Open Inspector: I key
 - Show/Hide UI: LALT + G key
 - Quit application: ESC / Alt+F4
+
+Animations
+- Play punch animation: 1
+- Play walk in place animation: 2
 
 Click again on Window->(any option) to close that window
 
