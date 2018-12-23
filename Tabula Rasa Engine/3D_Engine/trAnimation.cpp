@@ -109,7 +109,7 @@ void trAnimation::SetAnimationGos(ResourceAnimation * res)
 
 	available_animations.push_back(res);
 	current_anim = available_animations[0];
-	duration = available_animations[0]->duration;
+	duration = res->duration;
 }
 
 void trAnimation::RecursiveGetAnimableGO(GameObject * go, ResourceAnimation::BoneTransformation* bone_transformation)
