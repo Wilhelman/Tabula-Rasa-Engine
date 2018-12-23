@@ -73,6 +73,8 @@ bool ComponentCamera::Load(const JSON_Object * component_obj)
 	value = json_object_get_value(component_obj, "F_VerticalFov");
 	frustum.verticalFov = json_value_get_number(value);
 
+	SetUpFov(math::RadToDeg(frustum.verticalFov));
+
 	return true;
 }
 
