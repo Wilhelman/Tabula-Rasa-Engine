@@ -17,6 +17,9 @@
 #include <iostream> 
 #include <stdio.h>
 #include "trFileSystem.h"
+#include "trInput.h"
+
+#include "trAnimation.h"
 
 trMainScene::trMainScene() : trModule()
 {
@@ -74,6 +77,15 @@ bool trMainScene::PreUpdate(float dt)
 
 bool trMainScene::Update(float dt)
 {
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN){
+		if (App->animation->animations.size() > 1)
+			App->animation->SetCurrentAnimation(1);
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
+		if (App->animation->animations.size() > 2) // TODO 3
+			App->animation->SetCurrentAnimation(2);
+	}
+
 	return true;
 }
 

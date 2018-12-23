@@ -3,7 +3,7 @@
 #include "trApp.h"
 #include "trWindow.h"
 
-PanelConsole::PanelConsole(std::vector<std::string> init_logs) : Panel("Console", SDL_SCANCODE_1)
+PanelConsole::PanelConsole(std::vector<std::string> init_logs) : Panel("Console", SDL_SCANCODE_7)
 {
 	active = true;
 
