@@ -11,17 +11,15 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
 
 ## **Our Team**
 
-![team_photo](https://user-images.githubusercontent.com/25589509/50381505-0bd05680-0689-11e9-9a8e-0e0573ebbbce.jpg)
+<a href="url"><img src="https://user-images.githubusercontent.com/25901477/50387340-c13af280-06f9-11e9-828a-a0446208056d.png" align="left" height="150" width="150" ></a>_García Subirana, Guillermo's responsability and GitHub account_
 
-
-_García Subirana, Guillermo's responsability and GitHub account_
-
-* TODO: add resposabilities here...
+* TODO: add resposabilities here... BLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLA
 * [GitHub account](https://github.com/Wilhelman)
 
-_Masó Garcia, Víctor's responsability and GitHub account_
 
-* TODO: add resposabilities here...
+<a href="url"><img src="https://user-images.githubusercontent.com/25901477/50387340-c13af280-06f9-11e9-828a-a0446208056d.png" align="left" height="150" width="150" ></a>_Masó Garcia, Víctor's responsability and GitHub account_
+
+* TODO: add resposabilities here... BLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLA
 * [GitHub account](https://github.com/nintervik)
 
 ***
