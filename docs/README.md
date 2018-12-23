@@ -7,7 +7,7 @@ The engine contains all the basic [sub-systems](https://wilhelman.github.io/Tabu
 
 This project has been done by two students of CITM - UPC (Terrasa, Spain) for the subject Game Engines.
 
-> ### *Download the last version of the engine [HERE]()*
+> ### *Download the last version of the engine [HERE](https://github.com/Wilhelman/Tabula-Rasa-Engine/releases/tag/Assignment3.1)*
 
 ***
 
@@ -62,7 +62,7 @@ Each time a resource mesh is generated a scene is generated in our own binary fo
 
 ### Textures
 
-...
+
 
 ### Gameobject structure
 
@@ -84,7 +84,6 @@ Our engine accepts the following assets formats:
 
 Our engine has two cameras: the editor camera (which can be controlled as in any other 3D software) and the game camera. The game camera is treated as a component of the gameobject 'Main Camera' and has frusutm culling using a quadtree so gameobjects outisde its frustum won't be drawn. 
 
-
 ### Quadtree
 
 We've implement a quadtree container in our engine to speed things up. All the gameobjects in the scene that are marked as static in the inspector are inserted inside the quadtree. The quadtree will subdivide itself in four as many times as it needs to redistribute the gameobjects and match the specified bucket size. Doing this we can safely discard gameobjects whose quadtree node does not intersect with the camera frustum speeding up the frustum culling process.
@@ -102,17 +101,13 @@ Mouse picking is done using the Raycast method. When the left mouse button is cl
 
 _NOTE:_ Collected gameobjects are sorted by distance and we constantly check for minimum distance to avoid generating unnecessary triangles and speed up the process.
 
-
 ### Time managment & game mode
 
 When the engine is in game mode, the scene is seen though the game camera (which has frustum culling). We also keep an internal game clock (aside from the app clock) that will only run when the game mode is activated. Its dt will be passed to all the updates instead of the real time dt from the app.
 
-
-
 ### Resource Management
 
-...
-
+In our resource system we have imitated the management of resources that Unity has. When starting the engine we generate specific resources (Mesh, material, bones ...) and in case a resource is duplicated we only send the information (Vertices of a mesh for example) to the gpu once. As in unity, we generate .meta files that link the original file (.png) with the own format file that we generate once it has been imported (.dds). In addition, our .meta files also store information on how to perform the import.
 
 ***
 
