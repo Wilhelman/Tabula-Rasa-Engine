@@ -429,11 +429,11 @@ void trApp::SwitchRunTime()
 {
 	run_time = !run_time;
 	if (run_time) {
-		App->main_scene->SerializeScene(temporal_scene, "Temporal_Scene");
+		//App->main_scene->SerializeScene(temporal_scene, "Temporal_Scene");
 	}
 	else {
 		// Clear
-		App->main_scene->ClearScene(true);
+		/*App->main_scene->ClearScene(true);
 
 		char* buffer = nullptr;
 		uint size = App->file_system->ReadFromFile(temporal_scene.c_str(), &buffer);
@@ -444,7 +444,7 @@ void trApp::SwitchRunTime()
 			RELEASE_ARRAY(buffer);
 		}
 		else
-			TR_LOG("trApp: Error reading scene from path: %s", temporal_scene.c_str());
+			TR_LOG("trApp: Error reading scene from path: %s", temporal_scene.c_str());*/
 	}
 }
 

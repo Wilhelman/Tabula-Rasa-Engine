@@ -55,9 +55,14 @@ bool ComponentBone::Load(const JSON_Object * component_obj)
 		const size_t extension = uid_force.rfind('.');
 		if (std::string::npos != extension)
 			uid_force.erase(extension);
-		UID uid = static_cast<unsigned int>(std::stoul(uid_force));
+		UID uid = 0u;
+		if(!uid_force.empty())
+			uid = static_cast<unsigned int>(std::stoul(uid_force));
 
-		SetResource(App->resources->bone_importer->GenerateResourceFromFile(file_path, uid));
+		if (uid > 0u)
+			SetResource(App->resources->bone_importer->GenerateResourceFromFile(file_path, uid));
+		else
+			SetResource(App->resources->bone_importer->GenerateResourceFromFile(file_path));
 	}
 
 	return ret;
