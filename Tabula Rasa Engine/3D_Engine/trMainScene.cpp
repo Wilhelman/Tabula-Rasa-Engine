@@ -78,12 +78,20 @@ bool trMainScene::PreUpdate(float dt)
 bool trMainScene::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN){
-		if (App->animation->animations.size() > 1)
-			App->animation->SetCurrentAnimation(1);
+		if (App->animation->animations.size() > 1) {
+			App->animation->SetCurrentAnimation(PUNCH);
+			App->animation->GetCurrentAnimation()->interpolate = true;
+		}	
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
-		if (App->animation->animations.size() > 2) // TODO 3
-			App->animation->SetCurrentAnimation(2);
+		if (App->animation->animations.size() > 2) {
+			App->animation->SetCurrentAnimation(WALK);
+			App->animation->GetCurrentAnimation()->loop = true;
+			App->animation->GetCurrentAnimation()->interpolate = true;
+		}
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_2) == KEY_UP) {
+		App->animation->SetCurrentAnimation(IDLE);
 	}
 
 	return true;

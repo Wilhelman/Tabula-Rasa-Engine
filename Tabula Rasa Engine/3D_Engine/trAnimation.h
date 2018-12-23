@@ -77,11 +77,14 @@ public:
 private:
 
 	void RecursiveGetAnimableGO(GameObject* go, ResourceAnimation::BoneTransformation* bone_transformation, Animation* animation);
-	void MoveAnimationForward(float t);
+	void MoveAnimationForward(float t, Animation* current_animation, float blend = 1.0f);
 
 private:
 
 	Animation* current_anim = nullptr;
+	Animation* last_anim = nullptr;
+
+	float blend_timer = 0.0f;
 
 	AnimationState anim_state = AnimationState::NOT_DEF_STATE;
 

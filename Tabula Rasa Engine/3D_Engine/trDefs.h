@@ -127,4 +127,9 @@ inline const char* const PATH(const char* folder, const char* file)
 #define R_COLOR_MATERIAL true
 #define R_TEXTURE_2D true
 
+// Animation
+#define IDLE 0
+#define PUNCH 1
+#define WALK 2
+
 #endif

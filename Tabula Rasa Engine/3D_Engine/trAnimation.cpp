@@ -18,6 +18,7 @@
 #include "ResourceMesh.h"
 
 #define SCALE 100 /// FBX/DAE exports set scale to 0.01
+#define BLEND_TIME 1.0f
 
 trAnimation::trAnimation()
 {
@@ -68,7 +69,7 @@ bool trAnimation::Update(float dt)
 	{
 	case AnimationState::PLAYING:
 		current_anim->anim_timer += dt * current_anim->anim_speed;
-		MoveAnimationForward(current_anim->anim_timer);
+		MoveAnimationForward(current_anim->anim_timer,current_anim);
 		break;
 
 	case AnimationState::PAUSED:
@@ -76,11 +77,20 @@ bool trAnimation::Update(float dt)
 
 	case AnimationState::STOPPED:
 		current_anim->anim_timer = 0.0f;
-		MoveAnimationForward(current_anim->anim_timer);
+		MoveAnimationForward(current_anim->anim_timer,current_anim);
 		PauseAnimation();
 		break;
 
 	case AnimationState::BLENDING:
+		last_anim->anim_timer += dt * last_anim->anim_speed;
+		current_anim->anim_timer += dt * current_anim->anim_speed;
+		blend_timer += dt;
+		float blend_percentage = blend_timer / BLEND_TIME;
+		MoveAnimationForward(last_anim->anim_timer, last_anim);
+		MoveAnimationForward(current_anim->anim_timer, current_anim, blend_percentage);
+		if (blend_percentage >= 1.0f) {
+			anim_state = PLAYING;
+		}
 		break;
 	}
 
@@ -135,18 +145,19 @@ void trAnimation::RecursiveGetAnimableGO(GameObject * go, ResourceAnimation::Bon
 		RecursiveGetAnimableGO((*it_childs), bone_transformation, anim);
 }
 
-void trAnimation::MoveAnimationForward(float t)
+void trAnimation::MoveAnimationForward(float t, Animation* current_animation, float blend)
 {
-	for (uint i = 0; i < current_anim->animable_gos.size(); ++i)
+
+	for (uint i = 0; i < current_animation->animable_gos.size(); ++i)
 	{
-		ResourceAnimation::BoneTransformation* transform = current_anim->animable_data_map.find(current_anim->animable_gos[i])->second;
+		ResourceAnimation::BoneTransformation* transform = current_animation->animable_data_map.find(current_animation->animable_gos[i])->second;
 
 		if (transform)
 		{
 			float3 pos, scale;
 			Quat rot;
 
-			current_anim->animable_gos[i]->GetTransform()->GetLocalPosition(&pos, &scale, &rot);
+			current_animation->animable_gos[i]->GetTransform()->GetLocalPosition(&pos, &scale, &rot);
 
 			float* prev_pos = nullptr;
 			float* next_pos = nullptr;
@@ -264,37 +275,53 @@ void trAnimation::MoveAnimationForward(float t)
 			// -------- INTERPOLATIONS CALCULATIONS --------
 
 			// Interpolating positions
-			if (current_anim->interpolate && prev_pos != nullptr && next_pos != nullptr && prev_pos != next_pos)
+			if (current_animation->interpolate && prev_pos != nullptr && next_pos != nullptr && prev_pos != next_pos)
 			{
 				float3 prev_pos_lerp(prev_pos[0], prev_pos[1], prev_pos[2]);
 				float3 next_pos_lerp(next_pos[0], next_pos[1], next_pos[2]);
 				pos = float3::Lerp(prev_pos_lerp, next_pos_lerp, time_pos_percentatge);
 			}
-			else if (prev_pos != nullptr && (!current_anim->interpolate || prev_pos == next_pos))
+			else if (prev_pos != nullptr && (!current_animation->interpolate || prev_pos == next_pos))
 				pos = float3(prev_pos[0], prev_pos[1], prev_pos[2]);
 
 			// Interpolating scalings
-			if (current_anim->interpolate && prev_scale != nullptr && next_scale != nullptr && prev_scale != next_scale)
+			if (current_animation->interpolate && prev_scale != nullptr && next_scale != nullptr && prev_scale != next_scale)
 			{
 				float3 prev_scale_lerp(prev_scale[0], prev_scale[1], prev_scale[2]);
 				float3 next_scale_lerp(next_scale[0], next_scale[1], next_scale[2]);
 				scale = float3::Lerp(prev_scale_lerp, next_scale_lerp, time_scale_percentatge);
 			}
-			else if (prev_scale != nullptr && (!current_anim->interpolate || prev_scale == next_scale))
+			else if (prev_scale != nullptr && (!current_animation->interpolate || prev_scale == next_scale))
 				scale = float3(prev_scale[0], prev_scale[1], prev_scale[2]);
 
 			// Interpolating rotations
-			if (current_anim->interpolate && prev_rot != nullptr && next_rot != nullptr && prev_rot != next_rot)
+			if (current_animation->interpolate && prev_rot != nullptr && next_rot != nullptr && prev_rot != next_rot)
 			{
 				Quat prev_rot_lerp(prev_rot[0], prev_rot[1], prev_rot[2], prev_rot[3]);
 				Quat next_rot_lerp(next_rot[0], next_rot[1], next_rot[2], next_rot[3]);
 				rot = Quat::Slerp(prev_rot_lerp, next_rot_lerp, time_rot_percentatge);
 			}
-			else if (prev_rot != nullptr && (!current_anim->interpolate || prev_rot == next_rot))
+			else if (prev_rot != nullptr && (!current_animation->interpolate || prev_rot == next_rot))
 				rot = Quat(prev_rot[0], prev_rot[1], prev_rot[2], prev_rot[3]);
 
+			if (blend >= 1.f)
+			{
+				current_animation->animable_gos[i]->GetTransform()->Setup(pos, scale, rot);
+			}
+			else
+			{
+				float3 pos2, scale2;
+				Quat rot2;
+				last_anim->animable_gos[i]->GetTransform()->GetLocalPosition(&pos2, &scale2, &rot2);
+
+				current_animation->animable_gos[i]->GetTransform()->Setup(float3::Lerp(pos2, pos, blend),
+					float3::Lerp(scale2, scale, blend), 
+					Quat::Slerp(rot2, rot, blend));
+				
+			}
+
 			// Setting up final interpolated transform in current bone (gameobject)
-			current_anim->animable_gos[i]->GetTransform()->Setup(pos, scale, rot);
+			//current_anim->animable_gos[i]->GetTransform()->Setup(pos, scale, rot);
 		}
 
 	}
@@ -323,15 +350,16 @@ trAnimation::Animation* trAnimation::GetCurrentAnimation() const
 void trAnimation::SetCurrentAnimationTime(float time)
 {
 	current_anim->anim_timer = time;
-	MoveAnimationForward(current_anim->anim_timer);
+	MoveAnimationForward(current_anim->anim_timer,current_anim);
 }
 
 void trAnimation::SetCurrentAnimation(int i)
 {
-	
+	anim_state = BLENDING;
+	blend_timer = 0.0f;
+	last_anim = current_anim;
 	current_anim = animations.at(i);
 	SetCurrentAnimationTime(0.0f);
-
 }
 
 void trAnimation::CleanAnimableGOS()
@@ -375,7 +403,7 @@ void trAnimation::StepBackwards()
 		if (current_anim->anim_timer < 0.0f)
 			current_anim->anim_timer = 0.0f;
 		else
-			MoveAnimationForward(current_anim->anim_timer);
+			MoveAnimationForward(current_anim->anim_timer,current_anim);
 		
 		PauseAnimation();
 	}
@@ -390,7 +418,7 @@ void trAnimation::StepForward()
 		if (current_anim->anim_timer > current_anim->duration)
 			current_anim->anim_timer = 0.0f;
 		else
-			MoveAnimationForward(current_anim->anim_timer);
+			MoveAnimationForward(current_anim->anim_timer,current_anim);
 
 		PauseAnimation();
 	}
