@@ -52,7 +52,7 @@ On the following sections we will explain the main core sub-systems of this engi
 
 ### 3D Renderer
 
-...
+Our engine has a module renderer that handles all the drawing of the proram. We don't use shaders. Instead we use OpenGL Vertex Arrays with indices (except for the debug draw of the primitives which are rendered in direct mode). Everything is drawn in the post update of the module. There, the gameobjects are filtered and we only render the ones that are inside the fustrum. 
 
 ### Geometry loader
 
