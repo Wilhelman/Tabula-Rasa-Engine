@@ -16,6 +16,7 @@
 #include "DebugDraw.h"
 #include <iostream> 
 #include <stdio.h>
+#include "trFileSystem.h"
 
 trMainScene::trMainScene() : trModule()
 {
@@ -41,7 +42,7 @@ bool trMainScene::Awake(JSON_Object* config)
 
 	quadtree.Create(AABB(AABB(float3(-500, -100, -500), float3(500, 100, 500))));
 
-	scene_name = "TR Unnamed Scene";
+	//scene_name = "TR Unnamed Scene";
 
 	return ret;
 }
@@ -211,8 +212,10 @@ bool trMainScene::Save(JSON_Object* config)const
 
 bool trMainScene::SerializeScene(std::string& output_file, const char* force_name)
 {
-	if (force_name)
-		this->scene_name = force_name;
+	//if (force_name)
+	std::string file_name;
+	App->file_system->GetFileFileNameFromPath(force_name, file_name);
+	this->scene_name = file_name;
 
 	JSON_Value* root_value = nullptr;
 	JSON_Object* root_obj = nullptr;

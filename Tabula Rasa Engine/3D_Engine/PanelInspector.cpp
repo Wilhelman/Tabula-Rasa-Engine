@@ -293,13 +293,13 @@ void PanelInspector::Draw()
 
 						for (uint i = 0; i < App->animation->GetAnimationsNumber(); ++i)
 						{
-							if (ImGui::MenuItem(App->animation->GetAnimationName(i)))
-								App->animation->SetCurrentAnimation(i);
+							//if (ImGui::MenuItem(App->animation->GetAnimationName(i)))						// TODO CHECK THIS
+								//App->animation->SetCurrentAnimation(i);
 						}	
 
 						ImGui::Separator();
 
-						ImGui::Text("Current animation: %s", App->animation->GetCurrentAnimation()->name.c_str());
+						//ImGui::Text("Current animation: %s", App->animation->GetCurrentAnimation()->name.c_str());
 					}
 				}
 				ImGui::Separator();

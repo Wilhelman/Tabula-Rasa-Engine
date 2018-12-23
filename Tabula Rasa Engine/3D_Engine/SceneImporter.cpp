@@ -85,7 +85,7 @@ bool SceneImporter::Import(const char * path, std::string & output_file)
 
 		root_bone = nullptr;
 
-		App->main_scene->SerializeScene(output_file);
+		App->main_scene->SerializeScene(output_file, real_path.c_str());
 
 		std::string final_file_name;
 		App->file_system->GetFileFileNameFromPath(real_path.c_str(), final_file_name);
