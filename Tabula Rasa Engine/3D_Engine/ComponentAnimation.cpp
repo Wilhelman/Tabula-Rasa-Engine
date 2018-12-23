@@ -35,7 +35,8 @@ bool ComponentAnimation::Save(JSON_Object* component_obj) const
 {
 	//todo: get resource path etc
 	const Resource* res = this->GetResource();
-	json_object_set_string(component_obj, "path", res->GetExportedFile());
+	if(res)
+		json_object_set_string(component_obj, "path", res->GetExportedFile());
 	return true;
 }
 

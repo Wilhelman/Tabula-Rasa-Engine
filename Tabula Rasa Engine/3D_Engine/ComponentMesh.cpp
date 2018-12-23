@@ -42,7 +42,9 @@ bool ComponentMesh::Save(JSON_Object* component_obj) const
 {
 	//todo: get resource path etc
 	const Resource* res = this->GetResource();
-	json_object_set_string(component_obj, "path", res->GetExportedFile());
+	if (res) {
+		json_object_set_string(component_obj, "path", res->GetExportedFile());
+	}
 	json_object_set_number(component_obj, "root_bone", root_bones_uid);
 	return true;
 }
