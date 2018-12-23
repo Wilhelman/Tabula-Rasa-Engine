@@ -50,23 +50,23 @@ _Masó Garcia, Víctor's responsability and GitHub account_
 
 
 
-## **Quadtree**
+### **Quadtree**
 
 
 
-## **Data serialization**
+### **Data serialization**
 
 
 
-## **Mouse picking**
+### **Mouse picking**
 
 
 
-## **Time managment & game mode**
+### **Time managment & game mode**
 
 
 
-## **Resource Management**
+### **Resource Management**
 
 
 
