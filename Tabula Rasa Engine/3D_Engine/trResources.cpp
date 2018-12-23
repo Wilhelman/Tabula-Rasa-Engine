@@ -60,8 +60,12 @@ bool trResources::Start()
 	//Assignment 3
 	App->animation->CleanAnimableGOS();
 	App->main_scene->ClearScene(true);
-	for (std::map<UID, Resource*>::iterator it = resources.begin(); it != resources.end(); ++it)
-		RELEASE(it->second);
+
+	for (std::map<UID, Resource*>::iterator it = resources.begin(); it != resources.end(); ++it) {
+		if(it->second->GetType() != Resource::Type::ANIMATION)
+			RELEASE(it->second);
+	}
+		
 	resources.clear();
 
 	return true;
@@ -77,8 +81,8 @@ bool trResources::CleanUp()
 	RELEASE(bone_importer);
 	RELEASE(animation_importer);
 
-	for (std::map<UID, Resource*>::iterator it = resources.begin(); it != resources.end(); ++it)
-		RELEASE(it->second);
+	//for (std::map<UID, Resource*>::iterator it = resources.begin(); it != resources.end(); ++it)
+		//RELEASE(it->second);
 
 	resources.clear();
 
@@ -94,6 +98,7 @@ bool trResources::PostUpdate(float dt)
 		App->main_scene->main_camera->to_destroy = true;
 		App->main_scene->main_camera = nullptr;
 		App->file_loader->ImportScene("Orc_Idle.trScene", false);
+		App->file_loader->ImportScene("Zombie Punching.trScene", false, true);
 		ugly_start = false;
 	}
 	return true;
@@ -367,6 +372,9 @@ Resource * trResources::CreateNewResource(Resource::Type type, UID uid_to_force,
 		break;
 	case Resource::ANIMATION:
 		ret = (Resource*) new ResourceAnimation(res_uid);
+		//ResourceAnimation* ret_anim = (ResourceAnimation*)ret;
+		//App->animation->SetAnimationGos(ret_anim);
+		break;
 	}
 
 	if (ret != nullptr)

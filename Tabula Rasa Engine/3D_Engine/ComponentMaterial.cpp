@@ -14,8 +14,8 @@ Component(embedded_game_object, Component::component_type::COMPONENT_MATERIAL)
 ComponentMaterial::~ComponentMaterial()
 {
 	Resource* res = (Resource*)GetResource();
-	if (res)
-		res->Release();
+	//if (res)
+		//res->Release();
 }
 
 bool ComponentMaterial::Save(JSON_Object* component_obj) const

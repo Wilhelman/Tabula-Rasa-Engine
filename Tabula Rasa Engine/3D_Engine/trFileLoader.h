@@ -26,7 +26,7 @@ public:
 
 	void ImportFBX(const char* file_path);
 	void ImportTexture(const char* file_path);
-	void ImportScene(const char* file_path, bool and_delete_all = true);
+	void ImportScene(const char* file_path, bool and_delete_all = true, bool only_animation = false);
 
 	bool LoadMeshFile(const char* file_path);
 

@@ -73,7 +73,7 @@ void trFileLoader::ImportTexture(const char * file_path)
 	// Then get the file_path from de Assets continue
 }
 
-void trFileLoader::ImportScene(const char * file_path, bool and_delete_all)
+void trFileLoader::ImportScene(const char * file_path, bool and_delete_all, bool only_animation)
 {
 	// TODO: copy paste FBX file to Assets/
 
@@ -95,7 +95,7 @@ void trFileLoader::ImportScene(const char * file_path, bool and_delete_all)
 
 		if (buffer != nullptr && size > 0)
 		{
-			App->main_scene->DeSerializeScene(buffer);
+			App->main_scene->DeSerializeScene(buffer, only_animation);
 			RELEASE_ARRAY(buffer);
 		}
 		else 

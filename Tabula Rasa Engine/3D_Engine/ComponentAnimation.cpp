@@ -26,9 +26,9 @@ ComponentAnimation::ComponentAnimation(GameObject * embedded_game_object, UID re
 
 ComponentAnimation::~ComponentAnimation()
 {
-	Resource* res = (Resource*)GetResource();
-	if (res)
-		res->Release();
+	//Resource* res = (Resource*)GetResource();
+	//if (res)
+		//res->Release();
 }
 
 bool ComponentAnimation::Save(JSON_Object* component_obj) const
@@ -81,8 +81,8 @@ bool ComponentAnimation::SetResource(UID resource)
 	if (bone_res)
 		uint num_references = bone_res->LoadToMemory();
 
-	if(bone_res)
-		App->animation->SetAnimationGos(bone_res);
+	//if(bone_res)
+		//App->animation->SetAnimationGos(bone_res);
 
 	return true;
 }

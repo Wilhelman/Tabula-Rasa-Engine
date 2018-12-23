@@ -32,7 +32,7 @@ public:
 	void RecursiveDebugDrawGameObjects(GameObject* go);
 	void RecursiveDeleteGos(GameObject* go, bool and_camera);
 
-	void RecursiveSetupGo(GameObject* go);
+	void RecursiveSetupGo(GameObject* go, bool only_animation = false);
 
 	// Called before quitting
 	bool CleanUp();
@@ -46,7 +46,7 @@ public:
 	bool Save(JSON_Object* config = nullptr)const;
 
 	bool SerializeScene(std::string& output_file, const char* force_name = nullptr);
-	bool DeSerializeScene(const char * string);
+	bool DeSerializeScene(const char * string, bool only_animation = false);
 
 	GameObject* FindGoByUUID(UID uid, GameObject* go);
 

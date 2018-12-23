@@ -142,10 +142,11 @@ void trMainScene::RecursiveDeleteGos(GameObject * go, bool and_camera)
 	}
 }
 
-void trMainScene::RecursiveSetupGo(GameObject * go)
+void trMainScene::RecursiveSetupGo(GameObject * go, bool only_animation)
 {
-	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++)
+	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++) {
 		(*it)->is_static = true;
+	}
 
 	for (std::list<GameObject*>::iterator it = go->childs.begin(); it != go->childs.end(); it++) {
 		if ((*it)->is_static && (*it)->to_destroy == false && !(*it)->FindComponentByType(ComponentMesh::COMPONENT_BONE)){
@@ -255,7 +256,7 @@ bool trMainScene::SerializeScene(std::string& output_file, const char* force_nam
 	return true;
 }
 
-bool trMainScene::DeSerializeScene(const char * string)
+bool trMainScene::DeSerializeScene(const char * string, bool only_animation)
 {
 	JSON_Value* root_value = json_parse_string(string);
 	JSON_Object* root_obj = json_value_get_object(root_value); 
@@ -269,6 +270,7 @@ bool trMainScene::DeSerializeScene(const char * string)
 
 	// Get GameObjects Array
 	JSON_Array* array = json_object_get_array(root_obj, "GameObjects");
+
 	if (array != nullptr) {
 		uint go_size = json_array_get_count(array);
 
@@ -276,9 +278,12 @@ bool trMainScene::DeSerializeScene(const char * string)
 		for (uint i = 0u; i < go_size; ++i)
 		{
 			GameObject* go = this->CreateGameObject("unnamed for now");
+			
 			JSON_Object* go_obj = json_array_get_object(array, i);
 
 			go->Load(go_obj, uuid_relations);
+			if (only_animation && go->FindComponentByType(Component::component_type::COMPONENT_CAMERA) == nullptr)
+				go->to_destroy = true;
 		}
 	}
 
@@ -316,7 +321,7 @@ bool trMainScene::DeSerializeScene(const char * string)
 	App->main_scene->scene_bb = scene_bb;
 	App->camera->dummy_camera->FocusOnAABB(scene_bb);
 
-	RecursiveSetupGo(GetRoot());
+	RecursiveSetupGo(GetRoot(), only_animation);
 
 	return true;
 }

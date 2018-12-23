@@ -6,6 +6,7 @@
 
 #include "trResources.h"
 #include "ResourceAnimation.h"
+#include "trAnimation.h"
 
 AnimationImporter::AnimationImporter()
 {
@@ -32,8 +33,8 @@ UID AnimationImporter::Import(const aiAnimation* new_anim, std::string& output)
 	// Creating animation resource an filling its data
 	ResourceAnimation* anim = (ResourceAnimation*)App->resources->CreateNewResource(Resource::Type::ANIMATION);
 
-	//anim->name = new_anim->mName.C_Str();
-	anim->name = "testAnim";
+	anim->name = new_anim->mName.C_Str();
+	//anim->name = "testAnim";
 
 	anim->ticks_per_second = new_anim->mTicksPerSecond != 0 ? new_anim->mTicksPerSecond : 24;
 	anim->duration = new_anim->mDuration / anim->ticks_per_second;
@@ -51,6 +52,8 @@ UID AnimationImporter::Import(const aiAnimation* new_anim, std::string& output)
 		TR_LOG("Error saving animation in path: [%s]", output.c_str());
 
 	anim->SetExportedPath(output.c_str());
+
+	App->animation->SetAnimationGos(anim);
 
 	return anim->GetUID();
 }
@@ -371,6 +374,8 @@ UID AnimationImporter::GenerateResourceFromFile(const char * file_path, UID uid_
 		bytes = sizeof(float) * 3 * count;
 		memcpy(bone->scalings.value, cursor, bytes);
 	}
+
+	App->animation->SetAnimationGos(resource);
 
 	RELEASE_ARRAY(buffer);
 

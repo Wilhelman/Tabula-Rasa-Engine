@@ -108,7 +108,6 @@ bool trAnimation::Update(float dt)
 void trAnimation::SetAnimationGos(ResourceAnimation * res)
 {
 	Animation* animation = new Animation();
-
 	for (uint i = 0; i < res->num_keys; ++i)
 		RecursiveGetAnimableGO(App->main_scene->GetRoot(), &res->bone_keys[i], animation);
 
