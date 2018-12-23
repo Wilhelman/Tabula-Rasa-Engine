@@ -73,7 +73,7 @@ void trFileLoader::ImportTexture(const char * file_path)
 	// Then get the file_path from de Assets continue
 }
 
-void trFileLoader::ImportScene(const char * file_path)
+void trFileLoader::ImportScene(const char * file_path, bool and_delete_all)
 {
 	// TODO: copy paste FBX file to Assets/
 
@@ -86,7 +86,8 @@ void trFileLoader::ImportScene(const char * file_path)
 		tmp_str.append(file_path);
 
 		// Clear previous scene
-		App->main_scene->ClearScene(true);
+		if(and_delete_all)
+			App->main_scene->ClearScene(true);
 		App->animation->CleanAnimableGOS();
 
 		char* buffer = nullptr;

@@ -57,6 +57,11 @@ bool trMainScene::Start()
 	grid = new PGrid();
 	grid->axis = true;
 
+	//Assignment 3
+	
+	App->file_loader->ImportScene("Street environment_V01.trScene", false);
+	App->file_loader->ImportScene("Orc_Idle.trScene", false);
+
 	return true;
 }
 
