@@ -98,7 +98,11 @@ bool trResources::PostUpdate(float dt)
 		App->main_scene->main_camera->to_destroy = true;
 		App->main_scene->main_camera = nullptr;
 		App->file_loader->ImportScene("Orc_Idle.trScene", false);
+		App->main_scene->main_camera->to_destroy = true;
+		App->main_scene->main_camera = nullptr;
 		App->file_loader->ImportScene("Zombie Punching.trScene", false, true);
+		App->main_scene->main_camera->to_destroy = true;
+		App->main_scene->main_camera = nullptr;
 		App->file_loader->ImportScene("MutantWalking.trScene", false, true);
 		ugly_start = false;
 	}

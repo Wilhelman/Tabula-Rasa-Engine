@@ -89,8 +89,8 @@ void PanelHierarchy::DrawGameObject(GameObject * game_object)
 
 		ImGui::TreePop();
 	}
-	else
-		ItemHovered(game_object);
+	//else
+		//ItemHovered(game_object);
 
 
 

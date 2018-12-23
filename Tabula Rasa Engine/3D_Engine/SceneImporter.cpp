@@ -112,6 +112,7 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 
 	static std::string name;
 	name = (node->mName.length > 0) ? node->mName.C_Str() : "Unnamed";
+	static int root_num = 1;
 
 	// Calculate the position, scale and rotation
 	aiVector3D translation;
@@ -140,17 +141,21 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 			rot = rot * Quat(rotation.x, rotation.y, rotation.z, rotation.w);
 
 			name = node->mName.C_Str();
+			name.append(std::to_string(root_num++));
 			i = -1; // start over!
 			//good_mesh = false;
 			//goto next_node;
 		}
 	}
 
-	GameObject* new_go = App->main_scene->CreateGameObject(node->mName.C_Str(), parent_go);
+	if (name.compare("RootNode") == 0)
+		name.append(std::to_string(root_num++));
+
+	GameObject* new_go = App->main_scene->CreateGameObject(name.c_str(), parent_go);
 
 	relations[node] = new_go;
 
-	new_go->SetName(node->mName.C_Str());
+	new_go->SetName(name.c_str());
 
 	new_go->CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
 
