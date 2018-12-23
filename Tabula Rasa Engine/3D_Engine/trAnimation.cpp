@@ -430,44 +430,10 @@ void trAnimation::DeformMesh(ComponentBone* component_bone)
 void trAnimation::ResetMesh(ComponentBone * component_bone)
 {
 	ResourceBone* rbone = (ResourceBone*)component_bone->GetResource();
-	ResourceMesh* original = (ResourceMesh*)App->resources->Get(rbone->mesh_uid);
+	ResourceMesh* original = nullptr;
+	if (rbone)
+		original = (ResourceMesh*)App->resources->Get(rbone->mesh_uid);
 
-	/*if (original->deformable == nullptr)
-	{
-		animMesh = new R_Mesh();
-		R_Mesh* rMesh = (R_Mesh*)GetResource();
-		animMesh->buffersSize[R_Mesh::b_vertices] = rMesh->buffersSize[R_Mesh::b_vertices];
-		animMesh->buffersSize[R_Mesh::b_normals] = rMesh->buffersSize[R_Mesh::b_normals];
-		animMesh->buffersSize[R_Mesh::b_indices] = rMesh->buffersSize[R_Mesh::b_indices];
-
-		animMesh->vertices = new float[rMesh->buffersSize[R_Mesh::b_vertices] * 3];
-		animMesh->normals = new float[rMesh->buffersSize[R_Mesh::b_normals] * 3];
-		animMesh->indices = new uint[rMesh->buffersSize[R_Mesh::b_indices]];
-		memcpy(animMesh->indices, rMesh->indices, rMesh->buffersSize[R_Mesh::b_indices] * sizeof(uint));
-	}*/
-
-	//R_Mesh* rMesh = (R_Mesh*)GetResource();
-	memset(original->deformable->vertices, 0, original->vertex_size * sizeof(float));
-
-	//if (original->deformable->normals != nullptr) {
-		//memset(original->deformable->normals, 0, original->normal_size * sizeof(float));
-		//memcpy(original->deformable->normals, original->normals, original->deformable->vertex_size * sizeof(float));
-	//}
-
-	/*if (original->deformable != nullptr)
-	{
-		// todo check this
-		memcpy(original->deformable->indices, original->indices, original->deformable->index_size * sizeof(uint));
-
-		memcpy(original->deformable->vertices, original->vertices, original->deformable->vertex_size * sizeof(float));
-		// TODO why if memset vertices to 0 -> no draw? render?
+	if(original)
 		memset(original->deformable->vertices, 0, original->vertex_size * sizeof(float));
-		
-
-		if (original->deformable->normals != nullptr) {
-			memset(original->deformable->normals, 0, original->normal_size * sizeof(float));
-			//memcpy(original->deformable->normals, original->normals, original->deformable->vertex_size * sizeof(float));
-		}
-			
-	}*/
 }

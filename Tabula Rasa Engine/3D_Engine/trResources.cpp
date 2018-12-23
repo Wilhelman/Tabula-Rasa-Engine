@@ -15,6 +15,7 @@
 #include "AnimationImporter.h"
 #include "trFileLoader.h"
 #include "trAnimation.h"
+#include "trMainScene.h"
 
 trResources::trResources()
 {
@@ -57,8 +58,8 @@ bool trResources::Start()
 
 	//Assignment 3
 	App->animation->CleanAnimableGOS();
-	
-	App->file_loader->ImportScene("Street environment_V01.trScene", false);
+	App->main_scene->ClearScene();
+	//App->file_loader->ImportScene("Street environment_V01.trScene", false);
 	App->file_loader->ImportScene("Orc_Idle.trScene", false);
 
 	return true;
