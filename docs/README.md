@@ -116,6 +116,18 @@ _NOTE:_ Collected gameobjects are sorted by distance and we constantly check for
 
 ## **Skeletal animation subsystem**
 
+The skeletal animation subsystem is composed by:
+ * Animation Resource
+ * Bone resource
+ * Animation module
+ * Animation component
+ 
+Bones are treated as gameobject where the root is the hip. Doing this all the transformations will be applied correctly among parents and childrens. Bone transformations are stored inside a map that matches each bone with a structure that contains all the transformation data over time. The animation module contains a vector of animations that contains all the data needed, we just iterate all the bones and apply the right transformations over time.
+
+The skinning process is done by duplicating the original mesh and deforming the duplicate one according to all the weights of the vertices influenced by the particular bone we're looking at in that moment inside the loop. Before deforming the mesh we always reset it back to the T pose so transformations don't add on top of each other and we do them always from the same starting point. The reset process also resets the vertices to 0 so the offset doesn't add up to itself on each loop. 
+
+The animation module is in charge of managing the current setted animation; this means: deforming the mesh and interpolating the bones transformations that will affect the attached mesh. This module is controlled by a simple state machine that tells the current state of the animation.
+
 * **Blending**: When we switch between animations, we perform a fixed time blending. To perform it, we interpolate between the position of the vertices of the previous animation with the animation that is replacing it. Both continue advancing according to the time of game.
 
 ![blending_gif](https://user-images.githubusercontent.com/25901477/50387245-16760480-06f8-11e9-8c2f-aa1be871503d.gif)
