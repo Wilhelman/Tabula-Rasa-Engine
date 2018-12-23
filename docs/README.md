@@ -69,7 +69,13 @@ On the following sections we will explain the main core sub-systems of this engi
 
 ### Mouse picking
 
-...
+Mouse picking is done using the Raycast method. When the left mouse button is clicked, the camera module calculates a ray that will start in the corresponding clicked point in the near plane and will project until it reaches the far plane. Once we have that we just need to do:
+
+- Collect all the gameobjects (both dynamic and static) that are inside the fustrum and intersect with the projected ray. The static object collection is accelerated with the quadtree.
+- Loop through all this gameobjects. If they have mesh we calculate all its triangles and for each of them we test collision against the raycast (in the local space of the gameobject). We do this until we've loop through all gameobjects.
+
+_NOTE:_ Collected gameobjects are sorted by distance and we constantly check for minimum distance to avoid generating unnecessary triangles and speed up the process.
+
 
 ### Time managment & game mode
 
