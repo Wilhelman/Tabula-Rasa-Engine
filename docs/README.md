@@ -49,7 +49,6 @@ Our game engine code is structured in modules. The main module (called trApp.cpp
 
 On the following sections we will explain the main core sub-systems of this engine.
 
-
 ### 3D Renderer
 
 Our engine has a module renderer that handles all the drawing of the proram. We don't use shaders. Instead we use OpenGL Vertex Arrays with indices (except for the debug draw of the primitives which are rendered in direct mode). Everything is drawn in the post update of the module. There, the gameobjects are filtered and we only render the ones that are inside the fustrum. 
@@ -60,11 +59,9 @@ When we detect a file in our Assets/Models/ directory we read the file with Assi
 
 Each time a resource mesh is generated a scene is generated in our own binary format too.
 
-
 ### Gameobject structure
 
-Gameobjects have a tree structure so the transformations affect all the children correctly. Each gameobject has a transform component  
-
+Gameobjects have a tree structure so the transformations affect all the children correctly. Each gameobject has a transform component and if it has a mesh, we calculate its AABB so that it can be filtered by the frustum culling or the quadtree. We follow the same structure as Unity, using the Decoupling Design Pattern.
 
 ### Binary files format
 
@@ -76,7 +73,6 @@ Our engine accepts the following assets formats:
 * Meshes: FBX and Collada (.dae).
 * Texture: png, jpg, jpeg, dds and tga.
 * Animations: Collada (.dae)
-
 
 ### 3D Camera & frustum culling
 
