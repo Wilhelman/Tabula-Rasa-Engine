@@ -16,7 +16,7 @@
 
 using namespace std;
 
-PanelConfiguration::PanelConfiguration() : Panel("Configuration", SDL_SCANCODE_2),
+PanelConfiguration::PanelConfiguration() : Panel("Configuration", SDL_SCANCODE_8),
 chart_fps(CHART_FPS_CAP), chart_ms(CHART_FPS_CAP)
 {
 	active = false;
