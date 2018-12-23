@@ -41,11 +41,15 @@ There are three main known cases where the overall perfomance might decrease sig
 * **Focus camera on object**: F key
 
 ### UI 
-* **Open config window**: 4
-* **Open console**: 1 
+* **Open config window**: 8
+* **Open console**: 7 
 * **Open Inspector**: I key
 * **Show/Hide UI:** LALT + G key
 * **Quit application:** ESC / Alt+F4
+
+## Animations
+* **Play punch animation**: 1
+* **Play walk in place animation**: 2
 
 _Click again on Window->(any option) to close that window_
 
