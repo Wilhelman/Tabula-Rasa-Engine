@@ -16,6 +16,7 @@
 #include "trFileLoader.h"
 #include "trAnimation.h"
 #include "trMainScene.h"
+#include "trInput.h"
 
 trResources::trResources()
 {
@@ -61,12 +62,7 @@ bool trResources::Start()
 	App->main_scene->ClearScene();
 	for (std::map<UID, Resource*>::iterator it = resources.begin(); it != resources.end(); ++it)
 		RELEASE(it->second);
-
 	resources.clear();
-
-	CheckForChangesInAssets(App->file_system->GetAssetsDirectory());
-	//App->file_loader->ImportScene("Street environment_V01.trScene", false);
-	App->file_loader->ImportScene("Orc_Idle.trScene", false);
 
 	return true;
 }
@@ -91,7 +87,12 @@ bool trResources::CleanUp()
 
 bool trResources::PostUpdate(float dt)
 {
-	//CheckForChangesInAssets(App->file_system->GetAssetsDirectory());
+	static bool ugly_start = true;
+	if (ugly_start) { // Assignment 3
+		CheckForChangesInAssets(App->file_system->GetAssetsDirectory());
+		App->file_loader->ImportScene("Orc_Idle.trScene", false);
+		ugly_start = false;
+	}
 	return true;
 }
 
