@@ -1,5 +1,8 @@
 #include "Resource.h"
 
+#include "trApp.h"
+#include "trResources.h"
+
 Resource::Resource(UID uid, Resource::Type type)
 {
 	this->uid = uid;
@@ -72,4 +75,6 @@ void Resource::Release()
 		references = 0;
 		ReleaseMemory();
 	}
+
+	App->resources->Delete(this);
 }

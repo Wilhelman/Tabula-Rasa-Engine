@@ -90,6 +90,16 @@ UID trResources::Find(const char * file_in_assets) const
 	return 0;
 }
 
+void trResources::Delete(Resource * res_to_delete)
+{
+	std::map<UID, Resource*>::iterator it = resources.find(res_to_delete->GetUID());
+	if (it != resources.end()) {
+		RELEASE(it->second);
+		resources.erase(it);
+	}
+		
+}
+
 void trResources::CheckForChangesInAssets(Directory* current_dir)
 {
 	for (uint i = 0u; i < current_dir->files_vec.size(); i++) {

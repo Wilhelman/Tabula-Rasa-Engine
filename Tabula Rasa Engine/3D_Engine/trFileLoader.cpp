@@ -8,6 +8,7 @@
 
 #include "SceneImporter.h"
 #include "MaterialImporter.h"
+#include "trAnimation.h"
 
 trFileLoader::trFileLoader()
 {
@@ -86,6 +87,7 @@ void trFileLoader::ImportScene(const char * file_path)
 
 		// Clear previous scene
 		App->main_scene->ClearScene(true);
+		App->animation->CleanAnimableGOS();
 
 		char* buffer = nullptr;
 		uint size = App->file_system->ReadFromFile(tmp_str.c_str(), &buffer);

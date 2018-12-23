@@ -112,6 +112,16 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 	static std::string name;
 	name = (node->mName.length > 0) ? node->mName.C_Str() : "Unnamed";
 
+	// Calculate the position, scale and rotation
+	aiVector3D translation;
+	aiVector3D scaling;
+	aiQuaternion rotation;
+	node->mTransformation.Decompose(scaling, rotation, translation);
+
+	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
+	float3 pos(translation.x, translation.y, translation.z);
+	float3 scale(scaling.x, scaling.y, scaling.z);
+
 	static const char* dummies[5] = {
 		"$AssimpFbx$_PreRotation", "$AssimpFbx$_Rotation", "$AssimpFbx$_PostRotation",
 		"$AssimpFbx$_Scaling", "$AssimpFbx$_Translation" };
@@ -120,8 +130,18 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 	{
 		if (name.find(dummies[i]) != std::string::npos && node->mNumChildren == 1)
 		{
-			good_mesh = false;
-			goto next_node;
+			node = node->mChildren[0];
+
+			node->mTransformation.Decompose(scaling, rotation, translation);
+			// accumulate transform
+			pos += float3(translation.x, translation.y, translation.z);
+			scale = float3(scale.x * scaling.x, scale.y * scaling.y, scale.z * scaling.z);
+			rot = rot * Quat(rotation.x, rotation.y, rotation.z, rotation.w);
+
+			name = node->mName.C_Str();
+			i = -1; // start over!
+			//good_mesh = false;
+			//goto next_node;
 		}
 	}
 
@@ -130,13 +150,6 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 	relations[node] = new_go;
 
 	new_go->SetName(node->mName.C_Str());
-
-	// Calculate the position, scale and rotation
-	aiVector3D translation;
-	aiVector3D scaling;
-	aiQuaternion rotation;
-	node->mTransformation.Decompose(scaling, rotation, translation);
-	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
 
 	new_go->CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
 

@@ -34,6 +34,8 @@ public:
 
 	UID Find(const char* file_in_assets) const;
 
+	void Delete(Resource* res_to_delete);
+
 	void CheckForChangesInAssets(Directory* current_dir);
 	UID TryToImportFile(File* file);
 	UID ImportFile(File* file_path, UID forced_uid = 0u);

@@ -17,7 +17,7 @@
 #include "ResourceBone.h"
 #include "ResourceMesh.h"
 
-#define SCALE 100
+#define SCALE 100 /// FBX/DAE exports set scale to 0.01
 
 trAnimation::trAnimation()
 {
@@ -92,7 +92,6 @@ bool trAnimation::Update(float dt)
 
 			if (bone && bone->attached_mesh)
 			{
-				
 				DeformMesh(bone);
 			}
 		}
@@ -115,9 +114,11 @@ void trAnimation::RecursiveGetAnimableGO(GameObject * go, ResourceAnimation::Bon
 {
 	if (bone_transformation->bone_name.compare(go->GetName()) == 0) 
 	{
-		animable_data_map.insert(std::pair<GameObject*, ResourceAnimation::BoneTransformation*>(go, bone_transformation));
-		animable_gos.push_back(go);
-		return;
+		if (!go->to_destroy) {
+			animable_data_map.insert(std::pair<GameObject*, ResourceAnimation::BoneTransformation*>(go, bone_transformation));
+			animable_gos.push_back(go);
+			return;
+		}
 	}
 
 	for (std::list<GameObject*>::iterator it_childs = go->childs.begin(); it_childs != go->childs.end(); ++it_childs)
