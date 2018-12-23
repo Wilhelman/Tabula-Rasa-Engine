@@ -17,6 +17,7 @@
 #include "trAnimation.h"
 #include "trMainScene.h"
 #include "trInput.h"
+#include "GameObject.h"
 
 trResources::trResources()
 {
@@ -54,12 +55,11 @@ bool trResources::Start()
 	App->file_system->MakeNewDir(L_BONES_DIR);
 	App->file_system->MakeNewDir(L_ANIMATIONS_DIR);
 
-
 	CheckForChangesInAssets(App->file_system->GetAssetsDirectory());
 
 	//Assignment 3
 	App->animation->CleanAnimableGOS();
-	App->main_scene->ClearScene();
+	App->main_scene->ClearScene(true);
 	for (std::map<UID, Resource*>::iterator it = resources.begin(); it != resources.end(); ++it)
 		RELEASE(it->second);
 	resources.clear();
@@ -90,6 +90,9 @@ bool trResources::PostUpdate(float dt)
 	static bool ugly_start = true;
 	if (ugly_start) { // Assignment 3
 		CheckForChangesInAssets(App->file_system->GetAssetsDirectory());
+		App->file_loader->ImportScene("Street environment_V01.trScene", false);
+		App->main_scene->main_camera->to_destroy = true;
+		App->main_scene->main_camera = nullptr;
 		App->file_loader->ImportScene("Orc_Idle.trScene", false);
 		ugly_start = false;
 	}
