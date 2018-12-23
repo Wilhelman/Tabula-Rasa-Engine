@@ -53,6 +53,15 @@ There are three main known cases where the overall perfomance might decrease sig
 
 _Click again on Window->(any option) to close that window_
 
+## How to handle animations
+
+* Left click in the the Warlock gameobject in the hierarchy which represents the character mesh.
+* In the inspector scroll down until you find the animation component.
+* In this component the animation can be played, paused, move frames forward and backward and you can move the timeline too if needed. * * Down below these controls you can change the animation speed and if you want it in loop and to interpolate between frames.
+* Below this you'll find the available animations for this mesh which if clicked will be loaded into the character mesh. 
+* Pressing 1 the character will perform a punch attack.
+* Pressing 2 the character will blend to the walk in place animation (blend time is set to 1s). If 2 is released character will return to the idle animation.
+
 ## Innovations / Redesign
 
 * Draw the z-buffer in grayscale option determined by the distance (Option in Config window -> Renderer3D options -> Switch Z- Buffer Visualization).
