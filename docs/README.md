@@ -1,9 +1,9 @@
 
 ## **Project overview** 
 
-...
+Tabula Rasa Engine is a 3D game engine developed/coded from scratch with OpenGL in C++. The engine contains all the basic subsystems of a modern 3D engine and we have also added support to manage skeletal animations. Although this project has been done with educational purposes it will be used (along other engines from our class) to produce a game in the Project 3 subject in the first half of 2019. 
 
-This project has been done by two catalan students of CITM - UPC (Terrasa, Spain).
+This project has been done by two students of CITM - UPC (Terrasa, Spain) for the subject Game Engines.
 
 > ### *Download the last version of the engine [HERE]()*
 
@@ -25,6 +25,71 @@ _Masó Garcia, Víctor's responsability and GitHub account_
 * [GitHub account](https://github.com/nintervik)
 
 
+## **Main core subsystems**
+
+
+### **Subsystem 1**
+
+### **Subsystem 2**
+
+### **Subsystem 3**
+
+
+## **Skeletal animation subsystem**
+
+// TODO: explanation here...
+
+
+## **Engine Demo**
+
+TODO: add video here
+
+
+## **Installation instructions**
+
+Download the zip file and unzip it. Open the folder, execute the .exe and enjoy!
+
+_IMPORTANT: do not modify, change or add any folder or file as you might not be able to execute the game._
+
+
+## **Controls**
+
+~~~~~~~~~~~~~~~
+
+Controls
+
+- Select object: Left click
+
+Gizmos
+
+- W/E/R: Change gizmo to Translate, Rotation and Scale
+
+Assets controls
+
+- Load scene: Double left clic
+
+Camera
+
+- Free look around: Right Click Mouse Button
+- Orbit around object: LALT + Left Click Mouse Button
+- Zoom in/out Mouse wheel
+- Pan: Middle mouse button
+- Duplicate movement speeed: Hold Shift key
+- Focus camera on object: F key
+
+UI 
+
+- Open config window: 4
+- Open console: 1 
+- Open Inspector: I key
+- Show/Hide UI: LALT + G key
+- Quit application: ESC / Alt+F4
+
+_Click again on Window->(any option) to close that window_
+
+~~~~~~~~~~~~~~~
+
+
 ## **Tools used**
 
 * IDE: Microsoft Visual Studio 2017
@@ -43,53 +108,6 @@ _Masó Garcia, Víctor's responsability and GitHub account_
 * File system: PHYSFS 3.0.1
 * Code repository: GitHub
 * Others: Adobe Photoshop CS6 / MS Paint / Aseprite
-
-
-## **Engine Demo**
-
-TODO: add video here
-
-## **Installation instructions**
-
-Download the zip file and unzip it. Open the folder, execute the .exe and enjoy!
-
-_IMPORTANT: do not modify, change or add any folder or file as you might not be able to execute the game._
-
-
-## **Controls**
-~~~~~~~~~~~~~~~
-
-## Controls
-
-* **Select object:** Left click
-
-### Gizmos
-
-* **W/E/R:** Change gizmo to Translate, Rotation and Scale
-
-### Assets controls
-
-* **Load scene:** Double left clic
-
-### Camera
-
-* **Free look around:** Right Click Mouse Button
-* **Orbit around object:** LALT + Left Click Mouse Button
-* **Zoom in/out** Mouse wheel
-* **Pan**: Middle mouse button
-* **Duplicate movement speeed**: Hold Shift key
-* **Focus camera on object**: F key
-
-### UI 
-* **Open config window**: 4
-* **Open console**: 1 
-* **Open Inspector**: I key
-* **Show/Hide UI:** LALT + G key
-* **Quit application:** ESC / Alt+F4
-
-_Click again on Window->(any option) to close that window_
-
-~~~~~~~~~~~~~~~
 
 
 ## **Credits attributions**
