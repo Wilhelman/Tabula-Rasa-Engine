@@ -101,9 +101,10 @@ _NOTE:_ Collected gameobjects are sorted by distance and we constantly check for
 
 ## **Skeletal animation subsystem**
 
-// TODO: explanation here...
+* **Blending**: When we switch between animations, we perform a fixed time blending. To perform it, we interpolate between the position of the vertices of the previous animation with the animation that is replacing it. Both continue advancing according to the time of game.
+![blending_gif](https://user-images.githubusercontent.com/25901477/50387245-16760480-06f8-11e9-8c2f-aa1be871503d.gif)
 
-***
+![2](https://user-images.githubusercontent.com/25901477/50387265-54732880-06f8-11e9-9ac0-683584b20f4a.gif)
 
 ## **Engine Demo**
 
