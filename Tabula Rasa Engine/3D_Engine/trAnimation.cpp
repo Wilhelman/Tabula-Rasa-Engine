@@ -367,10 +367,8 @@ void trAnimation::CleanAnimableGOS()
 		animations.at(i)->animable_data_map.clear();
 	}
 
-	for (std::vector<Animation*>::iterator it = animations.begin(); it != animations.end(); ++it) {
+	for (std::vector<Animation*>::iterator it = animations.begin(); it != animations.end(); ++it)
 		RELEASE(*it);
-		//it = animations.erase(it);
-	}
 
 	animations.clear();
 	current_anim = nullptr;

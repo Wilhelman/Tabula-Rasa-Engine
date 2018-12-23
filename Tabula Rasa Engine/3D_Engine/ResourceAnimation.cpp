@@ -10,6 +10,7 @@ ResourceAnimation::~ResourceAnimation()
 
 bool ResourceAnimation::LoadInMemory()
 {
+	// Done in Set resource ( Component )
 	return true;
 }
 

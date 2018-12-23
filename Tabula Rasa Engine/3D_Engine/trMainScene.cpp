@@ -40,8 +40,15 @@ bool trMainScene::Awake(JSON_Object* config)
 
 	main_camera = new GameObject("Main Camera", root);
 	main_camera->CreateComponent(Component::component_type::COMPONENT_TRANSFORM);
+	
+	float3 pos, sca;
+	Quat rot;
+	main_camera->GetTransform()->GetLocalPosition(&pos, &sca, &rot);
 
 	App->render->active_camera = (ComponentCamera*)main_camera->CreateComponent(Component::component_type::COMPONENT_CAMERA);
+
+	rot = rot.RotateAxisAngle(float3(0.0f, 1.0f, 0.0f), math::pi);
+	main_camera->GetTransform()->Setup(float3(0.732f, 1.619f, 5.518f), float3::one, rot);
 
 	quadtree.Create(AABB(AABB(float3(-500, -100, -500), float3(500, 100, 500))));
 
@@ -56,6 +63,10 @@ bool trMainScene::Start()
 	scene_bb = App->camera->dummy_camera->default_aabb;
 
 	App->camera->dummy_camera->LookAt(float3(0.f, 0.f, 0.f));
+
+	//ComponentCamera* co_camera = (ComponentCamera*)main_camera->FindComponentByType(Component::component_type::COMPONENT_CAMERA);
+	//co_camera->LookAt(float3(-5.f,-5.f,-5.f));
+	//co_camera->FocusOnAABB(AABB(float3(-1.f, -1.f, -1.f), float3(1.f, 1.f, 1.f)));
 
 	grid = new PGrid();
 	grid->axis = true;

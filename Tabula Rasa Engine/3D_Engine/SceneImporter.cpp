@@ -142,9 +142,7 @@ void SceneImporter::ImportNodesRecursively(const aiNode * node, const aiScene * 
 
 			name = node->mName.C_Str();
 			name.append(std::to_string(root_num++));
-			i = -1; // start over!
-			//good_mesh = false;
-			//goto next_node;
+			i = -1;
 		}
 	}
 
