@@ -1,7 +1,7 @@
 
 ## **Project overview** 
 
-Tabula Rasa Engine is a 3D game engine developed/coded from scratch with OpenGL in C++. The engine contains all the basic subsystems of a modern 3D engine and we have also added support to manage skeletal animations. Although this project has been done with educational purposes it will be used (along other engines from our class) to produce a game in the Project 3 subject in the first half of 2019. 
+Tabula Rasa Engine is a 3D game engine developed/coded from scratch with OpenGL in C++. The engine contains all the basic [sub-systems](https://wilhelman.github.io/Tabula-Rasa-Engine/#main-core-subsystems) of a modern 3D engine and we have also added support to handle [skeletal animations](https://wilhelman.github.io/Tabula-Rasa-Engine/#skeletal-animation-subsystem). Although this project has been done with educational purposes it will be used (along other engines from our class) to produce a game in the Project 3 subject in the first half of 2019. 
 
 This project has been done by two students of CITM - UPC (Terrasa, Spain) for the subject Game Engines.
 
@@ -55,7 +55,6 @@ _IMPORTANT: do not modify, change or add any folder or file as you might not be 
 ## **Controls**
 
 ~~~~~~~~~~~~~~~
-
 Controls
 
 - Select object: Left click
@@ -85,7 +84,7 @@ UI
 - Show/Hide UI: LALT + G key
 - Quit application: ESC / Alt+F4
 
-_Click again on Window->(any option) to close that window_
+Click again on Window->(any option) to close that window
 
 ~~~~~~~~~~~~~~~
 
