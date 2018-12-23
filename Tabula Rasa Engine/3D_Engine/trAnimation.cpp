@@ -35,6 +35,8 @@ bool trAnimation::Awake(JSON_Object* config)
 bool trAnimation::Start()
 {
 	interpolate = true;
+	loop = true;
+	anim_state = AnimationState::PLAYING;
 
 	return true;
 }
