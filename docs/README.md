@@ -105,7 +105,9 @@ _NOTE:_ Collected gameobjects are sorted by distance and we constantly check for
 
 ### Time managment & game mode
 
-...
+When the engine is in game mode, the scene is seen though the game camera (which has frustum culling). We also keep an internal game clock (aside from the app clock) that will only run when the game mode is activated. Its dt will be passed to all the updates instead of the real time dt from the app.
+
+
 
 ### Resource Management
 
