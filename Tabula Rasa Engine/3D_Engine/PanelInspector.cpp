@@ -271,9 +271,9 @@ void PanelInspector::Draw()
 						ImGui::Separator();
 						ImGui::NewLine();
 
-						ImGui::SliderFloat("Speed", &App->animation->anim_speed, 0.0f, 5.0f);
-						ImGui::Checkbox("Loop", &App->animation->loop);
-						ImGui::Checkbox("Interpolate", &App->animation->interpolate);
+						ImGui::SliderFloat("Speed", &App->animation->GetCurrentAnimation()->anim_speed, 0.0f, 5.0f);
+						ImGui::Checkbox("Loop", &App->animation->GetCurrentAnimation()->loop);
+						ImGui::Checkbox("Interpolate", &App->animation->GetCurrentAnimation()->interpolate);
 
 						ImGui::NewLine();
 						ImGui::Separator();

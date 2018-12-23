@@ -34,8 +34,8 @@ bool trAnimation::Awake(JSON_Object* config)
 
 bool trAnimation::Start()
 {
-	interpolate = true;
-	loop = true;
+	current_anim->interpolate = true;
+	current_anim->loop = true;
 	anim_state = AnimationState::PLAYING;
 
 	return true;
@@ -51,10 +51,10 @@ bool trAnimation::CleanUp()
 
 bool trAnimation::Update(float dt)
 {
-	if (anim_timer >= duration && duration > 0.0f)
+	if (current_anim->anim_timer >= current_anim->duration && current_anim->duration > 0.0f)
 	{
-		if (loop)
-			anim_timer = 0.0f;
+		if (current_anim->loop)
+			current_anim->anim_timer = 0.0f;
 		else
 			anim_state = AnimationState::STOPPED;
 	}
@@ -62,16 +62,16 @@ bool trAnimation::Update(float dt)
 	switch (anim_state)
 	{
 	case AnimationState::PLAYING:
-		anim_timer += dt * anim_speed;
-		MoveAnimationForward(anim_timer);
+		current_anim->anim_timer += dt * current_anim->anim_speed;
+		MoveAnimationForward(current_anim->anim_timer);
 		break;
 
 	case AnimationState::PAUSED:
 		break;
 
 	case AnimationState::STOPPED:
-		anim_timer = 0.0f;
-		MoveAnimationForward(anim_timer);
+		current_anim->anim_timer = 0.0f;
+		MoveAnimationForward(current_anim->anim_timer);
 		PauseAnimation();
 		break;
 
@@ -80,65 +80,68 @@ bool trAnimation::Update(float dt)
 	}
 
 
-	//if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
-	//{
-		if (animable_gos.size() > 0)
-		{
-			ComponentBone* tmp_bone = (ComponentBone*)animable_gos.at(0)->FindComponentByType(Component::component_type::COMPONENT_BONE);
-			ResetMesh(tmp_bone);
-		}
+	for (uint i = 0; i < current_anim->animable_gos.size(); ++i)
+	{
+		ComponentBone* tmp_bone = (ComponentBone*)current_anim->animable_gos.at(i)->FindComponentByType(Component::component_type::COMPONENT_BONE);
+		ResetMesh(tmp_bone);
+		
+	}
 
-		for (uint i = 0; i < animable_gos.size(); ++i)
-		{
-			ComponentBone* bone = (ComponentBone*)animable_gos.at(i)->FindComponentByType(Component::component_type::COMPONENT_BONE);
+	for (uint i = 0; i < current_anim->animable_gos.size(); ++i)
+	{
+		ComponentBone* bone = (ComponentBone*)current_anim->animable_gos.at(i)->FindComponentByType(Component::component_type::COMPONENT_BONE);
 
-			if (bone && bone->attached_mesh)
-			{
-				DeformMesh(bone);
-			}
+		if (bone && bone->attached_mesh)
+		{
+			DeformMesh(bone);
 		}
-	//}
+	}
 
 	return true;
 }
 
 void trAnimation::SetAnimationGos(ResourceAnimation * res)
 {
-	for (uint i = 0; i < res->num_keys; ++i)
-		RecursiveGetAnimableGO(App->main_scene->GetRoot(), &res->bone_keys[i]);
+	Animation* animation = new Animation();
 
-	available_animations.push_back(res);
-	current_anim = available_animations[0];
-	duration = res->duration;
+	for (uint i = 0; i < res->num_keys; ++i)
+		RecursiveGetAnimableGO(App->main_scene->GetRoot(), &res->bone_keys[i], animation);
+
+	animation->duration = res->duration;
+
+	animations.push_back(animation);
+	current_anim = animations[0];
+	current_anim->interpolate = true;
+	current_anim->loop = true;
 }
 
-void trAnimation::RecursiveGetAnimableGO(GameObject * go, ResourceAnimation::BoneTransformation* bone_transformation)
+void trAnimation::RecursiveGetAnimableGO(GameObject * go, ResourceAnimation::BoneTransformation* bone_transformation, Animation* anim)
 {
 	if (bone_transformation->bone_name.compare(go->GetName()) == 0) 
 	{
 		if (!go->to_destroy) {
-			animable_data_map.insert(std::pair<GameObject*, ResourceAnimation::BoneTransformation*>(go, bone_transformation));
-			animable_gos.push_back(go);
+			anim->animable_data_map.insert(std::pair<GameObject*, ResourceAnimation::BoneTransformation*>(go, bone_transformation));
+			anim->animable_gos.push_back(go);
 			return;
 		}
 	}
 
 	for (std::list<GameObject*>::iterator it_childs = go->childs.begin(); it_childs != go->childs.end(); ++it_childs)
-		RecursiveGetAnimableGO((*it_childs), bone_transformation);
+		RecursiveGetAnimableGO((*it_childs), bone_transformation, anim);
 }
 
 void trAnimation::MoveAnimationForward(float t)
 {
-	for (uint i = 0; i < animable_gos.size(); ++i)
+	for (uint i = 0; i < current_anim->animable_gos.size(); ++i)
 	{
-		ResourceAnimation::BoneTransformation* transform = animable_data_map.find(animable_gos[i])->second;
+		ResourceAnimation::BoneTransformation* transform = current_anim->animable_data_map.find(current_anim->animable_gos[i])->second;
 
 		if (transform)
 		{
 			float3 pos, scale;
 			Quat rot;
 
-			animable_gos[i]->GetTransform()->GetLocalPosition(&pos, &scale, &rot);
+			current_anim->animable_gos[i]->GetTransform()->GetLocalPosition(&pos, &scale, &rot);
 
 			float* prev_pos = nullptr;
 			float* next_pos = nullptr;
@@ -256,44 +259,44 @@ void trAnimation::MoveAnimationForward(float t)
 			// -------- INTERPOLATIONS CALCULATIONS --------
 
 			// Interpolating positions
-			if (interpolate && prev_pos != nullptr && next_pos != nullptr && prev_pos != next_pos)
+			if (current_anim->interpolate && prev_pos != nullptr && next_pos != nullptr && prev_pos != next_pos)
 			{
 				float3 prev_pos_lerp(prev_pos[0], prev_pos[1], prev_pos[2]);
 				float3 next_pos_lerp(next_pos[0], next_pos[1], next_pos[2]);
 				pos = float3::Lerp(prev_pos_lerp, next_pos_lerp, time_pos_percentatge);
 			}
-			else if (prev_pos != nullptr && (!interpolate || prev_pos == next_pos))
+			else if (prev_pos != nullptr && (!current_anim->interpolate || prev_pos == next_pos))
 				pos = float3(prev_pos[0], prev_pos[1], prev_pos[2]);
 
 			// Interpolating scalings
-			if (interpolate && prev_scale != nullptr && next_scale != nullptr && prev_scale != next_scale)
+			if (current_anim->interpolate && prev_scale != nullptr && next_scale != nullptr && prev_scale != next_scale)
 			{
 				float3 prev_scale_lerp(prev_scale[0], prev_scale[1], prev_scale[2]);
 				float3 next_scale_lerp(next_scale[0], next_scale[1], next_scale[2]);
 				scale = float3::Lerp(prev_scale_lerp, next_scale_lerp, time_scale_percentatge);
 			}
-			else if (prev_scale != nullptr && (!interpolate || prev_scale == next_scale))
+			else if (prev_scale != nullptr && (!current_anim->interpolate || prev_scale == next_scale))
 				scale = float3(prev_scale[0], prev_scale[1], prev_scale[2]);
 
 			// Interpolating rotations
-			if (interpolate && prev_rot != nullptr && next_rot != nullptr && prev_rot != next_rot)
+			if (current_anim->interpolate && prev_rot != nullptr && next_rot != nullptr && prev_rot != next_rot)
 			{
 				Quat prev_rot_lerp(prev_rot[0], prev_rot[1], prev_rot[2], prev_rot[3]);
 				Quat next_rot_lerp(next_rot[0], next_rot[1], next_rot[2], next_rot[3]);
 				rot = Quat::Slerp(prev_rot_lerp, next_rot_lerp, time_rot_percentatge);
 			}
-			else if (prev_rot != nullptr && (!interpolate || prev_rot == next_rot))
+			else if (prev_rot != nullptr && (!current_anim->interpolate || prev_rot == next_rot))
 				rot = Quat(prev_rot[0], prev_rot[1], prev_rot[2], prev_rot[3]);
 
 			// Setting up final interpolated transform in current bone (gameobject)
-			animable_gos[i]->GetTransform()->Setup(pos, scale, rot);	
+			current_anim->animable_gos[i]->GetTransform()->Setup(pos, scale, rot);
 		}
 	}
 }
 
 float trAnimation::GetCurrentAnimationTime() const
 {
-	return anim_timer;
+	return current_anim->anim_timer;
 }
 
 const char* trAnimation::GetAnimationName(int index) const
@@ -306,33 +309,31 @@ uint trAnimation::GetAnimationsNumber() const
 	return (uint)available_animations.size();
 }
 
-ResourceAnimation* trAnimation::GetCurrentAnimation() const
+trAnimation::Animation* trAnimation::GetCurrentAnimation() const
 {
 	return current_anim;
 }
 
-void trAnimation::SetCurrentAnimation(uint index)
-{
-	current_anim = available_animations[index];
-	uint i = 0;
-
-	for (std::map<GameObject*, ResourceAnimation::BoneTransformation*>::iterator it = animable_data_map.begin(); it != animable_data_map.end(); ++it)
-	{
-		it->second = &current_anim->bone_keys[i];
-		++i;
-	}
-}
-
 void trAnimation::SetCurrentAnimationTime(float time)
 {
-	anim_timer = time;
-	MoveAnimationForward(anim_timer);
+	current_anim->anim_timer = time;
+	MoveAnimationForward(current_anim->anim_timer);
 }
 
 void trAnimation::CleanAnimableGOS()
 {
-	animable_gos.clear();
-	animable_data_map.clear();
+	for (uint i = 0; i < animations.size(); ++i)
+	{
+		animations.at(i)->animable_gos.clear();
+		animations.at(i)->animable_data_map.clear();
+	}
+
+	for (std::vector<Animation*>::iterator it = animations.begin(); it != animations.end(); ++it) {
+		RELEASE(*it);
+		//it = animations.erase(it);
+	}
+
+	animations.clear();
 }
 
 void trAnimation::PlayAnimation()
@@ -352,14 +353,14 @@ void trAnimation::StopAnimation()
 
 void trAnimation::StepBackwards()
 {
-	if (anim_timer > 0.0f)
+	if (current_anim->anim_timer > 0.0f)
 	{
-		anim_timer -= App->time_manager->GetRealTimeDt() * anim_speed;
+		current_anim->anim_timer -= App->time_manager->GetRealTimeDt() * current_anim->anim_speed;
 
-		if (anim_timer < 0.0f)
-			anim_timer = 0.0f;
+		if (current_anim->anim_timer < 0.0f)
+			current_anim->anim_timer = 0.0f;
 		else
-			MoveAnimationForward(anim_timer);
+			MoveAnimationForward(current_anim->anim_timer);
 		
 		PauseAnimation();
 	}
@@ -367,14 +368,14 @@ void trAnimation::StepBackwards()
 
 void trAnimation::StepForward()
 {
-	if (anim_timer < duration)
+	if (current_anim->anim_timer < current_anim->duration)
 	{
-		anim_timer += App->time_manager->GetRealTimeDt() * anim_speed;
+		current_anim->anim_timer += App->time_manager->GetRealTimeDt() * current_anim->anim_speed;
 
-		if (anim_timer > duration)
-			anim_timer = 0.0f;
+		if (current_anim->anim_timer > current_anim->duration)
+			current_anim->anim_timer = 0.0f;
 		else
-			MoveAnimationForward(anim_timer);
+			MoveAnimationForward(current_anim->anim_timer);
 
 		PauseAnimation();
 	}

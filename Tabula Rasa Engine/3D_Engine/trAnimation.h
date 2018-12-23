@@ -26,6 +26,22 @@ class trAnimation : public trModule
 {
 public:
 
+	struct Animation {
+		std::vector<GameObject*> animable_gos;
+		std::map<GameObject*, ResourceAnimation::BoneTransformation*> animable_data_map;
+
+		bool loop = false;
+		bool interpolate = false;
+		float anim_speed = 1.0f;
+
+		float anim_timer = 0.0f;
+		float duration = 0.0f;
+	};
+
+	std::vector<Animation*> animations;
+
+public:
+
 	trAnimation();
 	~trAnimation();
 
@@ -44,9 +60,8 @@ public:
 	float GetCurrentAnimationTime() const;
 	const char* GetAnimationName(int index) const;
 	uint GetAnimationsNumber() const;
-	ResourceAnimation* GetCurrentAnimation() const;
+	Animation* GetCurrentAnimation() const;
 
-	void SetCurrentAnimation(uint index);
 	void SetCurrentAnimationTime(float time);
 
 	void CleanAnimableGOS();
@@ -59,23 +74,12 @@ public:
 
 private:
 
-	void RecursiveGetAnimableGO(GameObject* go, ResourceAnimation::BoneTransformation* bone_transformation);
+	void RecursiveGetAnimableGO(GameObject* go, ResourceAnimation::BoneTransformation* bone_transformation, Animation* animation);
 	void MoveAnimationForward(float t);
-
-public:
-	
-	std::vector<GameObject*> animable_gos;
-	std::map<GameObject*, ResourceAnimation::BoneTransformation*> animable_data_map;
-
-	bool loop = false;
-	bool interpolate = false;
-	float anim_speed = 1.0f;
 
 private:
 
-	float anim_timer = 0.0f;
-	float duration = 0.0f;
-	ResourceAnimation* current_anim = nullptr;
+	Animation* current_anim = nullptr;
 
 	AnimationState anim_state = AnimationState::NOT_DEF_STATE;
 
