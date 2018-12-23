@@ -13,6 +13,8 @@
 #include "MaterialImporter.h"
 #include "BoneImporter.h"
 #include "AnimationImporter.h"
+#include "trFileLoader.h"
+#include "trAnimation.h"
 
 trResources::trResources()
 {
@@ -52,6 +54,13 @@ bool trResources::Start()
 
 
 	CheckForChangesInAssets(App->file_system->GetAssetsDirectory());
+
+	//Assignment 3
+	App->animation->CleanAnimableGOS();
+	
+	App->file_loader->ImportScene("Street environment_V01.trScene", false);
+	App->file_loader->ImportScene("Orc_Idle.trScene", false);
+
 	return true;
 }
 
