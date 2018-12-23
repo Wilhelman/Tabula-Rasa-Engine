@@ -24,26 +24,66 @@ _Masó Garcia, Víctor's responsability and GitHub account_
 * TODO: add resposabilities here...
 * [GitHub account](https://github.com/nintervik)
 
+***
 
 ## **Main core subsystems**
 
 
-### **Subsystem 1**
 
-### **Subsystem 2**
+### **3D Renderer**
 
-### **Subsystem 3**
 
+
+### **Geometry loading**
+
+
+
+### **Textures**
+
+
+
+### **Binary files format**
+
+
+
+### **3D Camera and frustum culling**
+
+
+
+## **Quadtree**
+
+
+
+## **Data serialization**
+
+
+
+## **Mouse picking**
+
+
+
+## **Time managment & game mode**
+
+
+
+## **Resource Management**
+
+
+
+
+***
 
 ## **Skeletal animation subsystem**
 
 // TODO: explanation here...
 
+***
 
 ## **Engine Demo**
 
 TODO: add video here
 
+***
 
 ## **Installation instructions**
 
@@ -51,6 +91,7 @@ Download the zip file and unzip it. Open the folder, execute the .exe and enjoy!
 
 _IMPORTANT: do not modify, change or add any folder or file as you might not be able to execute the game._
 
+***
 
 ## **Controls**
 
@@ -88,6 +129,7 @@ Click again on Window->(any option) to close that window
 
 ~~~~~~~~~~~~~~~
 
+***
 
 ## **Tools used**
 
@@ -108,6 +150,7 @@ Click again on Window->(any option) to close that window
 * Code repository: GitHub
 * Others: Adobe Photoshop CS6 / MS Paint / Aseprite
 
+***
 
 ## **Credits attributions**
 
