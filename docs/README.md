@@ -127,7 +127,7 @@ Upon receiving the information that the _Assimp_ library gives us when importing
 
 ## **Engine Demo**
 
-TODO: add video here
+<iframe width="1730" height="639" src="https://www.youtube.com/embed/IMsyKc38mVU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ***
 
