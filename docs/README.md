@@ -39,9 +39,11 @@ On the following sections we will explain the main core sub-systems of this engi
 
 ...
 
-### Geometry loading
+### Geometry loader
 
-...
+When we detect a file in our Assets/Models/ directory we read the file with Assimp and extract all the information we need (vertices, indices, uvs, name...) in order to render the mesh on screen. Then we save the resource in our own binary format.
+
+Each time a resource mesh is generated a scene is generated in our own binary format too.
 
 ### Textures
 
@@ -53,7 +55,15 @@ On the following sections we will explain the main core sub-systems of this engi
 
 ### Binary files format
 
-...
+All assets in Assets/ are saved as resources in our own binary format inside the Library directory. Doing this we only save the data we need and when we have to read the process is easier and much faster than if we had to read the original asset file such as .fbx or .png. A new resource in our own binary format is generated each time we detect a new assets in Assets/.
+
+All the assets generate a resource in our own binary format except the textures which will be saved as DDS files for speed and standard convention reasons.
+
+Our engine accepts the following assets formats:
+* Meshes: FBX and Collada (.dae).
+* Texture: png, jpg, jpeg, dds and tga.
+* Animations: Collada (.dae)
+
 
 ### 3D Camera & frustum culling
 
