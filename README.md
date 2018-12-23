@@ -6,10 +6,18 @@ A 3d game engine developed with OpenGL in c ++. This project has been done by tw
 
 ## Installation instructions
 
-Download the zip file and unzip it. Open the folder, execute the .exe and enjoy!
-You can find the models and textures in the _assets_ folder. All models have a _DDS_ texture associated.
+Download the zip file and unzip it. Open the folder, execute the .exe and enjoy! You can find the models and textures in the _assets_ folder.
 
 _IMPORTANT: do not modify, change or add any folder or file as you might not be able to execute the game engine._
+
+
+## **Notes on performance**
+
+There are three main known cases where the overall perfomance might decrease significantly:
+
+* **Only the first time** you execute the engine the app will "freeze" as it's importing all the assets and generating its corresponding resources. The time will vary depending in the number and sizes of files that are being imported.
+* If the z-buffer visualization is activated.
+* When an animated model is loaded on scene **(especially if its playing its animation)** the engine perfomance might drop a lot. That's because the skinning process of deforming the mesh to match the bones positions of the corresponding skeleton needs to do a lot of matrix related operations multiple times per frame. As we don't use shaders in this engine all these operations are sended to the CPU (instead of the GPU) which is not prepared to handle matrix operations as well as the GPU does. 
 
 ## Controls
 
@@ -79,6 +87,6 @@ _Masó Garcia, Victor's responsability and Github account_
 * Code repository: GitHub
 * Others: Adobe Photoshop CS6 / MS Paint / Aseprite
 
-## Credits for models and textures:
-* Tank gladiator - Autor: kotbfg | [Link](https://sketchfab.com/models/bc67044a11a64a8c8814014c4b87cc48)
-* Forest house - Autor: Wesai | [Link](https://sketchfab.com/models/5646e6a3c8834022a0e289465f0bbc5d)
+## **Credits attributions**
+
+* All the animated models along with its corresponding textures have been downloaded from [Mixamo](https://www.mixamo.com/#/)
