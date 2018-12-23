@@ -28,45 +28,50 @@ _Masó Garcia, Víctor's responsability and GitHub account_
 
 ## **Main core subsystems**
 
+Our game engine code is structured in modules. The main module (called trApp.cpp) manages all the other modules calling in a loop its respective awake, preupdate, update, postupdte, cleanup that they share thorugh a base class trModule. Down below a basic scheme of this structure:
+
+![code_scheme](https://user-images.githubusercontent.com/25589509/50381773-961bb900-068f-11e9-92ea-3a887c55338a.JPG)
+
+On the following sections we will explain the main core sub-systems of this engine.
 
 
-### **3D Renderer**
-
-
-
-### **Geometry loading**
-
-
-
-### **Textures**
+### 3D Renderer
 
 
 
-### **Binary files format**
+### Geometry loading
 
 
 
-### **3D Camera and frustum culling**
+### Textures
 
 
 
-### **Quadtree**
+### Binary files format
 
 
 
-### **Data serialization**
+### 3D Camera and frustum culling
 
 
 
-### **Mouse picking**
+### Quadtree
 
 
 
-### **Time managment & game mode**
+### Data serialization
 
 
 
-### **Resource Management**
+### Mouse picking
+
+
+
+### Time managment & game mode
+
+
+
+### Resource Management
 
 
 
