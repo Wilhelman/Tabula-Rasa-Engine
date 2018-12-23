@@ -339,6 +339,7 @@ void trAnimation::CleanAnimableGOS()
 	}
 
 	animations.clear();
+	current_anim = nullptr;
 }
 
 void trAnimation::PlayAnimation()
