@@ -17,7 +17,7 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
 * [GitHub account](https://github.com/Wilhelman)
 
 
-<a href="url"><img src="https://user-images.githubusercontent.com/25901477/50387340-c13af280-06f9-11e9-828a-a0446208056d.png" align="left" height="150" width="150" ></a>_Masó Garcia, Víctor's responsability and GitHub account_
+<a href="url"><img src="https://user-images.githubusercontent.com/25901477/50387439-a918a280-06fc-11e9-9ac4-c0572fd53107.png" align="left" height="150" width="150" ></a>_Masó Garcia, Víctor's responsability and GitHub account_
 
 * TODO: add resposabilities here... BLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLABLA BLA BLA
 * [GitHub account](https://github.com/nintervik)
@@ -102,6 +102,8 @@ _NOTE:_ Collected gameobjects are sorted by distance and we constantly check for
 * **Blending**: When we switch between animations, we perform a fixed time blending. To perform it, we interpolate between the position of the vertices of the previous animation with the animation that is replacing it. Both continue advancing according to the time of game.
 ![blending_gif](https://user-images.githubusercontent.com/25901477/50387245-16760480-06f8-11e9-8c2f-aa1be871503d.gif)
 
+* **Loop & Interpolation**: 
+Upon receiving the information that the _Assimp_ library gives us when importing an animation, we obtain all the keyframes necessary to animate the bones. However, we use interpolation methods such as _Lerp_(Position/Scale) and _SLerp_(Quaternion) to obtain an intermediate position between the current and the following _keyframe_. To be more precise we use the time to know if we are closer to one _keyframe_ or another.
 ![2](https://user-images.githubusercontent.com/25901477/50387265-54732880-06f8-11e9-9ac0-683584b20f4a.gif)
 
 ## **Engine Demo**
