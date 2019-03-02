@@ -92,7 +92,7 @@ void PanelResources::DrawAssets(Directory* dir)
 						// TODO: import scene here (scene file is 'dir->files_vec[i]')
 
 						const char* curr_file = dir->files_vec[i].name.c_str();
-						//App->file_loader->ImportScene(curr_file); // TODO: this has mem leaks
+						App->file_loader->ImportScene(curr_file); // TODO: this has mem leaks
 						import_clicked = false;
 						ImGui::CloseCurrentPopup();
 					}
