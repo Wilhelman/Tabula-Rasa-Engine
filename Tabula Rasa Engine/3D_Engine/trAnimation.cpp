@@ -445,6 +445,8 @@ void trAnimation::DeformMesh(ComponentBone* component_bone)
 			rmesh->vertices[index * 3] += vertex.x * rbone->bone_weights[i] * SCALE;
 			rmesh->vertices[index * 3 + 1] += vertex.y * rbone->bone_weights[i] * SCALE;
 			rmesh->vertices[index * 3 + 2] += vertex.z * rbone->bone_weights[i] * SCALE;
+			float3 vert_tmp(rmesh->vertices[index * 3]);
+			int a = 0;
 		}
 	}
 }

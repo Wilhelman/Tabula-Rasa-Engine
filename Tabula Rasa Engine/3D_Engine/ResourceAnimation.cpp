@@ -1,4 +1,5 @@
 #include "ResourceAnimation.h"
+#include "trAnimation.h"
 
 ResourceAnimation::ResourceAnimation(UID uid) : Resource(uid, Resource::Type::ANIMATION)
 {
